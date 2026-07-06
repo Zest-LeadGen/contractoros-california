@@ -1,7 +1,44 @@
 # ContractorOS California
 
-Repository connection check created by red-team on 2026-07-06.
+This repository begins with the Phase 3A local MVP app shell and project-control handoff artifacts.
 
-This repository is intended to become the source-code truth for ContractorOS California.
+Current verified scope:
 
-Initial project package pending controlled upload after connector write verification.
+- Law & Business first.
+- C10 deferred until a separate currentness/safety gate.
+- Fixture data only.
+- No backend, database, Firebase, Airtable API, auth, payments, scoring, readiness, pass/fail, Question Bank migration, or deployment.
+
+## App
+
+The local React + Vite app shell is under:
+
+`apps/web/`
+
+Run locally:
+
+```bash
+cd apps/web
+npm install
+npm run dev
+```
+
+Build:
+
+```bash
+cd apps/web
+npm run build
+```
+
+## Project control
+
+Project state and handoff files are under:
+
+- `docs/project-control/`
+- `artifacts/phase-zips/`
+- `artifacts/build-logs/`
+- `content/claims/`
+
+## Important warning
+
+Phase 3A is an internal development artifact only. It is not public, not readiness eligible, pending legal review, and uses fixture data only.
