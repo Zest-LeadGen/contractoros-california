@@ -1,7 +1,7 @@
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import Banner from './src/components/Banner';
-import QCard from './src/components/QCard';
-import StatusCard from './src/components/StatusCard';
+import InternalBanner from './src/components/InternalBanner';
+import QuestionCard from './src/components/QuestionCard';
+import TrackStatusCard from './src/components/TrackStatusCard';
 import { internalQuestion, trackStatuses } from './src/data/internalFixtureItems';
 
 const blockedScopeItems = [
@@ -22,11 +22,11 @@ export default function App() {
   return (
     <SafeAreaView>
       <ScrollView>
-        <Banner />
+        <InternalBanner />
         <View>
           <Text>Track status</Text>
           {trackStatuses.map((track) => (
-            <StatusCard
+            <TrackStatusCard
               key={track.id}
               title={track.title}
               status={track.status}
@@ -36,7 +36,7 @@ export default function App() {
         </View>
         <View>
           <Text>Internal fixture interaction</Text>
-          <QCard item={internalQuestion} />
+          <QuestionCard item={internalQuestion} />
         </View>
         <View>
           <Text>Blocked scope</Text>
