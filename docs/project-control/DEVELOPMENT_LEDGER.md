@@ -27,6 +27,7 @@ Known issues:
 
 ## Permanent Control References
 
+- PROJECT_VISION_AND_PHASE_TRACKER.md
 - DEVELOPMENT_CONTROL_MODEL_V3.md
 - PROJECT_FOUNDATION.md
 - PHASE_ONE_SCOPE.md
@@ -48,4 +49,4 @@ Known issues:
 
 ## Current Entry
 
-Phase 4E project-control foundation and red-team structure patch on branch phase-4e-project-development-ledger-scaffold. PR remains open for review. Base SHA f7145021d86bb5bd019433e001051b1e55c6da15. Changed files are project-control files only, including foundation/control files and red-team reviewer/control files. No historical details are reconstructed beyond verified reports and PR history. Do not claim PR #10 merged until GitHub verifies merge status.
+Phase 4E project-control foundation, project vision tracker, and red-team structure patch on branch phase-4e-project-development-ledger-scaffold. PR remains open for review. Base SHA f7145021d86bb5bd019433e001051b1e55c6da15. Changed files are project-control files only, including vision, foundation/control files, and red-team reviewer/control files. No historical details are reconstructed beyond verified reports and PR history. Do not claim PR #10 merged until GitHub verifies merge status.
