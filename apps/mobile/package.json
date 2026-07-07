@@ -1,0 +1,15 @@
+{
+  "name": "contractoros-california-mobile-internal-scaffold",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Internal-only Expo scaffold for ContractorOS California mobile prototype.",
+  "main": "App.js",
+  "scripts": {
+    "start": "expo start"
+  },
+  "dependencies": {
+    "expo": "latest",
+    "react": "latest",
+    "react-native": "latest"
+  }
+}
