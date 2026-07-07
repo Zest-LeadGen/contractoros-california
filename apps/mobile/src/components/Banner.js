@@ -1,1 +1,3 @@
-export const x = null;
+export default function LegacyBannerPlaceholder() {
+  return null;
+}
