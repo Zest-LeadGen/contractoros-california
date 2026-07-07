@@ -4,9 +4,9 @@
 
 Phase 4E is control/infrastructure documentation only.
 
-This patch expands PR #10 into a durable ContractorOS foundation/control package, adds a standardized red-team reviewer/control structure, and adds the project vision and phase tracker anchor.
+This patch expands PR #10 into a durable ContractorOS foundation/control package, adds a standardized red-team reviewer/control structure, adds the project vision and phase tracker anchor, and adds the project implementation roadmap.
 
-No app source files changed. No mobile files changed. No web files changed. No package files changed. No dependency files changed. No build tooling was run. No runtime command was run.
+No app source files changed. No mobile files changed. No web files changed. No package files changed. No dependency files changed. No package-lock file was committed. No build tooling was run. No runtime command was run.
 
 ## 2. Starting Repository State
 
@@ -24,6 +24,7 @@ Vision/foundation/control files added:
 
 ```text
 docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md
+docs/project-control/PROJECT_IMPLEMENTATION_ROADMAP.md
 docs/project-control/DEVELOPMENT_CONTROL_MODEL_V3.md
 docs/project-control/PROJECT_FOUNDATION.md
 docs/project-control/PHASE_ONE_SCOPE.md
@@ -71,13 +72,20 @@ docs/project-control/DECISION_LOG.md
 docs/project-control/phase_4e_project_development_ledger_scaffold_report.md
 ```
 
-## 5. Control Model Implemented
+## 5. Vision / Roadmap Implemented
 
-`DEVELOPMENT_CONTROL_MODEL_V3.md` now provides the fallback control model with milestone development, triple-check review, claim levels, file allowlist, dependency policy, merge rules, phase advancement rules, risk discipline, recovery protocol, enforcement rules, and red-team execution-file cross-reference.
+`PROJECT_VISION_AND_PHASE_TRACKER.md` preserves original product vision, phase tracking, gate tracking, claim levels, and recovery rule.
 
-## 6. Foundation Files Implemented
+`PROJECT_IMPLEMENTATION_ROADMAP.md` preserves intended one-app modular architecture, fixed app shell strategy, role/module/content-pack approach, source registry strategy, AI update pipeline, human approval layer, versioned publishing, future backend/security architecture, offline download strategy, testing strategy, tooling strategy, and phase-based implementation sequence.
 
-- `PROJECT_VISION_AND_PHASE_TRACKER.md` preserves the original ContractorOS product vision, phase map, gate tracking, claim rule, and recovery rule.
+Both files are project-control anchors only. They do not prove implementation and do not authorize future modules, backend, Firebase, auth, scoring, public content, APK, EAS, deployment, or production claims.
+
+## 6. Control Model Implemented
+
+`DEVELOPMENT_CONTROL_MODEL_V3.md` provides the fallback control model with milestone development, triple-check review, claim levels, file allowlist, dependency policy, merge rules, phase advancement rules, risk discipline, recovery protocol, enforcement rules, and red-team execution-file cross-reference.
+
+## 7. Foundation Files Implemented
+
 - `PROJECT_FOUNDATION.md` defines the living project foundation and explicitly states that it is not implementation proof.
 - `PHASE_ONE_SCOPE.md` defines internal Phase One boundaries.
 - `PHASE_ONE_ACCEPTANCE_CRITERIA.md` defines source/control, command, visual, and later build-artifact levels.
@@ -87,19 +95,27 @@ docs/project-control/phase_4e_project_development_ledger_scaffold_report.md
 - `CLAIM_LEVELS_AND_RELEASE_GATES.md` defines claim levels, overclaim controls, and release gates.
 - `ROLE_BOUNDARIES.md` defines project-owner, developer, red-team reviewer, and shared-control responsibilities.
 
-## 7. Red-Team Structure Added
+## 8. Red-Team Structure Added
 
 Red-team structure was added under `docs/project-control/red-team/`.
 
 These files are reviewer/control files. They are visible in GitHub for durability and auditability, but they do not define product scope and do not authorize developer implementation work.
 
-## 8. App Source Confirmation
+## 9. PR Body Update
+
+The stale five-file PR body was updated to summarize the full final documentation/control scope, including ledger, risk register, decision log, artifact index, development control model, project foundation, vision/phase tracker, implementation roadmap, Phase One files, scope boundaries, gaps/non-goals, claim gates, role boundaries, red-team execution files, and Phase 4E report.
+
+## 10. Mergeability Investigation
+
+The earlier `mergeable: false` status appeared stale. A full PR fetch later reported `mergeable: true`; the PR body update also returned `mergeable: true`. No source conflict was resolved because no conflict was exposed by the connector.
+
+## 11. App Source Confirmation
 
 No app source files changed.
 
 No files under `apps/` were added, edited, or deleted by this documentation/control patch.
 
-## 9. Dependency Confirmation
+## 12. Dependency Confirmation
 
 No dependency files changed.
 
@@ -109,17 +125,17 @@ No package-lock file was committed.
 
 No dependency install, audit, remediation, build, or runtime command was run in this patch.
 
-## 10. Forbidden Scope Confirmation
+## 13. Forbidden Scope Confirmation
 
 Confirmed not added: package-lock files, eas.json, android/, ios/, backend, database, Firebase, Airtable runtime, deployment config, auth/login/user accounts, payments/subscriptions, scoring/readiness/pass-fail, saved progress/analytics, public MCQs, Question Bank migration, C10 public content, ZIP binaries, dependency changes, app source changes, mobile source changes, or web source changes.
 
-## 11. Known Limitations
+## 14. Known Limitations
 
-This is a documentation/control patch only. Foundation, vision, and red-team files are living controls, not proof that future features are implemented. Phase One acceptance, visual QA, dependency control, APK/build, install testing, CI automation, and public/production readiness remain unresolved until later approved evidence gates.
+This is a documentation/control patch only. Foundation, vision, roadmap, and red-team files are living controls, not proof that future features are implemented. Phase One acceptance, visual QA, dependency control, APK/build, install testing, CI automation, and public/production readiness remain unresolved until later approved evidence gates.
 
-## 12. Phase 4E Result
+## 15. Phase 4E Result
 
-PR #10 is ready for red-team review as a documentation/control-only foundation, vision, and role-boundary scaffold patch.
+PR #10 is ready for red-team review as a documentation/control-only foundation, vision, roadmap, and role-boundary scaffold patch.
 
 PR #10 remains unmerged.
 
