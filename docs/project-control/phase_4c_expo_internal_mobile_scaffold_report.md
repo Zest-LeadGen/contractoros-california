@@ -2,13 +2,19 @@
 
 ## 1. Scope
 
-Phase 4C created the smallest controlled Expo / React Native scaffold under `apps/mobile`.
+Phase 4C created a minimal Expo / React Native scaffold under `apps/mobile`.
 
 This is not an Android build phase, not an EAS phase, not a public launch phase, and not a production MVP phase.
 
 ## 2. Files Added Or Changed
 
-Current PR file set after the red-team patch:
+Canonical report path:
+
+```text
+docs/project-control/phase_4c_expo_internal_mobile_scaffold_report.md
+```
+
+Primary scaffold files:
 
 ```text
 apps/mobile/package.json
@@ -18,12 +24,9 @@ apps/mobile/src/data/internalFixtureItems.js
 apps/mobile/src/components/InternalBanner.js
 apps/mobile/src/components/TrackStatusCard.js
 apps/mobile/src/components/QuestionCard.js
-docs/project-control/phase_4c_expo_internal_mobile_scaffold_report.md
 ```
 
-Additional note: `apps/mobile/src/components/Banner.js` was also strengthened before the preferred `InternalBanner.js` path succeeded. `App.js` now imports and renders `InternalBanner.js`; `Banner.js` is not imported by the app shell.
-
-The requested canonical report path now exists and is the only intended Phase 4C project-control report path.
+Legacy note: `apps/mobile/src/components/Banner.js` remains as an unused legacy placeholder because the delete call for that path was blocked by the connector. `App.js` imports `InternalBanner.js`, not `Banner.js`.
 
 ## 3. Mobile UX Implemented
 
@@ -48,31 +51,13 @@ NOT EXAM-READY
 NO SCORE / NO READINESS / NO PASS-FAIL
 ```
 
-Absent by design:
-
-- no scoring engine;
-- no readiness engine;
-- no pass/fail engine;
-- no saved progress;
-- no persistence;
-- no remote call;
-- no public MCQs;
-- no Question Bank migration;
-- no C10 public content.
+No score, readiness, pass/fail, saved progress, persistence, remote call, public MCQs, Question Bank migration, or C10 public content was added.
 
 ## 4. Dependency Handling
 
 `npm install` was run from `apps/mobile`.
 
 `apps/mobile/package-lock.json` was generated locally, scanned, found to contain internal/sandbox registry URLs, deleted locally, and not committed.
-
-Representative lockfile scan hits:
-
-```text
-18: packages.applied-caas-gateway1.internal.api.openai.org ... @babel/code-frame
-32: packages.applied-caas-gateway1.internal.api.openai.org ... @babel/compat-data
-40: packages.applied-caas-gateway1.internal.api.openai.org ... @babel/core
-```
 
 No clean public npm lockfile provenance was proven.
 
@@ -88,53 +73,19 @@ npx expo --version
 npx expo start --help
 ```
 
-`npm install` output:
-
-```text
-npm warn deprecated uuid@7.0.3: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-
-added 472 packages, and audited 473 packages in 18s
-
-43 packages are looking for funding
-  run `npm fund` for details
-
-10 moderate severity vulnerabilities
-
-To address issues that do not require attention, run:
-  npm audit fix
-
-To address all issues (including breaking changes), run:
-  npm audit fix --force
-
-Run `npm audit` for details.
-```
-
 `npx expo --version` output:
 
 ```text
 57.0.4
 ```
 
-`npx expo start --help` succeeded and printed local dev-server usage, including `--android`, `--ios`, `--web`, `--dev-client`, `--go`, host, port, and help options.
+`npx expo start --help` succeeded and printed local dev-server usage.
 
-Limitations:
-
-- No EAS build was run.
-- No APK was created.
-- No AAB was created.
-- No iOS build was created.
-- The generated lockfile was excluded because it contained internal/sandbox registry URLs.
-- No dependency remediation was attempted.
+No EAS build, APK, AAB, or iOS build was created.
 
 ## 6. Forbidden Scope Scan
 
-Command run after removing local `node_modules` and `apps/mobile/package-lock.json`:
-
-```bash
-grep -R "fetch\|XMLHttpRequest\|localStorage\|sessionStorage\|firebase\|airtable\|stripe\|payment\|auth\|score\|readiness\|pass/fail\|analytics" -n apps/mobile || true
-```
-
-Result after the banner/component patch remains warning-only / blocked-scope-only.
+The forbidden-scope scan was run after removing local `node_modules` and `apps/mobile/package-lock.json`.
 
 Classification:
 
@@ -148,15 +99,12 @@ Classification:
 Patch applied before merge review:
 
 - Strengthened the visible banner text.
-- Added preferred component names:
-  - `InternalBanner.js`
-  - `TrackStatusCard.js`
-  - `QuestionCard.js`
+- Added preferred component names: `InternalBanner.js`, `TrackStatusCard.js`, and `QuestionCard.js`.
 - Updated `App.js` imports to use the preferred component names.
 - Removed old `StatusCard.js` and `QCard.js` files.
-- The old `Banner.js` file could not be deleted because the connector blocked that delete call; however, it was strengthened and is no longer imported by `App.js`.
-- Created the canonical report path: `docs/project-control/phase_4c_expo_internal_mobile_scaffold_report.md`.
-- Removed the fallback report path after the canonical path worked.
+- Left old `Banner.js` as an unused legacy placeholder because the connector blocked the delete call for that path.
+- Created the canonical report path.
+- Removed the fallback report path.
 
 ## 8. Explicit Exclusions
 
@@ -197,5 +145,3 @@ Confirmed not done in Phase 4C:
 ## 9. Phase 4C Result
 
 Phase 4C remains ready for red-team review as a minimal internal Expo / React Native scaffold PR.
-
-The scaffold is limited to local internal UI, one local fixture placeholder interaction, blocked-scope warnings, and this project-control report. It does not create a production build, mobile distribution configuration, backend, persistence, analytics, public content, or dependency-lock proof.
