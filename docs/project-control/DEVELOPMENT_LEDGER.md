@@ -4,6 +4,27 @@ Purpose: chronological project development log for ContractorOS California.
 
 Historical details remain in existing phase reports and GitHub PR history.
 
+## Entry Template
+
+```text
+Phase:
+Lane:
+Date:
+Branch:
+PR:
+Base SHA:
+Head SHA:
+Merge SHA:
+Changed files:
+Commands run:
+Claim level:
+Review decision:
+Merge status:
+Main verification:
+Next allowed step:
+Known issues:
+```
+
 ## Permanent Control References
 
 - DEVELOPMENT_CONTROL_MODEL_V3.md
@@ -17,4 +38,4 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Current Entry
 
-Phase 4E project-control foundation patch on branch phase-4e-project-development-ledger-scaffold. PR remains open for review. Base SHA f7145021d86bb5bd019433e001051b1e55c6da15. Changed files are project-control files only. No historical details are reconstructed beyond verified reports and PR history.
+Phase 4E project-control foundation patch on branch phase-4e-project-development-ledger-scaffold. PR remains open for review. Base SHA f7145021d86bb5bd019433e001051b1e55c6da15. Changed files are project-control files only, including the foundation/control files listed above. No historical details are reconstructed beyond verified reports and PR history.
