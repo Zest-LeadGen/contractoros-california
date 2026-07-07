@@ -12,6 +12,9 @@ Purpose: record durable architectural and process decisions.
 - Distribution and product-scope expansion require explicit approval.
 - DEVELOPMENT_CONTROL_MODEL_V3.md is the fallback development-control anchor.
 - PROJECT_FOUNDATION.md is the living project foundation.
+- PROJECT_VISION_AND_PHASE_TRACKER.md preserves original long-term vision and phase tracking.
+- PROJECT_IMPLEMENTATION_ROADMAP.md preserves long-term implementation architecture without authorizing current scope expansion.
+- Future modules remain roadmap categories until explicit approval.
 - PHASE_ONE_SCOPE.md controls Phase One scope.
 - CLAIM_LEVELS_AND_RELEASE_GATES.md controls claim wording and release claims.
 - KNOWN_GAPS_AND_NON_GOALS.md must be checked before readiness, MVP, or public claims.
