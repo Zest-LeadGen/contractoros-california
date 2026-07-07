@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "ContractorOS California Internal",
+    "slug": "contractoros-california-internal",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "description": "Internal-only ContractorOS California Expo scaffold. Fixture-only, not public, not readiness eligible.",
+    "extra": {
+      "scope": "internal-fixture-only",
+      "phase": "4C"
+    }
+  }
+}
