@@ -2,7 +2,7 @@
 
 ## Scope
 
-Phase 3C makes the repository more reproducible without adding product features.
+Phase 3C investigated dependency reproducibility and lockfile strategy without adding product features.
 
 ## Branch
 
@@ -44,12 +44,20 @@ grep -R "fetch\|XMLHttpRequest\|localStorage\|sessionStorage\|firebase\|airtable
 
 ## Dependency decision
 
-The `latest` dependency ranges in `apps/web/package.json` were replaced with exact versions resolved during the clean install/build verification environment:
+Dependency pinning was not performed.
 
-- `@vitejs/plugin-react`: `6.0.3`
-- `vite`: `8.1.3`
-- `react`: `19.2.7`
-- `react-dom`: `19.2.7`
+The previous attempt to replace `latest` with exact versions was reverted because public npm registry verification could not be completed in the sandbox. The only exact versions observed during the install/build check came from a lockfile generated through an internal/sandbox registry path, so those versions cannot be treated as public-safe or reproducible evidence.
+
+`apps/web/package.json` therefore remains at the previous dependency state:
+
+```json
+"dependencies": {
+  "@vitejs/plugin-react": "latest",
+  "vite": "latest",
+  "react": "latest",
+  "react-dom": "latest"
+}
+```
 
 ## Package-lock decision
 
@@ -62,6 +70,15 @@ Reason:
 - An explicit `npm install --registry=https://registry.npmjs.org/` attempt timed out in the sandbox.
 
 Therefore, committing the lockfile would violate the Phase 3C rule against internal/sandbox registry URLs.
+
+## Open dependency-lock blocker
+
+The dependency-lock issue remains open for a future clean external environment where all of the following can be proven:
+
+1. install uses the public npm registry;
+2. resolved package versions are available from public npm;
+3. generated `apps/web/package-lock.json` contains no internal, sandbox, localhost, or private registry URLs;
+4. build passes from the public-safe lockfile.
 
 ## Build result
 
@@ -81,8 +98,9 @@ No actual implementation was found for fetch, XMLHttpRequest, localStorage, sess
 
 ## Files changed in Phase 3C
 
-- `apps/web/package.json`
 - `docs/project-control/phase_3c_reproducibility_lock_strategy_report.md`
+
+`apps/web/package.json` was inspected and temporarily tested, but final branch content was restored to the prior `latest` dependency state.
 
 ## Explicit exclusions
 
@@ -111,4 +129,4 @@ No actual implementation was found for fetch, XMLHttpRequest, localStorage, sess
 
 ## Phase 3C result
 
-Phase 3C improved reproducibility by pinning exact dependency versions and documented why the lockfile is still excluded. Build passed. No product scope was expanded.
+Phase 3C documents the reproducibility blocker. No dependency pins and no lockfile were committed because public npm registry verification could not be completed. No product scope was expanded.
