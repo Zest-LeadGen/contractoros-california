@@ -20,6 +20,8 @@ The PR branch was created from the verified Phase 4D `main` state.
 
 ## 3. Files Added
 
+New foundation/control files added by this patch:
+
 ```text
 docs/project-control/DEVELOPMENT_CONTROL_MODEL_V3.md
 docs/project-control/PROJECT_FOUNDATION.md
@@ -29,6 +31,11 @@ docs/project-control/PHASE_ONE_TEST_PLAN.md
 docs/project-control/PROJECT_SCOPE_BOUNDARIES.md
 docs/project-control/KNOWN_GAPS_AND_NON_GOALS.md
 docs/project-control/CLAIM_LEVELS_AND_RELEASE_GATES.md
+```
+
+Initial PR #10 scaffold files also remain in the PR:
+
+```text
 docs/project-control/DEVELOPMENT_LEDGER.md
 docs/project-control/RISK_REGISTER.md
 docs/project-control/DECISION_LOG.md
@@ -36,9 +43,9 @@ docs/project-control/ARTIFACT_INDEX.md
 docs/project-control/phase_4e_project_development_ledger_scaffold_report.md
 ```
 
-The final PR file list should be verified from GitHub before merge.
-
 ## 4. Files Updated
+
+Existing PR #10 files updated by this patch:
 
 ```text
 docs/project-control/DEVELOPMENT_LEDGER.md
@@ -79,30 +86,7 @@ No dependency install, audit, remediation, build, or runtime command was run in 
 
 ## 9. Forbidden Scope Confirmation
 
-Confirmed not added:
-
-- apps/mobile/package-lock.json
-- apps/web/package-lock.json
-- eas.json
-- android/
-- ios/
-- backend
-- database
-- Firebase
-- Airtable runtime
-- deployment config
-- auth/login/user accounts
-- payments/subscriptions
-- scoring/readiness/pass-fail
-- saved progress/analytics
-- public MCQs
-- Question Bank migration
-- C10 public content
-- ZIP binaries
-- dependency changes
-- app source changes
-- mobile source changes
-- web source changes
+Confirmed not added: package-lock files, eas.json, android/, ios/, backend, database, Firebase, Airtable runtime, deployment config, auth/login/user accounts, payments/subscriptions, scoring/readiness/pass-fail, saved progress/analytics, public MCQs, Question Bank migration, C10 public content, ZIP binaries, dependency changes, app source changes, mobile source changes, or web source changes.
 
 ## 10. Known Limitations
 
