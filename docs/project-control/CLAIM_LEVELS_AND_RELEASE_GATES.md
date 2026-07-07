@@ -24,6 +24,16 @@ Permanent claim and release control for ContractorOS California.
 - launch-ready
 - fully tested
 
+## Release Gates
+
+- Internal scaffold gate: requires source and report evidence.
+- Runtime smoke gate: requires command output evidence.
+- Visual QA gate: requires observed UI evidence.
+- Dependency-control gate: requires dependency and lockfile evidence.
+- Build artifact gate: requires artifact evidence.
+- Install test gate: requires installation evidence.
+- Public/production gate: requires all prior gates plus owner approval.
+
 ## Claim Rule
 
 Use the lowest claim level supported by evidence. Tests prove only what they directly test.
