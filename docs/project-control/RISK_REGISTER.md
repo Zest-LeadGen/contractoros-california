@@ -59,14 +59,14 @@ Resolution condition: Dedicated dependency triage phase resolves or accepts the 
 Last reviewed: 2026-07-07
 ```
 
-### no visual/device QA yet
+### visual/device QA not yet complete
 
 ```text
-Risk: no visual/device QA yet
+Risk: visual/device QA not yet complete
 Status: Active
 Evidence: Runtime QA reached Metro locally but did not visually inspect a device or emulator.
 Owner: ContractorOS development lead / red-team gate
-Resolution condition: Approved device or emulator visual QA is completed and documented.
+Resolution condition: Approved visual QA is completed and documented.
 Last reviewed: 2026-07-07
 ```
 
@@ -92,14 +92,14 @@ Resolution condition: Approved install test is completed and documented.
 Last reviewed: 2026-07-07
 ```
 
-### no CI automation yet
+### CI automation not yet implemented
 
 ```text
-Risk: no CI automation yet
+Risk: CI automation not yet implemented
 Status: Active
 Evidence: Current checks are manual report/red-team gates.
 Owner: ContractorOS development lead / red-team gate
-Resolution condition: Approved CI validates forbidden files, dependency policy, and smoke checks.
+Resolution condition: Approved CI validates boundaries, dependency policy, and smoke checks.
 Last reviewed: 2026-07-07
 ```
 
@@ -122,5 +122,49 @@ Status: Active
 Evidence: Current work is internal-only and fixture-only.
 Owner: ContractorOS development lead / red-team gate
 Resolution condition: Production/public MVP readiness is explicitly approved after required gates.
+Last reviewed: 2026-07-07
+```
+
+### foundation scope file newly added but must remain living document
+
+```text
+Risk: foundation scope file newly added but must remain living document
+Status: Active
+Evidence: PROJECT_FOUNDATION.md is a control document, not implementation proof.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Foundation file remains updated as project evidence changes.
+Last reviewed: 2026-07-07
+```
+
+### Phase One acceptance not yet achieved
+
+```text
+Risk: Phase One acceptance not yet achieved
+Status: Active
+Evidence: Acceptance criteria now exist, but evidence for all levels has not been completed.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Required acceptance levels are verified and documented.
+Last reviewed: 2026-07-07
+```
+
+### release gates not yet passed
+
+```text
+Risk: release gates not yet passed
+Status: Active
+Evidence: Claim/release gates are defined but not completed.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Relevant gates are passed with evidence.
+Last reviewed: 2026-07-07
+```
+
+### full project scope beyond Phase One remains future/controlled, not implemented
+
+```text
+Risk: full project scope beyond Phase One remains future/controlled, not implemented
+Status: Active
+Evidence: PROJECT_FOUNDATION.md lists long-term categories as not necessarily implemented.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Each future scope area is separately approved, implemented, and verified.
 Last reviewed: 2026-07-07
 ```
