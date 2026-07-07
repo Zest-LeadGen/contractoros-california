@@ -14,7 +14,10 @@ Purpose: record durable architectural and process decisions.
 - PROJECT_FOUNDATION.md is the living project foundation.
 - PHASE_ONE_SCOPE.md controls Phase One scope.
 - CLAIM_LEVELS_AND_RELEASE_GATES.md controls claim wording and release claims.
-- KNOWN_GAPS_AND_NON_GOALS.md must be checked before any readiness, MVP, or public claim.
+- KNOWN_GAPS_AND_NON_GOALS.md must be checked before readiness, MVP, or public claims.
+- Red-team execution files live under docs/project-control/red-team/.
+- Red-team files are reviewer/control files.
+- Role separation inside this repo is process-based; private review notes require separate access control.
 
 ## Review Condition
 
