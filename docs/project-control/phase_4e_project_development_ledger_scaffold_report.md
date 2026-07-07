@@ -4,7 +4,7 @@
 
 Phase 4E is control/infrastructure documentation only.
 
-This patch expands PR #10 into a durable ContractorOS foundation/control package and adds a standardized red-team reviewer/control structure.
+This patch expands PR #10 into a durable ContractorOS foundation/control package, adds a standardized red-team reviewer/control structure, and adds the project vision and phase tracker anchor.
 
 No app source files changed. No mobile files changed. No web files changed. No package files changed. No dependency files changed. No build tooling was run. No runtime command was run.
 
@@ -20,9 +20,10 @@ The PR branch was created from the verified Phase 4D `main` state.
 
 ## 3. Files Added
 
-Foundation/control files added:
+Vision/foundation/control files added:
 
 ```text
+docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md
 docs/project-control/DEVELOPMENT_CONTROL_MODEL_V3.md
 docs/project-control/PROJECT_FOUNDATION.md
 docs/project-control/PHASE_ONE_SCOPE.md
@@ -76,6 +77,7 @@ docs/project-control/phase_4e_project_development_ledger_scaffold_report.md
 
 ## 6. Foundation Files Implemented
 
+- `PROJECT_VISION_AND_PHASE_TRACKER.md` preserves the original ContractorOS product vision, phase map, gate tracking, claim rule, and recovery rule.
 - `PROJECT_FOUNDATION.md` defines the living project foundation and explicitly states that it is not implementation proof.
 - `PHASE_ONE_SCOPE.md` defines internal Phase One boundaries.
 - `PHASE_ONE_ACCEPTANCE_CRITERIA.md` defines source/control, command, visual, and later build-artifact levels.
@@ -113,11 +115,11 @@ Confirmed not added: package-lock files, eas.json, android/, ios/, backend, data
 
 ## 11. Known Limitations
 
-This is a documentation/control patch only. Foundation and red-team files are living controls, not proof that future features are implemented. Phase One acceptance, visual QA, dependency control, APK/build, install testing, CI automation, and public/production readiness remain unresolved until later approved evidence gates.
+This is a documentation/control patch only. Foundation, vision, and red-team files are living controls, not proof that future features are implemented. Phase One acceptance, visual QA, dependency control, APK/build, install testing, CI automation, and public/production readiness remain unresolved until later approved evidence gates.
 
 ## 12. Phase 4E Result
 
-PR #10 is ready for red-team review as a documentation/control-only foundation and role-boundary scaffold patch.
+PR #10 is ready for red-team review as a documentation/control-only foundation, vision, and role-boundary scaffold patch.
 
 PR #10 remains unmerged.
 
