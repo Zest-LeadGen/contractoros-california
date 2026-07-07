@@ -1,12 +1,12 @@
-# Phase 4E — Project Development Ledger Scaffold Report
+# Phase 4E — Project Development Ledger and Foundation Scaffold Report
 
 ## 1. Scope
 
-Phase 4E was control/infrastructure documentation only.
+Phase 4E is control/infrastructure documentation only.
 
-This phase added permanent project-control logging files to support the ContractorOS Development Control Model v3.
+This patch expands PR #10 from a ledger scaffold into a durable ContractorOS foundation/control package.
 
-No app source files were changed. No mobile files were changed. No package files were changed. No dependency files were changed. No build tooling was run.
+No app source files changed. No mobile files changed. No web files changed. No package files changed. No dependency files changed. No build tooling was run. No runtime command was run.
 
 ## 2. Starting Repository State
 
@@ -16,13 +16,19 @@ Phase 4D merge commit verified as:
 f7145021d86bb5bd019433e001051b1e55c6da15
 ```
 
-The branch for this control scaffold was created from the verified Phase 4D `main` state.
+The PR branch was created from the verified Phase 4D `main` state.
 
 ## 3. Files Added
 
-Files added in this phase:
-
 ```text
+docs/project-control/DEVELOPMENT_CONTROL_MODEL_V3.md
+docs/project-control/PROJECT_FOUNDATION.md
+docs/project-control/PHASE_ONE_SCOPE.md
+docs/project-control/PHASE_ONE_ACCEPTANCE_CRITERIA.md
+docs/project-control/PHASE_ONE_TEST_PLAN.md
+docs/project-control/PROJECT_SCOPE_BOUNDARIES.md
+docs/project-control/KNOWN_GAPS_AND_NON_GOALS.md
+docs/project-control/CLAIM_LEVELS_AND_RELEASE_GATES.md
 docs/project-control/DEVELOPMENT_LEDGER.md
 docs/project-control/RISK_REGISTER.md
 docs/project-control/DECISION_LOG.md
@@ -30,26 +36,38 @@ docs/project-control/ARTIFACT_INDEX.md
 docs/project-control/phase_4e_project_development_ledger_scaffold_report.md
 ```
 
-No other files were added or changed.
+The final PR file list should be verified from GitHub before merge.
 
-## 4. Control Model Implemented
+## 4. Files Updated
 
-The scaffold supports the ContractorOS Development Control Model v3 as follows:
+```text
+docs/project-control/DEVELOPMENT_LEDGER.md
+docs/project-control/RISK_REGISTER.md
+docs/project-control/DECISION_LOG.md
+docs/project-control/phase_4e_project_development_ledger_scaffold_report.md
+```
 
-- `DEVELOPMENT_LEDGER.md` provides a chronological milestone log template and an initial control-model adoption entry.
-- `RISK_REGISTER.md` tracks active risks until evidence proves they are resolved.
-- `DECISION_LOG.md` records durable architectural and process decisions.
-- `ARTIFACT_INDEX.md` maps large, binary, and archive artifacts to Google Drive references without committing those artifacts to GitHub.
+## 5. Control Model Implemented
 
-Historical phase details were not reconstructed beyond verified high-level state. Existing project-control reports and GitHub PR history remain the detailed source of truth for prior phases.
+`DEVELOPMENT_CONTROL_MODEL_V3.md` now provides the fallback control model with milestone development, triple-check review, claim levels, file allowlist, dependency policy, merge rules, phase advancement rules, risk discipline, recovery protocol, and enforcement rules.
 
-## 5. App Source Confirmation
+## 6. Foundation Files Implemented
+
+- `PROJECT_FOUNDATION.md` defines the living project foundation and explicitly states that it is not implementation proof.
+- `PHASE_ONE_SCOPE.md` defines internal Phase One boundaries.
+- `PHASE_ONE_ACCEPTANCE_CRITERIA.md` defines source/control, command, visual, and later build-artifact levels.
+- `PHASE_ONE_TEST_PLAN.md` defines test categories and scan commands.
+- `PROJECT_SCOPE_BOUNDARIES.md` defines approved, blocked, future, and evidence-bound scope.
+- `KNOWN_GAPS_AND_NON_GOALS.md` lists known gaps and current non-goals.
+- `CLAIM_LEVELS_AND_RELEASE_GATES.md` defines claim levels, overclaim controls, and release gates.
+
+## 7. App Source Confirmation
 
 No app source files changed.
 
-No files under `apps/` were added, edited, or deleted.
+No files under `apps/` were added, edited, or deleted by this documentation/control patch.
 
-## 6. Dependency Confirmation
+## 8. Dependency Confirmation
 
 No dependency files changed.
 
@@ -57,33 +75,43 @@ No package files changed.
 
 No package-lock file was committed.
 
-No dependency install, audit, remediation, build, or runtime command was run in this phase.
+No dependency install, audit, remediation, build, or runtime command was run in this patch.
 
-## 7. Forbidden Scope Confirmation
+## 9. Forbidden Scope Confirmation
 
-Confirmed not added in this phase:
+Confirmed not added:
 
-- No `apps/mobile/package-lock.json`.
-- No `eas.json`.
-- No `android/` folder.
-- No `ios/` folder.
-- No backend.
-- No database.
-- No Firebase.
-- No Airtable runtime.
-- No deployment config.
-- No auth, login, or user accounts.
-- No payments or subscriptions.
-- No scoring, readiness, or pass-fail logic.
-- No saved progress or analytics.
-- No public MCQs.
-- No Question Bank migration.
-- No C10 public content.
-- No ZIP binaries.
-- No dependency changes.
+- apps/mobile/package-lock.json
+- apps/web/package-lock.json
+- eas.json
+- android/
+- ios/
+- backend
+- database
+- Firebase
+- Airtable runtime
+- deployment config
+- auth/login/user accounts
+- payments/subscriptions
+- scoring/readiness/pass-fail
+- saved progress/analytics
+- public MCQs
+- Question Bank migration
+- C10 public content
+- ZIP binaries
+- dependency changes
+- app source changes
+- mobile source changes
+- web source changes
 
-## 8. Phase 4E Result
+## 10. Known Limitations
 
-Phase 4E is ready for red-team review as a documentation/control-only project-control scaffold PR.
+This is a documentation/control patch only. Foundation documents are living controls, not proof that future features are implemented. Phase One acceptance, visual QA, dependency control, APK/build, install testing, CI automation, and public/production readiness remain unresolved until later approved evidence gates.
 
-This phase stops at the PR review gate and does not proceed to Phase 4F.
+## 11. Phase 4E Result
+
+PR #10 is ready for red-team review as a documentation/control-only foundation scaffold patch.
+
+The PR must not be merged until red-team verifies the file list, updated control files, and negative scope.
+
+Phase 4F remains blocked until PR #10 is reviewed, merged, and `main` is verified.
