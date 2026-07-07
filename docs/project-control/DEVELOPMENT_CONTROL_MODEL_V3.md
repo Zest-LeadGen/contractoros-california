@@ -105,3 +105,11 @@ No evidence = no claim.
 No clean file proof = no merge.
 No verified main = no next phase.
 No explicit approval = no scope expansion.
+
+## Red-Team Execution Files
+
+Red-team execution files live under `docs/project-control/red-team/`.
+
+These files operationalize the triple-check, claim-downgrade, main-verification, and recovery process.
+
+They do not define product scope and do not authorize developer implementation work.
