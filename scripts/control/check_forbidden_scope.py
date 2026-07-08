@@ -112,6 +112,13 @@ def textfile(path):
     return path.suffix in SUF or path.name == 'CODEOWNERS'
 
 
+def self_reference_literal(rel, line):
+    stripped = line.strip()
+    return rel == 'scripts/control/check_forbidden_scope.py' and (
+        stripped.startswith("'") or stripped.startswith('"')
+    )
+
+
 def lockfiles():
     pats = ['applied-caas', 'internal.api.openai.org', 'sandbox', 'localhost', '127.0.0.1']
     fail = []
@@ -146,6 +153,8 @@ def main():
             continue
         rel = path.relative_to(ROOT).as_posix()
         for line_number, line in enumerate(path.read_text(errors='replace').splitlines(), 1):
+            if self_reference_literal(rel, line):
+                continue
             if rg.search(line):
                 if any(token in line.lower() for token in ALLOW):
                     findings.append(f'allowed warning/blocked-scope text: {rel}:{line_number}: {line.strip()[:160]}')
