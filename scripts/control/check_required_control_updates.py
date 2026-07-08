@@ -9,18 +9,50 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MATRIX = ROOT / "docs/project-control/control-file-update-matrix.yml"
 
+APPROVAL_PHRASES = {
+    "Dependency": "approved dependency lane",
+    "Build / Distribution": "approved build/distribution lane",
+    "Backend": "approved backend lane",
+}
+
+
+def git(args):
+    try:
+        proc = subprocess.run(
+            ["git"] + args,
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except FileNotFoundError:
+        return []
+    if proc.returncode != 0:
+        return []
+    return [line.strip() for line in proc.stdout.splitlines() if line.strip()]
+
 
 def git_changed():
-    out = []
-    for cmd in (
-        ["git", "diff", "--name-only", "HEAD"],
-        ["git", "diff", "--name-only", "--cached"],
-        ["git", "ls-files", "--others", "--exclude-standard"],
-    ):
-        proc = subprocess.run(cmd, cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if proc.returncode == 0:
-            out.extend([line for line in proc.stdout.splitlines() if line])
-    return sorted(set(out))
+    base = os.getenv("GITHUB_BASE_REF")
+    before = os.getenv("GITHUB_EVENT_BEFORE") or os.getenv("BEFORE_SHA")
+    candidates = []
+    if base:
+        candidates.append(["diff", "--name-only", f"origin/{base}...HEAD"])
+        candidates.append(["diff", "--name-only", f"{base}...HEAD"])
+    if before and before.strip("0"):
+        candidates.append(["diff", "--name-only", f"{before}...HEAD"])
+    candidates.extend(
+        [
+            ["diff", "--name-only", "HEAD"],
+            ["diff", "--name-only", "--cached"],
+            ["ls-files", "--others", "--exclude-standard"],
+        ]
+    )
+    for args in candidates:
+        out = git(args)
+        if out:
+            return sorted(set(out))
+    return []
 
 
 def parse_bool(value):
@@ -104,18 +136,23 @@ def lane_from_text(text):
 
 
 def approval_present(text, lane):
+    if not lane:
+        return False
     normalized = text.lower()
-    exact_lane = f"lane: {lane}".lower()
-    return exact_lane in normalized and (
+    precise_lane_present = f"lane: {lane}".lower() in normalized
+    approval_phrase = APPROVAL_PHRASES.get(lane, f"approved {lane.lower()} lane")
+    explicit_approval_present = (
         "explicit owner approval" in normalized
-        or f"approved {lane.lower()} lane" in normalized
-        or (lane == "Build / Distribution" and "approved build/distribution lane" in normalized)
+        or approval_phrase.lower() in normalized
     )
+    return precise_lane_present and explicit_approval_present
 
 
 def lane_compatible(rule_lane, declared_lane):
     if not rule_lane:
         return True
+    if not declared_lane:
+        return False
     return rule_lane.lower() == declared_lane.lower()
 
 
@@ -155,10 +192,12 @@ def main():
         required_sections.update(rule.get("required_report_sections", []) or [])
         required_updates.update(rule.get("required_control_updates", []) or [])
         rule_lane = str(rule.get("lane", "")).strip()
-        if rule_lane and declared_lane and not lane_compatible(rule_lane, declared_lane):
-            fail.append(f"Lane mismatch: changed path category requires '{rule_lane}' but PR/report declares '{declared_lane}'")
+        if rule_lane and not lane_compatible(rule_lane, declared_lane):
+            fail.append(
+                f"Lane mismatch: changed path category requires '{rule_lane}' but PR/report declares '{declared_lane or '(missing)'}'"
+            )
         if rule.get("blocked_without_approval") and not approval_present(validation_text, rule_lane):
-            fail.append(f"Blocked category '{rule.get('pattern')}' requires {rule_lane} and explicit owner approval")
+            fail.append(f"Blocked category '{rule.get('pattern')}' requires Lane: {rule_lane} and explicit owner approval")
 
     if report_required and not current_report_text:
         fail.append("Current phase report text is missing.")
@@ -173,7 +212,7 @@ def main():
     for req in sorted(required_updates):
         marker = f"{req}: reviewed, no update required"
         changed = req in files
-        if not changed and marker not in validation_text:
+        if not changed and marker not in current_report_text:
             fail.append(f"{req} not changed and missing exact current report declaration: {marker}")
 
     print("Changed files considered by matrix:")
