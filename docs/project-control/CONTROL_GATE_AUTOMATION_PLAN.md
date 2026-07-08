@@ -92,7 +92,7 @@ The static checks are lightweight and do not replace human red-team review.
 
 The YAML matrix parser intentionally supports a small subset to avoid external dependencies.
 
-The workflow cannot prove production, public, build, install, legal/currentness, or content readiness by itself.
+The workflow does not prove production, public, build, install, legal/currentness, or content readiness by itself.
 
 ## Future Hardening
 
