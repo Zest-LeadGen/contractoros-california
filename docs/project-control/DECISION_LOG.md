@@ -21,6 +21,12 @@ Purpose: record durable architectural and process decisions.
 - Red-team execution files live under docs/project-control/red-team/.
 - Red-team files are reviewer/control files.
 - Role separation inside this repo is process-based; private review notes require separate access control.
+- Product / QA PRs may include exactly one current `docs/project-control/phase_*_report.md` companion report without converting the declared lane to Control / Infrastructure.
+- Report-only `docs/project-control/**` PRs remain Control / Infrastructure.
+- Non-report `docs/project-control/**` changes remain Control / Infrastructure.
+- Maintained route is GitHub Issue → Developer PR → Control Gates → Red-Team Decision → Human Approval → Merge.
+- The maintained route reduces owner copy/paste and manual supervision while preserving protected PR governance, red-team accountability, and human approval for major decisions.
+- The maintained route does not authorize automated merge, automated approval, direct-to-main work, branch-protection bypass, or scope expansion.
 
 ## Review Condition
 
