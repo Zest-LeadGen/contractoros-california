@@ -65,6 +65,53 @@ CLAIM_LEVEL_PATHS = (
 )
 
 
+def git(args):
+    try:
+        proc = subprocess.run(
+            ["git"] + args,
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except FileNotFoundError:
+        return []
+    if proc.returncode != 0:
+        return []
+    return [line.strip() for line in proc.stdout.splitlines() if line.strip()]
+
+
+def changed_files():
+    base = os.getenv("GITHUB_BASE_REF")
+    before = os.getenv("GITHUB_EVENT_BEFORE") or os.getenv("BEFORE_SHA")
+    candidates = []
+    if base:
+        candidates.append(["diff", "--name-only", f"origin/{base}...HEAD"])
+        candidates.append(["diff", "--name-only", f"{base}...HEAD"])
+    if before and before.strip("0"):
+        candidates.append(["diff", "--name-only", f"{before}...HEAD"])
+    candidates.extend(
+        [
+            ["diff", "--name-only", "HEAD"],
+            ["diff", "--name-only", "--cached"],
+            ["ls-files", "--others", "--exclude-standard"],
+        ]
+    )
+    for args in candidates:
+        out = git(args)
+        if out:
+            return sorted(set(out))
+    return []
+
+
+def changed_phase_reports(files):
+    return [
+        path
+        for path in files
+        if path.startswith("docs/project-control/phase_") and path.endswith("_report.md")
+    ]
+
+
 def read_body():
     event_path = os.getenv("GITHUB_EVENT_PATH")
     if event_path and Path(event_path).exists():
@@ -76,28 +123,16 @@ def read_body():
     env_body = os.getenv("PR_BODY", "")
     if env_body.strip():
         return env_body
+    files = changed_files()
     parts = []
+    for report in changed_phase_reports(files):
+        report_path = ROOT / report
+        if report_path.exists():
+            parts.append(report_path.read_text(errors="replace"))
+    if parts:
+        return "\n\n".join(parts)
     template = ROOT / ".github/pull_request_template.md"
-    if template.exists():
-        parts.append(template.read_text(errors="replace"))
-    parts.extend(
-        report.read_text(errors="replace")
-        for report in sorted((ROOT / "docs/project-control").glob("phase_*_report.md"))
-    )
-    return "\n\n".join(parts)
-
-
-def changed_files():
-    out = []
-    for cmd in (
-        ["git", "diff", "--name-only", "HEAD"],
-        ["git", "diff", "--name-only", "--cached"],
-        ["git", "ls-files", "--others", "--exclude-standard"],
-    ):
-        proc = subprocess.run(cmd, cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if proc.returncode == 0:
-            out.extend([line for line in proc.stdout.splitlines() if line])
-    return sorted(set(out))
+    return template.read_text(errors="replace") if template.exists() else ""
 
 
 def has_section(text, section):
@@ -124,10 +159,11 @@ def main():
     parser.add_argument("--claims-only", action="store_true")
     args = parser.parse_args()
 
+    files = changed_files()
     text = read_body()
     failures = []
     if not text.strip():
-        failures.append("No PR body or phase report text available.")
+        failures.append("No PR body or current phase report text available.")
 
     if not args.claims_only:
         for section in REQUIRED_SECTIONS:
@@ -141,7 +177,7 @@ def main():
                     f"Line {line_number}: overclaim '{term}' lacks downgrade/evidence context: {line.strip()}"
                 )
 
-    if claim_level_required(changed_files()) and not has_section(text, "Claim Level"):
+    if claim_level_required(files) and not has_section(text, "Claim Level"):
         failures.append("Claim Level section is required for app/control/workflow/script/build/dependency/content changes.")
 
     if failures:
