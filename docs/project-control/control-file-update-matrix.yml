@@ -1,0 +1,196 @@
+# ContractorOS control-file update matrix.
+# Simple YAML subset for standard-library parsing.
+rules:
+  - pattern: "apps/mobile/**"
+    lane: "Product / QA"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/RISK_REGISTER.md"
+      - "docs/project-control/DEVELOPMENT_LEDGER.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "Commands Run"
+      - "Dependency / Lockfile Handling"
+      - "Forbidden Scope Confirmation"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "production-ready"
+      - "public-ready"
+      - "exam-ready"
+      - "APK-ready"
+      - "app-store-ready"
+  - pattern: "apps/web/**"
+    lane: "Product / QA"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/RISK_REGISTER.md"
+      - "docs/project-control/DEVELOPMENT_LEDGER.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "Commands Run"
+      - "Forbidden Scope Confirmation"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "production-ready"
+      - "public-ready"
+      - "fully tested"
+  - pattern: "docs/project-control/**"
+    lane: "Control / Infrastructure"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/DEVELOPMENT_LEDGER.md"
+      - "docs/project-control/RISK_REGISTER.md"
+      - "docs/project-control/DECISION_LOG.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "Risk Register Impact"
+      - "Decision Log Impact"
+      - "Artifact Index Impact"
+    blocked_without_approval: false
+    forbidden_claims:
+      - "complete"
+      - "finalized"
+  - pattern: "package.json"
+    lane: "Dependency"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Dependency / Lockfile Handling"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "production-ready"
+  - pattern: "package-lock.json"
+    lane: "Dependency"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Dependency / Lockfile Handling"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "fully tested"
+  - pattern: "apps/mobile/package.json"
+    lane: "Dependency"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Dependency / Lockfile Handling"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "production-ready"
+  - pattern: "apps/mobile/package-lock.json"
+    lane: "Dependency"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Dependency / Lockfile Handling"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "fully tested"
+  - pattern: ".github/workflows/**"
+    lane: "Control / Infrastructure"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/DECISION_LOG.md"
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "Workflow Validation"
+      - "Security Hardening"
+    blocked_without_approval: false
+    forbidden_claims:
+      - "fully tested"
+  - pattern: ".github/CODEOWNERS"
+    lane: "Control / Infrastructure"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/DECISION_LOG.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "PR Template / CODEOWNERS Implemented"
+    blocked_without_approval: false
+    forbidden_claims:
+      - "finalized"
+  - pattern: ".github/pull_request_template.md"
+    lane: "Control / Infrastructure"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/DECISION_LOG.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "PR Template / CODEOWNERS Implemented"
+    blocked_without_approval: false
+    forbidden_claims:
+      - "finalized"
+  - pattern: "android/**"
+    lane: "Build / Distribution"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/ARTIFACT_INDEX.md"
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Artifact Index Impact"
+      - "Claim Level"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "APK-ready"
+  - pattern: "ios/**"
+    lane: "Build / Distribution"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/ARTIFACT_INDEX.md"
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Artifact Index Impact"
+      - "Claim Level"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "app-store-ready"
+  - pattern: "eas.json"
+    lane: "Build / Distribution"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/ARTIFACT_INDEX.md"
+      - "docs/project-control/RISK_REGISTER.md"
+    required_report_sections:
+      - "Artifact Index Impact"
+      - "Documentation Impact"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "APK-ready"
+      - "app-store-ready"
+  - pattern: "backend/**"
+    lane: "Backend"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/PROJECT_SCOPE_BOUNDARIES.md"
+      - "docs/project-control/RISK_REGISTER.md"
+      - "docs/project-control/DECISION_LOG.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "Forbidden Scope Confirmation"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "production-ready"
+  - pattern: "database/**"
+    lane: "Backend"
+    required_phase_report: true
+    required_control_updates:
+      - "docs/project-control/PROJECT_SCOPE_BOUNDARIES.md"
+      - "docs/project-control/RISK_REGISTER.md"
+      - "docs/project-control/DECISION_LOG.md"
+    required_report_sections:
+      - "Documentation Impact"
+      - "Forbidden Scope Confirmation"
+    blocked_without_approval: true
+    forbidden_claims:
+      - "production-ready"
