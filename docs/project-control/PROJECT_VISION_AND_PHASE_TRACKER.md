@@ -8,7 +8,30 @@ This file is a project-control anchor. It does not prove implementation. Impleme
 
 ## 1. Original Product Vision
 
-ContractorOS California is intended to become a controlled contractor exam/testing and training operating system for California contractor exam preparation.
+ContractorOS California / California TradeOS is intended to become one modular role-based California contractor, trade, and solar operating-system app.
+
+The long-term product vision is one fixed app shell with role-based modules, role-based downloadable content packs, role-based UI configuration, source-governed updates, and versioned publishing.
+
+The first controlled implementation lane is the internal Phase One testing scaffold.
+
+The first controlled content domain is Law & Business.
+
+C10, C46, and C39 are part of the broader CSLB exam-prep vision, but they are not current public/production content scope until separate content/currentness gates are approved.
+
+Future role/module categories may include:
+
+- CSLB exam prep: Law & Business, C10, C46, C39
+- solar incentive and financing copilot
+- California contractor code and utility watch
+- homeowner / home energy analysis tools
+- government contracting radar
+- solar EPC proposal / readiness tools
+- admin/editorial command center
+- AI source-watch and content-update pipeline
+
+These future categories are roadmap categories only.
+They are not current implementation scope.
+They do not authorize backend, Firebase, auth, scoring, readiness, public content, APK, EAS, deployment, production claims, or public release work.
 
 The project begins with an internal Phase One testing-system scaffold.
 
@@ -262,14 +285,16 @@ Progress is measured by passed gates, not optimism.
 
 Before approving any phase as complete, answer:
 
-1. Does this phase support the internal ContractorOS testing-system vision?
-2. Does this phase preserve Law & Business first?
-3. Does this phase keep C10 deferred unless explicitly approved?
-4. Does this phase avoid public/exam-ready/production claims?
-5. Does this phase avoid unapproved backend/auth/payment/scoring/readiness scope?
-6. Does this phase improve product capability or control reliability?
-7. Does this phase create any new risk?
-8. Are remaining risks documented?
+1. Does this phase preserve the long-term one-app modular ContractorOS / California TradeOS vision?
+2. Does this phase stay inside the current approved phase scope?
+3. Does this phase support the internal ContractorOS testing-system vision?
+4. Does this phase preserve Law & Business first?
+5. Does this phase keep C10 deferred unless explicitly approved?
+6. Does this phase avoid public/exam-ready/production claims?
+7. Does this phase avoid unapproved backend/auth/payment/scoring/readiness scope?
+8. Does this phase improve product capability or control reliability?
+9. Does this phase create any new risk?
+10. Are remaining risks documented?
 
 If the answer to any question is unclear, do not approve completion.
 
