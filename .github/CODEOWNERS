@@ -1,0 +1,13 @@
+# ContractorOS control ownership
+/docs/project-control/ @Zest-LeadGen
+/.github/ @Zest-LeadGen
+/scripts/control/ @Zest-LeadGen
+/apps/mobile/ @Zest-LeadGen
+/apps/web/ @Zest-LeadGen
+/package.json @Zest-LeadGen
+/package-lock.json @Zest-LeadGen
+/apps/mobile/package.json @Zest-LeadGen
+/apps/mobile/package-lock.json @Zest-LeadGen
+/eas.json @Zest-LeadGen
+/android/ @Zest-LeadGen
+/ios/ @Zest-LeadGen
