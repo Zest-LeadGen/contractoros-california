@@ -32,27 +32,69 @@ def git(args):
     return [line.strip() for line in proc.stdout.splitlines() if line.strip()]
 
 
-def git_changed():
-    base = os.getenv("GITHUB_BASE_REF")
-    before = os.getenv("GITHUB_EVENT_BEFORE") or os.getenv("BEFORE_SHA")
+def event_payload():
+    event_path = os.getenv("GITHUB_EVENT_PATH")
+    if event_path and Path(event_path).exists():
+        try:
+            return json.loads(Path(event_path).read_text())
+        except Exception:
+            return {}
+    return {}
+
+
+def is_pr_context(payload):
+    return bool(os.getenv("GITHUB_BASE_REF")) or os.getenv("GITHUB_EVENT_NAME") == "pull_request" or "pull_request" in payload
+
+
+def is_push_context(payload):
+    return os.getenv("GITHUB_EVENT_NAME") == "push" or ("before" in payload and "after" in payload)
+
+
+def changed_files_pr(payload):
+    base_ref = os.getenv("GITHUB_BASE_REF") or (payload.get("pull_request") or {}).get("base", {}).get("ref")
     candidates = []
-    if base:
-        candidates.append(["diff", "--name-only", f"origin/{base}...HEAD"])
-        candidates.append(["diff", "--name-only", f"{base}...HEAD"])
-    if before and before.strip("0"):
-        candidates.append(["diff", "--name-only", f"{before}...HEAD"])
-    candidates.extend(
-        [
-            ["diff", "--name-only", "HEAD"],
-            ["diff", "--name-only", "--cached"],
-            ["ls-files", "--others", "--exclude-standard"],
-        ]
-    )
+    if base_ref:
+        candidates.append(["diff", "--name-only", f"origin/{base_ref}...HEAD"])
+        candidates.append(["diff", "--name-only", f"{base_ref}...HEAD"])
     for args in candidates:
         out = git(args)
         if out:
             return sorted(set(out))
     return []
+
+
+def changed_files_push(payload):
+    before = os.getenv("GITHUB_EVENT_BEFORE") or payload.get("before")
+    after = os.getenv("GITHUB_SHA") or payload.get("after") or "HEAD"
+    if before and after and str(before).strip("0"):
+        out = git(["diff", "--name-only", f"{before}...{after}"])
+        if out:
+            return sorted(set(out))
+    return sorted(set(git(["diff", "--name-only", "HEAD~1...HEAD"])))
+
+
+def changed_files_local():
+    out = []
+    for cmd in (
+        ["diff", "--name-only", "HEAD"],
+        ["diff", "--name-only", "--cached"],
+        ["ls-files", "--others", "--exclude-standard"],
+    ):
+        out.extend(git(cmd))
+    return sorted(set(out))
+
+
+def resolve_changed_files():
+    payload = event_payload()
+    if is_pr_context(payload):
+        files = changed_files_pr(payload)
+        if not files:
+            print("FAIL: PR context detected but no changed files were resolved.")
+            return None, "pull_request"
+        return files, "pull_request"
+    if is_push_context(payload):
+        return changed_files_push(payload), "push"
+    return changed_files_local(), "local-changes"
 
 
 def parse_bool(value):
@@ -106,13 +148,9 @@ def changed_phase_reports(files):
 
 
 def read_pr_body():
-    event_path = os.getenv("GITHUB_EVENT_PATH")
-    if event_path and Path(event_path).exists():
-        try:
-            payload = json.loads(Path(event_path).read_text())
-            return (payload.get("pull_request") or {}).get("body") or ""
-        except Exception:
-            pass
+    payload = event_payload()
+    if "pull_request" in payload:
+        return (payload.get("pull_request") or {}).get("body") or ""
     return os.getenv("PR_BODY", "")
 
 
@@ -161,7 +199,10 @@ def main():
         print("FAIL: matrix missing")
         return 1
 
-    files = git_changed()
+    files, context = resolve_changed_files()
+    if files is None:
+        return 1
+
     rules = parse_matrix(MATRIX.read_text())
     matched = []
     for path in files:
@@ -175,9 +216,7 @@ def main():
     fail = []
 
     if report_required and len(reports) != 1:
-        fail.append(
-            f"Expected exactly one changed current phase report, found {len(reports)}: {reports}"
-        )
+        fail.append(f"Expected exactly one changed current phase report, found {len(reports)}: {reports}")
     if not report_required and len(reports) > 1:
         fail.append(f"Expected at most one changed phase report, found {len(reports)}: {reports}")
 
@@ -193,9 +232,7 @@ def main():
         required_updates.update(rule.get("required_control_updates", []) or [])
         rule_lane = str(rule.get("lane", "")).strip()
         if rule_lane and not lane_compatible(rule_lane, declared_lane):
-            fail.append(
-                f"Lane mismatch: changed path category requires '{rule_lane}' but PR/report declares '{declared_lane or '(missing)'}'"
-            )
+            fail.append(f"Lane mismatch: changed path category requires '{rule_lane}' but PR/report declares '{declared_lane or '(missing)'}'")
         if rule.get("blocked_without_approval") and not approval_present(validation_text, rule_lane):
             fail.append(f"Blocked category '{rule.get('pattern')}' requires Lane: {rule_lane} and explicit owner approval")
 
@@ -211,10 +248,10 @@ def main():
 
     for req in sorted(required_updates):
         marker = f"{req}: reviewed, no update required"
-        changed = req in files
-        if not changed and marker not in current_report_text:
+        if req not in files and marker not in current_report_text:
             fail.append(f"{req} not changed and missing exact current report declaration: {marker}")
 
+    print(f"Changed-file context: {context}")
     print("Changed files considered by matrix:")
     for path in files:
         print(f"- {path}")
