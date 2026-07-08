@@ -74,7 +74,7 @@ python3 scripts/control/check_required_control_updates.py
 python3 scripts/control/check_pr_contract.py
 ```
 
-Targeted patch validation commands:
+Targeted red-team patch validation commands rerun:
 
 ```bash
 python3 --version
@@ -90,15 +90,15 @@ Final meaningful outputs:
 
 ```text
 Python 3.13.5
-check_changed_files.py: PASS
-check_forbidden_scope.py: PASS
-check_required_control_updates.py: PASS
-check_pr_contract.py: PASS
-check_forbidden_scope.py --lockfiles-only: PASS
-check_pr_contract.py --claims-only: PASS
+check_changed_files.py: PASS — changed-file allowlist / lane check completed.
+check_forbidden_scope.py: PASS — no forbidden implementation-looking hits found; package-lock.json, apps/mobile/package-lock.json, and apps/web/package-lock.json absent.
+check_required_control_updates.py: PASS — required control update check completed against current PR/report only.
+check_pr_contract.py: PASS — PR/report contract check completed.
+check_forbidden_scope.py --lockfiles-only: PASS — lockfile contamination check completed; all checked lockfiles absent.
+check_pr_contract.py --claims-only: PASS — claim-language check completed.
 ```
 
-Local validation environment note: the container printed a non-project spreadsheet warmup warning before script output. The Phase 4G scripts still exited with code 0 and reported PASS.
+Validation context: local rerun used the live PR body and `GITHUB_BASE_REF=main` to mirror pull-request event context for changed-file detection.
 
 ## 9. Workflow Validation
 
@@ -132,9 +132,9 @@ After Phase 4G is merged and the workflow has run at least once, repository owne
 
 ## 14. Phase Result
 
-Phase 4G is ready for red-team review as a Control / Infrastructure PR after the targeted red-team patch.
+Phase 4G remains in red-team patch state as a Control / Infrastructure PR. It is not merged.
 
-Claim level: source verified and local static-command verified only.
+Claim level: source verified and local static-command verified only. GitHub Actions execution is separately verified only if a workflow run appears for the patched head SHA.
 
 ## 15. Next Phase Status
 
@@ -160,11 +160,14 @@ docs/project-control/phase_4g_automated_control_gates_report.md
 Patch results:
 
 - `check_changed_files.py` no longer treats standard checklist text such as explicit exclusions or forbidden-scope confirmation as approval for dangerous paths.
-- `check_changed_files.py` now requires exact lane plus explicit owner approval or the approved-lane phrase for dependency, build/distribution, and backend dangerous paths.
-- `check_required_control_updates.py` now validates only the current PR body and the changed current phase report.
-- `check_required_control_updates.py` now requires exactly one changed current phase report when the matrix requires a report.
-- `check_required_control_updates.py` now enforces lane compatibility, blocked-without-approval rules, required report sections, and exact reviewed/no-update-required declarations.
-- `check_pr_contract.py` now enforces the full PR template contract and requires claim-level wording for app, control, workflow, script, build, dependency, backend, and database changes.
+- `check_changed_files.py` requires exact lane plus explicit owner approval or the approved-lane phrase for dependency, build/distribution, and backend dangerous paths.
+- `check_changed_files.py` fails closed for package lockfiles, `eas.json`, Android, iOS, backend, and database dangerous paths unless precise lane approval is present.
+- `check_required_control_updates.py` validates only the current PR body and the changed current phase report.
+- `check_required_control_updates.py` detects the current phase report from the changed-file list and requires exactly one current phase report when the matrix requires a report.
+- `check_required_control_updates.py` enforces lane compatibility, blocked-without-approval rules, required report sections, and exact reviewed/no-update-required declarations.
+- `check_required_control_updates.py` now requires exact reviewed/no-update-required markers inside the current phase report itself; old phase reports and PR-body-only markers do not satisfy missing control-file updates.
+- `check_required_control_updates.py` and `check_pr_contract.py` now derive changed files from the PR/base diff when `GITHUB_BASE_REF` is available, rather than relying only on a dirty working tree.
+- `check_pr_contract.py` enforces the full PR template contract section list and requires claim-level wording for app, control, workflow, script, build, dependency, backend, and database changes.
 
 ## Documentation Impact
 
