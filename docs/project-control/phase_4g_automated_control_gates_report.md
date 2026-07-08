@@ -91,7 +91,7 @@ Final meaningful outputs:
 ```text
 Python 3.13.5
 check_changed_files.py: PASS — changed-file allowlist / lane check completed.
-check_forbidden_scope.py: PASS — no forbidden implementation-looking hits found; package-lock.json, apps/mobile/package-lock.json, and apps/web/package-lock.json absent.
+check_forbidden_scope.py: PASS — no forbidden implementation-looking hits found in changed files; package-lock.json, apps/mobile/package-lock.json, and apps/web/package-lock.json absent.
 check_required_control_updates.py: PASS — required control update check completed against current PR/report only.
 check_pr_contract.py: PASS — PR/report contract check completed.
 check_forbidden_scope.py --lockfiles-only: PASS — lockfile contamination check completed; all checked lockfiles absent.
@@ -148,11 +148,17 @@ Red-team found three issues before merge:
 - stale-report issue in `scripts/control/check_required_control_updates.py`;
 - PR-contract section mismatch in `scripts/control/check_pr_contract.py`.
 
+Additional validation hardening found during rerun:
+
+- `scripts/control/check_forbidden_scope.py` scanned the whole repository on a clean GitHub checkout and could fail because of historical files unrelated to the PR diff;
+- after scoping it to changed files, the checker self-matched its own forbidden-term literals, so a narrow self-reference literal carveout was added for the control script itself.
+
 Exact files patched:
 
 ```text
 scripts/control/check_changed_files.py
 scripts/control/check_required_control_updates.py
+scripts/control/check_forbidden_scope.py
 scripts/control/check_pr_contract.py
 docs/project-control/phase_4g_automated_control_gates_report.md
 ```
@@ -166,7 +172,9 @@ Patch results:
 - `check_required_control_updates.py` detects the current phase report from the changed-file list and requires exactly one current phase report when the matrix requires a report.
 - `check_required_control_updates.py` enforces lane compatibility, blocked-without-approval rules, required report sections, and exact reviewed/no-update-required declarations.
 - `check_required_control_updates.py` now requires exact reviewed/no-update-required markers inside the current phase report itself; old phase reports and PR-body-only markers do not satisfy missing control-file updates.
-- `check_required_control_updates.py` and `check_pr_contract.py` now derive changed files from the PR/base diff when `GITHUB_BASE_REF` is available, rather than relying only on a dirty working tree.
+- `check_required_control_updates.py`, `check_forbidden_scope.py`, and `check_pr_contract.py` now derive changed files from the PR/base diff when `GITHUB_BASE_REF` is available, rather than relying only on a dirty working tree.
+- `check_forbidden_scope.py` now scans changed text files for forbidden implementation-looking terms while keeping explicit lockfile contamination checks for root, mobile, and web package lockfiles.
+- `check_forbidden_scope.py` avoids false positives from its own forbidden-term list literals without applying that carveout to application or documentation files.
 - `check_pr_contract.py` enforces the full PR template contract section list and requires claim-level wording for app, control, workflow, script, build, dependency, backend, and database changes.
 
 ## Documentation Impact
