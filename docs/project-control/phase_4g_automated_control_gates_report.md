@@ -64,6 +64,8 @@ CODEOWNERS assigns project-control, GitHub config, control scripts, app paths, p
 
 ## 8. Commands Run
 
+Initial commands:
+
 ```bash
 python3 --version
 python3 scripts/control/check_changed_files.py
@@ -72,7 +74,19 @@ python3 scripts/control/check_required_control_updates.py
 python3 scripts/control/check_pr_contract.py
 ```
 
-Outputs:
+Targeted patch validation commands:
+
+```bash
+python3 --version
+python3 scripts/control/check_changed_files.py
+python3 scripts/control/check_forbidden_scope.py
+python3 scripts/control/check_required_control_updates.py
+python3 scripts/control/check_pr_contract.py
+python3 scripts/control/check_forbidden_scope.py --lockfiles-only
+python3 scripts/control/check_pr_contract.py --claims-only
+```
+
+Final meaningful outputs:
 
 ```text
 Python 3.13.5
@@ -80,7 +94,11 @@ check_changed_files.py: PASS
 check_forbidden_scope.py: PASS
 check_required_control_updates.py: PASS
 check_pr_contract.py: PASS
+check_forbidden_scope.py --lockfiles-only: PASS
+check_pr_contract.py --claims-only: PASS
 ```
+
+Local validation environment note: the container printed a non-project spreadsheet warmup warning before script output. The Phase 4G scripts still exited with code 0 and reported PASS.
 
 ## 9. Workflow Validation
 
@@ -114,7 +132,7 @@ After Phase 4G is merged and the workflow has run at least once, repository owne
 
 ## 14. Phase Result
 
-Phase 4G is ready for red-team review as a Control / Infrastructure PR.
+Phase 4G is ready for red-team review as a Control / Infrastructure PR after the targeted red-team patch.
 
 Claim level: source verified and local static-command verified only.
 
@@ -122,21 +140,47 @@ Claim level: source verified and local static-command verified only.
 
 Phase 4H was not started. PR must be reviewed before merge. No next phase may begin until PR is merged and `main` is verified.
 
+## Patch Note — Red-Team Targeted Corrections
+
+Red-team found three issues before merge:
+
+- weakened lane-signal issue in `scripts/control/check_changed_files.py`;
+- stale-report issue in `scripts/control/check_required_control_updates.py`;
+- PR-contract section mismatch in `scripts/control/check_pr_contract.py`.
+
+Exact files patched:
+
+```text
+scripts/control/check_changed_files.py
+scripts/control/check_required_control_updates.py
+scripts/control/check_pr_contract.py
+docs/project-control/phase_4g_automated_control_gates_report.md
+```
+
+Patch results:
+
+- `check_changed_files.py` no longer treats standard checklist text such as explicit exclusions or forbidden-scope confirmation as approval for dangerous paths.
+- `check_changed_files.py` now requires exact lane plus explicit owner approval or the approved-lane phrase for dependency, build/distribution, and backend dangerous paths.
+- `check_required_control_updates.py` now validates only the current PR body and the changed current phase report.
+- `check_required_control_updates.py` now requires exactly one changed current phase report when the matrix requires a report.
+- `check_required_control_updates.py` now enforces lane compatibility, blocked-without-approval rules, required report sections, and exact reviewed/no-update-required declarations.
+- `check_pr_contract.py` now enforces the full PR template contract and requires claim-level wording for app, control, workflow, script, build, dependency, backend, and database changes.
+
 ## Documentation Impact
 
-- `docs/project-control/DEVELOPMENT_LEDGER.md`: reviewed, no update required
-- `docs/project-control/RISK_REGISTER.md`: reviewed, no update required
-- `docs/project-control/DECISION_LOG.md`: reviewed, no update required
-- `docs/project-control/ARTIFACT_INDEX.md`: reviewed, no update required
+docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
+docs/project-control/DECISION_LOG.md: reviewed, no update required
+docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required
 
 ## Risk Register Impact
 
-`docs/project-control/RISK_REGISTER.md`: reviewed, no update required for Phase 4G PR open. The new automation reduces memory-dependence risk but does not resolve branch-protection or dependency risks until later owner/admin actions.
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
 
 ## Decision Log Impact
 
-`docs/project-control/DECISION_LOG.md`: reviewed, no update required for Phase 4G PR open. The workflow and protocols are documented by new control files and this report.
+docs/project-control/DECISION_LOG.md: reviewed, no update required
 
 ## Artifact Index Impact
 
-`docs/project-control/ARTIFACT_INDEX.md`: reviewed, no update required. No ZIP, binary, build, or Google Drive artifact was created.
+docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required
