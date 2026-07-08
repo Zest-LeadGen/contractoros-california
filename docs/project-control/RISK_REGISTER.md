@@ -15,6 +15,28 @@ Last reviewed:
 
 ## Active Risks
 
+### control gate lane mismatch for companion phase reports
+
+```text
+Risk: control gate lane mismatch for companion phase reports
+Status: Active / Hotfix in review
+Evidence: Product / QA changes require a current phase report, but docs/project-control/** was treated as Control / Infrastructure, causing valid Product / QA + phase report PRs to risk lane mismatch.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Phase 4I-A hotfix is reviewed, control-gate workflow passes, PR is approved, and main is verified after merge.
+Last reviewed: 2026-07-08
+```
+
+### owner manual supervision burden
+
+```text
+Risk: owner manual supervision burden
+Status: Active / Controlled by route documentation
+Evidence: Project routing has required repeated owner copy/paste and manual supervision to move between developer work, red-team review, and protected merge.
+Owner: ContractorOS owner / development lead / red-team gate
+Resolution condition: GitHub Issue → Developer PR → Control Gates → Red-Team Decision → Human Approval → Merge route is adopted and verified without weakening branch protection.
+Last reviewed: 2026-07-08
+```
+
 ### dependencies use latest
 
 ```text
@@ -96,11 +118,11 @@ Last reviewed: 2026-07-07
 
 ```text
 Risk: CI automation not yet implemented
-Status: Active
-Evidence: Current checks are manual report/red-team gates.
+Status: Mitigated / monitor branch-protection behavior
+Evidence: Phase 4G introduced control-gates workflow; Phase 4H verified workflow run on a protected PR; branch-protection behavior still depends on repository settings.
 Owner: ContractorOS development lead / red-team gate
-Resolution condition: Approved CI validates boundaries, dependency policy, and smoke checks.
-Last reviewed: 2026-07-07
+Resolution condition: Required checks and review protections remain enforced on main and are observed across multiple PRs.
+Last reviewed: 2026-07-08
 ```
 
 ### no full content system
