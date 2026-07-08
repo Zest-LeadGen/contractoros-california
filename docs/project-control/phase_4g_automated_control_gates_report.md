@@ -64,17 +64,7 @@ CODEOWNERS assigns project-control, GitHub config, control scripts, app paths, p
 
 ## 8. Commands Run
 
-Initial commands:
-
-```bash
-python3 --version
-python3 scripts/control/check_changed_files.py
-python3 scripts/control/check_forbidden_scope.py
-python3 scripts/control/check_required_control_updates.py
-python3 scripts/control/check_pr_contract.py
-```
-
-Targeted red-team patch validation commands rerun:
+Validation commands rerun after the PR-context fail-closed patch:
 
 ```bash
 python3 --version
@@ -90,21 +80,23 @@ Final meaningful outputs:
 
 ```text
 Python 3.13.5
-check_changed_files.py: PASS — changed-file allowlist / lane check completed.
-check_forbidden_scope.py: PASS — no forbidden implementation-looking hits found in changed files; package-lock.json, apps/mobile/package-lock.json, and apps/web/package-lock.json absent.
-check_required_control_updates.py: PASS — required control update check completed against current PR/report only.
-check_pr_contract.py: PASS — PR/report contract check completed.
-check_forbidden_scope.py --lockfiles-only: PASS — lockfile contamination check completed; all checked lockfiles absent.
-check_pr_contract.py --claims-only: PASS — claim-language check completed.
+check_changed_files.py: PASS
+check_forbidden_scope.py: PASS
+check_required_control_updates.py: PASS
+check_pr_contract.py: PASS
+check_forbidden_scope.py --lockfiles-only: PASS
+check_pr_contract.py --claims-only: PASS
 ```
 
-Validation context: local rerun used the live PR body and `GITHUB_BASE_REF=main` to mirror pull-request event context for changed-file detection.
+Validation context: local rerun used a PR-style event payload and `GITHUB_BASE_REF=main` to mirror pull-request event context for changed-file detection.
 
 ## 9. Workflow Validation
 
 Workflow validation was source-inspected and locally supported by executing the same static Python scripts that the workflow invokes.
 
-The workflow itself was not executed in GitHub before the PR was opened. Full workflow enforcement is not proven until the workflow exists on GitHub and runs on a pull request or push.
+GitHub Actions did run on a previous patched head and failed at the forbidden-scope step. That failure exposed the full-repo fallback issue now addressed by the latest patch. GitHub Actions evidence for the latest head is checked separately after commit.
+
+Full workflow enforcement is proven only when the workflow runs successfully in GitHub.
 
 ## 10. Security Hardening
 
@@ -124,7 +116,7 @@ The scripts are lightweight static checks and do not replace red-team review.
 
 The matrix parser intentionally supports a conservative YAML subset without PyYAML.
 
-The workflow syntax was source-inspected, not executed in GitHub before PR open.
+The latest workflow run status must be checked from GitHub Actions after the final patch commit.
 
 ## 13. Required Owner Action
 
@@ -142,40 +134,38 @@ Phase 4H was not started. PR must be reviewed before merge. No next phase may be
 
 ## Patch Note — Red-Team Targeted Corrections
 
-Red-team found three issues before merge:
+Red-team found three remaining fail-closed issues before merge:
 
-- weakened lane-signal issue in `scripts/control/check_changed_files.py`;
-- stale-report issue in `scripts/control/check_required_control_updates.py`;
-- PR-contract section mismatch in `scripts/control/check_pr_contract.py`.
-
-Additional validation hardening found during rerun:
-
-- `scripts/control/check_forbidden_scope.py` scanned the whole repository on a clean GitHub checkout and could fail because of historical files unrelated to the PR diff;
-- after scoping it to changed files, the checker self-matched its own forbidden-term literals, so a narrow self-reference literal carveout was added for the control script itself.
+- `check_forbidden_scope.py` had a full-repo fallback when changed-file detection returned nothing;
+- `check_required_control_updates.py` could pass with an empty changed-file list because no matrix rules were matched;
+- `check_pr_contract.py` could fall back to `.github/pull_request_template.md` when PR body/current report text was unavailable.
 
 Exact files patched:
 
 ```text
-scripts/control/check_changed_files.py
-scripts/control/check_required_control_updates.py
 scripts/control/check_forbidden_scope.py
+scripts/control/check_required_control_updates.py
 scripts/control/check_pr_contract.py
 docs/project-control/phase_4g_automated_control_gates_report.md
 ```
 
 Patch results:
 
-- `check_changed_files.py` no longer treats standard checklist text such as explicit exclusions or forbidden-scope confirmation as approval for dangerous paths.
-- `check_changed_files.py` requires exact lane plus explicit owner approval or the approved-lane phrase for dependency, build/distribution, and backend dangerous paths.
-- `check_changed_files.py` fails closed for package lockfiles, `eas.json`, Android, iOS, backend, and database dangerous paths unless precise lane approval is present.
-- `check_required_control_updates.py` validates only the current PR body and the changed current phase report.
-- `check_required_control_updates.py` detects the current phase report from the changed-file list and requires exactly one current phase report when the matrix requires a report.
-- `check_required_control_updates.py` enforces lane compatibility, blocked-without-approval rules, required report sections, and exact reviewed/no-update-required declarations.
-- `check_required_control_updates.py` now requires exact reviewed/no-update-required markers inside the current phase report itself; old phase reports and PR-body-only markers do not satisfy missing control-file updates.
-- `check_required_control_updates.py`, `check_forbidden_scope.py`, and `check_pr_contract.py` now derive changed files from the PR/base diff when `GITHUB_BASE_REF` is available, rather than relying only on a dirty working tree.
-- `check_forbidden_scope.py` now scans changed text files for forbidden implementation-looking terms while keeping explicit lockfile contamination checks for root, mobile, and web package lockfiles.
-- `check_forbidden_scope.py` avoids false positives from its own forbidden-term list literals without applying that carveout to application or documentation files.
-- `check_pr_contract.py` enforces the full PR template contract section list and requires claim-level wording for app, control, workflow, script, build, dependency, backend, and database changes.
+- `check_forbidden_scope.py` now fails closed in PR context when no changed files are resolved.
+- `check_forbidden_scope.py` no longer falls back to full-repo scanning in PR mode.
+- `check_forbidden_scope.py` supports push-to-main range scanning.
+- `check_forbidden_scope.py` supports full-repo scanning only through explicit `--all-files` manual mode.
+- `check_forbidden_scope.py` prints the exact changed files scanned.
+- `check_forbidden_scope.py --lockfiles-only` remains deterministic.
+- `check_required_control_updates.py` now detects PR context and fails closed with `FAIL: PR context detected but no changed files were resolved.` when changed-file detection fails.
+- `check_required_control_updates.py` validates only the current PR body and the current changed phase report, not historical reports.
+- `check_required_control_updates.py` enforces exactly one current phase report when the matrix requires a report.
+- `check_required_control_updates.py` enforces required control updates, blocked-without-approval rules, and lane compatibility.
+- `check_pr_contract.py` now requires actual PR body from `GITHUB_EVENT_PATH` in PR context.
+- `check_pr_contract.py` does not fall back to the PR template in PR context.
+- `check_pr_contract.py` does not use historical phase reports.
+- `check_pr_contract.py` enforces non-empty content under every required section.
+- `check_pr_contract.py` requires Forbidden Scope Confirmation to include checked boxes or explicit confirmation.
 
 ## Documentation Impact
 
