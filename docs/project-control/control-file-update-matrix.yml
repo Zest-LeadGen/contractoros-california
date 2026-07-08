@@ -1,5 +1,11 @@
 # ContractorOS control-file update matrix.
 # Simple YAML subset for standard-library parsing.
+#
+# Companion phase report rule:
+# - Product / QA PRs may include exactly one docs/project-control/phase_*_report.md current phase report.
+# - That companion report documents the non-control lane and does not convert the PR lane to Control / Infrastructure.
+# - Report-only docs/project-control PRs remain Control / Infrastructure.
+# - Non-report docs/project-control changes remain Control / Infrastructure.
 rules:
   - pattern: "apps/mobile/**"
     lane: "Product / QA"
