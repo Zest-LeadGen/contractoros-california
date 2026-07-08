@@ -143,7 +143,7 @@ Risk: no production/public MVP claim allowed
 Status: Active
 Evidence: Current work is internal-only and fixture-only.
 Owner: ContractorOS development lead / red-team gate
-Resolution condition: Production/public MVP readiness is explicitly approved after required gates.
+Resolution condition: Production/public MVP readiness claim remains blocked until explicit owner approval after required gates.
 Last reviewed: 2026-07-07
 ```
 
