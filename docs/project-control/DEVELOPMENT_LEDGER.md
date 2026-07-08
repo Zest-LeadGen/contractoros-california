@@ -4,6 +4,25 @@ Purpose: chronological project development log for ContractorOS California.
 
 Historical details remain in existing phase reports and GitHub PR history.
 
+## Active Ledger Entries
+
+### Phase 4I-A — Control Gate Companion Report Hotfix + Automation Route Documentation
+
+```text
+Phase: Phase 4I-A — Control Gate Companion Report Hotfix + Automation Route Documentation
+Lane: Control / Infrastructure
+Date: 2026-07-08
+Branch: phase-4i-a-control-gate-companion-report-hotfix
+PR: Pending
+Base SHA: d388d7c5f9e7b3bdb0b0a570b3ed69b1fb277170
+Head SHA: Pending
+Merge SHA: Pending
+Changed files: control gate script, control matrix/docs, ledger/risk/decision/artifact controls, phase report
+Commands run: Existing control-gate scripts via GitHub Actions after PR open
+Claim level: Source verified until protected PR control-gate run finishes
+Next phase: Phase 4I product work remains stopped until this control hotfix is reviewed and merged
+```
+
 ## Entry Template
 
 ```text
@@ -18,36 +37,4 @@ Merge SHA:
 Changed files:
 Commands run:
 Claim level:
-Review decision:
-Merge status:
-Main verification:
-Next allowed step:
-Known issues:
 ```
-
-## Permanent Control References
-
-- PROJECT_VISION_AND_PHASE_TRACKER.md
-- PROJECT_IMPLEMENTATION_ROADMAP.md
-- DEVELOPMENT_CONTROL_MODEL_V3.md
-- PROJECT_FOUNDATION.md
-- PHASE_ONE_SCOPE.md
-- PHASE_ONE_ACCEPTANCE_CRITERIA.md
-- PHASE_ONE_TEST_PLAN.md
-- PROJECT_SCOPE_BOUNDARIES.md
-- KNOWN_GAPS_AND_NON_GOALS.md
-- CLAIM_LEVELS_AND_RELEASE_GATES.md
-- ROLE_BOUNDARIES.md
-- docs/project-control/red-team/README.md
-- docs/project-control/red-team/RED_TEAM_ANCHOR.md
-- docs/project-control/red-team/PR_REVIEW_CHECKLIST.md
-- docs/project-control/red-team/MAIN_VERIFICATION_CHECKLIST.md
-- docs/project-control/red-team/CLAIM_DOWNGRADE_MATRIX.md
-- docs/project-control/red-team/FORBIDDEN_SCOPE_SCAN_PLAYBOOK.md
-- docs/project-control/red-team/RECOVERY_PLAYBOOK.md
-- docs/project-control/red-team/REVIEW_DECISION_LABELS.md
-- docs/project-control/red-team/RED_TEAM_HANDOFF_TEMPLATE.md
-
-## Current Entry
-
-Phase 4E project-control foundation, project vision tracker, implementation roadmap, and red-team structure patch on branch phase-4e-project-development-ledger-scaffold. PR remains open for review. Base SHA f7145021d86bb5bd019433e001051b1e55c6da15. Changed files are project-control files only, including vision, roadmap, foundation/control files, and red-team reviewer/control files. No historical details are reconstructed beyond verified reports and PR history. Do not claim PR #10 merged until GitHub verifies merge status.
