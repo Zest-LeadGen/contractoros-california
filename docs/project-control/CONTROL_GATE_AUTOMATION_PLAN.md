@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Describe the lightweight GitHub Actions control-gate system introduced in Phase 4G.
+Describe the lightweight GitHub Actions control-gate system introduced in Phase 4G and the maintained workflow route for controlled ContractorOS development.
 
 ## Workflow Design
 
@@ -13,6 +13,25 @@ Workflow name: `ContractorOS Control Gates`
 Required status check name: `contractoros-control-gates`
 
 The workflow runs on pull requests and pushes to `main`.
+
+## Maintained Route
+
+The maintained route is:
+
+```text
+GitHub Issue → Developer PR → Control Gates → Red-Team Decision → Human Approval → Merge
+```
+
+The objective is to reduce owner copy/paste and manual supervision while preserving:
+
+- protected PR governance;
+- red-team accountability;
+- evidence-bearing reports;
+- explicit human approval for major decisions;
+- branch protection;
+- no direct-to-main development;
+- no automated approval;
+- no automated merge.
 
 ## Scripts
 
@@ -34,6 +53,18 @@ scripts/control/check_pr_contract.py
 5. Lockfile / dependency contamination check.
 6. Claim-language check.
 
+## Companion Phase Report Handling
+
+A Product / QA PR may include exactly one current phase report at `docs/project-control/phase_*_report.md`.
+
+That report is documentation for the Product / QA PR and does not change the declared PR lane to Control / Infrastructure.
+
+The report must still satisfy current required sections and exact no-update-required markers.
+
+Report-only project-control PRs remain Control / Infrastructure.
+
+Non-report project-control changes remain Control / Infrastructure.
+
 ## Security Hardening
 
 The workflow uses read-only permissions:
@@ -45,21 +76,23 @@ pull-requests: read
 
 It does not use `pull_request_target`, secrets, deployment, npm install, Expo, EAS, build commands, Google Drive, or third-party actions except `actions/checkout`.
 
-`actions/checkout@v4` is the only action dependency. Pinning to a full SHA is preferred later; Phase 4G uses a stable version and documents this limitation.
+`actions/checkout@v4` is the only action dependency. Pinning to a full SHA is preferred later; current control text documents this limitation.
 
-## Branch Protection Setup After Workflow Lands
+## Branch Protection Setup
 
-After Phase 4G is merged and the workflow has run at least once, repository owner must configure GitHub branch protection or rulesets so the contractoros-control-gates check is required before merge.
+Repository owner/admin must configure GitHub branch protection or rulesets so the contractoros-control-gates check is required before merge.
+
+Approval and CODEOWNERS requirements must remain GitHub-enforced, not script-invented.
 
 ## Known Limitations
 
-Branch protection required-check enforcement cannot be completed solely by adding files to the repository. Owner/admin UI configuration is required after the workflow exists and has run.
+Branch protection required-check enforcement cannot be finished solely by adding files to the repository. Owner/admin UI configuration is required after the workflow exists and has run.
 
 The static checks are lightweight and do not replace human red-team review.
 
 The YAML matrix parser intentionally supports a small subset to avoid external dependencies.
 
-The workflow syntax is source-inspected in Phase 4G. Full enforcement is proven only after the workflow runs in GitHub.
+The workflow cannot prove production, public, build, install, legal/currentness, or content readiness by itself.
 
 ## Future Hardening
 
