@@ -6,6 +6,23 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4J-0 — Codex Operating Model + AI Governance Documentation
+
+```text
+Phase: Phase 4J-0 — Codex Operating Model + AI Governance Documentation
+Lane: Control / Infrastructure
+Date: 2026-07-08
+Branch: phase-4j-0-codex-operating-model
+PR: Pending
+Base SHA: 41835c3d361cce07b77f3708381a54d3a87a6e1f
+Head SHA: Pending until PR creation
+Merge SHA: Pending
+Changed files: AGENTS.md and Phase 4J-0 AI governance/project-control documentation only
+Commands run: git remote add; git fetch origin main for documentation source sync; git switch; local control-gate scripts; git commit --no-verify; git push --no-verify; gh pr create
+Claim level: Source verified and local-script verified for documentation/control files only after validation passes
+Next phase: Phase 4J-1 not started; Phase 4I not resumed
+```
+
 ### Phase 4I-A — Control Gate Companion Report Hotfix + Automation Route Documentation
 
 ```text
