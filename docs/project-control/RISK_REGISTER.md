@@ -15,6 +15,28 @@ Last reviewed:
 
 ## Active Risks
 
+### product re-entry scope expansion
+
+```text
+Risk: product re-entry scope expansion
+Status: Active / controlled by Phase 4K-0 recommendation boundaries
+Evidence: Issue #27 requires Phase 4K-0 to recommend exactly one next implementation phase while prohibiting product changes inside Phase 4K-0.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Phase 4K-1 starts only from a later GitHub phase issue with explicit allowed files, forbidden scope, validation tasks, red-team requirement, human approval requirement, auto-merge status, and stop conditions.
+Last reviewed: 2026-07-09
+```
+
+### non-durable product direction after governance hardening
+
+```text
+Risk: non-durable product direction after governance hardening
+Status: Active / controlled by Issue #24 no-memory-only directive and Phase 4K-0 project-control records
+Evidence: Issue #24 No Memory-Only Owner Decisions addendum requires owner approvals, decisions, agreed scope, authorizations, rejections, conditions, closeouts, protocol updates, and future operating rules to be recorded in relevant GitHub/project-control evidence before they are durable.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future product direction is recorded in GitHub issues, PR bodies/comments/reviews, committed project-control files, phase reports, decision/source/risk/validation records, or artifact index entries when applicable.
+Last reviewed: 2026-07-09
+```
+
 ### red-team lifecycle state drift
 
 ```text

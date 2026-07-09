@@ -92,14 +92,14 @@ Future publishing should use versioned content, auditable approvals, and rollbac
 
 Future backend/security architecture may include:
 
-- Firebase Auth
+- future Firebase Auth
 - Firestore
 - Cloud Storage
 - Cloud Functions
 - Remote Config
 - App Check
 - Crashlytics
-- Analytics
+- future Analytics
 - Test Lab
 - signed content manifests
 - role-based access control
@@ -124,7 +124,7 @@ Future gates may include:
 - Firestore/security-rules tests if backend approved
 - visual QA
 - device/emulator QA
-- Firebase Test Lab if approved
+- future Firebase Test Lab if approved
 - build artifact gate
 - install test gate
 
@@ -147,11 +147,30 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 
 Future modules, backend, Firebase, auth, scoring, readiness, public content, APK, EAS, deployment, and production claims remain blocked until explicit approval and evidence gates.
 
-## 18. Current Phase Constraint
+## 18. Current Re-Entry Gate
+
+Phase 4K-0 is a control/planning re-entry gate after Phase 4J-5 governance hardening.
+
+Phase 4K-0 does not implement product changes. It inventories committed repository evidence and recommends exactly one next implementation phase.
+
+Recommended next implementation phase:
+
+- Phase: Phase 4K-1 - Internal Scaffold Product / QA Hardening
+- Lane: Product / QA
+- Objective: make a narrow internal scaffold improvement and verification pass across the existing web/mobile fixture-only app surfaces without adding public content, backend/Firebase/auth/cloud scope, build/distribution scope, dependency scope, scoring, readiness, saved progress, analytics, payments, CRM, marketplace, or release claims.
+- Required intake: a later GitHub phase issue must define allowed files, forbidden scope, validation tasks, red-team requirement, human approval requirement, and stop conditions before any Phase 4K-1 implementation begins.
+
+Phase 4K-1 is not started by Phase 4K-0.
+
+Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
+
+## 19. Current Phase Constraint
 
 Current Phase 4E work is documentation/control only. It does not change app source, dependencies, packages, build, runtime, backend, or public content.
 
-## 19. Final Rule
+Phase 4K-0 work is documentation/control planning only. It does not change app source, dependencies, packages, build, runtime, backend, Firebase, auth, cloud, payment, CRM, marketplace, or public content.
+
+## 20. Final Rule
 
 Implementation intent is not implementation proof.
 
