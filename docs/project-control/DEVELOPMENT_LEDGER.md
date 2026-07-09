@@ -14,12 +14,12 @@ Lane: Control / Infrastructure
 Date: 2026-07-09
 Branch: phase-4j-3-mandatory-red-team-marker-enforcement
 Phase issue: #20
-PR: Pending until opened
+PR: #21
 Base SHA: cfe01c7e381b3d2c0f26f0dba187d0a030368219
-Head SHA: Pending until Phase 4J-3 commit
+Head SHA: e431a2fbd2728b7d68fb8525dcc5c910364d5972 before correction commit
 Merge SHA: Pending
 Changed files: control-gates workflow, PR template, AGENTS.md, project-control governance docs, Phase 4J-3 report
-Commands run: Local validation command set before commit; GitHub publish commands pending blocked GitHub CLI token refresh
+Commands run: Local validation command set, commit, push, PR creation, PR metadata review after approved network scope
 Claim level: Source verified and local-script verified for Phase 4J-3 control files only after validation passes
 Next phase: Phase 4J-4 not started; Phase 4I not resumed
 ```

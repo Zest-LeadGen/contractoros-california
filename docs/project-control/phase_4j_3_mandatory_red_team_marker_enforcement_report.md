@@ -76,10 +76,10 @@ git add .github scripts/control docs/project-control AGENTS.md
 git commit -m "Activate mandatory red-team marker enforcement"
 git push -u origin phase-4j-3-mandatory-red-team-marker-enforcement
 gh pr create --base main --head phase-4j-3-mandatory-red-team-marker-enforcement --title "Phase 4J-3 mandatory red-team marker enforcement" --body-file docs/project-control/phase_4j_3_mandatory_red_team_marker_enforcement_report.md
-gh pr view <PR_NUMBER> --json url,state,headRefOid,mergeStateStatus,reviewDecision,statusCheckRollup
+gh pr view 21 --json url,state,headRefOid,mergeStateStatus,reviewDecision,statusCheckRollup
 ```
 
-`gh auth status` was blocked by an invalid stored GitHub CLI token before local edits. Push, PR creation, and PR view remain pending until valid GitHub CLI credentials are available.
+`gh auth status` was blocked by an invalid stored GitHub CLI token before local edits. Git push and `gh pr create` later succeeded. The first `gh pr view` attempt failed with an API connection error, then passed after approved network access.
 
 ## Dependency / Lockfile Handling
 
@@ -209,19 +209,21 @@ GitHub Actions workflow validation remains pending until the branch is pushed an
 Local validation commands for this phase:
 
 ```text
-python3 scripts/control/check_red_team_marker.py --self-test
-python3 scripts/control/check_changed_files.py
-python3 scripts/control/check_forbidden_scope.py
-python3 scripts/control/check_required_control_updates.py
-python3 scripts/control/check_pr_contract.py
-python3 scripts/control/check_forbidden_scope.py --lockfiles-only
-python3 scripts/control/check_pr_contract.py --claims-only
-git diff --check
+PASS: python3 scripts/control/check_red_team_marker.py --self-test
+PASS: python3 scripts/control/check_changed_files.py
+PASS: python3 scripts/control/check_forbidden_scope.py
+PASS: python3 scripts/control/check_required_control_updates.py
+PASS: python3 scripts/control/check_pr_contract.py
+PASS: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
+PASS: python3 scripts/control/check_pr_contract.py --claims-only
+PASS: git diff --check
 ```
 
 Reviewed control records with no update required:
 
 ```text
+docs/project-control/DECISION_LOG.md: reviewed, no update required
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
 scripts/control/check_red_team_marker.py: reviewed, no update required
 ```
 
@@ -281,9 +283,9 @@ This phase does not prove production readiness, public readiness, runtime behavi
 
 The validator checks marker structure, decision, PR number when available, review date format, exact SHA-bound statement, and current PR head SHA match. It does not verify reviewer identity through the GitHub API.
 
-Workflow status is available only after the branch is pushed and the PR is opened.
+Initial workflow status after PR creation: queued on PR #21 before the publish-evidence correction commit.
 
-GitHub CLI publish steps require valid credentials.
+The first PR body was created from the pre-publish report and must be updated to this corrected report.
 
 ## Next Phase Status
 
