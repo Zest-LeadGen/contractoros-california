@@ -14,12 +14,12 @@ Lane: Control / Infrastructure
 Date: 2026-07-09
 Branch: phase-4j-4-owner-trigger-lane-eligibility
 Phase issue: #22
-PR: Pending until opened
+PR: #23
 Base SHA: 21d5ecea173e13cfbb58fe6a69cce5cd5a07c413
-Head SHA: Pending until Phase 4J-4 commit
+Head SHA: Active PR head; final reviewed head SHA must be taken from PR #23 metadata and RED_TEAM_DECISION marker before merge.
 Merge SHA: Pending
 Changed files: owner-trigger marker validator, forbidden-scope scanner enum allowance, control-gates workflow, PR template, AGENTS.md, project-control governance docs, Phase 4J-4 report
-Commands run: Local validation command set before commit
+Commands run: Local validation command set before commit; push; PR creation; PR metadata check; GitHub Actions failed as expected at missing red-team marker
 Claim level: Source verified and local-script verified for Phase 4J-4 control files only after validation passes
 Next phase: Phase 4J-5 not started; Phase 4I not resumed
 ```

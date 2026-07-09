@@ -20,6 +20,10 @@ Control / Infrastructure
 
 https://github.com/Zest-LeadGen/contractoros-california/issues/22
 
+## Pull Request
+
+PR #23: https://github.com/Zest-LeadGen/contractoros-california/pull/23
+
 ## Starting Main SHA
 
 21d5ecea173e13cfbb58fe6a69cce5cd5a07c413
@@ -154,6 +158,8 @@ The Phase 4J-4 pull request is expected to fail the mandatory red-team marker ch
 
 Codex must not add the red-team marker.
 
+PR #23 Actions evidence confirmed the expected failure mode: the control-gates workflow failed at `Mandatory SHA-bound red-team marker check` with `FAIL: red-team marker is missing.`
+
 ## PR Template Impact
 
 `.github/pull_request_template.md` now includes an Owner Trigger / Lane Eligibility Evidence section.
@@ -182,6 +188,8 @@ CODEOWNERS is not changed.
 
 The control is the required `OWNER_TRIGGER_REVIEW` marker and pull request validator.
 
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
+
 ## Design Decision Impact
 
 `CONTRACTOROS_DESIGN_DECISIONS.md` adds `CDR-4J-023 — Owner-trigger and lane-eligibility evidence required before future automation`.
@@ -189,6 +197,8 @@ The control is the required `OWNER_TRIGGER_REVIEW` marker and pull request valid
 ## Decision Log Impact
 
 `DECISION_LOG.md` records that future PRs must include owner-trigger evidence, owner-triggered PRs are not future-low-risk candidates, and human approval plus auto-merge restrictions remain unchanged.
+
+docs/project-control/DECISION_LOG.md: reviewed, no update required
 
 ## Requirements Traceability Impact
 
@@ -211,6 +221,7 @@ Local validation evidence after corrective report/scanner updates:
 - `python3 scripts/control/check_pr_contract.py --claims-only` — passed.
 - `git diff --check` — passed.
 - `python3 scripts/control/check_pr_contract.py` — passed.
+- GitHub Actions for PR #23 — failed at `Mandatory SHA-bound red-team marker check` with `FAIL: red-team marker is missing.`
 
 ## Workflow Validation
 
@@ -235,6 +246,8 @@ Auto-merge remains ineligible.
 Pending external red-team review.
 
 Codex did not self-review and did not add a `RED_TEAM_DECISION` marker.
+
+PR #23 currently requires external red-team evidence for the exact current PR head SHA before the control gate can pass.
 
 ## Human Approval Status
 
@@ -281,7 +294,7 @@ No product, release, build, distribution, backend, database, dependency, mobile,
 
 ## Known Limitations
 
-GitHub Actions evidence is pending until the PR is opened.
+GitHub Actions evidence exists for PR #23 and confirms the expected missing-red-team-marker failure mode.
 
 The Phase 4J-4 PR is expected to remain blocked by the mandatory red-team marker check until red-team adds a SHA-bound `RED_TEAM_DECISION` marker.
 
