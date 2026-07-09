@@ -61,6 +61,11 @@ Purpose: record durable architectural and process decisions.
 - Exactly one next implementation phase is recommended after Phase 4K-0: Phase 4K-1 - Internal Scaffold Product / QA Hardening.
 - Phase 4K-1 must be created as a later GitHub phase issue before implementation and must not begin inside Phase 4K-0.
 - Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
+- Phase 4K-3 creates `docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` as the canonical product/development current-state register.
+- Roadmap, tracker, ledger, decision, risk, validation, traceability, source, artifact, and phase-report records are subordinate to `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` for current product/development state after Phase 4K-3.
+- Issue #34 dependency/lockfile baseline decision work is closed not planned and must not be treated as active or implemented.
+- Dependency/lockfile decision work is deferred until a later durable GitHub issue records scope, allowlist, forbidden scope, validation tasks, red-team requirement, and human approval requirement.
+- The Issue #35 requested semantic owner-trigger category `PRODUCT_SOURCE_OF_TRUTH` is not supported by the current machine-checkable owner-trigger validator category list; Phase 4K-3 uses supported category `ARCHITECTURE_THRESHOLD` for machine validation and records the unsupported semantic category as missing control-script support.
 
 ## Review Condition
 

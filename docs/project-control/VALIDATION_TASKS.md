@@ -30,6 +30,27 @@ Purpose: record validation tasks for ContractorOS California governance and phas
 
 Validation task status must be updated by repo evidence, not memory.
 
+## Phase 4K-3 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4K3-001 | Verify starting main after Phase 4K-2. | Documentation source sync command `git fetch origin main` and `git rev-parse origin/main` | Returns `4bb9fedb5648ea1b7185667948256276ad04d3b9`; stop if main has moved unexpectedly. | Passed before branch work. |
+| VAL-4K3-002 | Verify Issue #32 is closed/completed. | Direct GitHub API read of Issue #32 | Issue #32 state is `closed` with state reason `completed`. | Passed with direct GitHub issue evidence. |
+| VAL-4K3-003 | Verify Issue #34 is closed/not planned. | Direct GitHub API read of Issue #34 | Issue #34 state is `closed` with state reason `not_planned`. | Passed with direct GitHub issue evidence. |
+| VAL-4K3-004 | Verify Issue #35 is open. | Direct GitHub API read of Issue #35 | Issue #35 state is `open`. | Passed with direct GitHub issue evidence. |
+| VAL-4K3-005 | Inventory project-control overlaps. | File review of allowed project-control records | Stale 4K-0/4K-1 current-state text, missing canonical source-of-truth owner, Issue #34 supersession, and owner-trigger category gap are identified. | Passed in local documentation review. |
+| VAL-4K3-006 | Verify changed files match the Issue #35 allowlist. | Changed-file review | Only allowed `docs/project-control/**` files listed by Issue #35 are changed. | Passed in local validation. |
+| VAL-4K3-007 | Run changed-file lane check. | `python3 scripts/control/check_changed_files.py` | Pass; no app, package, lockfile, dependency, build, backend, database, native, mobile, or web source file is changed. | Passed in local validation. |
+| VAL-4K3-008 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass after wording confirms forbidden terms are blocked, deferred, future, or documentation-only. | Passed in local validation. |
+| VAL-4K3-009 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; current report and required control updates are present. | Passed in local validation. |
+| VAL-4K3-010 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and `Phase issue: #35` reference are present. | Passed in local validation. |
+| VAL-4K3-011 | Run owner-trigger marker check. | `python3 scripts/control/check_owner_trigger_review.py` | Pass with current supported category `ARCHITECTURE_THRESHOLD`; unsupported Issue #35 semantic category `PRODUCT_SOURCE_OF_TRUTH` remains documented as a control-script gap. | Passed in local validation. |
+| VAL-4K3-012 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no package or lockfile changes are present. | Passed in local validation. |
+| VAL-4K3-013 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported product, dependency baseline, runtime QA, release, production, backend, Firebase, auth, cloud, build, distribution, app-store, public-launch, readiness, scoring, pass/fail, CRM, marketplace, or payment implementation claim is made. | Passed in local validation. |
+| VAL-4K3-014 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4K3-015 | Verify no app/package/lockfile/runtime/build/artifact scope was added. | Changed-file review, package/lockfile scan, and phase report commands section | No app source, package, lockfile, dependency install, runtime launch, build, artifact, backend, cloud, auth, scoring, readiness, pass/fail, analytics, saved-progress, public-content, payment, CRM, marketplace, Phase 4I, Phase 4K-4, merge, or auto-merge scope is added. | Passed in local validation. |
+| VAL-4K3-016 | Verify expected PR behavior. | GitHub Actions after PR opens | Owner-trigger evidence should pass; mandatory SHA-bound red-team marker check should fail until external red-team adds a valid marker for the exact current PR head SHA. | Pending PR creation. |
+
 ## Phase 4K-0 Tasks
 
 | Task ID | Task | Command or check | Expected result | Status |

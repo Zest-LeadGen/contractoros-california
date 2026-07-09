@@ -4,6 +4,8 @@ Purpose: preserve the original ContractorOS product vision, track phase alignmen
 
 This file is a project-control anchor. It does not prove implementation. Implementation is proven only by GitHub source files, PRs, phase reports, command outputs, runtime evidence, build evidence, and verified main-branch state.
 
+Current product/development source-of-truth is owned by `docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`. This tracker preserves vision and phase history and is subordinate to that canonical register for current product/development state.
+
 ---
 
 ## 1. Original Product Vision
@@ -109,15 +111,19 @@ A phase is complete only when:
 
 No verified main = no next phase.
 
-## 4K-0 Re-Entry Status
+## 4K Current State
 
-Starting main evidence for Phase 4K-0 is `98cf25ff91e9bd3b852669af32bc2951e958494a`, the Phase 4J-5 merged main SHA named by Issue #27.
+Phase 4K current source-of-truth is `docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`.
 
-The repo evidence supports an internal fixture/local scaffold claim only. It does not support production, public-launch, exam-currentness, scoring, readiness, backend, Firebase, auth, cloud, build/distribution, app-store, payment, CRM, marketplace, or full Question Bank claims.
+Phase 4K-0 was a control/planning re-entry gate after Phase 4J-5.
 
-Exactly one next implementation phase is recommended: Phase 4K-1 - Internal Scaffold Product / QA Hardening.
+Phase 4K-1 was implemented through Issue #29 and PR #30.
 
-Phase 4K-1 must be opened as a later GitHub issue before implementation. Phase 4K-0 does not start Phase 4K-1.
+Phase 4K-2 was implemented through Issue #32 and PR #33 as runtime smoke-QA feasibility documentation; runtime launch remained blocked.
+
+Issue #34 dependency/lockfile baseline decision work was closed not planned before implementation and is not active scope.
+
+Phase 4K-3 is the current reconciliation phase and creates the canonical product/development register.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -140,8 +146,11 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4E | Project-control foundation, role boundaries, and red-team structure | PR + docs inspection            | Not complete until merged and main verified |
 | Phase 4F | Next approved milestone                                             | Owner approval required         | Not started and not authorized unless a future durable issue says so |
 | Phase 4J-5 | Red-team operating protocol, state machine, and handoff playbook | PR + project-control docs | Merged at `98cf25ff91e9bd3b852669af32bc2951e958494a` |
-| Phase 4K-0 | Product development re-entry scope gate | Issue #27 + project-control docs | Current control/planning phase; product implementation not started |
-| Phase 4K-1 | Recommended next internal scaffold Product / QA hardening phase | Future issue required | Not started |
+| Phase 4K-0 | Product development re-entry scope gate | Issue #27 + project-control docs | Historical control/planning phase |
+| Phase 4K-1 | Internal scaffold Product / QA hardening phase | Issue #29 + PR #30 | Merged at `07226b7ebed4661a425aab72799d307df1c296ac` |
+| Phase 4K-2 | Internal runtime smoke QA feasibility gate | Issue #32 + PR #33 | Merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`; runtime launch blocked |
+| Issue #34 | Dependency / lockfile baseline decision gate | Issue #34 | Closed not planned before implementation |
+| Phase 4K-3 | Product / development source-of-truth reconciliation gate | Issue #35 + current PR | Active; no dependency/lockfile baseline implementation and no Phase 4K-4 start |
 
 This table must be updated after each completed phase.
 
@@ -291,6 +300,7 @@ Track by gates instead:
 | Install gate                  | Artifact installed and launched                 | Not passed                             |
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
 | Public/production gate        | no release readiness proven or approved         | Not passed                             |
+| Source-of-truth reconciliation gate | Product/development current-state register exists | Active in Phase 4K-3; pending review, approval, merge, and main verification |
 
 Progress is measured by passed gates, not optimism.
 
@@ -378,3 +388,5 @@ Risk register controls unresolved problems.
 Claim levels control wording.
 
 Verified main controls phase advancement.
+
+`PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` controls current product/development source-of-truth.
