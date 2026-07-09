@@ -193,3 +193,13 @@ Rejected alternative: Allow agents or chat participants to silently choose model
 Risk: Wrong model/effort can increase cost, latency, weak reasoning, or overthinking, and can make audits harder.
 Control: docs/project-control/PROMPT_CONVENTION.md defines the required prompt header and model/effort selection policy. Missing model/effort header is a stop condition.
 ```
+
+### CDR-4J-020 — GitHub phase issue required for future PRs
+
+```text
+Status: Proposed / active after Phase 4J-1 merge
+Decision: Future phase PRs must link a GitHub phase issue so phase scope, owner intent, validation requirements, assumptions, and risks are durable before merge review.
+Rejected alternative: Continue initiating phases only through chat prompts.
+Risk: Without linked issues, phase scope may remain trapped in chat memory and become hard to audit.
+Control: PR template and control gate require a linked issue reference before the PR can pass.
+```

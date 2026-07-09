@@ -14,6 +14,9 @@ Purpose: record sources used for ContractorOS California control decisions.
 | SRC-4J0-006 | OpenAI Codex Models docs | Official OpenAI documentation named by owner prompt | Codex model selection, recommended Codex models, deprecated Codex model warning | Owner-provided official-source basis; direct official URL not added in this correction | Used for `PROMPT_CONVENTION.md` model policy. |
 | SRC-4J0-007 | OpenAI Codex Config Reference | Official OpenAI documentation named by owner prompt | `model_reasoning_effort` values and `xhigh` config value | Owner-provided official-source basis; direct official URL not added in this correction | Used for effort-value policy and UI label caveat. |
 | SRC-4J0-008 | OpenAI GPT-5.5 guidance / latest model guide | Official OpenAI documentation named by owner prompt | GPT-5.5 effort guidance and higher-effort caveat | Owner-provided official-source basis; direct official URL not added in this correction | Used for effort-selection policy. |
+| SRC-4J1-001 | Phase 4J-1 owner prompt | Owner/project phase instruction | GitHub issue intake objective, file allowlist, required controls, validation commands, and prohibitions | Current turn prompt | Durable implementation evidence captured in Phase 4J-1 files and report. |
+| SRC-4J1-002 | `main` at `0f04efa564c4f28bd351881c00f72d41f540c319` | Repository source | Starting SHA for Phase 4J-1 | Verified locally before branch creation | GitHub remains source of truth. |
+| SRC-4J1-003 | Existing `.github/pull_request_template.md`, `.github/workflows/control-gates.yml`, and `scripts/control/check_pr_contract.py` | Repository source | Local control-gate integration pattern | Read locally before editing | Used to add linked-issue enforcement without removing existing gates. |
 
 ## Source Rules
 

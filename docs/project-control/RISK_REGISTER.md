@@ -15,6 +15,17 @@ Last reviewed:
 
 ## Active Risks
 
+### future phase work without linked GitHub phase issue
+
+```text
+Risk: future phase work without linked GitHub phase issue
+Status: Active / controlled by Phase 4J-1 after merge
+Evidence: Phase initiation previously could occur through chat-only prompts; Phase 4J-1 adds issue template, PR template requirement, and PR contract enforcement.
+Owner: ContractorOS project owner / development lead / red-team gate
+Resolution condition: Phase 4J-1 is merged and future phase PRs link GitHub phase issues before review.
+Last reviewed: 2026-07-08
+```
+
 ### local commit not yet in GitHub source of truth
 
 ```text

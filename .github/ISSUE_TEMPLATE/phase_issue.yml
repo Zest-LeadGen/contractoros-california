@@ -1,0 +1,106 @@
+name: ContractorOS Phase Issue
+description: Open a durable phase-control issue before implementation starts.
+title: "Phase: "
+labels:
+  - phase-control
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for every ContractorOS phase before opening a phase PR.
+        GitHub issues are source-of-truth intake records; chat memory is not source of truth.
+  - type: input
+    id: phase_name
+    attributes:
+      label: Phase name
+      description: Exact phase name.
+      placeholder: "Phase 4J-1 - GitHub Issue Intake + Linked Phase Issue Requirement"
+    validations:
+      required: true
+  - type: input
+    id: lane
+    attributes:
+      label: Lane
+      description: Phase lane.
+      placeholder: "Control / Infrastructure"
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Owner-approved objective
+      description: What the owner approved for this phase.
+    validations:
+      required: true
+  - type: textarea
+    id: file_allowlist
+    attributes:
+      label: Explicit file allowlist
+      description: List exact files or path patterns that may change.
+      placeholder: |
+        - docs/project-control/**
+        - scripts/control/**
+    validations:
+      required: true
+  - type: textarea
+    id: forbidden_scope
+    attributes:
+      label: Explicit forbidden scope
+      description: List blocked files, domains, and behaviors for this phase.
+      placeholder: |
+        - No app/product/dependency/build/backend/mobile/web files
+        - No auto-merge
+        - No branch-protection bypass
+    validations:
+      required: true
+  - type: textarea
+    id: required_evidence
+    attributes:
+      label: Required evidence
+      description: Evidence the PR must provide before review.
+    validations:
+      required: true
+  - type: textarea
+    id: assumptions
+    attributes:
+      label: Assumptions
+      description: Assumptions to version in the issue and, when needed, project-control files.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks
+      description: Risks to track or update.
+    validations:
+      required: true
+  - type: textarea
+    id: validation_tasks
+    attributes:
+      label: Validation tasks
+      description: Commands and checks required for this phase.
+    validations:
+      required: true
+  - type: checkboxes
+    id: reviews
+    attributes:
+      label: Review and approval requirements
+      options:
+        - label: Red-team review is required before merge.
+          required: true
+        - label: Human/write-access approval is required before merge unless a future approved automation lane rule applies.
+          required: true
+        - label: Auto-merge is prohibited or future-only for this phase.
+          required: true
+  - type: checkboxes
+    id: owner_triggers
+    attributes:
+      label: Owner-interruption triggers
+      description: Check any trigger that exists for this phase.
+      options:
+        - label: Legal trigger exists.
+        - label: Financial trigger exists.
+        - label: Paid-service trigger exists.
+        - label: Release trigger exists.
+        - label: Security/dependency risk trigger exists.
+        - label: No legal/financial/paid-service/release/security trigger exists.

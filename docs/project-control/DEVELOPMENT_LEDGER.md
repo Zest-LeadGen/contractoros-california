@@ -6,6 +6,23 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4J-1 — GitHub Issue Intake + Linked Phase Issue Requirement
+
+```text
+Phase: Phase 4J-1 — GitHub Issue Intake + Linked Phase Issue Requirement
+Lane: Control / Infrastructure
+Date: 2026-07-08
+Branch: phase-4j-1-github-issue-intake
+PR: Pending; blocked until Phase 4J-1 GitHub issue exists for linked issue reference
+Base SHA: 0f04efa564c4f28bd351881c00f72d41f540c319
+Head SHA: Pending until commit
+Merge SHA: Pending
+Changed files: GitHub issue template, PR template, PR contract script, workflow step label, AGENTS.md, project-control governance docs, Phase 4J-1 report
+Commands run: Local validation command set before commit
+Claim level: Source verified and local-script verified after validation passes
+Next phase: Phase 4J-2 not started; Phase 4I not resumed
+```
+
 ### Phase 4J-0 — Codex Operating Model + AI Governance Documentation
 
 ```text

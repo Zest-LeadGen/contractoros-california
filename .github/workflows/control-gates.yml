@@ -27,7 +27,7 @@ jobs:
         run: python3 scripts/control/check_forbidden_scope.py
       - name: Required control-file update check
         run: python3 scripts/control/check_required_control_updates.py
-      - name: PR body / template completeness check
+      - name: PR body / linked issue / template completeness check
         run: python3 scripts/control/check_pr_contract.py
       - name: Lockfile / dependency contamination check
         run: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
