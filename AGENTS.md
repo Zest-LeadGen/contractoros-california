@@ -6,6 +6,16 @@ This file defines how Codex may operate in the ContractorOS California repositor
 
 GitHub code, GitHub PRs, and versioned project-control files are the source of truth. Chat memory, local scratch files, connector state, and unversioned notes are not source of truth.
 
+## Prompt Convention
+
+Every future ContractorOS prompt must include the model/effort header defined in `docs/project-control/PROMPT_CONVENTION.md`.
+
+Agents must stop if the model/effort header is missing.
+
+Agents must not silently choose model/effort for ContractorOS work.
+
+Phase 4J-0 documents this convention only and does not activate auto-merge.
+
 ## Role Boundary
 
 Codex is a developer executor only. Codex may implement approved scoped changes, collect evidence, and prepare PRs. Codex must not self-review, act as red-team, approve its own work, merge, bypass branch protection, or start the next phase.
@@ -20,7 +30,11 @@ Use this route unless a later project-control PR changes it:
 GitHub Issue or approved phase prompt -> Developer branch -> Pull request -> Control gates -> Red-team decision -> Human/write-access approval -> Merge
 ```
 
-No auto-merge is permitted. No branch-protection bypass is permitted.
+No current auto-merge is permitted. No branch-protection bypass is permitted.
+
+Future auto-merge or lane-based automation must be separately approved and implemented by a later phase. Agents must not treat Phase 4J-0 as authorization to bypass owner approval.
+
+Future owner-interruption triggers must include legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED decisions, dependency/security risk acceptance, and architecture-threshold decisions.
 
 ## Tool And Connector Rules
 
@@ -45,4 +59,4 @@ Every assumption, design decision, source, model run, validation task, and origi
 
 ## Bootstrap Exception
 
-Phase 4J-0 may create this file and the AI governance files before `AGENTS.md` exists. This exception is active only for Phase 4J-0 and does not permit future bypass, product work, auto-merge, self-review, branch-protection bypass, or merge without red-team review and human/write-access approval.
+Phase 4J-0 may create this file and the AI governance files before `AGENTS.md` exists. This exception is active only for Phase 4J-0 and does not permit future bypass, product work, auto-merge, lane-based automation, self-review, branch-protection bypass, or merge without red-team review and human/write-access approval.

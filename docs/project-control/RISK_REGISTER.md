@@ -15,6 +15,39 @@ Last reviewed:
 
 ## Active Risks
 
+### local commit not yet in GitHub source of truth
+
+```text
+Risk: local commit not yet in GitHub source of truth
+Status: Mitigated for initial branch/PR creation; final resolution pending
+Evidence: Owner installed/authenticated GitHub CLI for documentation PR setup, pushed branch, and opened PR #15. The correction commit still must be pushed, PR body updated, checks run, red-team review completed, approval obtained, merge completed, and main verified.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Branch pushed to GitHub, PR opened, GitHub Actions run, red-team review completed, human/write-access approval or approved automation lane rule satisfied, and main verified after merge.
+Last reviewed: 2026-07-08
+```
+
+### Premature auto-merge before owner-trigger controls
+
+```text
+Risk: Premature auto-merge before owner-trigger controls
+Status: Active / future control target
+Evidence: Phase 4J-0 documents future lane-based automation only as a policy target; current owner approval remains required and auto-merge is not active.
+Owner: ContractorOS project owner / development lead / red-team gate
+Resolution condition: A future approved phase implements SHA-bound red-team markers, required checks, owner-trigger detection, and explicit lane eligibility before any auto-merge path is activated.
+Last reviewed: 2026-07-08
+```
+
+### Prompt model/effort omitted from future work
+
+```text
+Risk: Prompt model/effort omitted from future work
+Status: Active / controlled by prompt convention after merge
+Evidence: Owner approved adding model/effort selection to every future prompt.
+Owner: ContractorOS project owner / development lead / red-team gate
+Resolution condition: PROMPT_CONVENTION.md is merged and future prompts follow it.
+Last reviewed: 2026-07-08
+```
+
 ### Codex bootstrap before AGENTS.md
 
 ```text

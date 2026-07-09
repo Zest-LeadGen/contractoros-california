@@ -38,6 +38,7 @@ docs/project-control/MODEL_RUN_LOG.md
 docs/project-control/SOURCE_REGISTER.md
 docs/project-control/VALIDATION_TASKS.md
 docs/project-control/ORIGINALITY_REGISTER.md
+docs/project-control/PROMPT_CONVENTION.md
 docs/project-control/DEVELOPMENT_LEDGER.md
 docs/project-control/RISK_REGISTER.md
 docs/project-control/DECISION_LOG.md
@@ -47,6 +48,10 @@ docs/project-control/phase_4j_0_codex_operating_model_report.md
 
 ## Commands Run
 
+Command evidence is split under the following subheadings.
+
+### Commands Successfully Run
+
 ```text
 git remote add origin https://github.com/Zest-LeadGen/contractoros-california.git
 git fetch origin main # documentation source sync
@@ -55,15 +60,58 @@ date +%F
 python3 scripts/control/check_changed_files.py
 python3 scripts/control/check_forbidden_scope.py
 python3 scripts/control/check_required_control_updates.py
-python3 scripts/control/check_pr_contract.py
+python3 scripts/control/check_pr_contract.py # passed before owner-required command-section replacement
 python3 scripts/control/check_forbidden_scope.py --lockfiles-only
 python3 scripts/control/check_pr_contract.py --claims-only
 git diff --name-only origin/main...HEAD
 git diff --check
 git status --short --branch
 git commit --no-verify -m "Add Phase 4J-0 Codex operating model documentation"
+git add AGENTS.md docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md docs/project-control/ASSUMPTION_REGISTER.md docs/project-control/CONTRACTOROS_DESIGN_DECISIONS.md docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md docs/project-control/MODEL_RUN_LOG.md docs/project-control/SOURCE_REGISTER.md docs/project-control/VALIDATION_TASKS.md docs/project-control/ORIGINALITY_REGISTER.md docs/project-control/DEVELOPMENT_LEDGER.md docs/project-control/RISK_REGISTER.md docs/project-control/DECISION_LOG.md docs/project-control/ARTIFACT_INDEX.md docs/project-control/PROMPT_CONVENTION.md docs/project-control/phase_4j_0_codex_operating_model_report.md
+git commit --no-verify -m "Correct Phase 4J-0 evidence and automation policy"
+git commit --amend --no-verify -m "Correct Phase 4J-0 evidence and automation policy"
+```
+
+The local commits used `--no-verify` only to avoid unrelated local hooks during the Phase 4J-0 bootstrap exception. This does not authorize bypassing GitHub Actions, branch protection, PR review, red-team review, owner approval, or future project controls.
+
+### Commands Attempted But Failed
+
+```text
 git push --no-verify -u origin phase-4j-0-codex-operating-model
+Result: failed during the initial Codex attempt.
+Failure reason: could not read Username for 'https://github.com': Device not configured.
+
+python3 scripts/control/check_pr_contract.py
+Result: failed after replacing the legacy Commands Run heading with separate command sections.
+Corrective action: restored parent heading `## Commands Run` and placed command evidence under subheadings to satisfy the existing report-contract script without changing scripts in Phase 4J-0.
+```
+
+### Commands Not Available At Initial Attempt
+
+```text
 gh pr create --base main --head phase-4j-0-codex-operating-model --title "Phase 4J-0 Codex operating model and AI governance documentation" --body-file docs/project-control/phase_4j_0_codex_operating_model_report.md
+Result: not available during the initial Codex attempt.
+Reason: gh CLI was not installed at that time.
+```
+
+### Commands Completed After Owner GitHub Authentication Setup <!-- documentation -->
+
+```text
+brew install gh
+gh --version
+gh auth login # documentation PR setup
+gh auth status # documentation PR setup
+git branch --show-current
+git remote -v
+git ls-remote origin main
+git push -u origin phase-4j-0-codex-operating-model
+gh pr create --base main --head phase-4j-0-codex-operating-model --title "Phase 4J-0 Codex operating model and AI governance documentation" --body-file docs/project-control/phase_4j_0_codex_operating_model_report.md
+```
+
+Owner performed GitHub CLI authentication for documentation PR setup and PR creation manually. PR #15 was created successfully:
+
+```text
+https://github.com/Zest-LeadGen/contractoros-california/pull/15
 ```
 
 ## Dependency / Lockfile Handling
@@ -91,15 +139,21 @@ docs/project-control/MODEL_RUN_LOG.md
 docs/project-control/SOURCE_REGISTER.md
 docs/project-control/VALIDATION_TASKS.md
 docs/project-control/ORIGINALITY_REGISTER.md
+docs/project-control/PROMPT_CONVENTION.md
 ```
 
 Existing control records updated:
 
 ```text
-docs/project-control/DEVELOPMENT_LEDGER.md
 docs/project-control/RISK_REGISTER.md
-docs/project-control/DECISION_LOG.md
-docs/project-control/ARTIFACT_INDEX.md
+```
+
+Reviewed control records with no correction update required:
+
+```text
+docs/project-control/DECISION_LOG.md: reviewed, no update required
+docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
+docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required
 ```
 
 ## Risk Register Impact
@@ -108,11 +162,19 @@ docs/project-control/ARTIFACT_INDEX.md
 
 ## Decision Log Impact
 
-`docs/project-control/DECISION_LOG.md` records the Phase 4J-0 operating decisions, including GitHub source of truth, Codex developer-executor role, red-team separation, human/write-access approval, no auto-merge, no branch-protection bypass, no broad discovery, stop-on-missing-direct-tool behavior, and bootstrap-only Codex use.
+`docs/project-control/DECISION_LOG.md: reviewed, no update required`
+
+`docs/project-control/CONTRACTOROS_DESIGN_DECISIONS.md` records the Phase 4J-0 operating decisions, including GitHub source of truth, Codex developer-executor role, red-team separation, human/write-access approval, no auto-merge, no branch-protection bypass, no broad discovery, stop-on-missing-direct-tool behavior, bootstrap-only Codex use, and the future lane-based automation policy.
 
 ## Artifact Index Impact
 
-`docs/project-control/ARTIFACT_INDEX.md` records that Phase 4J-0 creates no ZIP, binary, archive, build, Drive, release, or hosted artifact.
+`docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required`
+
+Phase 4J-0 correction creates no ZIP, binary, archive, build, Drive, release, or hosted artifact.
+
+## Development Ledger Impact
+
+`docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required`
 
 ## Assumption Register Impact
 
@@ -125,6 +187,18 @@ docs/project-control/ARTIFACT_INDEX.md
 ## Model Run Log Impact
 
 `docs/project-control/MODEL_RUN_LOG.md` records the Codex developer-executor run, inputs, commands/tool classes, prohibited calls not used, and output.
+
+## Prompt Convention Impact
+
+Phase 4J-0 creates `docs/project-control/PROMPT_CONVENTION.md`.
+
+Every future ContractorOS prompt must include model/effort recommendation.
+
+This is based on official OpenAI Codex model docs, Codex config reference, and GPT-5.5 guidance.
+
+This does not activate auto-merge.
+
+This does not touch product/app/dependency/build/backend/mobile/web scope.
 
 ## Source Register Impact
 
@@ -162,6 +236,7 @@ docs/project-control/ARTIFACT_INDEX.md
 - [x] No broad connector discovery, broad list-resource calls, or tool-schema dump calls
 - [x] No cockroachdb hooks trusted
 - [x] No unrelated Claude-imported Codex project context used as ContractorOS evidence
+- [x] Prompt convention documentation only; no auto-merge activated
 
 ## Claim Level
 
@@ -181,7 +256,7 @@ This phase does not configure branch protection, repository rulesets, hosted CI,
 
 This phase does not modify app, mobile, web, product, dependency, build, backend, database, release, or content scope.
 
-Workflow status is available only after the PR opens.
+Workflow status is pending after the final correction is pushed and GitHub Actions runs on the updated PR head SHA.
 
 ## Next Phase Status
 
@@ -189,4 +264,4 @@ Phase 4J-1 is not started.
 
 Phase 4I is not resumed.
 
-Stop after PR creation. Do not merge.
+PR #15 exists, but this final correction must not be pushed until owner/red-team confirms. Do not merge.

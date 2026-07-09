@@ -12,17 +12,41 @@ Chat memory is not source of truth. Unversioned local notes, transient tool stat
 
 Every assumption, design decision, source, model run, validation task, and originality requirement must be captured in versioned repo files.
 
+## Prompt Convention
+
+Every future implementation, review, or correction prompt must include model and effort recommendation.
+
+Model/effort selection must follow `docs/project-control/PROMPT_CONVENTION.md`.
+
+Missing model/effort header is a stop condition.
+
+Phase 4J-0 documents this convention only.
+
 ## AI Role
 
 Codex is developer executor only. Codex may prepare scoped file changes, run permitted local checks, and open PRs. Codex must not self-review, act as red-team, merge, approve its own PR, bypass branch protection, or continue into the next phase.
 
 Red-team remains separate. Future red-team decisions must become GitHub artifacts tied to the exact PR head SHA, beginning with the future Phase 4J-2 control path.
 
-Human/write-access approval remains required before merge. No auto-merge is permitted.
+Current state:
+
+Human/write-access approval remains required before merge. No auto-merge is currently authorized.
 
 ## Automation Meaning
 
+Current state:
+
 95% automation means reducing relay work, paperwork, repetitive checks, and handoff friction. It does not remove owner judgment, red-team accountability, protected PR governance, or human/write-access approval for merge.
+
+Future target:
+
+95% automation should reduce owner monitoring and manual merge work for low-risk, mechanically verifiable lanes after required safeguards are implemented.
+
+Future lane-based automation must be separately approved in a later phase. Phase 4J-0 does not authorize auto-merge.
+
+Owner interruption triggers:
+
+Owner interruption remains required for legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED decisions, dependency/security risk acceptance, and architecture-threshold decisions.
 
 ## Tool Governance
 

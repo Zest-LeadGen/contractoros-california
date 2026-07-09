@@ -173,3 +173,23 @@ Rejected alternative: treating bootstrap as a durable exception.
 Risk: temporary control gap becomes precedent.
 Control: strict allowlist, report evidence, PR review, red-team review, and human/write-access approval.
 ```
+
+### CDR-4J-018 — Lane-based automation and owner-interruption policy
+
+```text
+Status: Proposed / future policy target only
+Decision: Current owner approval remains required. Future automation phases may reduce manual owner approval for low-risk documentation/control PRs only after SHA-bound red-team markers, required checks, and owner-trigger detection exist. Phase 4J-0 does not activate auto-merge.
+Rejected alternative: Require human owner approval for every low-risk future PR forever.
+Risk: Removing human approval too early could allow unsafe scope into main.
+Control: Only future approved phases may enable lane-based auto-merge eligibility. Owner approval remains mandatory for legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED decisions, dependency/security risk acceptance, and architecture-threshold decisions.
+```
+
+### CDR-4J-019 — Required prompt model/effort header
+
+```text
+Status: Proposed / active after Phase 4J-0 merge
+Decision: Every future ContractorOS prompt for Codex, developer agents, red-team agents, or automation agents must include recommended model, recommended reasoning effort, rationale, and conditions for changing model/effort.
+Rejected alternative: Allow agents or chat participants to silently choose model/effort per task without durable policy.
+Risk: Wrong model/effort can increase cost, latency, weak reasoning, or overthinking, and can make audits harder.
+Control: docs/project-control/PROMPT_CONVENTION.md defines the required prompt header and model/effort selection policy. Missing model/effort header is a stop condition.
+```
