@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4K-4 - Dependency / Lockfile Governance Decision Gate
+
+```text
+Phase: Phase 4K-4 - Dependency / Lockfile Governance Decision Gate
+Lane: Dependency / Architecture / QA, represented as Control / Infrastructure in current docs/project-control gate rules
+Date: 2026-07-09
+Branch: phase-4k-4-dependency-lockfile-governance-decision-gate
+Phase issue: #37
+PR: Pending until opened
+Base SHA: 196a48545285afdf8f5d5bc3f948395a5f289a4d
+Head SHA: Pending until Phase 4K-4 commit
+Merge SHA: Pending
+Changed files: Dependency/lockfile governance decision report plus allowed project-control records
+Commands run: Starting main/worktree checks, direct GitHub issue reads, package/dependency-state inspection without mutation, local control validation planned before commit
+Claim level: Dependency/lockfile governance decision documentation only; no dependency baseline, package mutation, lockfile creation, dependency installation, runtime QA, visual QA, device QA, install QA, build readiness, APK readiness, public readiness, production readiness, scoring, pass/fail, backend, Firebase, auth, cloud, content-currentness, public content, payment, CRM, marketplace, or release claim
+Next phase: Recommended deterministic dependency/lockfile baseline implementation phase is not started; Phase 4K-5 not started; Phase 4I remains paused
+```
+
 ### Phase 4K-3 - Product / Development Source-of-Truth Reconciliation Gate
 
 ```text

@@ -41,10 +41,21 @@ Last reviewed: 2026-07-09
 
 ```text
 Risk: dependency baseline issue superseded before implementation
-Status: Active / controlled by Issue #34 not-planned closeout and Phase 4K-3 source-of-truth reconciliation
-Evidence: Issue #34 was created for dependency/lockfile baseline decision work but closed as not planned before implementation because roadmap/platform/development-model reconciliation was required first.
+Status: Active / controlled by Issue #34 not-planned closeout, Phase 4K-3 source-of-truth reconciliation, and Phase 4K-4 Issue #37 decision intake
+Evidence: Issue #34 was created for dependency/lockfile baseline decision work but closed as not planned before implementation because roadmap/platform/development-model reconciliation was required first. Phase 4K-4 uses Issue #37 as the active dependency/lockfile governance decision intake.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: Any future dependency/lockfile baseline decision or implementation starts only from a new durable GitHub issue after Phase 4K-3 is merged, main is verified, and Issue #35 is closed.
+Resolution condition: Any future dependency/lockfile baseline implementation starts only from a new durable GitHub issue after Phase 4K-4 is merged, main is verified, and Issue #37 is closed.
+Last reviewed: 2026-07-09
+```
+
+### dependency baseline not yet implemented after governance decision
+
+```text
+Risk: dependency baseline not yet implemented after governance decision
+Status: Active / decision documented by Phase 4K-4, implementation pending future approved phase
+Evidence: Phase 4K-4 recommends a later deterministic dependency/lockfile baseline implementation phase but does not create or modify package manifests, lockfiles, dependency directories, runtime QA, or build artifacts.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: A later approved dependency-baseline implementation phase creates deterministic lockfiles with registry/provenance and contamination checks, then passes local and GitHub control gates.
 Last reviewed: 2026-07-09
 ```
 
@@ -240,10 +251,10 @@ Last reviewed: 2026-07-08
 ```text
 Risk: dependencies use latest
 Status: Active
-Evidence: apps/mobile/package.json uses latest for expo, react, and react-native.
+Evidence: apps/web/package.json uses latest for Vite, React, and React DOM. apps/mobile/package.json uses latest for expo, react, and react-native. Phase 4K-4 recommends a later deterministic dependency/lockfile baseline implementation phase.
 Owner: ContractorOS development lead / red-team gate
 Resolution condition: Dependencies are pinned or otherwise controlled under an approved reproducibility plan.
-Last reviewed: 2026-07-07
+Last reviewed: 2026-07-09
 ```
 
 ### no clean public npm lockfile
@@ -251,10 +262,10 @@ Last reviewed: 2026-07-07
 ```text
 Risk: no clean public npm lockfile
 Status: Active
-Evidence: Phase reports document no committed clean public npm lockfile for apps/mobile.
+Evidence: Phase reports and Phase 4K-4 inspection document no committed clean public npm lockfile for apps/web or apps/mobile.
 Owner: ContractorOS development lead / red-team gate
 Resolution condition: A clean public npm lockfile is generated and verified before commit.
-Last reviewed: 2026-07-07
+Last reviewed: 2026-07-09
 ```
 
 ### contaminated lockfiles generated locally
@@ -262,10 +273,10 @@ Last reviewed: 2026-07-07
 ```text
 Risk: contaminated lockfiles generated locally
 Status: Active
-Evidence: Prior local npm installs produced lockfiles with non-public registry references.
+Evidence: Prior local npm installs produced lockfiles with non-public registry references. Phase 4K-4 keeps contamination checks as a required stop condition for the recommended future baseline phase.
 Owner: ContractorOS development lead / red-team gate
 Resolution condition: No non-public registry reference appears in any committed lockfile.
-Last reviewed: 2026-07-07
+Last reviewed: 2026-07-09
 ```
 
 ### 10 moderate npm vulnerabilities reported during mobile npm install

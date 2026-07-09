@@ -66,6 +66,11 @@ Purpose: record durable architectural and process decisions.
 - Issue #34 dependency/lockfile baseline decision work is closed not planned and must not be treated as active or implemented.
 - Dependency/lockfile decision work is deferred until a later durable GitHub issue records scope, allowlist, forbidden scope, validation tasks, red-team requirement, and human approval requirement.
 - The Issue #35 requested semantic owner-trigger category `PRODUCT_SOURCE_OF_TRUTH` is not supported by the current machine-checkable owner-trigger validator category list; Phase 4K-3 uses supported category `ARCHITECTURE_THRESHOLD` for machine validation and records the unsupported semantic category as missing control-script support.
+- Phase 4K-4 uses Issue #37 as the durable dependency/lockfile governance decision intake and does not resurrect closed/not-planned Issue #34.
+- Phase 4K-4 recommends exactly one next controlled phase: deterministic web dependency/lockfile baseline implementation for `apps/web`.
+- Mobile dependency/lockfile baseline implementation remains a later separate candidate after web baseline evidence, because combining web and mobile dependency mutation would increase first-baseline blast radius.
+- Runtime smoke QA, browser QA, emulator/device QA, install QA, and build/distribution work remain blocked until a deterministic dependency/lockfile baseline is implemented and verified in a later approved phase.
+- Package-manager migration, vendored/preloaded dependency directories, and containerized runtime QA are not selected as the immediate next phase because current repo evidence does not prove they are safer or more auditable than deterministic lockfile creation.
 
 ## Review Condition
 
