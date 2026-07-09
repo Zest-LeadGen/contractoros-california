@@ -13,9 +13,10 @@ Phase: Phase 4J-1 — GitHub Issue Intake + Linked Phase Issue Requirement
 Lane: Control / Infrastructure
 Date: 2026-07-08
 Branch: phase-4j-1-github-issue-intake
-PR: Pending; blocked until Phase 4J-1 GitHub issue exists for linked issue reference
+Phase issue: #16
+PR: Pending until opened
 Base SHA: 0f04efa564c4f28bd351881c00f72d41f540c319
-Head SHA: Pending until commit
+Head SHA: Will update after Phase 4J-1 issue evidence finalization commit
 Merge SHA: Pending
 Changed files: GitHub issue template, PR template, PR contract script, workflow step label, AGENTS.md, project-control governance docs, Phase 4J-1 report
 Commands run: Local validation command set before commit

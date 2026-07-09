@@ -24,9 +24,15 @@ This phase does not touch app/product/dependency/build/backend/mobile/web files,
 
 ## Linked Phase Issue
 
-The Phase 4J-1 issue must be created before opening the PR.
+Phase issue: #16
 
-Owner should create the issue using the issue body provided in the final handoff, then the PR body must use one accepted issue reference format such as `Phase issue: #123`.
+Issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/16
+
+The PR body must include this exact accepted reference:
+
+```text
+Phase issue: #16
+```
 
 ## Changed Files
 
@@ -60,6 +66,10 @@ python3 scripts/control/check_pr_contract.py --claims-only
 git diff --check
 git add .github scripts/control docs/project-control AGENTS.md
 git commit -m "Add Phase 4J-1 GitHub issue intake controls"
+git add docs/project-control/
+git commit -m "Link Phase 4J-1 issue evidence"
+git push -u origin phase-4j-1-github-issue-intake
+gh pr create --base main --head phase-4j-1-github-issue-intake --title "Phase 4J-1 GitHub issue intake and linked phase issue requirement" --body-file docs/project-control/phase_4j_1_github_issue_intake_report.md
 ```
 
 ## Dependency / Lockfile Handling
@@ -110,7 +120,7 @@ No existing control gate was removed or weakened.
 
 Local validation runs the same control scripts used by the ContractorOS control-gates workflow.
 
-GitHub Actions workflow validation is pending until the branch is pushed and the PR is opened with a linked phase issue.
+GitHub Actions workflow validation is pending until the branch is pushed and the PR is opened with `Phase issue: #16`.
 
 If the workflow fails, Phase 4J-1 must stop for patching before review or merge.
 
@@ -162,6 +172,8 @@ docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required
 ## Risk Register Impact
 
 `docs/project-control/RISK_REGISTER.md` records the risk that future phase work may lack a linked GitHub phase issue.
+
+`docs/project-control/RISK_REGISTER.md: reviewed, no update required`
 
 ## Decision Log Impact
 
@@ -229,7 +241,7 @@ This phase does not prove production readiness, public readiness, runtime behavi
 
 ## Known Limitations
 
-The Phase 4J-1 GitHub issue must be created before opening the PR so the PR body can link a durable issue reference.
+Phase issue #16 exists and must be linked from the PR body.
 
 The linked-issue control gate verifies issue reference text in the PR body; it does not verify the issue contents through the GitHub API.
 

@@ -17,6 +17,7 @@ Purpose: record sources used for ContractorOS California control decisions.
 | SRC-4J1-001 | Phase 4J-1 owner prompt | Owner/project phase instruction | GitHub issue intake objective, file allowlist, required controls, validation commands, and prohibitions | Current turn prompt | Durable implementation evidence captured in Phase 4J-1 files and report. |
 | SRC-4J1-002 | `main` at `0f04efa564c4f28bd351881c00f72d41f540c319` | Repository source | Starting SHA for Phase 4J-1 | Verified locally before branch creation | GitHub remains source of truth. |
 | SRC-4J1-003 | Existing `.github/pull_request_template.md`, `.github/workflows/control-gates.yml`, and `scripts/control/check_pr_contract.py` | Repository source | Local control-gate integration pattern | Read locally before editing | Used to add linked-issue enforcement without removing existing gates. |
+| SRC-4J1-004 | GitHub issue #16 | GitHub issue source | Durable issue intake for Phase 4J-1 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/16 |
 
 ## Source Rules
 
