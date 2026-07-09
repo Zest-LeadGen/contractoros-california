@@ -51,6 +51,11 @@ Purpose: record durable architectural and process decisions.
 - Future PRs must include a machine-checkable `OWNER_TRIGGER_REVIEW` marker before the required pull request control gate can pass after Phase 4J-4.
 - Owner-trigger categories other than `NONE` make a PR `NOT_AUTOMATION_ELIGIBLE`.
 - Human approval remains required and auto-merge remains ineligible for all PRs after Phase 4J-4 unless a later approved control phase changes policy.
+- Future red-team windows must follow committed red-team protocol files and must not rely on chat memory, sandbox state, local scratch files, connector state, or unversioned notes as source of truth.
+- Red-team must classify lifecycle state before giving next steps, commands, options, next-phase prompts, or implementation guidance.
+- Red-team command guidance must include expected success output, failure indicators, stop conditions, and the next allowed action after confirmation.
+- Future red-team responses must include the project progress snapshot unless the response is only a brief acknowledgment or the owner explicitly asks for no progress section.
+- The Phase 4J-4 progress snapshot baseline is a governance estimate only and does not make product-readiness, exam-readiness, public-launch, pass/fail, production, build, backend, Firebase, auth, cloud, or distribution claims.
 
 ## Review Condition
 

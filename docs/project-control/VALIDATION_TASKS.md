@@ -84,3 +84,24 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-4J4-008 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported readiness, release, or completion claim is made. | Passed in local validation. |
 | VAL-4J4-009 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
 | VAL-4J4-010 | Verify PR control-gate interaction with red-team enforcement. | GitHub Actions after PR opens and PR body contains `OWNER_TRIGGER_REVIEW` evidence | Owner-trigger check can pass; mandatory red-team marker check is expected to fail until red-team adds a SHA-bound `RED_TEAM_DECISION` marker. | Observed on PR #23: control-gates failed at `Mandatory SHA-bound red-team marker check` with `FAIL: red-team marker is missing.` Any later commit reruns the workflow and still requires red-team evidence. |
+
+## Phase 4J-5 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4J5-001 | Verify starting main. | `git rev-parse origin/main` | Returns `b01cd5829621c20f6bd837a9d570553a6a408573` before branch creation. | Passed before branch creation. |
+| VAL-4J5-002 | Verify clean starting worktree. | `git status --short --branch` | Clean `main` or clean phase branch before edits. | Passed before branch creation. |
+| VAL-4J5-003 | Verify changed files remain inside the Phase 4J-5 allowlist. | `python3 scripts/control/check_changed_files.py` | Pass; no dependency, build, backend, database, native, product, app, mobile, or web lane file is changed. | Passed in local validation before staging. |
+| VAL-4J5-004 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; no implementation-looking forbidden terms outside explicit exclusions or controlled governance text. | Passed in local validation after adding claim downgrade wording to progress-snapshot lines. |
+| VAL-4J5-005 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; Phase 4J-5 report and required register updates are present. | Passed in local validation. |
+| VAL-4J5-006 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and `Phase issue: #25` reference are present. | Passed in local validation. |
+| VAL-4J5-007 | Run owner-trigger marker check. | `python3 scripts/control/check_owner_trigger_review.py` | Pass; Phase 4J-5 report contains the required `OWNER_TRIGGER_REVIEW` marker. | Passed in local validation. |
+| VAL-4J5-008 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no package or lockfile changes are present. | Passed in local validation. |
+| VAL-4J5-009 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported readiness, release, production, public launch, build, backend, scoring, or pass/fail claim is made. | Passed in local validation. |
+| VAL-4J5-010 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4J5-011 | Verify Issue #24 protocol content is reflected in committed docs. | File review of `RED_TEAM_OPERATING_PROTOCOL.md`, `RED_TEAM_STATE_MACHINE.md`, and `HANDOFF_PLAYBOOK.md` | Source-of-truth, CLI expected-output, progress snapshot, and operator state-machine requirements are represented. | Passed in local documentation review. |
+| VAL-4J5-012 | Verify no package or lockfile files changed. | `git diff --name-only origin/main...HEAD` and lockfile scanner | No package or lockfile paths appear. | Passed in local validation before staging. |
+| VAL-4J5-013 | Verify no product/app/backend/database/Firebase/auth/cloud/deployment/payment/CRM/marketplace files changed. | Changed-file review and forbidden-scope scan | Only allowed control documentation files are changed. | Passed in local validation before staging. |
+| VAL-4J5-014 | Verify no npm, Expo, EAS, Android, iOS, native build, backend, Firebase, database, auth, deployment, or dependency commands were run. | Phase report commands section and model run log | Commands are limited to git, direct GitHub reads, local text edits, and local control validation. | Passed in local documentation review. |
+| VAL-4J5-015 | Verify GitHub Actions after PR opens. | PR control-gates workflow | Owner-trigger check should pass and mandatory red-team marker check should fail until external red-team adds a valid SHA-bound marker. | Pending PR creation. |
+| VAL-4J5-016 | Verify no auto-merge activation and no next-phase start. | PR/report review | Auto-merge remains inactive; Phase 4J-6 is not started; Phase 4I remains paused. | Pending PR creation. |

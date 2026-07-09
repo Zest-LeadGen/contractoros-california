@@ -15,6 +15,61 @@ Last reviewed:
 
 ## Active Risks
 
+### red-team lifecycle state drift
+
+```text
+Risk: red-team lifecycle state drift
+Status: Active / controlled by Phase 4J-5 protocol after merge
+Evidence: Issue #24 Operator State Machine Addendum records that prior handoff behavior did not fully preserve operator sequencing across review windows.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future red-team windows classify lifecycle state from RED_TEAM_STATE_MACHINE.md before giving next steps and record the state in GitHub evidence.
+Last reviewed: 2026-07-09
+```
+
+### chat memory treated as project truth
+
+```text
+Risk: chat memory treated as project truth
+Status: Active / controlled by Phase 4J-5 protocol after merge
+Evidence: Issue #24 Red-Team Operating Protocol Addendum states that chat memory, sandbox state, local scratch files, connector state, and unversioned notes are not source of truth.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Material decisions, approvals, rejections, assumptions, scope boundaries, and handoff states are recorded in GitHub issue evidence, PR evidence, committed project-control docs, GitHub PR comments/reviews, or owner-pasted terminal output.
+Last reviewed: 2026-07-09
+```
+
+### red-team handoff gap before closeout
+
+```text
+Risk: red-team handoff gap before closeout
+Status: Active / controlled by Phase 4J-5 handoff playbook after merge
+Evidence: Issue #24 Operator State Machine Addendum identifies premature option lists before merge, main verification, and issue closeout as incorrect behavior.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: HANDOFF_PLAYBOOK.md startup and closeout sequence is followed before next-phase planning.
+Last reviewed: 2026-07-09
+```
+
+### stale PR head SHA approval
+
+```text
+Risk: stale PR head SHA approval
+Status: Active / controlled by SHA-bound marker and Phase 4J-5 state machine
+Evidence: Phase 4J-3 requires the red-team marker to match the current PR head SHA; Issue #24 prohibits approval when the exact current PR head SHA is unknown.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Red-team verifies current PR head SHA before approval, and any later commit requires a fresh red-team decision for the new SHA.
+Last reviewed: 2026-07-09
+```
+
+### non-durable approvals or conditions
+
+```text
+Risk: non-durable approvals or conditions
+Status: Active / controlled by Phase 4J-5 protocol after merge
+Evidence: Issue #24 requires every material approval, rejection, condition, assumption, scope boundary, and handoff state to be reflected in durable GitHub evidence or owner-pasted terminal output.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Red-team records where each material decision is or will be stored before treating it as durable.
+Last reviewed: 2026-07-09
+```
+
 ### future phase work without linked GitHub phase issue
 
 ```text

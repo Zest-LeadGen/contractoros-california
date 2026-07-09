@@ -1,0 +1,135 @@
+# ContractorOS Handoff Playbook
+
+## Purpose
+
+Give future ContractorOS California red-team windows a durable startup sequence so review behavior does not depend on chat memory.
+
+## Startup Sequence
+
+At the start of a red-team window:
+
+1. Read the active phase issue.
+2. Read Issue #24 as the handoff/protocol anchor.
+3. Read the Issue #24 protocol addenda:
+   - Red-Team Operating Protocol Addendum
+   - CLI Expected Output Requirement
+   - Progress Snapshot Requirement
+   - Red-Team Operator State Machine Addendum
+4. Read the committed project-control protocol files:
+   - `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
+   - `docs/project-control/RED_TEAM_STATE_MACHINE.md`
+   - `docs/project-control/HANDOFF_PLAYBOOK.md`
+   - `AGENTS.md`
+   - `docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md`
+5. Verify the current lifecycle state before giving next steps.
+6. Verify the current active issue.
+7. Verify PR status if a PR exists.
+8. Verify the latest PR head SHA if a PR exists.
+9. Verify control-gate state.
+10. Verify red-team marker state.
+11. Verify owner-trigger marker state.
+12. Verify human approval state.
+13. Verify merge, main, and issue-closeout state before allowing next-phase planning.
+
+Never rely on chat memory as source of truth.
+
+## Required Evidence Checks
+
+Use GitHub and repo evidence to answer:
+
+- What is the active phase issue?
+- What branch and PR are in scope?
+- What is the base branch and starting main SHA?
+- What is the current PR head SHA?
+- Which files changed?
+- Are changed files inside the explicit allowlist?
+- Which validation commands ran, and what did they output?
+- Did the owner-trigger marker pass validation?
+- Is the red-team marker missing, stale, malformed, or valid for the current head SHA?
+- What is the latest GitHub Actions status for the current head SHA?
+- Is human/write-access approval present?
+- Is the PR merged?
+- Is `origin/main` verified after merge?
+- Is the linked issue closed with closeout evidence?
+
+If any answer cannot be proven, label it `not proven`.
+
+If a missing answer blocks the next action, label the state `blocked`.
+
+## Command Blocks
+
+When giving terminal or GitHub CLI commands, include:
+
+- the exact command or command block
+- expected success output or success indicators
+- failure indicators
+- stop condition
+- next allowed action after confirmation
+
+For source-control scope commands that include remote ref updates, state that the command updates local evidence and must be followed by SHA verification.
+
+## Handoff Summary Template
+
+Use this structure when handing a phase to another red-team window:
+
+```text
+Current lifecycle state:
+Evidence used:
+Active phase issue:
+Pull request:
+Branch:
+Starting main SHA:
+Current PR head SHA:
+Changed files:
+Control-gate state:
+Owner-trigger evidence:
+Red-team marker state:
+Human approval state:
+Merge/main state:
+Linked issue state:
+Single next required action:
+Stop conditions:
+What not to do:
+Where this state is recorded:
+Progress snapshot:
+```
+
+## Progress Snapshot Template
+
+Unless the owner explicitly asks for no progress section or the response is only a brief acknowledgment, include:
+
+```text
+Governance/control automation: 85-90%
+Protected PR review safety: 90-95%
+Owner-trigger / lane automation: 60-70% after Phase 4J-4 merge; auto-merge remains inactive
+Actual product development: 15-25%
+Content governance / question system: 10-20%
+Backend / Firebase / auth / cloud: 0% (claim: no implemented scope)
+Build/distribution readiness: 0-10% (claim: no distribution scope)
+Overall full project: 30-40%
+```
+
+State whether any percentage changed and what GitHub, terminal, uploaded-file, or labeled-assumption evidence caused the change.
+
+These percentages are governance estimates and must not be presented as product-readiness, exam-readiness, public-launch, pass/fail, production, build, backend, Firebase, auth, cloud, or distribution claims.
+
+## Closeout Sequence
+
+A current phase reaches `PHASE_CLOSED_READY_FOR_NEXT_PHASE` only after all of these are proven:
+
+- PR merged.
+- Main verified after merge.
+- Local main clean when local verification is part of the handoff.
+- Linked phase issue closed with closeout evidence.
+- Closeout summarized.
+
+Only then may red-team prepare next-phase issue guidance or implementation prompts.
+
+## Prohibited Handoff Behavior
+
+- Do not ask the owner to choose next-phase options before current phase closeout.
+- Do not resume Phase 4I unless explicitly authorized.
+- Do not start Phase 4J-6 until Phase 4J-5 is merged, main-verified, and issue-closed.
+- Do not treat chat memory, sandbox state, connector state, or local scratch files as durable evidence.
+- Do not invent Google Drive artifacts, branch state, PR state, GitHub Actions state, validation results, approvals, merge state, or issue state.
+- Do not merge, approve, self-review, bypass branch protection, or activate auto-merge.

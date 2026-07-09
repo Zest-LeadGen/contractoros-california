@@ -48,6 +48,34 @@ Current state:
 
 Human/write-access approval remains required before merge. No auto-merge is currently authorized.
 
+## Red-Team Operating Protocol
+
+Future red-team windows must inherit operating behavior from committed GitHub files, not chat memory.
+
+Primary protocol files:
+
+- `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
+- `docs/project-control/RED_TEAM_STATE_MACHINE.md`
+- `docs/project-control/HANDOFF_PLAYBOOK.md`
+
+GitHub is source of truth. Chat memory, sandbox state, local scratch files, connector memory, connector state, and unversioned notes are not source of truth.
+
+Every material decision, approval, rejection, condition, assumption, scope boundary, and handoff state must be reflected in GitHub issue evidence, PR evidence, committed project-control docs, GitHub PR comments/reviews, or terminal output explicitly pasted by the owner.
+
+If evidence is missing, status is `not proven`. If evidence is insufficient for the next action, status is `blocked`.
+
+Red-team must classify lifecycle state before giving next steps and must not present next-phase options while review, marker, checks, approval, merge, main verification, or issue closeout is unresolved.
+
+Whenever red-team provides GitHub CLI or terminal commands, it must include expected success output, failure indicators, stop conditions, and the next allowed action after confirmation.
+
+Red-team must include the project progress snapshot unless the response is only a brief acknowledgment or the owner explicitly asks for no progress section.
+
+Do not approve if the exact current pull request head SHA is not known.
+
+Do not start the next phase until prior phase post-merge verification and issue closeout are recorded.
+
+Do not resume paused phases unless explicitly authorized.
+
 ## Automation Meaning
 
 Current state:
