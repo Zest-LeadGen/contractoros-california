@@ -15,6 +15,83 @@ Last reviewed:
 
 ## Active Risks
 
+### local commit not yet in GitHub source of truth
+
+```text
+Risk: local commit not yet in GitHub source of truth
+Status: Mitigated for initial branch/PR creation; final resolution pending
+Evidence: Owner installed/authenticated GitHub CLI for documentation PR setup, pushed branch, and opened PR #15. The correction commit still must be pushed, PR body updated, checks run, red-team review completed, approval obtained, merge completed, and main verified.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Branch pushed to GitHub, PR opened, GitHub Actions run, red-team review completed, human/write-access approval or approved automation lane rule satisfied, and main verified after merge.
+Last reviewed: 2026-07-08
+```
+
+### Premature auto-merge before owner-trigger controls
+
+```text
+Risk: Premature auto-merge before owner-trigger controls
+Status: Active / future control target
+Evidence: Phase 4J-0 documents future lane-based automation only as a policy target; current owner approval remains required and auto-merge is not active.
+Owner: ContractorOS project owner / development lead / red-team gate
+Resolution condition: A future approved phase implements SHA-bound red-team markers, required checks, owner-trigger detection, and explicit lane eligibility before any auto-merge path is activated.
+Last reviewed: 2026-07-08
+```
+
+### Prompt model/effort omitted from future work
+
+```text
+Risk: Prompt model/effort omitted from future work
+Status: Active / controlled by prompt convention after merge
+Evidence: Owner approved adding model/effort selection to every future prompt.
+Owner: ContractorOS project owner / development lead / red-team gate
+Resolution condition: PROMPT_CONVENTION.md is merged and future prompts follow it.
+Last reviewed: 2026-07-08
+```
+
+### Codex bootstrap before AGENTS.md
+
+```text
+Risk: Codex bootstrap before AGENTS.md
+Status: Active / Controlled by Phase 4J-0 constraints
+Evidence: Phase 4J-0 creates AGENTS.md and AI governance files before AGENTS.md exists on the starting main SHA.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Phase 4J-0 PR is reviewed by red-team, approved by human/write-access reviewer, merged without scope expansion, and main is verified.
+Last reviewed: 2026-07-08
+```
+
+### developer connector path blocked after prohibited list-resource calls
+
+```text
+Risk: developer connector path blocked after prohibited list-resource calls
+Status: Active / Controlled by bootstrap path
+Evidence: Phase 4J-0 prompt records that the prior developer connector implementation path failed twice before implementation by calling api_tool.list_resources.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Future developer connector path is redesigned or explicitly cleared without broad discovery, list-resource, or tool-schema dump calls.
+Last reviewed: 2026-07-08
+```
+
+### broad connector discovery recurrence
+
+```text
+Risk: broad connector discovery recurrence
+Status: Active / Controlled by AGENTS.md and AI operating model
+Evidence: Phase 4J-0 records a stop rule for missing direct tools and prohibits broad connector discovery, broad list-resource calls, and tool-schema dumps.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: Future AI developer runs comply with AGENTS.md and record model runs in repo evidence.
+Last reviewed: 2026-07-08
+```
+
+### automation misread as owner-judgment replacement
+
+```text
+Risk: automation misread as owner-judgment replacement
+Status: Active / Controlled by Phase 4J-0 governance docs
+Evidence: Phase 4J-0 defines 95% automation as reducing relay, paperwork, repetitive checks, and handoff while preserving owner judgment, red-team review, and human/write-access approval.
+Owner: ContractorOS project owner / development lead / red-team gate
+Resolution condition: Future automation phases preserve protected PR governance and do not add auto-merge or branch-protection bypass.
+Last reviewed: 2026-07-08
+```
+
 ### control gate lane mismatch for companion phase reports
 
 ```text
