@@ -53,3 +53,13 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-4J2-003 | `CHANGES_REQUESTED` and `BLOCKED` red-team decisions are not merge-eligible. | `scripts/control/check_red_team_marker.py`, `.github/pull_request_template.md` | Validator fails when marker decision is `CHANGES_REQUESTED` or `BLOCKED`. |
 | RTM-4J2-004 | Phase 4J-2 creates the marker control without activating auto-merge. | `phase_4j_2_sha_bound_red_team_marker_report.md`, `AGENTS.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md` | Report records bootstrap limitation and future activation status. |
 | RTM-4J2-005 | Phase 4J-2 remains control-only and avoids app/product/dependency/build/backend/mobile/web scope. | `phase_4j_2_sha_bound_red_team_marker_report.md`, `VALIDATION_TASKS.md` | Local changed-file and forbidden-scope checks must pass. |
+
+## Phase 4J-3 Traceability
+
+| Requirement ID | Requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-4J3-001 | The ContractorOS control-gates workflow must require a valid SHA-bound red-team marker for pull requests. | `.github/workflows/control-gates.yml`, `scripts/control/check_red_team_marker.py`, `phase_4j_3_mandatory_red_team_marker_enforcement_report.md` | Workflow runs `python3 scripts/control/check_red_team_marker.py` during `pull_request` events. |
+| RTM-4J3-002 | PR body edits must rerun the control gate so red-team evidence can be added after review. | `.github/workflows/control-gates.yml`, `.github/pull_request_template.md` | Workflow includes the `pull_request` `edited` event type. |
+| RTM-4J3-003 | A new commit after red-team approval must make the prior marker stale. | `scripts/control/check_red_team_marker.py`, `.github/workflows/control-gates.yml`, `AGENTS.md` | Validator compares marker `PR head SHA` to the current PR head SHA from the GitHub pull request event payload. |
+| RTM-4J3-004 | The PR template must require the marker as plain text, not hidden inside comments or fenced code blocks. | `.github/pull_request_template.md`, `scripts/control/check_red_team_marker.py` | Template text instructs plain-text placement; validator ignores HTML comments and fenced code examples. |
+| RTM-4J3-005 | Phase 4J-3 remains control-only and avoids app/product/dependency/build/backend/mobile/web scope. | `phase_4j_3_mandatory_red_team_marker_enforcement_report.md`, `VALIDATION_TASKS.md` | Local changed-file, forbidden-scope, lockfile, and PR contract checks must pass before push. |

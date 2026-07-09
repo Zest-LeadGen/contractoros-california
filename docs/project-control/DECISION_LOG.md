@@ -46,7 +46,8 @@ Purpose: record durable architectural and process decisions.
 - The maintained route does not authorize automated merge, automated approval, direct-to-main work, branch-protection bypass, or scope expansion.
 - Red-team decisions must use a `RED_TEAM_DECISION` marker tied to the exact PR head SHA reviewed.
 - A red-team approval is stale after any later commit changes the PR head SHA.
-- Phase 4J-2 creates the marker validator; mandatory gate enforcement remains a future activation step.
+- The ContractorOS control-gates workflow requires the SHA-bound red-team marker on pull requests after Phase 4J-3.
+- PR body edits rerun the control-gates workflow so a red-team marker can be added after review without using elevated pull request permissions.
 
 ## Review Condition
 

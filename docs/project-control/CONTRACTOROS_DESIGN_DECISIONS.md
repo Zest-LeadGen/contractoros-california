@@ -213,3 +213,13 @@ Rejected alternative: Allow a red-team approval to apply to a PR regardless of l
 Risk: A PR could receive approval at one commit, then receive new unreviewed commits before merge.
 Control: The red-team marker and control script compare the approved SHA against the current PR head SHA.
 ```
+
+### CDR-4J-022 — Red-team marker enforcement is mandatory in protected control gates
+
+```text
+Status: Proposed / active after Phase 4J-3 merge
+Decision: Future PRs must include a valid RED_TEAM_DECISION marker tied to the exact current PR head SHA before the required ContractorOS control gate can pass.
+Rejected alternative: Keep the red-team marker validator optional/manual.
+Risk: A PR could pass required checks without exact-SHA red-team evidence.
+Control: The GitHub Actions control-gates workflow runs the SHA-bound red-team marker validator.
+```
