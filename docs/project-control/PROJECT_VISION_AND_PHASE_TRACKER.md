@@ -123,7 +123,9 @@ Phase 4K-2 was implemented through Issue #32 and PR #33 as runtime smoke-QA feas
 
 Issue #34 dependency/lockfile baseline decision work was closed not planned before implementation and is not active scope.
 
-Phase 4K-3 is the current reconciliation phase and creates the canonical product/development register.
+Phase 4K-3 created the canonical product/development register.
+
+Phase 4K-4 is the current dependency/lockfile governance decision phase. It recommends a later controlled deterministic web lockfile baseline implementation phase, but does not implement that dependency baseline.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -150,7 +152,8 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4K-1 | Internal scaffold Product / QA hardening phase | Issue #29 + PR #30 | Merged at `07226b7ebed4661a425aab72799d307df1c296ac` |
 | Phase 4K-2 | Internal runtime smoke QA feasibility gate | Issue #32 + PR #33 | Merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`; runtime launch blocked |
 | Issue #34 | Dependency / lockfile baseline decision gate | Issue #34 | Closed not planned before implementation |
-| Phase 4K-3 | Product / development source-of-truth reconciliation gate | Issue #35 + current PR | Active; no dependency/lockfile baseline implementation and no Phase 4K-4 start |
+| Phase 4K-3 | Product / development source-of-truth reconciliation gate | Issue #35 + PR #36 | Merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`; created canonical product/development register |
+| Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 + current PR | Active; decision documentation only; no dependency baseline implementation and no Phase 4K-5 start |
 
 This table must be updated after each completed phase.
 
@@ -295,12 +298,12 @@ Track by gates instead:
 | Internal mobile scaffold gate | Mobile scaffold exists and is internally scoped | Evidence required from main            |
 | Command smoke gate            | Commands prove local startup/build behavior     | Evidence required per phase            |
 | Visual QA gate                | UI visually inspected in target                 | Not passed until documented            |
-| Dependency-control gate       | Clean dependency/lockfile strategy exists       | Not passed                             |
+| Dependency-control gate       | Clean dependency/lockfile strategy exists       | Decision in Phase 4K-4; implementation not passed |
 | Build artifact gate           | Approved APK/AAB/build artifact exists          | Not passed                             |
 | Install gate                  | Artifact installed and launched                 | Not passed                             |
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
 | Public/production gate        | no release readiness proven or approved         | Not passed                             |
-| Source-of-truth reconciliation gate | Product/development current-state register exists | Active in Phase 4K-3; pending review, approval, merge, and main verification |
+| Source-of-truth reconciliation gate | Product/development current-state register exists | Passed by PR #36 merge at `196a48545285afdf8f5d5bc3f948395a5f289a4d` |
 
 Progress is measured by passed gates, not optimism.
 

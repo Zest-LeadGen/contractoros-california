@@ -139,8 +139,8 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 ## 16. Phase-Based Implementation Sequence
 
 - Phase One: internal scaffold and control foundation
-- Current active phase: Phase 4K-3 - Product / Development Source-of-Truth Reconciliation Gate
-- Next phase: blocked until Phase 4K-3 is merged, main is verified, Issue #35 is closed, and a later durable GitHub issue defines scope
+- Current active phase: Phase 4K-4 - Dependency / Lockfile Governance Decision Gate
+- Recommended next controlled phase: deterministic web dependency/lockfile baseline implementation after Phase 4K-4 is merged, main is verified, Issue #37 is closed, and a later durable GitHub issue defines scope
 - Later: content governance
 - Later: visual QA
 - Later: dependency control
@@ -173,13 +173,15 @@ Issue #34 dependency/lockfile decision work was closed not planned before implem
 
 Phase 4K-3 creates `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` as the canonical product/development source-of-truth register.
 
+Phase 4K-4 uses Issue #37 to document the dependency/lockfile governance decision. It recommends a later controlled deterministic web lockfile baseline implementation phase, but does not implement that dependency baseline.
+
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
 ## 19. Current Phase Constraint
 
-Current Phase 4K-3 work is product/development source-of-truth reconciliation documentation only. It does not change app source, dependencies, packages, build, runtime, backend, or public content.
+Current Phase 4K-4 work is dependency/lockfile governance decision documentation only. It does not change app source, dependencies, packages, lockfiles, build, runtime, backend, or public content.
 
-Phase 4K-3 does not start dependency/lockfile baseline work, Phase 4K-4, or Phase 4I.
+Phase 4K-4 does not start dependency/lockfile baseline implementation, mobile dependency baseline work, runtime QA, Phase 4K-5, or Phase 4I.
 
 ## 20. Final Rule
 

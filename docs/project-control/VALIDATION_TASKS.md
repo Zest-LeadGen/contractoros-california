@@ -30,6 +30,28 @@ Purpose: record validation tasks for ContractorOS California governance and phas
 
 Validation task status must be updated by repo evidence, not memory.
 
+## Phase 4K-4 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4K4-001 | Verify starting main after Phase 4K-3. | `git rev-parse HEAD` before branch creation | Returns `196a48545285afdf8f5d5bc3f948395a5f289a4d`; stop if main has moved unexpectedly. | Passed before branch work. |
+| VAL-4K4-002 | Verify Issue #35 is closed/completed. | Direct GitHub API read of Issue #35 | Issue #35 state is `closed` with state reason `completed`. | Passed with direct GitHub issue evidence. |
+| VAL-4K4-003 | Verify Issue #34 is closed/not planned. | Direct GitHub API read of Issue #34 | Issue #34 state is `closed` with state reason `not_planned`. | Passed with direct GitHub issue evidence. |
+| VAL-4K4-004 | Verify Issue #37 is open. | Direct GitHub API read of Issue #37 | Issue #37 state is `open`. | Passed with direct GitHub issue evidence. |
+| VAL-4K4-005 | Inspect Phase 4K-2 blocker evidence. | File review of `phase_4k_2_internal_runtime_smoke_qa_feasibility_gate_report.md` and Issue #32 | Runtime smoke QA was blocked by missing dependency directories, missing lockfiles, missing safe no-install runtime path, and no dependency install authority. | Passed in local documentation review. |
+| VAL-4K4-006 | Inspect current dependency and lockfile state. | `rg --files` and package manifest reads | Only `apps/web/package.json` and `apps/mobile/package.json` appear among package/lockfile/dependency-directory paths; no lockfile or dependency directory appears. | Passed in local inspection. |
+| VAL-4K4-007 | Verify changed files match the Issue #37 allowlist. | Changed-file review | Only allowed `docs/project-control/**` files listed by Issue #37 are changed. | Passed in local validation. |
+| VAL-4K4-008 | Run changed-file lane check. | `python3 scripts/control/check_changed_files.py` | Pass; no app, package, lockfile, dependency, build, backend, database, native, mobile, or web source file is changed. | Passed in local validation. |
+| VAL-4K4-009 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; no implementation-looking forbidden terms outside blocked, deferred, future, risk, claim, or documentation context. | Passed in local validation. |
+| VAL-4K4-010 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; current report and required control updates are present. | Passed in local validation. |
+| VAL-4K4-011 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and `Phase issue: #37` reference are present. | Passed in local validation. |
+| VAL-4K4-012 | Run owner-trigger marker check. | `python3 scripts/control/check_owner_trigger_review.py` | Pass; Phase 4K-4 report contains the required `OWNER_TRIGGER_REVIEW` marker. | Passed in local validation. |
+| VAL-4K4-013 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no package or lockfile changes are present. | Passed in local validation. |
+| VAL-4K4-014 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported dependency baseline, runtime QA, release, production, backend, Firebase, auth, cloud, build, distribution, app-store, public-launch, readiness, scoring, pass/fail, CRM, marketplace, or payment implementation claim is made. | Passed in local validation. |
+| VAL-4K4-015 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4K4-016 | Verify no package, lockfile, dependency directory, runtime, build, artifact, backend, cloud, auth, scoring, readiness, pass/fail, analytics, saved-progress, public-content, payment, CRM, marketplace, Phase 4I, Phase 4K-5, merge, or auto-merge scope was added. | Changed-file review, package/lockfile scan, and phase report commands section | No forbidden scope appears in changed files or commands. | Passed in local validation. |
+| VAL-4K4-017 | Verify expected PR behavior. | GitHub Actions after PR opens | Owner-trigger evidence should pass; mandatory SHA-bound red-team marker check should fail until external red-team adds a valid marker for the exact current PR head SHA. | Pending PR creation. |
+
 ## Phase 4K-3 Tasks
 
 | Task ID | Task | Command or check | Expected result | Status |
