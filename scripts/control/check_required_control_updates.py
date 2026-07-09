@@ -14,6 +14,9 @@ APPROVAL_PHRASES = {
     "Build / Distribution": "approved build/distribution lane",
     "Backend": "approved backend lane",
 }
+CONTROL_LANE = "Control / Infrastructure"
+PHASE_REPORT_PREFIX = "docs/project-control/phase_"
+PHASE_REPORT_SUFFIX = "_report.md"
 
 
 def git(args):
@@ -139,12 +142,12 @@ def matches(pattern, path):
     return path.startswith(pattern[:-3]) if pattern.endswith("/**") else path == pattern
 
 
+def is_phase_report(path):
+    return path.startswith(PHASE_REPORT_PREFIX) and path.endswith(PHASE_REPORT_SUFFIX)
+
+
 def changed_phase_reports(files):
-    return [
-        path
-        for path in files
-        if path.startswith("docs/project-control/phase_") and path.endswith("_report.md")
-    ]
+    return [path for path in files if is_phase_report(path)]
 
 
 def read_pr_body():
@@ -194,6 +197,23 @@ def lane_compatible(rule_lane, declared_lane):
     return rule_lane.lower() == declared_lane.lower()
 
 
+def companion_report_path(path, non_report_matches, declared_lane):
+    if not is_phase_report(path):
+        return False
+    if not non_report_matches:
+        return False
+    return bool(declared_lane) and declared_lane.lower() != CONTROL_LANE.lower()
+
+
+def effective_matches(matched, declared_lane):
+    non_report_matches = [(path, rule) for path, rule in matched if not is_phase_report(path)]
+    for path, rule in matched:
+        if companion_report_path(path, non_report_matches, declared_lane):
+            yield path, rule, True
+        else:
+            yield path, rule, False
+
+
 def main():
     if not MATRIX.exists():
         print("FAIL: matrix missing")
@@ -227,7 +247,11 @@ def main():
 
     required_sections = set()
     required_updates = set()
-    for _, rule in matched:
+    companion_reports = []
+    for path, rule, is_companion in effective_matches(matched, declared_lane):
+        if is_companion:
+            companion_reports.append(path)
+            continue
         required_sections.update(rule.get("required_report_sections", []) or [])
         required_updates.update(rule.get("required_control_updates", []) or [])
         rule_lane = str(rule.get("lane", "")).strip()
@@ -259,6 +283,10 @@ def main():
     print(f"Matched rules: {len(matched)}")
     if reports:
         print(f"Current phase report: {reports[0]}")
+    if companion_reports:
+        print("Companion phase reports treated as documentation for declared lane:")
+        for path in companion_reports:
+            print(f"- {path}")
     print(f"Declared lane: {declared_lane or '(missing)'}")
 
     if fail:

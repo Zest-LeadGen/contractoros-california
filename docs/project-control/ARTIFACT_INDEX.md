@@ -16,3 +16,5 @@ No new Google Drive artifact was created in this phase.
 - GitHub should contain durable source, text records, reports, and reviewable project-control documents.
 - This index does not add or imply the existence of any new Drive artifact.
 - Existing historical artifact details should be added only when the Drive reference is known and verified.
+- Phase 4I-A creates no ZIP, binary, build artifact, Drive artifact, or archive artifact.
+- Phase 4I-A is a source/text control hotfix only.
