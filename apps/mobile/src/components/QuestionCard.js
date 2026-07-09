@@ -6,6 +6,7 @@ export default function QuestionCard(props) {
   const [selectedChoiceId, setSelectedChoiceId] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const selectedChoice = item.choices.find((choice) => choice.id === selectedChoiceId);
+  const correctChoice = item.choices.find((choice) => choice.id === item.correctChoiceId);
 
   function resetLocalFixture() {
     setSelectedChoiceId(null);
@@ -54,6 +55,7 @@ export default function QuestionCard(props) {
         <View style={styles.feedbackBox}>
           <Text style={styles.feedbackTitle}>Feedback-after-submit</Text>
           <Text style={styles.feedbackText}>Selected: {selectedChoice?.text}</Text>
+          <Text style={styles.feedbackText}>Correct fixture answer: {correctChoice?.text}</Text>
           <Text style={styles.feedbackText}>{item.feedback}</Text>
           <Text style={styles.noOutcome}>No score, readiness, pass/fail, persistence, telemetry, or remote call was produced.</Text>
           <Pressable onPress={resetLocalFixture} style={styles.resetButton}>

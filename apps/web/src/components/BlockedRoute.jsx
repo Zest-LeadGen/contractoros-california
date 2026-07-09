@@ -4,7 +4,7 @@ export default function BlockedRoute({ title, reason }) {
       <p className="eyebrow">Blocked route</p>
       <h2>{title}</h2>
       <p>{reason}</p>
-      <p className="warning-text">This Phase 3A build has no public, readiness, pass/fail, backend, database, or Question Bank route.</p>
+      <p className="warning-text">This internal scaffold has no public, readiness, pass/fail, backend, database, or Question Bank route.</p>
     </section>
   );
 }
