@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4K-0 - Product Development Re-Entry Scope Gate
+
+```text
+Phase: Phase 4K-0 - Product Development Re-Entry Scope Gate
+Lane: Control / Planning
+Date: 2026-07-09
+Branch: codex/phase-4k-0-reentry-scope-gate
+Phase issue: #27
+PR: Pending until opened
+Base SHA: 98cf25ff91e9bd3b852669af32bc2951e958494a
+Head SHA: Pending until Phase 4K-0 commit
+Merge SHA: Pending
+Changed files: project-control roadmap, tracker, governance registers, validation tasks, artifact index, model run log, and Phase 4K-0 report
+Commands run: Starting main/worktree checks, direct GitHub issue/comment reads, committed file inventory reads, local control validation planned before commit
+Claim level: Repository-evidence inventory and planning only; no product, release, backend, Firebase, auth, cloud, build, distribution, scoring, readiness, payment, CRM, marketplace, or public-launch implementation claim
+Next phase: Phase 4K-1 recommended but not started; Phase 4I remains paused
+```
+
 ### Phase 4J-5 — Red-Team Operating Protocol + Handoff Playbook
 
 ```text

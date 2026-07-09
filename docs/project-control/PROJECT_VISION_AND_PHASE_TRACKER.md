@@ -25,7 +25,7 @@ Future role/module categories may include:
 - California contractor code and utility watch
 - homeowner / home energy analysis tools
 - government contracting radar
-- solar EPC proposal / readiness tools
+- future solar EPC proposal / readiness tools
 - admin/editorial command center
 - AI source-watch and content-update pipeline
 
@@ -109,6 +109,18 @@ A phase is complete only when:
 
 No verified main = no next phase.
 
+## 4K-0 Re-Entry Status
+
+Starting main evidence for Phase 4K-0 is `98cf25ff91e9bd3b852669af32bc2951e958494a`, the Phase 4J-5 merged main SHA named by Issue #27.
+
+The repo evidence supports an internal fixture/local scaffold claim only. It does not support production, public-launch, exam-currentness, scoring, readiness, backend, Firebase, auth, cloud, build/distribution, app-store, payment, CRM, marketplace, or full Question Bank claims.
+
+Exactly one next implementation phase is recommended: Phase 4K-1 - Internal Scaffold Product / QA Hardening.
+
+Phase 4K-1 must be opened as a later GitHub issue before implementation. Phase 4K-0 does not start Phase 4K-1.
+
+Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
+
 ---
 
 ## 5. Phase Map
@@ -126,7 +138,10 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4C | Internal Expo mobile scaffold                                       | PR + source inspection + report | Merged PR and verified main                 |
 | Phase 4D | Expo mobile runtime smoke QA                                        | PR + command evidence + report  | Merged PR and verified main                 |
 | Phase 4E | Project-control foundation, role boundaries, and red-team structure | PR + docs inspection            | Not complete until merged and main verified |
-| Phase 4F | Next approved milestone                                             | Owner approval required         | Not started unless explicitly authorized    |
+| Phase 4F | Next approved milestone                                             | Owner approval required         | Not started and not authorized unless a future durable issue says so |
+| Phase 4J-5 | Red-team operating protocol, state machine, and handoff playbook | PR + project-control docs | Merged at `98cf25ff91e9bd3b852669af32bc2951e958494a` |
+| Phase 4K-0 | Product development re-entry scope gate | Issue #27 + project-control docs | Current control/planning phase; product implementation not started |
+| Phase 4K-1 | Recommended next internal scaffold Product / QA hardening phase | Future issue required | Not started |
 
 This table must be updated after each completed phase.
 
@@ -184,16 +199,16 @@ The following remain blocked unless explicitly approved:
 
 * backend
 * database
-* Firebase
-* Airtable runtime
+* no Firebase
+* no Airtable runtime
 * deployment
-* auth/login/user accounts
-* payments/subscriptions
+* no auth/login/user accounts
+* no payments/subscriptions
 * scoring
-* readiness
-* pass/fail
+* no readiness
+* no pass/fail
 * saved progress
-* analytics
+* no analytics
 * public MCQs
 * Question Bank migration
 * C10 public content
@@ -220,11 +235,11 @@ These are future planning categories, not implementation proof:
 * question bank governance
 * internal testing workflow
 * user progress if approved later
-* scoring/readiness if approved later
+* future scoring/readiness if approved later
 * backend if approved later
 * database if approved later
 * admin/editorial system if approved later
-* Airtable/editorial bridge if approved later
+* future Airtable/editorial bridge if approved later
 * deployment if approved later
 * app build/distribution if approved later
 * monetization if approved later
@@ -275,7 +290,7 @@ Track by gates instead:
 | Build artifact gate           | Approved APK/AAB/build artifact exists          | Not passed                             |
 | Install gate                  | Artifact installed and launched                 | Not passed                             |
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
-| Public/production gate        | Release readiness proven and approved           | Not passed                             |
+| Public/production gate        | no release readiness proven or approved         | Not passed                             |
 
 Progress is measured by passed gates, not optimism.
 

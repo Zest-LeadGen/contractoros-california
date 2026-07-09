@@ -56,6 +56,11 @@ Purpose: record durable architectural and process decisions.
 - Red-team command guidance must include expected success output, failure indicators, stop conditions, and the next allowed action after confirmation.
 - Future red-team responses must include the project progress snapshot unless the response is only a brief acknowledgment or the owner explicitly asks for no progress section.
 - The Phase 4J-4 progress snapshot baseline is a governance estimate only and does not make product-readiness, exam-readiness, public-launch, pass/fail, production, build, backend, Firebase, auth, cloud, or distribution claims.
+- Phase 4K-0 is a control/planning re-entry gate only and does not authorize product implementation.
+- The durable no-memory-only owner directive from Issue #24 applies to Phase 4K-0 and future ContractorOS work: if a material approval, decision, scope, condition, closeout, protocol update, or operating rule is not recorded in GitHub/project-control evidence, it is not durable.
+- Exactly one next implementation phase is recommended after Phase 4K-0: Phase 4K-1 - Internal Scaffold Product / QA Hardening.
+- Phase 4K-1 must be created as a later GitHub phase issue before implementation and must not begin inside Phase 4K-0.
+- Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
 ## Review Condition
 

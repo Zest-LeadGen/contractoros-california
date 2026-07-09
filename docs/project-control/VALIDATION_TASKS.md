@@ -30,6 +30,29 @@ Purpose: record validation tasks for ContractorOS California governance and phas
 
 Validation task status must be updated by repo evidence, not memory.
 
+## Phase 4K-0 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4K0-001 | Verify starting main after Phase 4J-5. | Documentation source sync command `git fetch origin main` and `git rev-parse origin/main` | Returns `98cf25ff91e9bd3b852669af32bc2951e958494a`; stop if main has moved unexpectedly. | Passed before branch creation. |
+| VAL-4K0-002 | Verify Phase 4J-5 protocol docs exist on main. | File review of `RED_TEAM_OPERATING_PROTOCOL.md`, `RED_TEAM_STATE_MACHINE.md`, and `HANDOFF_PLAYBOOK.md` | Required protocol docs exist in committed project-control records. | Passed in local documentation review. |
+| VAL-4K0-003 | Verify Issue #24 no-memory-only directive is recorded. | Direct GitHub API read of Issue #24 comment `4928479219` | Comment records that non-durable approvals, decisions, agreed scope, authorizations, rejections, conditions, closeouts, protocol updates, and future operating rules are not durable. | Passed with direct GitHub issue-comment evidence. |
+| VAL-4K0-004 | Inventory committed project evidence. | `git ls-tree -r --name-only HEAD` and project-control file review | Inventory identifies product/app, content, backend/Firebase/auth/cloud, build/distribution, known gaps, risks, roadmap, and phase tracker status from committed files only. | Passed in local evidence review. |
+| VAL-4K0-005 | Verify changed files are limited to the allowlist. | Changed-file review | Only `docs/project-control/**` files changed. | Passed in local validation. |
+| VAL-4K0-006 | Run changed-file lane check. | `python3 scripts/control/check_changed_files.py` | Pass; no dependency, build, backend, database, native, product, app, mobile, or web lane file is changed. | Passed in local validation. |
+| VAL-4K0-007 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; no implementation-looking forbidden terms outside blocked/future/claim/control context. | Passed in local validation after wording updates. |
+| VAL-4K0-008 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; Phase 4K-0 report and required control updates are present. | Passed in local validation. |
+| VAL-4K0-009 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and `Phase issue: #27` reference are present. | Passed in local validation. |
+| VAL-4K0-010 | Run owner-trigger marker check. | `python3 scripts/control/check_owner_trigger_review.py` | Pass; Phase 4K-0 report contains the required `OWNER_TRIGGER_REVIEW` marker. | Passed in local validation. |
+| VAL-4K0-011 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no package or lockfile changes are present and no contaminated lockfile is introduced. | Passed in local validation. |
+| VAL-4K0-012 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported product, release, production, backend, Firebase, auth, cloud, build, distribution, app-store, public-launch, readiness, scoring, pass/fail, CRM, marketplace, or payment implementation claim is made. | Passed in local validation. |
+| VAL-4K0-013 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4K0-014 | Verify no package or lockfile files changed. | Changed-file review and lockfile scanner | No package or lockfile paths appear. | Passed in local validation. |
+| VAL-4K0-015 | Verify no forbidden product/app/backend/database/Firebase/auth/cloud/deployment/payment/CRM/marketplace files changed. | Changed-file review and forbidden-scope scan | Only allowed project-control files are changed. | Passed in local validation. |
+| VAL-4K0-016 | Verify no forbidden commands were run. | Phase report commands section and model run log | No npm, Expo, EAS, Android, iOS, native build, backend, Firebase, database, auth, deployment, dependency, payment, CRM, or marketplace commands were run. | Passed in local documentation review. |
+| VAL-4K0-017 | Verify no artifact output was created. | Artifact index and changed-file review | No artifact, ZIP, binary, build output, Drive artifact, hosted artifact, release artifact, or archive artifact is created. | Passed in local validation. |
+| VAL-4K0-018 | Verify expected PR behavior. | GitHub Actions after PR opens | Owner-trigger evidence should pass; mandatory SHA-bound red-team marker check should fail until external red-team adds a valid marker for the exact current PR head SHA. | Pending PR creation. |
+
 ## Phase 4J-1 Tasks
 
 | Task ID | Task | Command or check | Expected result | Status |

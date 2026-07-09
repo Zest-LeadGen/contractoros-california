@@ -15,9 +15,11 @@ Purpose: prevent fake progress, overclaims, and memory drift.
 - no full content system yet
 - no legal/currentness verification for public exam content
 - no production/public MVP status
+- Phase 4K-0 confirms these gaps remain active from committed repository evidence only; it does not resolve product, content, backend, Firebase, auth, cloud, build/distribution, scoring, readiness, payment, CRM, marketplace, or public-launch gaps.
 
 ## Non-Goals For Current Phase
 
+- Phase 4K-0 is not product implementation
 - not a production app
 - not public
 - not exam-ready
