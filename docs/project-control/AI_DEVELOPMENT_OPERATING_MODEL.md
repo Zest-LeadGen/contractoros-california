@@ -42,7 +42,7 @@ The required plain-text marker begins with `RED_TEAM_DECISION` and includes PR n
 
 `scripts/control/check_red_team_marker.py` validates the marker text against the current PR head SHA and fails when the marker is missing, stale, malformed, or records `CHANGES_REQUESTED` or `BLOCKED`.
 
-Phase 4J-2 creates the marker format and validator. Mandatory gate enforcement is documented as a future activation step because Phase 4J-2 itself still requires bootstrap red-team review after the control exists.
+Phase 4J-3 wires the marker validator into the required ContractorOS control-gates workflow for pull requests. The workflow reruns on PR body edits so red-team can add the marker after review, and any later commit changes the PR head SHA and requires a fresh marker.
 
 Current state:
 

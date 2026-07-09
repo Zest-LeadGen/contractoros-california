@@ -31,8 +31,8 @@
 ## Red-Team Decision Evidence
 
 <!--
-Future mandatory enforcement target:
-Paste one machine-checkable marker as plain text after red-team review. The PR head SHA in the marker must match the current PR head SHA at the time of review.
+Mandatory enforcement:
+Paste one machine-checkable marker as plain text after red-team review, outside this HTML comment and outside any fenced code block. The PR head SHA in the marker must match the current PR head SHA at the time of review. New commits after the marker require a fresh marker for the new PR head SHA.
 
 RED_TEAM_DECISION
 PR number: #123

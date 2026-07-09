@@ -20,3 +20,5 @@ No new Google Drive artifact was created in this phase.
 - Phase 4J-0 is a source/text control documentation phase only.
 - Phase 4I-A creates no ZIP, binary, build artifact, Drive artifact, or archive artifact.
 - Phase 4I-A is a source/text control hotfix only.
+- Phase 4J-3 creates no ZIP, binary, build artifact, Drive artifact, release artifact, hosted artifact, or archive artifact.
+- Phase 4J-3 is a source/text control enforcement phase only.

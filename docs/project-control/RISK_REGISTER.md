@@ -294,9 +294,9 @@ Last reviewed: 2026-07-07
 
 ```text
 Risk: stale red-team approval after new PR commits
-Status: Active / Mitigated by Phase 4J-2 control, mandatory enforcement pending future activation
-Evidence: Without SHA binding, a PR could receive red-team approval and then receive new unreviewed commits before merge.
+Status: Active / controlled by Phase 4J-3 pull request workflow enforcement after merge
+Evidence: Phase 4J-3 wires `scripts/control/check_red_team_marker.py` into the required pull request control-gates workflow and reruns the workflow on PR body edits. Without the matching current PR head SHA, the marker step fails.
 Owner: ContractorOS development lead / red-team gate
-Resolution condition: SHA-bound red-team marker validation is required in protected PR control gates after bootstrap activation.
+Resolution condition: SHA-bound red-team marker validation remains required in protected PR control gates, and post-PR Actions evidence confirms stale markers fail.
 Last reviewed: 2026-07-09
 ```

@@ -36,7 +36,7 @@ The marker must include PR number, PR head SHA, decision, reviewer role, review 
 
 A red-team approval applies only to the listed PR head SHA. If new commits change the PR head SHA after review, the prior approval is stale and a fresh red-team decision is required.
 
-Phase 4J-2 creates the marker format and validator. Mandatory enforcement may be activated by Phase 4J-3 or a later approved control phase after bootstrap review.
+Phase 4J-3 wires the marker validator into the required ContractorOS control-gates workflow for pull requests. PR body edits rerun the workflow, and a marker is valid only when it matches the current PR number and current PR head SHA.
 
 ## Required Development Route
 

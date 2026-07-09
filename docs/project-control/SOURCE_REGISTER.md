@@ -22,6 +22,10 @@ Purpose: record sources used for ContractorOS California control decisions.
 | SRC-4J2-002 | `main` at `a3d8e88f11200b01b0f1ef54960d1a39938b78db` | Repository source | Starting SHA for Phase 4J-2 | Verified locally before branch creation | GitHub remains source of truth. |
 | SRC-4J2-003 | GitHub issue #18 | GitHub issue source | Durable issue intake for Phase 4J-2 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/18 |
 | SRC-4J2-004 | Existing `.github/pull_request_template.md`, `scripts/control/check_pr_contract.py`, and project-control docs | Repository source | Control-gate integration and report-contract style | Read locally before editing | Used to add marker validation without weakening existing gates. |
+| SRC-4J3-001 | Phase 4J-3 owner prompt | Owner/project phase instruction | Mandatory red-team marker enforcement objective, issue #20, file allowlist, validation commands, and prohibitions | Current turn prompt | Durable implementation evidence captured in Phase 4J-3 files and report. |
+| SRC-4J3-002 | `main` at `cfe01c7e381b3d2c0f26f0dba187d0a030368219` | Repository source | Starting SHA for Phase 4J-3 | Verified locally before branch creation | GitHub remains source of truth. |
+| SRC-4J3-003 | GitHub issue #20 | GitHub issue source | Durable issue intake for Phase 4J-3 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/20 |
+| SRC-4J3-004 | Existing `.github/workflows/control-gates.yml`, `.github/pull_request_template.md`, `scripts/control/check_red_team_marker.py`, and project-control docs | Repository source | Workflow integration, PR template instruction, validator behavior, and report-contract style | Read locally before editing | Used to activate mandatory marker enforcement without weakening existing gates or adding elevated permissions. |
 
 ## Source Rules
 
