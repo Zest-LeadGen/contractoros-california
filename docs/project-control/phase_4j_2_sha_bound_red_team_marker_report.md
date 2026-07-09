@@ -113,12 +113,14 @@ A red-team approval is valid only for the exact SHA listed in the marker. Any la
 
 The validator ignores HTML comments and fenced code examples so template/report examples are not treated as real red-team decisions. The actual marker must be plain text.
 
+Correction note: the validator now treats any parsed `BLOCKED` or `CHANGES_REQUESTED` marker as a hard fail, even when another parsed marker is a valid `APPROVED` marker.
+
 Minimum behavior:
 
 - If no marker exists, the script reports that the red-team marker is missing.
 - If a marker exists but the PR head SHA does not match, the script fails.
 - If the marker decision is `CHANGES_REQUESTED` or `BLOCKED`, the script fails.
-- If the marker decision is `APPROVED` and the SHA matches, the red-team marker check passes.
+- If at least one marker decision is `APPROVED`, at least one approved marker matches the current PR number and PR head SHA, and no parsed marker is malformed or records `CHANGES_REQUESTED` or `BLOCKED`, the red-team marker check passes.
 
 ## Bootstrap Limitation
 
@@ -180,6 +182,9 @@ Reviewed control records with no update required:
 
 ```text
 docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required
+docs/project-control/DECISION_LOG.md: reviewed, no update required
+docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
 ```
 
 ## Risk Register Impact

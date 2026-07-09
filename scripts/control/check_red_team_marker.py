@@ -176,13 +176,6 @@ def validate_marker(marker, head_sha, pr_number):
     marker_sha = marker.get("PR head SHA", "")
     if marker_sha and not re.fullmatch(r"[0-9a-fA-F]{40}", marker_sha):
         failures.append("red-team marker PR head SHA must be a 40-character git SHA.")
-    if head_sha and marker_sha and marker_sha.lower() != head_sha.lower():
-        failures.append(f"red-team marker SHA mismatch: marker {marker_sha} != current {head_sha}")
-
-    marker_pr = normalize_pr_number(marker.get("PR number", ""))
-    current_pr = normalize_pr_number(pr_number)
-    if current_pr and marker_pr and marker_pr != current_pr:
-        failures.append(f"red-team marker PR number mismatch: marker #{marker_pr} != current #{current_pr}")
 
     if marker.get("Review date") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", marker["Review date"]):
         failures.append("red-team marker review date must use YYYY-MM-DD.")
@@ -196,13 +189,42 @@ def validate_marker(marker, head_sha, pr_number):
     return failures
 
 
-def run_self_test():
-    good_sha = "0123456789abcdef0123456789abcdef01234567"
-    good = f"""
+def marker_matches_current(marker, head_sha, pr_number):
+    marker_sha = marker.get("PR head SHA", "")
+    marker_pr = normalize_pr_number(marker.get("PR number", ""))
+    current_pr = normalize_pr_number(pr_number)
+    if not head_sha or marker_sha.lower() != head_sha.lower():
+        return False
+    if current_pr and marker_pr != current_pr:
+        return False
+    return True
+
+
+def evaluate_markers(markers, head_sha, pr_number):
+    failures = []
+    approved_matches = []
+    for index, marker in enumerate(markers, 1):
+        decision = marker.get("Decision", "")
+        marker_failures = validate_marker(marker, head_sha, pr_number)
+        if marker_failures:
+            failures.extend(f"marker {index}: {failure}" for failure in marker_failures)
+        if decision == "APPROVED" and not marker_failures and marker_matches_current(marker, head_sha, pr_number):
+            approved_matches.append(marker)
+
+    if failures:
+        return False, failures
+    if approved_matches:
+        return True, []
+    return False, ["no APPROVED red-team marker matches the current PR number and PR head SHA."]
+
+
+def marker_text(decision="APPROVED", sha=None, pr_number="#123"):
+    marker_sha = sha or "0123456789abcdef0123456789abcdef01234567"
+    return f"""
 {MARKER}
-PR number: #123
-PR head SHA: {good_sha}
-Decision: APPROVED
+PR number: {pr_number}
+PR head SHA: {marker_sha}
+Decision: {decision}
 Reviewer role: Red-team reviewer
 Review date: 2026-07-09
 Scope reviewed: Phase scope and changed files reviewed.
@@ -210,16 +232,29 @@ Conditions: None.
 Forbidden-scope confirmation: Confirmed no forbidden scope in reviewed diff.
 SHA-bound statement: {SHA_BOUND_STATEMENT}
 """
-    bad = good.replace("Decision: APPROVED", "Decision: BLOCKED")
-    good_markers = extract_markers(good)
-    bad_markers = extract_markers(bad)
-    if len(good_markers) != 1 or validate_marker(good_markers[0], good_sha, "123"):
-        print("FAIL: self-test approved marker did not pass.")
-        return 1
-    bad_failures = validate_marker(bad_markers[0], good_sha, "123") if bad_markers else []
-    if not any("not merge-eligible" in failure for failure in bad_failures):
-        print("FAIL: self-test blocked marker did not fail.")
-        return 1
+
+
+def run_self_test():
+    good_sha = "0123456789abcdef0123456789abcdef01234567"
+    stale_sha = "fedcba9876543210fedcba9876543210fedcba98"
+    cases = [
+        ("approved-only marker passes", marker_text(), True),
+        ("BLOCKED-only marker fails", marker_text("BLOCKED"), False),
+        ("CHANGES_REQUESTED-only marker fails", marker_text("CHANGES_REQUESTED"), False),
+        ("APPROVED plus BLOCKED fails", marker_text() + marker_text("BLOCKED"), False),
+        ("APPROVED plus CHANGES_REQUESTED fails", marker_text() + marker_text("CHANGES_REQUESTED"), False),
+        ("APPROVED with stale SHA fails", marker_text(sha=stale_sha), False),
+        ("template fenced-code examples are ignored", f"```text\n{marker_text()}\n```", False),
+    ]
+    for label, text, should_pass in cases:
+        markers = extract_markers(text)
+        passed, failures = evaluate_markers(markers, good_sha, "123") if markers else (False, ["red-team marker is missing."])
+        if passed != should_pass:
+            print(f"FAIL: self-test case failed: {label}")
+            if failures:
+                for failure in failures:
+                    print(f"- {failure}")
+            return 1
     if extract_markers(""):
         print("FAIL: self-test empty text unexpectedly produced a marker.")
         return 1
@@ -253,16 +288,8 @@ def main():
     head_sha = current_head_sha(payload, args.head_sha)
     pr_number = current_pr_number(payload, args.pr_number)
 
-    valid_approved = []
-    failures = []
-    for marker in markers:
-        marker_failures = validate_marker(marker, head_sha, pr_number)
-        if marker_failures:
-            failures.extend(marker_failures)
-        else:
-            valid_approved.append(marker)
-
-    if valid_approved:
+    passed, failures = evaluate_markers(markers, head_sha, pr_number)
+    if passed:
         print(f"PASS: red-team marker check completed for SHA {head_sha}.")
         return 0
 
