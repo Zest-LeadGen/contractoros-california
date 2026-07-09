@@ -114,6 +114,15 @@ Owner performed GitHub CLI authentication for documentation PR setup and PR crea
 https://github.com/Zest-LeadGen/contractoros-california/pull/15
 ```
 
+### Commands Completed After Final Correction Approval
+
+```text
+git push --force-with-lease origin phase-4j-0-codex-operating-model
+gh pr edit 15 --body-file docs/project-control/phase_4j_0_codex_operating_model_report.md
+```
+
+Owner pushed the amended final correction to PR #15 and updated the PR body.
+
 ## Dependency / Lockfile Handling
 
 No dependencies were added or changed.
@@ -264,4 +273,4 @@ Phase 4J-1 is not started.
 
 Phase 4I is not resumed.
 
-PR #15 exists, but this final correction must not be pushed until owner/red-team confirms. Do not merge.
+PR #15 exists and the final correction has been pushed. Do not merge until GitHub Actions passes, red-team review is complete, required approval is present, and post-merge main verification is planned.
