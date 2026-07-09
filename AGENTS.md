@@ -28,6 +28,16 @@ Codex is a developer executor only. Codex may implement approved scoped changes,
 
 Red-team review remains separate. Human/write-access approval remains required before merge.
 
+## Red-Team SHA Binding
+
+Future red-team decisions must use an exact `RED_TEAM_DECISION` marker in GitHub PR evidence.
+
+The marker must include PR number, PR head SHA, decision, reviewer role, review date, scope reviewed, conditions, forbidden-scope confirmation, and the exact SHA-bound statement defined by `scripts/control/check_red_team_marker.py`.
+
+A red-team approval applies only to the listed PR head SHA. If new commits change the PR head SHA after review, the prior approval is stale and a fresh red-team decision is required.
+
+Phase 4J-2 creates the marker format and validator. Mandatory enforcement may be activated by Phase 4J-3 or a later approved control phase after bootstrap review.
+
 ## Required Development Route
 
 Use this route unless a later project-control PR changes it:

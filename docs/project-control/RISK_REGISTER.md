@@ -289,3 +289,14 @@ Owner: ContractorOS development lead / red-team gate
 Resolution condition: ROLE_BOUNDARIES.md and red-team README clearly mark them as reviewer/control files; developer must not treat them as implementation scope.
 Last reviewed: 2026-07-07
 ```
+
+### stale red-team approval after new PR commits
+
+```text
+Risk: stale red-team approval after new PR commits
+Status: Active / Mitigated by Phase 4J-2 control, mandatory enforcement pending future activation
+Evidence: Without SHA binding, a PR could receive red-team approval and then receive new unreviewed commits before merge.
+Owner: ContractorOS development lead / red-team gate
+Resolution condition: SHA-bound red-team marker validation is required in protected PR control gates after bootstrap activation.
+Last reviewed: 2026-07-09
+```
