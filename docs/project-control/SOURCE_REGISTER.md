@@ -26,6 +26,10 @@ Purpose: record sources used for ContractorOS California control decisions.
 | SRC-4J3-002 | `main` at `cfe01c7e381b3d2c0f26f0dba187d0a030368219` | Repository source | Starting SHA for Phase 4J-3 | Verified locally before branch creation | GitHub remains source of truth. |
 | SRC-4J3-003 | GitHub issue #20 | GitHub issue source | Durable issue intake for Phase 4J-3 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/20 |
 | SRC-4J3-004 | Existing `.github/workflows/control-gates.yml`, `.github/pull_request_template.md`, `scripts/control/check_red_team_marker.py`, and project-control docs | Repository source | Workflow integration, PR template instruction, validator behavior, and report-contract style | Read locally before editing | Used to activate mandatory marker enforcement without weakening existing gates or adding elevated permissions. |
+| SRC-4J4-001 | Phase 4J-4 owner prompt | Owner/project phase instruction | Owner-trigger detection objective, issue #22, file allowlist, required marker fields, validation behavior, and prohibitions | Current turn prompt | Durable implementation evidence captured in Phase 4J-4 files and report. |
+| SRC-4J4-002 | `main` at `21d5ecea173e13cfbb58fe6a69cce5cd5a07c413` | Repository source | Starting SHA for Phase 4J-4 | Verified locally before branch creation | GitHub remains source of truth. |
+| SRC-4J4-003 | GitHub issue #22 | GitHub issue source | Durable issue intake for Phase 4J-4 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/22 |
+| SRC-4J4-004 | Existing `.github/workflows/control-gates.yml`, `.github/pull_request_template.md`, `scripts/control/check_red_team_marker.py`, `scripts/control/check_pr_contract.py`, and project-control docs | Repository source | Workflow integration, PR template instruction, validator style, report contract, and governance register update style | Read locally before editing | Used to add owner-trigger marker enforcement without weakening red-team enforcement or adding elevated permissions. |
 
 ## Source Rules
 

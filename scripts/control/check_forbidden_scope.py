@@ -51,6 +51,7 @@ ALLOW = [
     'terms=',
     'fetch-depth',
     'pull-requests: read',
+    'production_readiness',
 ]
 SKIP = {'.git', 'node_modules', '.expo', 'dist', 'build', 'coverage', '__pycache__'}
 SUF = {'.js', '.jsx', '.ts', '.tsx', '.json', '.md', '.yml', '.yaml', '.py', '.txt'}

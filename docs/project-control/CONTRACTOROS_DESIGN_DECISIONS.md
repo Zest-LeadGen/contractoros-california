@@ -223,3 +223,13 @@ Rejected alternative: Keep the red-team marker validator optional/manual.
 Risk: A PR could pass required checks without exact-SHA red-team evidence.
 Control: The GitHub Actions control-gates workflow runs the SHA-bound red-team marker validator.
 ```
+
+### CDR-4J-023 — Owner-trigger and lane-eligibility evidence required before future automation
+
+```text
+Status: Proposed / active after Phase 4J-4 merge
+Decision: Future PRs must include explicit owner-trigger and lane-eligibility evidence before they can pass ContractorOS control gates. This evidence must state whether owner interruption is required, which trigger categories apply, whether the lane is future-low-risk eligible, whether human approval is required, and whether auto-merge is eligible.
+Rejected alternative: Let future automation infer owner-trigger status from informal PR descriptions or chat context.
+Risk: Automation could incorrectly treat legal, financial, paid-service, release, production, app-store/build, scope-expansion, security/dependency, unresolved red-team, or architecture-threshold work as low risk.
+Control: A machine-checkable OWNER_TRIGGER_REVIEW marker is required and validated by the control-gates workflow.
+```

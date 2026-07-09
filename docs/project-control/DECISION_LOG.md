@@ -48,6 +48,9 @@ Purpose: record durable architectural and process decisions.
 - A red-team approval is stale after any later commit changes the PR head SHA.
 - The ContractorOS control-gates workflow requires the SHA-bound red-team marker on pull requests after Phase 4J-3.
 - PR body edits rerun the control-gates workflow so a red-team marker can be added after review without using elevated pull request permissions.
+- Future PRs must include a machine-checkable `OWNER_TRIGGER_REVIEW` marker before the required pull request control gate can pass after Phase 4J-4.
+- Owner-trigger categories other than `NONE` make a PR `NOT_AUTOMATION_ELIGIBLE`.
+- Human approval remains required and auto-merge remains ineligible for all PRs after Phase 4J-4 unless a later approved control phase changes policy.
 
 ## Review Condition
 
