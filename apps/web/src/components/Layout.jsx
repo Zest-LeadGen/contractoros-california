@@ -11,7 +11,7 @@ export default function Layout({ children, view, setView, openBlocked }) {
       <InternalBanner />
       <header className="hero">
         <p className="eyebrow">ContractorOS California</p>
-        <h1>Phase 3A Local MVP App Shell</h1>
+        <h1>Phase One Internal Scaffold</h1>
         <p>Fixture-only Law & Business learner flow plus internal claim-governance view. No backend, scoring, readiness, or public content.</p>
       </header>
       <nav className="nav-card">

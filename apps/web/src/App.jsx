@@ -9,12 +9,12 @@ import ClaimGovernanceDashboard from './components/ClaimGovernanceDashboard.jsx'
 import { internalFixtureItems } from './data/internalFixtureItems.js';
 
 const blockedRoutes = {
-  readiness: { title: 'Readiness scoring blocked', reason: 'Readiness scoring is not approved in Phase 3A.' },
-  passFail: { title: 'Pass/fail logic blocked', reason: 'Pass/fail predictions are not approved in Phase 3A.' },
+  readiness: { title: 'Readiness scoring blocked', reason: 'Readiness scoring is blocked in the Phase One internal scaffold.' },
+  passFail: { title: 'Pass/fail logic blocked', reason: 'Pass/fail predictions are blocked in the Phase One internal scaffold.' },
   publicLaunch: { title: 'Public launch blocked', reason: 'Public launch requires future legal, content, and build-readiness gates.' },
   c10Public: { title: 'C10 public content blocked', reason: 'C10 deferred until currentness/safety gate approval.' },
-  backend: { title: 'Backend/database blocked', reason: 'No backend or database is connected in Phase 3A.' },
-  questionBank: { title: 'Question Bank migration blocked', reason: 'No content is approved for Question Bank migration in Phase 3A.' }
+  backend: { title: 'Backend/database blocked', reason: 'No backend or database is connected in the Phase One internal scaffold.' },
+  questionBank: { title: 'Question Bank migration blocked', reason: 'No content is approved for Question Bank migration in the Phase One internal scaffold.' }
 };
 
 export default function App() {
