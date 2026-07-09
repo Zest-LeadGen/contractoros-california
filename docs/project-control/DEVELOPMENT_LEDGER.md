@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4J-4 — Owner-Trigger Detection + Lane Eligibility Rules
+
+```text
+Phase: Phase 4J-4 — Owner-Trigger Detection + Lane Eligibility Rules
+Lane: Control / Infrastructure
+Date: 2026-07-09
+Branch: phase-4j-4-owner-trigger-lane-eligibility
+Phase issue: #22
+PR: #23
+Base SHA: 21d5ecea173e13cfbb58fe6a69cce5cd5a07c413
+Head SHA: Active PR head; final reviewed head SHA must be taken from PR #23 metadata and RED_TEAM_DECISION marker before merge.
+Merge SHA: Pending
+Changed files: owner-trigger marker validator, forbidden-scope scanner enum allowance, control-gates workflow, PR template, AGENTS.md, project-control governance docs, Phase 4J-4 report
+Commands run: Local validation command set before commit; push; PR creation; PR metadata check; GitHub Actions failed as expected at missing red-team marker
+Claim level: Source verified and local-script verified for Phase 4J-4 control files only after validation passes
+Next phase: Phase 4J-5 not started; Phase 4I not resumed
+```
+
 ### Phase 4J-3 — Mandatory Red-Team Marker Enforcement
 
 ```text

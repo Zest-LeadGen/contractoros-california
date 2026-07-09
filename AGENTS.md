@@ -38,6 +38,20 @@ A red-team approval applies only to the listed PR head SHA. If new commits chang
 
 Phase 4J-3 wires the marker validator into the required ContractorOS control-gates workflow for pull requests. PR body edits rerun the workflow, and a marker is valid only when it matches the current PR number and current PR head SHA.
 
+## Owner-Trigger And Lane Eligibility Evidence
+
+Future PRs must include an exact `OWNER_TRIGGER_REVIEW` marker in GitHub PR evidence before the required ContractorOS control gate can pass.
+
+The marker must state whether owner interruption is required, which trigger categories apply, whether the lane is future-low-risk eligible, whether human approval is required, whether auto-merge is eligible, and the rationale.
+
+Allowed trigger categories are `NONE`, `LEGAL`, `FINANCIAL`, `PAID_SERVICE`, `PUBLIC_RELEASE`, `PRODUCTION_READINESS`, `APP_STORE_BUILD_DISTRIBUTION`, `SCOPE_EXPANSION`, `UNRESOLVED_RED_TEAM_BLOCKED`, `DEPENDENCY_SECURITY_RISK_ACCEPTANCE`, and `ARCHITECTURE_THRESHOLD`.
+
+Any trigger category other than `NONE` requires `Lane eligibility: NOT_AUTOMATION_ELIGIBLE`.
+
+Current required values are `Human approval required: YES` and `Auto-merge eligible: NO`.
+
+Phase 4J-4 wires the marker validator into the required ContractorOS control-gates workflow for pull requests. This does not activate auto-merge or reduce human/write-access approval requirements.
+
 ## Required Development Route
 
 Use this route unless a later project-control PR changes it:

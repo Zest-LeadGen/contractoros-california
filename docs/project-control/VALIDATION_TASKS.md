@@ -69,3 +69,18 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-4J3-008 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
 | VAL-4J3-009 | Verify PR-body edit rerun behavior. | GitHub Actions after PR body edit with a red-team marker | The `pull_request` `edited` event reruns the control-gates workflow. | Pending GitHub Actions evidence after PR opens. |
 | VAL-4J3-010 | Verify stale marker behavior. | Add or compare a marker whose SHA differs from current PR head SHA | The mandatory marker step fails until the marker matches the current PR head SHA. | Pending GitHub Actions evidence after PR opens. |
+
+## Phase 4J-4 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4J4-001 | Verify owner-trigger marker validator self-test. | `python3 scripts/control/check_owner_trigger_review.py --self-test` | Pass; valid triggered and no-trigger markers pass; missing, unknown, inconsistent, auto-merge, human-approval, and ignored-example cases fail internally. | Passed in local validation. |
+| VAL-4J4-002 | Verify changed files remain inside the Phase 4J-4 allowlist. | `python3 scripts/control/check_changed_files.py` | Pass; no dependency, build, backend, database, native, product, app, mobile, or web lane file is changed. | Passed in local validation. |
+| VAL-4J4-003 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; no implementation-looking forbidden terms outside explicit exclusions. | Passed in local validation after adding `PRODUCTION_READINESS` as controlled governance enum text. |
+| VAL-4J4-004 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; Phase 4J-4 report and required control updates are present. | Passed in local validation after adding the exact `Artifact Index Impact` report section. |
+| VAL-4J4-005 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and `Phase issue: #22` reference are present. | Passed in local validation after adding the exact `Validation Evidence` report section. |
+| VAL-4J4-006 | Run local owner-trigger marker check against changed reports. | `python3 scripts/control/check_owner_trigger_review.py` | Pass; Phase 4J-4 report contains a valid `OWNER_TRIGGER_REVIEW` marker. | Passed in local validation. |
+| VAL-4J4-007 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no lockfile is added or changed. | Passed in local validation. |
+| VAL-4J4-008 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported readiness, release, or completion claim is made. | Passed in local validation. |
+| VAL-4J4-009 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4J4-010 | Verify PR control-gate interaction with red-team enforcement. | GitHub Actions after PR opens and PR body contains `OWNER_TRIGGER_REVIEW` evidence | Owner-trigger check can pass; mandatory red-team marker check is expected to fail until red-team adds a SHA-bound `RED_TEAM_DECISION` marker. | Observed on PR #23: control-gates failed at `Mandatory SHA-bound red-team marker check` with `FAIL: red-team marker is missing.` Any later commit reruns the workflow and still requires red-team evidence. |

@@ -63,3 +63,16 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-4J3-003 | A new commit after red-team approval must make the prior marker stale. | `scripts/control/check_red_team_marker.py`, `.github/workflows/control-gates.yml`, `AGENTS.md` | Validator compares marker `PR head SHA` to the current PR head SHA from the GitHub pull request event payload. |
 | RTM-4J3-004 | The PR template must require the marker as plain text, not hidden inside comments or fenced code blocks. | `.github/pull_request_template.md`, `scripts/control/check_red_team_marker.py` | Template text instructs plain-text placement; validator ignores HTML comments and fenced code examples. |
 | RTM-4J3-005 | Phase 4J-3 remains control-only and avoids app/product/dependency/build/backend/mobile/web scope. | `phase_4j_3_mandatory_red_team_marker_enforcement_report.md`, `VALIDATION_TASKS.md` | Local changed-file, forbidden-scope, lockfile, and PR contract checks must pass before push. |
+
+## Phase 4J-4 Traceability
+
+| Requirement ID | Requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-4J4-001 | Future PRs must include a machine-checkable owner-trigger and lane-eligibility marker. | `.github/pull_request_template.md`, `scripts/control/check_owner_trigger_review.py`, `.github/workflows/control-gates.yml` | Pull request control gate runs `python3 scripts/control/check_owner_trigger_review.py`. |
+| RTM-4J4-002 | Owner-trigger evidence must ignore HTML comments and fenced code examples. | `scripts/control/check_owner_trigger_review.py`, `.github/pull_request_template.md` | Validator self-test covers comments and fenced examples being ignored. |
+| RTM-4J4-003 | Trigger categories must be constrained to the approved category list. | `scripts/control/check_owner_trigger_review.py`, `AGENTS.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md` | Validator fails unknown trigger categories. |
+| RTM-4J4-004 | Owner interruption status and trigger categories must be internally consistent. | `scripts/control/check_owner_trigger_review.py` | Validator fails `YES` with `NONE` and `NO` with non-`NONE` categories. |
+| RTM-4J4-005 | Triggered PRs cannot be marked future-low-risk candidates. | `scripts/control/check_owner_trigger_review.py`, `CONTRACTOROS_DESIGN_DECISIONS.md` | Validator fails any non-`NONE` trigger category with `FUTURE_LOW_RISK_CANDIDATE`. |
+| RTM-4J4-006 | Human approval remains required and auto-merge remains ineligible. | `scripts/control/check_owner_trigger_review.py`, `.github/pull_request_template.md`, `AGENTS.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md` | Validator requires `Human approval required: YES` and `Auto-merge eligible: NO`. |
+| RTM-4J4-007 | Existing red-team marker enforcement must remain in place. | `.github/workflows/control-gates.yml`, `scripts/control/check_red_team_marker.py`, `phase_4j_4_owner_trigger_lane_eligibility_report.md` | Workflow keeps the mandatory SHA-bound red-team marker step for pull requests. |
+| RTM-4J4-008 | Phase 4J-4 does not activate auto-merge. | `phase_4j_4_owner_trigger_lane_eligibility_report.md`, `AGENTS.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md`, `DECISION_LOG.md` | Report and docs state auto-merge remains inactive and human approval remains required. |

@@ -64,6 +64,20 @@ Owner interruption triggers:
 
 Owner interruption remains required for legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED decisions, dependency/security risk acceptance, and architecture-threshold decisions.
 
+## Owner-Trigger And Lane Eligibility Evidence
+
+After Phase 4J-4, every future PR must include a machine-checkable `OWNER_TRIGGER_REVIEW` marker before the pull request control gate can pass.
+
+The marker records owner interruption status, trigger categories, lane eligibility, human approval requirement, auto-merge eligibility, and rationale. `scripts/control/check_owner_trigger_review.py` ignores HTML comments and fenced code examples, then fails missing, malformed, or internally inconsistent evidence.
+
+Allowed trigger categories are `NONE`, `LEGAL`, `FINANCIAL`, `PAID_SERVICE`, `PUBLIC_RELEASE`, `PRODUCTION_READINESS`, `APP_STORE_BUILD_DISTRIBUTION`, `SCOPE_EXPANSION`, `UNRESOLVED_RED_TEAM_BLOCKED`, `DEPENDENCY_SECURITY_RISK_ACCEPTANCE`, and `ARCHITECTURE_THRESHOLD`.
+
+Any trigger category other than `NONE` makes the PR `NOT_AUTOMATION_ELIGIBLE`. A `FUTURE_LOW_RISK_CANDIDATE` marker is only internally consistent when `Owner interruption required: NO` and `Trigger categories: NONE`.
+
+Current required values remain `Human approval required: YES` and `Auto-merge eligible: NO`.
+
+Phase 4J-4 does not activate auto-merge, reduce owner judgment, remove red-team review, or reduce human/write-access approval requirements.
+
 ## Tool Governance
 
 The following controls apply to Codex and other AI developer executors:

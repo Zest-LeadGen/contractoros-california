@@ -300,3 +300,14 @@ Owner: ContractorOS development lead / red-team gate
 Resolution condition: SHA-bound red-team marker validation remains required in protected PR control gates, and post-PR Actions evidence confirms stale markers fail.
 Last reviewed: 2026-07-09
 ```
+
+### owner-triggered work misclassified as low-risk automation
+
+```text
+Risk: owner-triggered work misclassified as low-risk automation
+Status: Active / controlled by Phase 4J-4 pull request workflow enforcement after merge
+Evidence: Phase 4J-4 defines the `OWNER_TRIGGER_REVIEW` marker and validates owner interruption status, trigger categories, lane eligibility, human approval, and auto-merge eligibility in pull request control gates.
+Owner: ContractorOS development lead / red-team gate / human approver
+Resolution condition: Owner-trigger marker validation remains required in protected PR control gates, and future automation phases refuse to treat legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED, dependency/security risk acceptance, or architecture-threshold PRs as future-low-risk candidates.
+Last reviewed: 2026-07-09
+```

@@ -28,6 +28,30 @@
 
 ## Red-Team Status
 
+## Owner Trigger / Lane Eligibility Evidence
+
+OWNER_TRIGGER_REVIEW marker must be pasted as plain text in this section, outside HTML comments and outside fenced code blocks.
+
+Human approval required remains YES.
+
+Auto-merge eligible remains NO.
+
+Future low-risk candidate does not mean current auto-merge eligibility.
+
+Any legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED, dependency/security risk acceptance, or architecture-threshold trigger makes the PR not automation eligible.
+
+<!--
+Example format only. Paste the real marker as plain text outside this comment.
+
+OWNER_TRIGGER_REVIEW
+Owner interruption required: YES
+Trigger categories: ARCHITECTURE_THRESHOLD
+Lane eligibility: NOT_AUTOMATION_ELIGIBLE
+Human approval required: YES
+Auto-merge eligible: NO
+Rationale: Phase changes owner-trigger/lane eligibility controls and future automation policy.
+-->
+
 ## Red-Team Decision Evidence
 
 <!--
