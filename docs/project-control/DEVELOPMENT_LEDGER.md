@@ -16,7 +16,7 @@ Branch: phase-4j-3-mandatory-red-team-marker-enforcement
 Phase issue: #20
 PR: #21
 Base SHA: cfe01c7e381b3d2c0f26f0dba187d0a030368219
-Head SHA: e431a2fbd2728b7d68fb8525dcc5c910364d5972 before correction commit
+Head SHA: Active PR head; final reviewed head SHA must be taken from PR #21 metadata and RED_TEAM_DECISION marker before merge.
 Merge SHA: Pending
 Changed files: control-gates workflow, PR template, AGENTS.md, project-control governance docs, Phase 4J-3 report
 Commands run: Local validation command set, commit, push, PR creation, PR metadata review after approved network scope

@@ -202,7 +202,7 @@ docs/project-control/ARTIFACT_INDEX.md
 
 Local workflow validation is limited to static review and the local control scripts listed in this report.
 
-GitHub Actions workflow validation remains pending until the branch is pushed and the PR is opened.
+GitHub Actions has run on PR #21 and is expected to fail until red-team adds a valid plain-text `RED_TEAM_DECISION` marker for the current PR head SHA and the workflow reruns.
 
 ## Validation Evidence
 
@@ -285,7 +285,7 @@ The validator checks marker structure, decision, PR number when available, revie
 
 Initial workflow status after PR creation: queued on PR #21 before the publish-evidence correction commit.
 
-The first PR body was created from the pre-publish report and must be updated to this corrected report.
+The PR body was updated to the corrected report before red-team marker review.
 
 ## Next Phase Status
 
