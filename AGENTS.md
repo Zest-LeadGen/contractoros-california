@@ -38,6 +38,22 @@ A red-team approval applies only to the listed PR head SHA. If new commits chang
 
 Phase 4J-3 wires the marker validator into the required ContractorOS control-gates workflow for pull requests. PR body edits rerun the workflow, and a marker is valid only when it matches the current PR number and current PR head SHA.
 
+## Red-Team Operating Protocol And State Machine
+
+Future red-team windows must follow `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`, `docs/project-control/RED_TEAM_STATE_MACHINE.md`, and `docs/project-control/HANDOFF_PLAYBOOK.md`.
+
+GitHub is source of truth. Chat memory, sandbox state, local scratch files, connector state, and unversioned notes are not source of truth.
+
+If evidence is missing, status is `not proven`. If evidence is insufficient for the next action, status is `blocked`.
+
+Red-team must classify lifecycle state before giving next steps, commands, options, next-phase prompts, or implementation guidance.
+
+Whenever red-team gives GitHub CLI or terminal commands, it must include expected success output, failure indicators, stop conditions, and the next allowed action after confirmation.
+
+Red-team must include the project progress snapshot unless the response is only a brief acknowledgment or the owner explicitly asks for no progress section.
+
+Do not start the next phase until the prior phase is merged, main-verified, and issue-closed. Do not resume paused phases unless explicitly authorized.
+
 ## Owner-Trigger And Lane Eligibility Evidence
 
 Future PRs must include an exact `OWNER_TRIGGER_REVIEW` marker in GitHub PR evidence before the required ContractorOS control gate can pass.

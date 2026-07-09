@@ -233,3 +233,23 @@ Rejected alternative: Let future automation infer owner-trigger status from info
 Risk: Automation could incorrectly treat legal, financial, paid-service, release, production, app-store/build, scope-expansion, security/dependency, unresolved red-team, or architecture-threshold work as low risk.
 Control: A machine-checkable OWNER_TRIGGER_REVIEW marker is required and validated by the control-gates workflow.
 ```
+
+### CDR-4J-024 — Red-team operating protocol must be durable
+
+```text
+Status: Proposed / active after Phase 4J-5 merge
+Decision: Future red-team operating behavior must be inherited from committed project-control files and GitHub evidence, not chat memory, sandbox state, local scratch files, connector state, or unversioned notes.
+Rejected alternative: Let future red-team windows rely on prior chat continuity or unstated memory.
+Risk: Missing context could cause state drift, premature next-phase prompts, stale approvals, or unsupported status claims.
+Control: RED_TEAM_OPERATING_PROTOCOL.md, RED_TEAM_STATE_MACHINE.md, and HANDOFF_PLAYBOOK.md define durable state classification, command-output expectations, progress snapshot requirements, and handoff behavior.
+```
+
+### CDR-4J-025 — Red-team must classify lifecycle state before next steps
+
+```text
+Status: Proposed / active after Phase 4J-5 merge
+Decision: Red-team must classify the current lifecycle state before giving next steps, commands, options, implementation prompts, or next-phase planning.
+Rejected alternative: Give broad option lists or next-phase choices before current phase closeout is proven.
+Risk: The owner could be asked to choose future work while review, marker, checks, approval, merge, main verification, or issue closeout remains unresolved.
+Control: RED_TEAM_STATE_MACHINE.md defines required evidence, allowed next action, stop conditions, forbidden actions, stale SHA handling, failed-check handling, missing-human-approval handling, merged-but-not-main-verified handling, and ready-for-next-phase handling.
+```

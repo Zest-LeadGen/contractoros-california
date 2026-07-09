@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4J-5 — Red-Team Operating Protocol + Handoff Playbook
+
+```text
+Phase: Phase 4J-5 — Red-Team Operating Protocol + Handoff Playbook
+Lane: Control / Infrastructure
+Date: 2026-07-09
+Branch: phase-4j-5-red-team-protocol-handoff-playbook
+Phase issue: #25
+PR: Pending until opened
+Base SHA: b01cd5829621c20f6bd837a9d570553a6a408573
+Head SHA: Pending until Phase 4J-5 commit
+Merge SHA: Pending
+Changed files: AGENTS.md, red-team protocol docs, project-control governance registers, Phase 4J-5 report
+Commands run: Starting main/worktree checks, direct GitHub API source reads for issues/comments, local validation command set before commit
+Claim level: Source verified and local-script verified for Phase 4J-5 control files only after validation passes
+Next phase: Phase 4J-6 not started; Phase 4I not resumed
+```
+
 ### Phase 4J-4 — Owner-Trigger Detection + Lane Eligibility Rules
 
 ```text
