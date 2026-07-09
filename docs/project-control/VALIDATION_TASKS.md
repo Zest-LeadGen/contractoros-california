@@ -29,3 +29,14 @@ Purpose: record validation tasks for ContractorOS California governance and phas
 ## Task Rule
 
 Validation task status must be updated by repo evidence, not memory.
+
+## Phase 4J-1 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4J1-001 | Verify phase issue template exists. | File review of `.github/ISSUE_TEMPLATE/phase_issue.yml` | Template captures required phase intake fields. | Pending local validation. |
+| VAL-4J1-002 | Verify PR template requires linked issue evidence. | File review of `.github/pull_request_template.md` | Template requires linked phase issue and phase evidence sections. | Pending local validation. |
+| VAL-4J1-003 | Verify PR contract enforces issue reference in PR context. | `scripts/control/check_pr_contract.py` review and GitHub Actions after PR open | PR body without accepted issue reference fails. | Pending workflow validation after PR opens. |
+| VAL-4J1-004 | Verify existing local control checks pass. | Phase 4J-1 validation command set | Local checks pass before commit. | Pending local validation. |
+| VAL-4J1-005 | Verify Phase 4J-1 PR links a GitHub phase issue. | PR body review | PR body includes `Phase issue: #16`. | Issue #16 exists; PR body must include `Phase issue: #16`; workflow validation remains pending until PR opens. |
+| VAL-4J1-006 | Verify no auto-merge or product scope is activated. | Forbidden-scope scan and file review | Control-only files changed; auto-merge remains inactive. | Pending local validation. |

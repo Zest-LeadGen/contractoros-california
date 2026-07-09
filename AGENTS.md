@@ -16,6 +16,12 @@ Agents must not silently choose model/effort for ContractorOS work.
 
 Phase 4J-0 documents this convention only and does not activate auto-merge.
 
+## Phase Issue Requirement
+
+Every future phase PR must link a GitHub phase issue using an accepted issue reference such as `Closes #123`, `Fixes #123`, `Resolves #123`, `Linked issue: #123`, or `Phase issue: #123`.
+
+Agents must not treat chat-only prompts as sufficient phase intake once Phase 4J-1 is merged. Phase scope, file allowlists, forbidden scope, assumptions, risks, validation tasks, red-team requirements, and approval requirements must be durable in GitHub issue/PR evidence.
+
 ## Role Boundary
 
 Codex is a developer executor only. Codex may implement approved scoped changes, collect evidence, and prepare PRs. Codex must not self-review, act as red-team, approve its own work, merge, bypass branch protection, or start the next phase.

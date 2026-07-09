@@ -22,6 +22,16 @@ Missing model/effort header is a stop condition.
 
 Phase 4J-0 documents this convention only.
 
+## GitHub Phase Issue Intake
+
+After Phase 4J-1, every future phase PR must link a GitHub phase issue.
+
+The phase issue is the durable intake record for owner-approved objective, lane, file allowlist, forbidden scope, assumptions, risks, validation tasks, red-team requirements, human approval requirements, and auto-merge status.
+
+Chat prompts may initiate discussion, but chat memory is not sufficient phase intake once the linked-issue requirement is active.
+
+Missing linked phase issue reference is a PR control-gate failure.
+
 ## AI Role
 
 Codex is developer executor only. Codex may prepare scoped file changes, run permitted local checks, and open PRs. Codex must not self-review, act as red-team, merge, approve its own PR, bypass branch protection, or continue into the next phase.

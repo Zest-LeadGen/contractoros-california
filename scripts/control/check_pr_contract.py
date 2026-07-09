@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 REQUIRED_SECTIONS = [
+    "Linked Phase Issue",
     "Phase",
     "Lane",
     "Scope",
@@ -18,9 +19,13 @@ REQUIRED_SECTIONS = [
     "Commands Run",
     "Dependency / Lockfile Handling",
     "Documentation Impact",
+    "Validation Evidence",
     "Risk Register Impact",
     "Decision Log Impact",
     "Artifact Index Impact",
+    "Red-Team Status",
+    "Human Approval Status",
+    "Auto-Merge Status",
     "Forbidden Scope Confirmation",
     "Claim Level",
     "Known Limitations",
@@ -61,6 +66,9 @@ CLAIM_LEVEL_PATHS = (
     "docs/project-control/",
     ".github/",
     "scripts/control/",
+)
+ISSUE_REFERENCE = re.compile(
+    r"(?im)^\s*(?:closes|fixes|resolves)\s+#\d+\b|^\s*(?:linked issue|phase issue)\s*:\s*#\d+\b"
 )
 
 
@@ -157,6 +165,12 @@ def contract_text(payload, files):
     return "", None
 
 
+def pr_body_text(payload):
+    if "pull_request" in payload:
+        return (payload.get("pull_request") or {}).get("body") or ""
+    return os.getenv("PR_BODY", "")
+
+
 def section_content(text, section):
     heading = re.search(rf"^#+\s+(?:\d+\.\s*)?{re.escape(section)}\s*$", text, re.I | re.M)
     if not heading:
@@ -207,6 +221,13 @@ def main():
         text = ""
 
     if not args.claims_only:
+        if is_pr_context(payload):
+            body = pr_body_text(payload)
+            if not ISSUE_REFERENCE.search(body):
+                failures.append(
+                    "PR body must link a GitHub issue using Closes #123, Fixes #123, Resolves #123, Linked issue: #123, or Phase issue: #123."
+                )
+
         for section in REQUIRED_SECTIONS:
             content = section_content(text, section)
             if content is None:

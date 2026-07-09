@@ -33,3 +33,13 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-4J0-025 | Model/effort policy must be based on official OpenAI sources or repo-versioned policy. | `PROMPT_CONVENTION.md`, `SOURCE_REGISTER.md` | Source register records OpenAI Codex Models docs, Codex Config Reference, and GPT-5.5 guidance as policy basis. |
 | RTM-4J0-026 | Extra High/xhigh mapping must be treated as UI-observed unless official UI source is added. | `PROMPT_CONVENTION.md`, `ASSUMPTION_REGISTER.md`, `SOURCE_REGISTER.md` | Repo policy documents `xhigh` as the official config value and treats "Extra High" as UI-observed terminology only. |
 | RTM-4J0-027 | Missing model/effort header creates a stop condition. | `PROMPT_CONVENTION.md`, `AGENTS.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md`, `VALIDATION_TASKS.md` | Agent must stop and ask for the header before implementation. |
+
+## Phase 4J-1 Traceability
+
+| Requirement ID | Requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-4J1-001 | Future phase PRs must link a GitHub phase issue. | `.github/pull_request_template.md`, `scripts/control/check_pr_contract.py`, `AI_DEVELOPMENT_OPERATING_MODEL.md`, `AGENTS.md` | PR contract check fails in PR context when the PR body lacks an accepted issue reference. |
+| RTM-4J1-002 | GitHub phase issue template must capture owner-approved scope and review requirements. | `.github/ISSUE_TEMPLATE/phase_issue.yml` | Template includes phase name, lane, objective, allowlist, forbidden scope, evidence, assumptions, risks, validation tasks, red-team requirement, approval requirement, auto-merge status, and trigger checkboxes. |
+| RTM-4J1-003 | PR template must require linked phase issue and phase evidence. | `.github/pull_request_template.md` | Template includes linked phase issue, phase, lane, scope summary, changed files, commands, validation evidence, forbidden scope, red-team status, human approval status, auto-merge status, and next phase status. |
+| RTM-4J1-004 | Linked issue formats must include closing keywords and explicit issue labels. | `scripts/control/check_pr_contract.py`, `.github/pull_request_template.md` | Accepted formats include `Closes #123`, `Fixes #123`, `Resolves #123`, `Linked issue: #123`, and `Phase issue: #123`. |
+| RTM-4J1-005 | Phase 4J-1 does not activate auto-merge. | `phase_4j_1_github_issue_intake_report.md`, `RISK_REGISTER.md`, `CONTRACTOROS_DESIGN_DECISIONS.md` | Auto-merge remains prohibited/currently inactive unless a future approved phase changes policy. |
