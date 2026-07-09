@@ -43,3 +43,13 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-4J1-003 | PR template must require linked phase issue and phase evidence. | `.github/pull_request_template.md` | Template includes linked phase issue, phase, lane, scope summary, changed files, commands, validation evidence, forbidden scope, red-team status, human approval status, auto-merge status, and next phase status. |
 | RTM-4J1-004 | Linked issue formats must include closing keywords and explicit issue labels. | `scripts/control/check_pr_contract.py`, `.github/pull_request_template.md` | Accepted formats include `Closes #123`, `Fixes #123`, `Resolves #123`, `Linked issue: #123`, and `Phase issue: #123`. |
 | RTM-4J1-005 | Phase 4J-1 does not activate auto-merge. | `phase_4j_1_github_issue_intake_report.md`, `RISK_REGISTER.md`, `CONTRACTOROS_DESIGN_DECISIONS.md` | Auto-merge remains prohibited/currently inactive unless a future approved phase changes policy. |
+
+## Phase 4J-2 Traceability
+
+| Requirement ID | Requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-4J2-001 | Red-team decision evidence must use an exact machine-checkable marker. | `.github/pull_request_template.md`, `scripts/control/check_red_team_marker.py`, `AI_DEVELOPMENT_OPERATING_MODEL.md` | Validator parses `RED_TEAM_DECISION` fields and fails missing or malformed markers. |
+| RTM-4J2-002 | Red-team approval must be bound to the exact PR head SHA reviewed. | `scripts/control/check_red_team_marker.py`, `CONTRACTOROS_DESIGN_DECISIONS.md`, `AGENTS.md` | Validator compares marker `PR head SHA` to the current PR head SHA. |
+| RTM-4J2-003 | `CHANGES_REQUESTED` and `BLOCKED` red-team decisions are not merge-eligible. | `scripts/control/check_red_team_marker.py`, `.github/pull_request_template.md` | Validator fails when marker decision is `CHANGES_REQUESTED` or `BLOCKED`. |
+| RTM-4J2-004 | Phase 4J-2 creates the marker control without activating auto-merge. | `phase_4j_2_sha_bound_red_team_marker_report.md`, `AGENTS.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md` | Report records bootstrap limitation and future activation status. |
+| RTM-4J2-005 | Phase 4J-2 remains control-only and avoids app/product/dependency/build/backend/mobile/web scope. | `phase_4j_2_sha_bound_red_team_marker_report.md`, `VALIDATION_TASKS.md` | Local changed-file and forbidden-scope checks must pass. |

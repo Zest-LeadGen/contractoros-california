@@ -40,3 +40,17 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-4J1-004 | Verify existing local control checks pass. | Phase 4J-1 validation command set | Local checks pass before commit. | Pending local validation. |
 | VAL-4J1-005 | Verify Phase 4J-1 PR links a GitHub phase issue. | PR body review | PR body includes `Phase issue: #16`. | Issue #16 exists; PR body must include `Phase issue: #16`; workflow validation remains pending until PR opens. |
 | VAL-4J1-006 | Verify no auto-merge or product scope is activated. | Forbidden-scope scan and file review | Control-only files changed; auto-merge remains inactive. | Pending local validation. |
+
+## Phase 4J-2 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4J2-001 | Verify red-team marker validator self-test. | `python3 scripts/control/check_red_team_marker.py --self-test` | Pass; approved fixture passes and blocked fixture fails internally. | Passed in local validation. |
+| VAL-4J2-002 | Verify changed files remain inside the Phase 4J-2 allowlist. | `python3 scripts/control/check_changed_files.py` | Pass; no dependency, build, backend, database, native, or product lane file is changed. | Passed in local validation. |
+| VAL-4J2-003 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; no implementation-looking forbidden terms outside explicit exclusions. | Passed in local validation. |
+| VAL-4J2-004 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; Phase 4J-2 report and required control updates are present. | Passed in local validation. |
+| VAL-4J2-005 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and Phase issue reference are present. | Passed in local validation. |
+| VAL-4J2-006 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no lockfile is added or changed. | Passed in local validation. |
+| VAL-4J2-007 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported readiness, release, or completion claim is made. | Passed in local validation. |
+| VAL-4J2-008 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4J2-009 | Verify bootstrap status. | Report and workflow review | Marker validator exists, but mandatory enforcement is documented for Phase 4J-3 or later activation. | Passed in local documentation review. |

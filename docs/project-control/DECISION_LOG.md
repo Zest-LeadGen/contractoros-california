@@ -44,6 +44,9 @@ Purpose: record durable architectural and process decisions.
 - Maintained route is GitHub Issue → Developer PR → Control Gates → Red-Team Decision → Human Approval → Merge.
 - The maintained route reduces owner copy/paste and manual supervision while preserving protected PR governance, red-team accountability, and human approval for major decisions.
 - The maintained route does not authorize automated merge, automated approval, direct-to-main work, branch-protection bypass, or scope expansion.
+- Red-team decisions must use a `RED_TEAM_DECISION` marker tied to the exact PR head SHA reviewed.
+- A red-team approval is stale after any later commit changes the PR head SHA.
+- Phase 4J-2 creates the marker validator; mandatory gate enforcement remains a future activation step.
 
 ## Review Condition
 

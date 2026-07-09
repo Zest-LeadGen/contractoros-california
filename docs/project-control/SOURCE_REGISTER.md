@@ -18,6 +18,10 @@ Purpose: record sources used for ContractorOS California control decisions.
 | SRC-4J1-002 | `main` at `0f04efa564c4f28bd351881c00f72d41f540c319` | Repository source | Starting SHA for Phase 4J-1 | Verified locally before branch creation | GitHub remains source of truth. |
 | SRC-4J1-003 | Existing `.github/pull_request_template.md`, `.github/workflows/control-gates.yml`, and `scripts/control/check_pr_contract.py` | Repository source | Local control-gate integration pattern | Read locally before editing | Used to add linked-issue enforcement without removing existing gates. |
 | SRC-4J1-004 | GitHub issue #16 | GitHub issue source | Durable issue intake for Phase 4J-1 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/16 |
+| SRC-4J2-001 | Phase 4J-2 owner prompt | Owner/project phase instruction | SHA-bound red-team marker objective, file allowlist, required fields, validation commands, and prohibitions | Current turn prompt | Durable implementation evidence captured in Phase 4J-2 files and report. |
+| SRC-4J2-002 | `main` at `a3d8e88f11200b01b0f1ef54960d1a39938b78db` | Repository source | Starting SHA for Phase 4J-2 | Verified locally before branch creation | GitHub remains source of truth. |
+| SRC-4J2-003 | GitHub issue #18 | GitHub issue source | Durable issue intake for Phase 4J-2 | Owner provided issue number and URL | Phase issue URL: https://github.com/Zest-LeadGen/contractoros-california/issues/18 |
+| SRC-4J2-004 | Existing `.github/pull_request_template.md`, `scripts/control/check_pr_contract.py`, and project-control docs | Repository source | Control-gate integration and report-contract style | Read locally before editing | Used to add marker validation without weakening existing gates. |
 
 ## Source Rules
 

@@ -28,6 +28,24 @@
 
 ## Red-Team Status
 
+## Red-Team Decision Evidence
+
+<!--
+Future mandatory enforcement target:
+Paste one machine-checkable marker as plain text after red-team review. The PR head SHA in the marker must match the current PR head SHA at the time of review.
+
+RED_TEAM_DECISION
+PR number: #123
+PR head SHA: 0123456789abcdef0123456789abcdef01234567
+Decision: APPROVED
+Reviewer role: Red-team reviewer
+Review date: YYYY-MM-DD
+Scope reviewed: Phase scope and changed files reviewed.
+Conditions: None.
+Forbidden-scope confirmation: Confirmed no forbidden scope in reviewed diff.
+SHA-bound statement: This decision applies only to the listed PR head SHA.
+-->
+
 ## Human Approval Status
 
 ## Auto-Merge Status

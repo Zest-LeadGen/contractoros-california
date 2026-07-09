@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4J-2 — SHA-Bound Red-Team Decision Marker
+
+```text
+Phase: Phase 4J-2 — SHA-Bound Red-Team Decision Marker
+Lane: Control / Infrastructure
+Date: 2026-07-09
+Branch: phase-4j-2-sha-bound-red-team-marker
+Phase issue: #18
+PR: Pending until opened
+Base SHA: a3d8e88f11200b01b0f1ef54960d1a39938b78db
+Head SHA: Pending until Phase 4J-2 commit
+Merge SHA: Pending
+Changed files: PR template, red-team marker validator, AGENTS.md, project-control governance docs, Phase 4J-2 report
+Commands run: Local validation command set before commit
+Claim level: Source verified and local-script verified for Phase 4J-2 control files only after validation passes
+Next phase: Phase 4J-3 not started; Phase 4I not resumed
+```
+
 ### Phase 4J-1 — GitHub Issue Intake + Linked Phase Issue Requirement
 
 ```text

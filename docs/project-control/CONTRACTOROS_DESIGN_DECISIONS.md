@@ -203,3 +203,13 @@ Rejected alternative: Continue initiating phases only through chat prompts.
 Risk: Without linked issues, phase scope may remain trapped in chat memory and become hard to audit.
 Control: PR template and control gate require a linked issue reference before the PR can pass.
 ```
+
+### CDR-4J-021 — Red-team decisions must be bound to exact PR head SHA
+
+```text
+Status: Proposed / active after Phase 4J-2 merge
+Decision: Future red-team decisions must identify the exact PR head SHA reviewed. A red-team approval is valid only for that SHA.
+Rejected alternative: Allow a red-team approval to apply to a PR regardless of later commits.
+Risk: A PR could receive approval at one commit, then receive new unreviewed commits before merge.
+Control: The red-team marker and control script compare the approved SHA against the current PR head SHA.
+```

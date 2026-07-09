@@ -36,7 +36,13 @@ Missing linked phase issue reference is a PR control-gate failure.
 
 Codex is developer executor only. Codex may prepare scoped file changes, run permitted local checks, and open PRs. Codex must not self-review, act as red-team, merge, approve its own PR, bypass branch protection, or continue into the next phase.
 
-Red-team remains separate. Future red-team decisions must become GitHub artifacts tied to the exact PR head SHA, beginning with the future Phase 4J-2 control path.
+Red-team remains separate. Red-team decisions must become GitHub PR evidence tied to the exact PR head SHA reviewed.
+
+The required plain-text marker begins with `RED_TEAM_DECISION` and includes PR number, PR head SHA, decision, reviewer role, review date, scope reviewed, conditions, forbidden-scope confirmation, and the statement `This decision applies only to the listed PR head SHA.`
+
+`scripts/control/check_red_team_marker.py` validates the marker text against the current PR head SHA and fails when the marker is missing, stale, malformed, or records `CHANGES_REQUESTED` or `BLOCKED`.
+
+Phase 4J-2 creates the marker format and validator. Mandatory gate enforcement is documented as a future activation step because Phase 4J-2 itself still requires bootstrap red-team review after the control exists.
 
 Current state:
 
