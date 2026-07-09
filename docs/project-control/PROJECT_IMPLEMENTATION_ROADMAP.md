@@ -4,7 +4,11 @@
 
 Preserve how the full modular app vision is intended to be implemented over time, without allowing premature scope expansion.
 
-This roadmap preserves implementation intent. It does not prove implementation. It does not authorize future modules now. It does not override `PHASE_ONE_SCOPE.md`, `PROJECT_SCOPE_BOUNDARIES.md`, `CLAIM_LEVELS_AND_RELEASE_GATES.md`, or `DEVELOPMENT_CONTROL_MODEL_V3.md`.
+This roadmap preserves implementation intent. It does not prove implementation. It does not authorize future modules now.
+
+Current product/development source-of-truth is owned by `docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`.
+
+This roadmap is subordinate to `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`, `PHASE_ONE_SCOPE.md`, `PROJECT_SCOPE_BOUNDARIES.md`, `CLAIM_LEVELS_AND_RELEASE_GATES.md`, and `DEVELOPMENT_CONTROL_MODEL_V3.md`.
 
 ## 2. Implementation Principle
 
@@ -135,7 +139,8 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 ## 16. Phase-Based Implementation Sequence
 
 - Phase One: internal scaffold and control foundation
-- Next product phase: return to mobile/web internal UX and QA work
+- Current active phase: Phase 4K-3 - Product / Development Source-of-Truth Reconciliation Gate
+- Next phase: blocked until Phase 4K-3 is merged, main is verified, Issue #35 is closed, and a later durable GitHub issue defines scope
 - Later: content governance
 - Later: visual QA
 - Later: dependency control
@@ -147,28 +152,34 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 
 Future modules, backend, Firebase, auth, scoring, readiness, public content, APK, EAS, deployment, and production claims remain blocked until explicit approval and evidence gates.
 
-## 18. Current Re-Entry Gate
+## 18. Historical Re-Entry Gate
 
-Phase 4K-0 is a control/planning re-entry gate after Phase 4J-5 governance hardening.
+Phase 4K-0 was a control/planning re-entry gate after Phase 4J-5 governance hardening.
 
-Phase 4K-0 does not implement product changes. It inventories committed repository evidence and recommends exactly one next implementation phase.
+Phase 4K-0 did not implement product changes. It inventoried committed repository evidence and recommended Phase 4K-1.
 
-Recommended next implementation phase:
+Historical Phase 4K-0 recommendation:
 
 - Phase: Phase 4K-1 - Internal Scaffold Product / QA Hardening
 - Lane: Product / QA
 - Objective: make a narrow internal scaffold improvement and verification pass across the existing web/mobile fixture-only app surfaces without adding public content, backend/Firebase/auth/cloud scope, build/distribution scope, dependency scope, scoring, readiness, saved progress, analytics, payments, CRM, marketplace, or release claims.
-- Required intake: a later GitHub phase issue must define allowed files, forbidden scope, validation tasks, red-team requirement, human approval requirement, and stop conditions before any Phase 4K-1 implementation begins.
+- Required intake: a later GitHub phase issue must define allowed files, forbidden scope, validation tasks, red-team requirement, human approval requirement, and stop conditions before any implementation begins.
 
-Phase 4K-1 is not started by Phase 4K-0.
+Phase 4K-1 was later implemented through Issue #29 and PR #30.
+
+Phase 4K-2 was later implemented through Issue #32 and PR #33 as runtime smoke-QA feasibility documentation only; runtime launch remained blocked.
+
+Issue #34 dependency/lockfile decision work was closed not planned before implementation and is not active scope.
+
+Phase 4K-3 creates `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` as the canonical product/development source-of-truth register.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
 ## 19. Current Phase Constraint
 
-Current Phase 4E work is documentation/control only. It does not change app source, dependencies, packages, build, runtime, backend, or public content.
+Current Phase 4K-3 work is product/development source-of-truth reconciliation documentation only. It does not change app source, dependencies, packages, build, runtime, backend, or public content.
 
-Phase 4K-0 work is documentation/control planning only. It does not change app source, dependencies, packages, build, runtime, backend, Firebase, auth, cloud, payment, CRM, marketplace, or public content.
+Phase 4K-3 does not start dependency/lockfile baseline work, Phase 4K-4, or Phase 4I.
 
 ## 20. Final Rule
 
@@ -177,3 +188,5 @@ Implementation intent is not implementation proof.
 Roadmap categories are not approved scope.
 
 Verified GitHub evidence controls the claim level.
+
+`PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` controls current product/development source-of-truth.

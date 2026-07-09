@@ -28,3 +28,5 @@ No new Google Drive artifact was created in this phase.
 - Phase 4J-5 is a source/text control documentation phase only.
 - Phase 4K-0 creates no artifact, ZIP, binary, build output, Drive artifact, hosted artifact, release artifact, or archive artifact.
 - Phase 4K-0 is a source/text project-control planning and inventory phase only.
+- Phase 4K-3 creates no artifact, ZIP, binary, build output, Drive artifact, hosted artifact, release artifact, install artifact, runtime visual artifact, device QA artifact, or archive artifact.
+- Phase 4K-3 is source/text product-development source-of-truth reconciliation documentation only.

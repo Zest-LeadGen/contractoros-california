@@ -15,6 +15,39 @@ Last reviewed:
 
 ## Active Risks
 
+### product development source-of-truth drift
+
+```text
+Risk: product development source-of-truth drift
+Status: Active / controlled by PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md after Phase 4K-3
+Evidence: Roadmap, phase tracker, ledger, and phase reports contained overlapping current-state and future-phase statements after Phase 4K-1 and Phase 4K-2 completed.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future project-control updates keep PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md current and mark older roadmap/tracker statements as historical or subordinate instead of competing current-state authority.
+Last reviewed: 2026-07-09
+```
+
+### unsupported owner-trigger semantic category
+
+```text
+Risk: unsupported owner-trigger semantic category
+Status: Active / controlled by documented validator limitation
+Evidence: Issue #35 requests PRODUCT_SOURCE_OF_TRUTH in the OWNER_TRIGGER_REVIEW marker, but scripts/control/check_owner_trigger_review.py does not include that category in its allowed category list.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: A later approved control phase either adds PRODUCT_SOURCE_OF_TRUTH to the validator and governance docs or records a different durable category policy.
+Last reviewed: 2026-07-09
+```
+
+### dependency baseline issue superseded before implementation
+
+```text
+Risk: dependency baseline issue superseded before implementation
+Status: Active / controlled by Issue #34 not-planned closeout and Phase 4K-3 source-of-truth reconciliation
+Evidence: Issue #34 was created for dependency/lockfile baseline decision work but closed as not planned before implementation because roadmap/platform/development-model reconciliation was required first.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Any future dependency/lockfile baseline decision or implementation starts only from a new durable GitHub issue after Phase 4K-3 is merged, main is verified, and Issue #35 is closed.
+Last reviewed: 2026-07-09
+```
+
 ### product re-entry scope expansion
 
 ```text

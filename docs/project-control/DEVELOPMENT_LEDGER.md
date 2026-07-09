@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4K-3 - Product / Development Source-of-Truth Reconciliation Gate
+
+```text
+Phase: Phase 4K-3 - Product / Development Source-of-Truth Reconciliation Gate
+Lane: Governance / Product Architecture, represented as Control / Infrastructure in current docs/project-control gate rules
+Date: 2026-07-09
+Branch: codex/phase-4k-3-source-of-truth
+Phase issue: #35
+PR: Pending until opened
+Base SHA: 4bb9fedb5648ea1b7185667948256276ad04d3b9
+Head SHA: Pending until Phase 4K-3 commit
+Merge SHA: Pending
+Changed files: Product/development source-of-truth register plus allowed project-control reconciliation records and Phase 4K-3 report
+Commands run: Starting main/worktree checks, direct GitHub issue reads, project-control inventory, app/package inspection for claim verification only, local control validation planned before commit
+Claim level: Product/development source-of-truth reconciliation documentation only; no product implementation, dependency baseline, runtime QA, visual QA, device QA, install QA, build readiness, APK readiness, public readiness, production readiness, scoring, pass/fail, backend, Firebase, auth, cloud, content-currentness, public content, payment, CRM, marketplace, or release claim
+Next phase: Dependency/lockfile decision work not started; Phase 4K-4 not started; Phase 4I remains paused
+```
+
 ### Phase 4K-0 - Product Development Re-Entry Scope Gate
 
 ```text
