@@ -73,6 +73,8 @@ No automation may weaken branch protection or treat a skipped, unavailable, pend
 
 For Phase 4K-7, `FUTURE_LOW_RISK_CANDIDATE` is limited to documentation-only `docs/project-control/*.md` changed-file patterns and requires owner interruption `NO`, trigger categories exactly `NONE`, human approval `YES`, and auto-merge `NO`. Workflow/control enforcement files, control scripts, app source, package manifests, lockfiles, dependency/toolchain paths, backend or identity-system scope, and unknown paths fail closed as low-risk candidates.
 
+Phase 4K-8 command-pack and operator-runbook work is not itself a low-risk automation candidate because it changes future lifecycle procedures and marker assembly guidance. It remains `NOT_AUTOMATION_ELIGIBLE` and requires owner interruption, external red-team review, and human approval.
+
 ## Human Approval Policy
 
 Human/write-access approval remains required for all current PRs. Phase 4K-6 does not reduce that requirement.

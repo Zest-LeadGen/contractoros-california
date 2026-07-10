@@ -80,6 +80,12 @@ Phase 4K-7 may add deterministic lane classification to the control-gates workfl
 
 Current low-risk candidate validation is documentation-only and fail-closed. Workflow/control enforcement changes, control scripts, app source, package manifests, lockfiles, dependency/toolchain paths, backend or identity-system scope, public-release, production, app-store/build/distribution, legal, financial, paid-service, architecture-threshold, scope-expansion, and ambiguous evidence remain outside the low-risk candidate lane.
 
+## Phase 4K-8 Command-Pack Boundary
+
+Phase 4K-8 may document copy-safe commands, operator responsibilities, marker assembly constraints, red-team handoff evidence, manual merge checks, main verification, and issue closeout evidence. It does not execute those lifecycle actions for future phases or activate automation.
+
+The command pack is an operator reference. It preserves manual merge, external red-team, human approval, exact SHA binding, auto-merge prohibition, and no hidden approvals.
+
 ## Phase 4K-11 / 4K-12 Readiness Criteria (Blocked Until Evidence)
 
 Phase 4K-11 may begin only from its own future durable issue after Phases 4K-7 through 4K-10 are separately implemented, reviewed, merged, and main-verified. Its dry run must demonstrate deterministic lane classification, marker/check behavior, stop conditions, audit evidence, and no branch-protection bypass.

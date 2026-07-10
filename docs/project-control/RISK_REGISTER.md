@@ -19,10 +19,10 @@ Last reviewed:
 
 ```text
 Risk: low-risk lane misclassification
-Status: Active / Phase 4K-7 validator implementation in progress
-Evidence: Phase 4K-7 adds a fail-closed validator and self-test coverage for marker consistency and changed-file classification, but no dry-run evidence or approval-policy reduction exists.
+Status: Active / Phase 4K-7 validator merged; dry-run evidence not yet available
+Evidence: Phase 4K-7 added a fail-closed validator and self-test coverage for marker consistency and changed-file classification, but no dry-run evidence or approval-policy reduction exists.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: Phase 4K-7 is reviewed, merged, and main-verified; later dry-run evidence proves false-positive and false-negative behavior before any approval or merge policy is reduced.
+Resolution condition: Later dry-run evidence proves false-positive and false-negative behavior before any approval or merge policy is reduced.
 Last reviewed: 2026-07-10
 ```
 
@@ -34,6 +34,28 @@ Status: Active / controlled by protected control-gates workflow and external rev
 Evidence: Phase 4K-7 adds a new required pull-request validator step. A future workflow edit could weaken ordering, skip PR context, or treat missing evidence as a low-risk pass.
 Owner: ContractorOS development lead / red-team gate / project owner
 Resolution condition: Workflow changes remain protected by required control-gate review, validator self-tests, external red-team review, human approval, and fail-closed behavior for missing or ambiguous evidence.
+Last reviewed: 2026-07-10
+```
+
+### workflow command misuse
+
+```text
+Risk: workflow command misuse
+Status: Active / controlled by Phase 4K-8 command-pack stop conditions
+Evidence: Copy/paste lifecycle commands can affect branch, PR, marker, merge, and issue-closeout evidence if placeholders, repository identity, or SHA values are wrong.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future operator use follows the command pack, verifies repository identity and exact SHAs, and stops on unresolved placeholders or unexpected output.
+Last reviewed: 2026-07-10
+```
+
+### marker assembly ambiguity
+
+```text
+Risk: marker assembly ambiguity
+Status: Active / controlled by Phase 4K-8 PR-body assembly rule
+Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Phase 4K-8 documents safe marker order and parser constraints.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future PR evidence keeps templates fenced or commented, places the red-team marker before the final live owner-trigger marker, and avoids additional `Rationale:` fields after that final owner-trigger marker.
 Last reviewed: 2026-07-10
 ```
 
