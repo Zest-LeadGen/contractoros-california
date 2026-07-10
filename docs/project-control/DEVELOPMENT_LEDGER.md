@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4K-6 - Owner-Trigger / Low-Risk Lane Automation Policy Gate
+
+```text
+Phase: Phase 4K-6 - Owner-Trigger / Low-Risk Lane Automation Policy Gate
+Lane: Control / Infrastructure
+Date: 2026-07-09
+Branch: phase-4k-6-low-risk-lane-automation-policy
+Phase issue: #41
+PR: Pending until opened
+Base SHA: e531c4d8bc1904c231be1f43114f16f652c4ec52
+Head SHA: Active branch head; final reviewed head SHA must be taken from PR metadata and the external red-team marker before merge.
+Merge SHA: Pending
+Changed files: Three automation policy/roadmap anchors, Phase 4K-6 report, and allowed project-control reconciliation records
+Commands run: Starting-state and GitHub evidence reads, project-control inspection, documentation edits, and required local control validation before commit
+Claim level: Workflow automation policy and roadmap documentation only; no automation implementation, workflow/control-script mutation, auto-merge, dependency/toolchain mutation, runtime QA, build, product, public, backend or auth implementation, scoring, pass/fail, or release claim
+Next phase: Phase 4K-7 is a planning target only and not started; toolchain/npm path is deferred, not rejected; Phase 4I remains paused
+```
+
 ### Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate
 
 ```text
@@ -14,14 +32,14 @@ Lane: Dependency / Architecture / QA, represented as Control / Infrastructure in
 Date: 2026-07-09
 Branch: phase-4k-5-web-dependency-lockfile-baseline
 Phase issue: #39
-PR: Pending until opened
+PR: #40
 Base SHA: 61f5354ea55f7de9d0e88fd82031bacd94a9bf60
-Head SHA: Pending until Phase 4K-5 blocked-evidence commit
-Merge SHA: Pending
+Head SHA: b20207c1ecf99bd5193f90e1a27ebcb97f6f16ce
+Merge SHA: e531c4d8bc1904c231be1f43114f16f652c4ec52
 Changed files: Phase 4K-5 blocked-before-mutation report plus allowed project-control records
-Commands run: Starting SHA/worktree checks, direct GitHub issue reads, package/toolchain inspection without mutation, local control validation planned before commit
+Commands run: Starting SHA/worktree checks, direct GitHub issue reads, package/toolchain inspection without mutation, local control validation, external review route, and protected merge
 Claim level: Blocked-before-mutation dependency/toolchain evidence only; no web dependency baseline, package mutation, lockfile creation, npmrc creation, dependency directory, runtime QA, visual QA, device QA, install QA, build readiness, APK readiness, public readiness, production readiness, scoring, pass/fail, backend, Firebase, auth, cloud, content-currentness, public content, payment, CRM, marketplace, or release claim
-Next phase: Recommended toolchain availability / npm bootstrap governance decision gate is not started; Phase 4K-6 not started; Phase 4I remains paused
+Next phase: Owner-approved redirect activates Phase 4K-6 policy work through Issue #41; toolchain/npm path is deferred, not rejected; Phase 4I remains paused
 ```
 
 ### Phase 4K-4 - Dependency / Lockfile Governance Decision Gate

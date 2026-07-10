@@ -139,8 +139,11 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 ## 16. Phase-Based Implementation Sequence
 
 - Phase One: internal scaffold and control foundation
-- Current active phase: Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate, blocked before mutation
-- Recommended next controlled phase: toolchain availability / npm bootstrap governance decision gate after Phase 4K-5 review records the blocker and Issue #39 is closed or superseded by durable evidence
+- Historical Phase 4K-5: blocked-before-mutation dependency/toolchain evidence merged through PR #40 at `e531c4d8bc1904c231be1f43114f16f652c4ec52`
+- Current active phase: Phase 4K-6 - Owner-Trigger / Low-Risk Lane Automation Policy Gate through Issue #41
+- Next planning target: Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate, not started and requiring its own future durable GitHub issue
+- Later planning targets: Phase 4K-8 workflow command pack, Phase 4K-9 intake/handoff automation, Phase 4K-10 post-marker/closeout automation, Phase 4K-11 dry run, and Phase 4K-12 workflow automation decision gate
+- Deferred, not rejected: toolchain availability / npm bootstrap governance decision path before any dependency-resolution retry
 - Later: content governance
 - Later: visual QA
 - Later: dependency control
@@ -177,15 +180,19 @@ Phase 4K-4 uses Issue #37 to document the dependency/lockfile governance decisio
 
 Phase 4K-5 uses Issue #39 to attempt the web dependency/lockfile baseline implementation gate, but it is blocked before mutation because required node/npm tooling is unavailable. Phase 4K-5 does not create package manifests, lockfiles, npmrc files, dependency directories, runtime QA, build output, or artifacts.
 
-The next recommended controlled phase is a toolchain availability / npm bootstrap governance decision gate before retrying dependency resolution.
+Issue #39 is closed/completed and PR #40 merged Phase 4K-5 blocked-before-mutation evidence at `e531c4d8bc1904c231be1f43114f16f652c4ec52`.
+
+The owner-approved immediate path is redirected to Phase 4K-6 workflow-automation policy and the planning sequence through Phase 4K-12. The toolchain availability / npm bootstrap governance path remains valid but deferred, not rejected.
+
+Phase 4K-7 through Phase 4K-12 are planning targets only. Each requires its own future durable GitHub issue and must not start before its prerequisite phase is merged, main-verified, and closed.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
 ## 19. Current Phase Constraint
 
-Current Phase 4K-5 work is blocked-before-mutation dependency/toolchain evidence only. It does not change app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
+Current Phase 4K-6 work is workflow-automation policy and roadmap documentation only. It does not change app source, dependencies, packages, lockfiles, npmrc files, dependency directories, workflows, control scripts, build, runtime, backend, or public content.
 
-Phase 4K-5 does not implement the dependency/lockfile baseline, mobile dependency baseline work, runtime QA, Phase 4K-6, or Phase 4I.
+Phase 4K-6 does not implement automation, reduce current human approval or external red-team requirements, activate auto-merge, resume the deferred toolchain path, start Phase 4K-7, or resume Phase 4I.
 
 ## 20. Final Rule
 

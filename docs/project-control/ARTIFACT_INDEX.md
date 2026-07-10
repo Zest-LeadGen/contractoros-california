@@ -34,3 +34,5 @@ No new Google Drive artifact was created in this phase.
 - Phase 4K-4 is source/text dependency-lockfile governance decision documentation only.
 - Phase 4K-5 creates no artifact, ZIP, binary, build output, lockfile artifact, dependency archive, dependency directory, Drive artifact, hosted artifact, release artifact, install artifact, runtime visual artifact, device QA artifact, or archive artifact.
 - Phase 4K-5 is source/text blocked-before-mutation dependency/toolchain evidence only.
+- Phase 4K-6 creates no artifact, ZIP, binary, build output, lockfile artifact, dependency archive, dependency directory, Drive artifact, hosted artifact, runtime artifact, automation artifact, release artifact, install artifact, device QA artifact, or archive artifact.
+- Phase 4K-6 is source/text workflow-automation policy, low-risk lane policy, and roadmap documentation only.

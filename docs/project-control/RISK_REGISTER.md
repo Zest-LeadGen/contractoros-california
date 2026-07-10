@@ -15,6 +15,61 @@ Last reviewed:
 
 ## Active Risks
 
+### low-risk lane misclassification
+
+```text
+Risk: low-risk lane misclassification
+Status: Active / policy defined; implementation not started
+Evidence: Phase 4K-6 defines candidate criteria and owner-trigger exclusions, but no future validator or dry-run evidence exists yet.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: A later approved validator phase implements fail-closed classification, tests all trigger categories, and produces dry-run evidence before any approval or merge policy is reduced.
+Last reviewed: 2026-07-09
+```
+
+### automation approval overreach
+
+```text
+Risk: automation approval overreach
+Status: Active / controlled by Phase 4K-6 executor, red-team, human approval, and auto-merge boundaries
+Evidence: The owner-approved 95% workflow automation target could be misread as approval power for Codex or future automation to self-review, approve, merge, bypass branch protection, expand scope, or close work without verified evidence.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future implementation preserves Codex executor-only status, external red-team separation, current human approval policy, protected required checks, durable evidence, and fail-closed stop conditions.
+Last reviewed: 2026-07-09
+```
+
+### automated SHA and closeout drift
+
+```text
+Risk: automated SHA and closeout drift
+Status: Active / policy defined; implementation not started
+Evidence: Future check monitoring, merge verification, issue closeout, and progress updates could use stale PR-head evidence or close an issue before the exact merge and main state are verified.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Future automation binds review evidence to the exact current PR head SHA, verifies merge metadata and main state, and stops when issue, PR, check, or branch evidence conflicts.
+Last reviewed: 2026-07-09
+```
+
+### premature approval or auto-merge policy reduction
+
+```text
+Risk: premature approval or auto-merge policy reduction
+Status: Active / auto-merge prohibited
+Evidence: Phase 4K-6 defines future eligibility questions but does not implement automation or reduce external red-team and human approval requirements.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Any future policy change has a separate durable issue, external red-team review, human approval, implementation evidence, protected checks, dry-run evidence, rollback controls, and proof that owner-triggered work cannot enter the lane.
+Last reviewed: 2026-07-09
+```
+
+### manual-action target measurement error
+
+```text
+Risk: manual-action target measurement error
+Status: Active / target ranges are not yet measured in a dry run
+Evidence: Phase 4K-6 records an 8-14 action baseline and future category targets, but no automation implementation or measured Phase 4K-11 sample exists.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Phase 4K-11, if separately approved later, measures action counts, exception rates, classification errors, review quality, and closeout accuracy before Phase 4K-12 evaluates the target.
+Last reviewed: 2026-07-09
+```
+
 ### product development source-of-truth drift
 
 ```text

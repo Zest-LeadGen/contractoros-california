@@ -73,7 +73,17 @@ Purpose: record durable architectural and process decisions.
 - Package-manager migration, vendored/preloaded dependency directories, and containerized runtime QA are not selected as the immediate next phase because current repo evidence does not prove they are safer or more auditable than deterministic lockfile creation.
 - Phase 4K-5 uses Issue #39 as the durable web dependency/lockfile baseline implementation intake, but it is blocked before mutation because required node/npm tooling is unavailable.
 - Phase 4K-5 must not install Node/npm, bootstrap npm, use Corepack, substitute pnpm/yarn/bun, use bundled Node without npm for lockfile generation, create lockfiles, edit package manifests, create npmrc files, create dependency directories, run runtime QA, or run builds.
-- The next recommended controlled phase after Phase 4K-5 blocked evidence is a toolchain availability / npm bootstrap governance decision gate before any dependency-resolution retry.
+- Issue #39 is closed/completed and PR #40 merged Phase 4K-5 blocked-before-mutation evidence at `e531c4d8bc1904c231be1f43114f16f652c4ec52` without implementing the dependency baseline.
+- The owner-approved immediate path is redirected from the toolchain availability / npm bootstrap governance gate to workflow automation policy and sequencing through approximately Phase 4K-12.
+- The toolchain/npm bootstrap path remains valid but is deferred, not rejected, and no dependency-resolution retry is authorized by Phase 4K-6.
+- Approximately 95% workflow automation is a measurable process target for reducing repetitive relay, issue preparation, Codex handoff, evidence collection, marker coordination, check monitoring, merge verification, issue closeout, and progress updates; it does not grant approval power to remove owner judgment or protected review.
+- Current manual relay is estimated at approximately 8-14 owner/collaborator actions per phase.
+- Future target ranges are approximately 0-2 owner actions for low-risk documentation/control phases, 2-4 for routine low-risk source-safe patches, and 5-9 owner/human actions for dependency/security/toolchain phases unless later durable policy reduces them.
+- Legal, financial, paid-service, public-release, production, app-store/build/distribution, backend or auth security, dependency/security risk acceptance, architecture-threshold, scope-expansion, and high-risk product decisions remain owner/human controlled.
+- Any owner-trigger category other than `NONE` is not automation eligible and must interrupt future automation.
+- Codex remains developer executor only; external red-team separation, exact PR-head SHA binding, branch protection, and current human approval requirements remain in force.
+- Auto-merge remains inactive and prohibited. Any future eligibility requires a separate durable issue, policy approval, implementation, validation, dry-run evidence, required checks, and proof that owner-triggered work cannot enter the lane.
+- Phase 4K-7 through Phase 4K-12 are planning targets only. Each must have its own future durable GitHub issue and cannot start inside Phase 4K-6.
 
 ## Review Condition
 
