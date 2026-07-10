@@ -52,10 +52,21 @@ Last reviewed: 2026-07-09
 
 ```text
 Risk: dependency baseline not yet implemented after governance decision
-Status: Active / decision documented by Phase 4K-4, implementation pending future approved phase
-Evidence: Phase 4K-4 recommends a later deterministic dependency/lockfile baseline implementation phase but does not create or modify package manifests, lockfiles, dependency directories, runtime QA, or build artifacts.
+Status: Active / Phase 4K-5 blocked before mutation
+Evidence: Phase 4K-4 recommends a later deterministic dependency/lockfile baseline implementation phase. Phase 4K-5 attempts the web baseline gate through Issue #39 but is blocked before mutation because required node/npm tooling is unavailable. No package manifest, lockfile, npmrc file, dependency directory, runtime QA, or build artifact is created or changed.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: A later approved dependency-baseline implementation phase creates deterministic lockfiles with registry/provenance and contamination checks, then passes local and GitHub control gates.
+Resolution condition: A later approved toolchain availability / npm bootstrap governance phase resolves the toolchain path, proves public npm registry configuration before mutation, and only then allows a later dependency-baseline implementation retry.
+Last reviewed: 2026-07-09
+```
+
+### dependency toolchain unavailable
+
+```text
+Risk: dependency toolchain unavailable
+Status: Active / blocks Phase 4K-5 dependency mutation
+Evidence: Phase 4K-5 command evidence shows `npm --version` and escalated `npm --version` both report `zsh:1: command not found: npm`; `node --version` and escalated `node --version` both report `zsh:1: command not found: node`; bundled Node exists at version `v24.14.0`, but bundled npm does not exist at the bundled Node path.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: A later durable toolchain availability / npm bootstrap governance issue decides and verifies the approved Node/npm path, public npm registry proof, stop conditions, and package-manager substitution policy before dependency resolution is retried.
 Last reviewed: 2026-07-09
 ```
 
@@ -251,7 +262,7 @@ Last reviewed: 2026-07-08
 ```text
 Risk: dependencies use latest
 Status: Active
-Evidence: apps/web/package.json uses latest for Vite, React, and React DOM. apps/mobile/package.json uses latest for expo, react, and react-native. Phase 4K-4 recommends a later deterministic dependency/lockfile baseline implementation phase.
+Evidence: apps/web/package.json uses latest for Vite, React, and React DOM. apps/mobile/package.json uses latest for expo, react, and react-native. Phase 4K-5 is blocked before mutation by unavailable node/npm tooling and does not implement dependency pinning or lockfile baseline work.
 Owner: ContractorOS development lead / red-team gate
 Resolution condition: Dependencies are pinned or otherwise controlled under an approved reproducibility plan.
 Last reviewed: 2026-07-09
@@ -262,7 +273,7 @@ Last reviewed: 2026-07-09
 ```text
 Risk: no clean public npm lockfile
 Status: Active
-Evidence: Phase reports and Phase 4K-4 inspection document no committed clean public npm lockfile for apps/web or apps/mobile.
+Evidence: Phase reports and Phase 4K-5 inspection document no committed clean public npm lockfile for apps/web or apps/mobile. Phase 4K-5 creates no lockfile because npm is unavailable.
 Owner: ContractorOS development lead / red-team gate
 Resolution condition: A clean public npm lockfile is generated and verified before commit.
 Last reviewed: 2026-07-09

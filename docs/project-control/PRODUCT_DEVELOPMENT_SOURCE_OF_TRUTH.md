@@ -2,7 +2,7 @@
 
 ## Register Purpose
 
-This register is the canonical product/development source-of-truth record for ContractorOS California after Phase 4K-3 and is updated by Phase 4K-4 for dependency/lockfile governance decision status.
+This register is the canonical product/development source-of-truth record for ContractorOS California after Phase 4K-3 and is updated by Phase 4K-5 for blocked-before-mutation dependency/toolchain evidence.
 
 It reconciles the roadmap, phase tracker, development ledger, decision log, risk register, validation tasks, requirements traceability matrix, source register, artifact index, and phase reports into one current project-control anchor.
 
@@ -58,6 +58,8 @@ Current dependency state:
 - Phase 4K-4 recommends a later controlled deterministic web dependency/lockfile baseline implementation phase as the safest next dependency-governance step.
 - Mobile dependency/lockfile baseline implementation remains a later separate candidate after web baseline evidence, because the mobile Expo dependency surface is larger and should not be combined with the first baseline mutation phase.
 - Phase 4K-4 does not implement that baseline and does not create or change package manifests, lockfiles, dependency directories, runtime QA, or build artifacts.
+- Phase 4K-5 attempted the web dependency/lockfile baseline gate through Issue #39 but is blocked before mutation because required node/npm tooling is unavailable.
+- Phase 4K-5 does not implement the web dependency/lockfile baseline and does not create or change package manifests, lockfiles, `.npmrc` files, dependency directories, runtime QA, or build artifacts.
 
 ## Current Non-Implemented / Blocked Scope
 
@@ -131,11 +133,11 @@ Development-model items not proven by durable evidence:
 
 ## Active Phase State
 
-Current active phase: Phase 4K-4 - Dependency / Lockfile Governance Decision Gate.
+Current active phase: Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate.
 
-Active issue: Issue #37.
+Active issue: Issue #39.
 
-Starting main SHA: `196a48545285afdf8f5d5bc3f948395a5f289a4d`.
+Starting main SHA: `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`.
 
 Prior phase state:
 
@@ -144,6 +146,8 @@ Prior phase state:
 - Issue #34 is closed/not planned and dependency/lockfile decision work is not active.
 - Issue #35 / Phase 4K-3 is closed/completed.
 - PR #36 merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`.
+- Issue #37 / Phase 4K-4 is closed/completed.
+- Issue #39 / Phase 4K-5 is open.
 
 ## Phase Sequence and Dependency Rules
 
@@ -153,20 +157,23 @@ Phase sequence rules:
 - Do not resume Phase 4I unless a later durable GitHub issue explicitly authorizes it.
 - Do not start dependency/lockfile baseline implementation from Issue #34 because Issue #34 is closed/not planned.
 - Do not start dependency/lockfile baseline implementation inside Phase 4K-4 because Phase 4K-4 is decision documentation only.
-- Do not start Phase 4K-5 inside Phase 4K-4.
-- Future dependency/lockfile baseline implementation work needs a new durable GitHub issue after Phase 4K-4 is merged, main is verified, and Issue #37 is closed.
+- Treat Phase 4K-5 as blocked-before-mutation evidence until required node/npm tooling and public npm registry configuration can be proven in a later approved phase.
+- Do not retry dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, or build work inside Phase 4K-5 unless required node/npm tooling is available and public npm registry configuration is proven before mutation.
+- The next recommended controlled phase is a toolchain availability / npm bootstrap governance decision gate.
 
 Dependency rules:
 
 - Runtime smoke QA remains blocked until a later approved phase supplies a safe dependency baseline path.
 - Any package or lockfile mutation requires a Dependency lane or other explicitly approved future phase.
 - Any build/distribution work requires a Build / Distribution lane or other explicitly approved future phase.
+- Any decision to install, bootstrap, substitute, or rely on a package manager requires a later durable issue, red-team review, and human/write-access approval.
 
 ## Deferred Phase Candidates
 
 Deferred candidates are not active scope:
 
 - deterministic dependency baseline implementation;
+- toolchain availability / npm bootstrap governance decision;
 - web runtime smoke QA after dependency baseline;
 - mobile runtime smoke QA after dependency baseline;
 - visual QA;
@@ -208,7 +215,7 @@ This register does not authorize:
 - C10/C46/C39 public content;
 - ZIP/binary/archive/Drive artifact;
 - Phase 4I resume;
-- Phase 4K-5 start;
+- Phase 4K-6 start;
 - auto-merge activation.
 
 ## Evidence Anchors
@@ -219,6 +226,7 @@ This register does not authorize:
 - Issue #34 - Dependency / Lockfile Baseline Decision Gate, closed not planned.
 - Issue #35 - Phase 4K-3 Product / Development Source-of-Truth Reconciliation Gate.
 - Issue #37 - Phase 4K-4 Dependency / Lockfile Governance Decision Gate.
+- Issue #39 - Phase 4K-5 Web Dependency / Lockfile Baseline Implementation Gate.
 - PR #30 - Phase 4K-1 merged at `07226b7ebed4661a425aab72799d307df1c296ac`.
 - PR #33 - Phase 4K-2 merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`.
 - PR #36 - Phase 4K-3 merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`.
@@ -237,6 +245,7 @@ Resolved by this register:
 - Issue #34 dependency/lockfile baseline decision work is closed/not planned and is not active Phase 4K-3 scope.
 - Phase 4K-4 uses Issue #37 as the active durable dependency/lockfile governance decision intake and does not resurrect Issue #34.
 - Phase 4K-4 recommends a split deterministic baseline path, starting with web dependency/lockfile baseline implementation in a later controlled phase. Runtime QA remains blocked until the relevant baseline is implemented and verified.
+- Phase 4K-5 uses Issue #39 as the active durable web baseline implementation intake but is blocked before mutation by unavailable node/npm tooling. No baseline is implemented in Phase 4K-5.
 - Long-term platform architecture categories are roadmap candidates only unless backed by later durable GitHub/project-control evidence.
 - The Issue #35 requested owner-trigger semantic category `PRODUCT_SOURCE_OF_TRUTH` is not supported by the current owner-trigger validator category list. Until a later control phase updates the validator, Phase 4K-3 records the source-of-truth concern under supported category `ARCHITECTURE_THRESHOLD` and documents the unsupported semantic category as missing control-script support.
 
@@ -251,15 +260,16 @@ Resolved by this register:
 
 ## Validation Tasks
 
-Current validation tasks for Phase 4K-4:
+Current validation tasks for Phase 4K-5:
 
-- verify starting main SHA `196a48545285afdf8f5d5bc3f948395a5f289a4d`;
-- verify Issue #35 closed/completed;
+- verify starting main SHA `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`;
 - verify Issue #34 closed/not planned;
-- verify Issue #37 open;
-- verify changed files match the Issue #37 allowlist;
+- verify Issue #37 closed/completed;
+- verify Issue #39 open;
+- verify changed files match the Issue #39 blocked-correction allowlist;
+- record node/npm tooling blocker evidence;
 - run changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, lockfile-only, claims-only, and whitespace checks;
-- verify no app source, package, lockfile, dependency install, dependency upgrade, dependency removal, package-manager migration, dependency directory, runtime launch, build, artifact, backend, cloud, auth, scoring, readiness, pass/fail, analytics, saved-progress, public-content, payment, CRM, marketplace, Phase 4I, Phase 4K-5, merge, or auto-merge scope was added.
+- verify no app source, package, lockfile, dependency install, dependency upgrade, dependency removal, package-manager migration, dependency directory, runtime launch, build, artifact, backend, cloud, auth, scoring, readiness, pass/fail, analytics, saved-progress, public-content, payment, CRM, marketplace, Phase 4I, Phase 4K-6, merge, or auto-merge scope was added.
 
 ## Maintenance Rule
 

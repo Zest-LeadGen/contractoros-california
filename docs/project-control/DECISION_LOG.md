@@ -71,6 +71,9 @@ Purpose: record durable architectural and process decisions.
 - Mobile dependency/lockfile baseline implementation remains a later separate candidate after web baseline evidence, because combining web and mobile dependency mutation would increase first-baseline blast radius.
 - Runtime smoke QA, browser QA, emulator/device QA, install QA, and build/distribution work remain blocked until a deterministic dependency/lockfile baseline is implemented and verified in a later approved phase.
 - Package-manager migration, vendored/preloaded dependency directories, and containerized runtime QA are not selected as the immediate next phase because current repo evidence does not prove they are safer or more auditable than deterministic lockfile creation.
+- Phase 4K-5 uses Issue #39 as the durable web dependency/lockfile baseline implementation intake, but it is blocked before mutation because required node/npm tooling is unavailable.
+- Phase 4K-5 must not install Node/npm, bootstrap npm, use Corepack, substitute pnpm/yarn/bun, use bundled Node without npm for lockfile generation, create lockfiles, edit package manifests, create npmrc files, create dependency directories, run runtime QA, or run builds.
+- The next recommended controlled phase after Phase 4K-5 blocked evidence is a toolchain availability / npm bootstrap governance decision gate before any dependency-resolution retry.
 
 ## Review Condition
 

@@ -125,7 +125,11 @@ Issue #34 dependency/lockfile baseline decision work was closed not planned befo
 
 Phase 4K-3 created the canonical product/development register.
 
-Phase 4K-4 is the current dependency/lockfile governance decision phase. It recommends a later controlled deterministic web lockfile baseline implementation phase, but does not implement that dependency baseline.
+Phase 4K-4 documented the dependency/lockfile governance decision. It recommended a later controlled deterministic web lockfile baseline implementation phase, but did not implement that dependency baseline.
+
+Phase 4K-5 is the current web dependency/lockfile baseline implementation gate. It is blocked before mutation because required node/npm tooling is unavailable, and it does not implement the dependency baseline.
+
+The next recommended controlled phase is a toolchain availability / npm bootstrap governance decision gate before any dependency-resolution retry.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -153,7 +157,8 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4K-2 | Internal runtime smoke QA feasibility gate | Issue #32 + PR #33 | Merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`; runtime launch blocked |
 | Issue #34 | Dependency / lockfile baseline decision gate | Issue #34 | Closed not planned before implementation |
 | Phase 4K-3 | Product / development source-of-truth reconciliation gate | Issue #35 + PR #36 | Merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`; created canonical product/development register |
-| Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 + current PR | Active; decision documentation only; no dependency baseline implementation and no Phase 4K-5 start |
+| Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 | Historical decision documentation; no dependency baseline implementation |
+| Phase 4K-5 | Web dependency / lockfile baseline implementation gate | Issue #39 + current PR | Active; blocked before mutation by unavailable node/npm tooling; no baseline implementation and no Phase 4K-6 start |
 
 This table must be updated after each completed phase.
 
