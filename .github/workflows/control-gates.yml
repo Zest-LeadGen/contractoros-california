@@ -37,6 +37,9 @@ jobs:
       - name: Owner-trigger / lane-eligibility marker check
         if: github.event_name == 'pull_request'
         run: python3 scripts/control/check_owner_trigger_review.py
+      - name: Low-risk lane classification check
+        if: github.event_name == 'pull_request'
+        run: python3 scripts/control/check_low_risk_lane.py
       - name: Mandatory SHA-bound red-team marker check
         if: github.event_name == 'pull_request'
         run: python3 scripts/control/check_red_team_marker.py

@@ -83,7 +83,10 @@ Purpose: record durable architectural and process decisions.
 - Any owner-trigger category other than `NONE` is not automation eligible and must interrupt future automation.
 - Codex remains developer executor only; external red-team separation, exact PR-head SHA binding, branch protection, and current human approval requirements remain in force.
 - Auto-merge remains inactive and prohibited. Any future eligibility requires a separate durable issue, policy approval, implementation, validation, dry-run evidence, required checks, and proof that owner-triggered work cannot enter the lane.
-- Phase 4K-7 through Phase 4K-12 are planning targets only. Each must have its own future durable GitHub issue and cannot start inside Phase 4K-6.
+- Phase 4K-7 is active through Issue #43 to implement a fail-closed low-risk lane validator and control-gate check without activating workflow automation.
+- Phase 4K-7 permits `FUTURE_LOW_RISK_CANDIDATE` only when owner interruption is `NO`, trigger categories are exactly `NONE`, human approval remains `YES`, auto-merge remains `NO`, and changed files stay inside the current documentation-only low-risk pattern.
+- Phase 4K-7 treats workflow/control enforcement changes, control scripts, dependency/package/lockfile paths, app source, product claims, and owner-triggered categories as not low-risk candidates.
+- Phase 4K-8 through Phase 4K-12 remain future planning targets. Each must have its own future durable GitHub issue and cannot start inside Phase 4K-7.
 
 ## Review Condition
 
