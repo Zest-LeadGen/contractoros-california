@@ -127,9 +127,11 @@ Phase 4K-3 created the canonical product/development register.
 
 Phase 4K-4 documented the dependency/lockfile governance decision. It recommended a later controlled deterministic web lockfile baseline implementation phase, but did not implement that dependency baseline.
 
-Phase 4K-5 is the current web dependency/lockfile baseline implementation gate. It is blocked before mutation because required node/npm tooling is unavailable, and it does not implement the dependency baseline.
+Phase 4K-5 is historical blocked-before-mutation dependency/toolchain evidence. Issue #39 is closed/completed and PR #40 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52` without implementing the dependency baseline.
 
-The next recommended controlled phase is a toolchain availability / npm bootstrap governance decision gate before any dependency-resolution retry.
+Phase 4K-6 is the current owner-trigger / low-risk lane automation policy gate through Issue #41. It records the owner-approved redirect toward approximately 95% workflow/process automation and does not implement automation.
+
+Phase 4K-7 through Phase 4K-12 are planning targets only until each receives its own future durable GitHub issue. The toolchain availability / npm bootstrap governance path is deferred, not rejected.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -157,8 +159,10 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4K-2 | Internal runtime smoke QA feasibility gate | Issue #32 + PR #33 | Merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`; runtime launch blocked |
 | Issue #34 | Dependency / lockfile baseline decision gate | Issue #34 | Closed not planned before implementation |
 | Phase 4K-3 | Product / development source-of-truth reconciliation gate | Issue #35 + PR #36 | Merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`; created canonical product/development register |
-| Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 | Historical decision documentation; no dependency baseline implementation |
-| Phase 4K-5 | Web dependency / lockfile baseline implementation gate | Issue #39 + current PR | Active; blocked before mutation by unavailable node/npm tooling; no baseline implementation and no Phase 4K-6 start |
+| Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 + PR #38 | Merged at `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`; historical decision documentation only |
+| Phase 4K-5 | Web dependency / lockfile baseline implementation gate | Issue #39 + PR #40 | Merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`; blocked-before-mutation evidence and no dependency baseline implementation |
+| Phase 4K-6 | Owner-trigger / low-risk lane automation policy gate | Issue #41 + current PR | Active policy/documentation phase; no automation implementation and no Phase 4K-7 start |
+| Phase 4K-7 through 4K-12 | Workflow automation implementation, operator, intake, closeout, dry-run, and decision planning sequence | Future durable issues required | Planning targets only; not started or authorized by Phase 4K-6 |
 
 This table must be updated after each completed phase.
 
@@ -309,6 +313,7 @@ Track by gates instead:
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
 | Public/production gate        | no release readiness proven or approved         | Not passed                             |
 | Source-of-truth reconciliation gate | Product/development current-state register exists | Passed by PR #36 merge at `196a48545285afdf8f5d5bc3f948395a5f289a4d` |
+| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Active in Phase 4K-6; not passed until reviewed, merged, main-verified, and Issue #41 closed |
 
 Progress is measured by passed gates, not optimism.
 

@@ -30,6 +30,27 @@ Purpose: record validation tasks for ContractorOS California governance and phas
 
 Validation task status must be updated by repo evidence, not memory.
 
+## Phase 4K-6 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4K6-001 | Verify starting main after Phase 4K-5. | `git rev-parse HEAD` before documentation edits | Returns `e531c4d8bc1904c231be1f43114f16f652c4ec52`. | Passed before documentation edits. |
+| VAL-4K6-002 | Verify Issue #39 and PR #40 historical state. | Direct GitHub reads | Issue #39 is closed/completed and PR #40 is merged at the starting main SHA. | Passed with direct GitHub evidence. |
+| VAL-4K6-003 | Verify active Phase 4K-6 intake. | Direct GitHub read of Issue #41 | Issue #41 is open/active. | Passed with direct GitHub evidence. |
+| VAL-4K6-004 | Verify changed files match the Phase 4K-6 allowlist. | `python3 scripts/control/check_changed_files.py` | Pass; only the 14 allowed project-control files are changed. | Pending local validation. |
+| VAL-4K6-005 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; all restricted terms appear only in policy, risk, future, blocked, documentation, or explicit no-scope context. | Pending local validation. |
+| VAL-4K6-006 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; report and required project-control updates are present. | Pending local validation. |
+| VAL-4K6-007 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required sections and `Phase issue: #41` reference are present. | Pending local validation. |
+| VAL-4K6-008 | Run owner-trigger marker check. | `python3 scripts/control/check_owner_trigger_review.py` | Pass with `ARCHITECTURE_THRESHOLD`, owner interruption, human approval, and no auto-merge eligibility. | Pending local validation. |
+| VAL-4K6-009 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no package or lockfile change is present. | Pending local validation. |
+| VAL-4K6-010 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported implementation, product, build, public, or release claim is made. | Pending local validation. |
+| VAL-4K6-011 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Pending local validation. |
+| VAL-4K6-012 | Verify no package, lockfile, npmrc, or dependency-directory scope. | Changed-file review and lockfile scanner | No dependency/toolchain mutation is present; path remains deferred. | Pending local validation. |
+| VAL-4K6-013 | Verify no app, runtime, build, workflow, control-script, or automation implementation scope. | Changed-file and command review | Only allowed policy/project-control documentation is changed. | Pending local validation. |
+| VAL-4K6-014 | Verify no Phase 4K-7 or Phase 4I work. | Report and changed-file review | Phase 4K-7 remains a planning target only and Phase 4I remains paused. | Pending local validation. |
+| VAL-4K6-015 | Verify current approval boundaries. | Policy/report review | External red-team and human approval remain required; auto-merge remains inactive. | Pending local validation. |
+| VAL-4K6-016 | Verify expected PR behavior. | GitHub Actions after PR opens | Owner-trigger evidence passes; mandatory SHA-bound external red-team marker check fails until external review evidence matches the exact current PR head SHA. | Pending PR creation. |
+
 ## Phase 4K-5 Tasks
 
 | Task ID | Task | Command or check | Expected result | Status |
