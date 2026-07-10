@@ -44,7 +44,7 @@ The current governance route requires approximately 8-14 owner/collaborator acti
 | Dependency/security/toolchain phases | Approximately 5-9 owner/human actions | Risk acceptance and toolchain decisions remain human controlled unless later durable policy reduces them. |
 | Legal, financial, public-release, production, app-store/build/distribution, backend or identity/security, and high-risk product phases | No autonomous reduction of required approval | Owner/human approval remains required. |
 
-These are target ranges for manual relay reduction, not guarantees and not approval to implement automation in Phase 4K-6.
+These are target ranges for manual relay reduction, not guarantees and not approval to activate automation in Phase 4K-7.
 
 ## Source-of-Truth Requirements
 
@@ -74,6 +74,12 @@ Auto-merge is inactive and prohibited. Phase 4K-6 defines future eligibility que
 
 Any future auto-merge proposal requires its own durable issue, external red-team review, human approval, validated lane classification, branch-protection compatibility, required checks, stale-SHA protection, rollback and audit evidence, and proof that owner-trigger categories cannot enter the lane.
 
+## Phase 4K-7 Validator Boundary
+
+Phase 4K-7 may add deterministic lane classification to the control-gates workflow. That validator does not draft issues, operate Codex, add review markers, approve, merge, close issues, or activate low-risk automation.
+
+Current low-risk candidate validation is documentation-only and fail-closed. Workflow/control enforcement changes, control scripts, app source, package manifests, lockfiles, dependency/toolchain paths, backend or identity-system scope, public-release, production, app-store/build/distribution, legal, financial, paid-service, architecture-threshold, scope-expansion, and ambiguous evidence remain outside the low-risk candidate lane.
+
 ## Phase 4K-11 / 4K-12 Readiness Criteria (Blocked Until Evidence)
 
 Phase 4K-11 may begin only from its own future durable issue after Phases 4K-7 through 4K-10 are separately implemented, reviewed, merged, and main-verified. Its dry run must demonstrate deterministic lane classification, marker/check behavior, stop conditions, audit evidence, and no branch-protection bypass.
@@ -84,4 +90,4 @@ Neither phase is started or approved by this document.
 
 ## Non-Goals
 
-Phase 4K-6 does not implement scripts, bots, workflow changes, control-script changes, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims.
+Phase 4K-7 implements a control-gate validator only. It does not implement scripts outside `scripts/control/`, bots, issue-intake automation, Codex-handoff automation, merge automation, issue-closeout automation, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims.

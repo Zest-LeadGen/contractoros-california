@@ -18,6 +18,8 @@ A low-risk candidate is a narrowly scoped change that:
 
 Candidate classification is provisional until future validator/control-gate implementation proves the classification from changed files and durable evidence.
 
+Phase 4K-7 introduces the first validator for this policy. It is a control-gate classifier only and does not activate workflow automation, auto-merge, approval reduction, or red-team reduction.
+
 ## Low-Risk Candidate Examples
 
 Possible future candidates include typo-only project-control corrections, non-semantic link repairs, deterministic index synchronization, template-conformant evidence updates, and narrowly scoped source-safe patches covered by existing tests and policy.
@@ -68,6 +70,8 @@ Any required external red-team decision remains bound to the exact current PR he
 Future low-risk automation must require all existing protected checks plus any later lane-classification check. Checks must fail closed when files exceed the allowlist, trigger categories are inconsistent, required evidence is absent, the PR head SHA changes, or current policy cannot classify the change.
 
 No automation may weaken branch protection or treat a skipped, unavailable, pending, or indeterminate check as success.
+
+For Phase 4K-7, `FUTURE_LOW_RISK_CANDIDATE` is limited to documentation-only `docs/project-control/*.md` changed-file patterns and requires owner interruption `NO`, trigger categories exactly `NONE`, human approval `YES`, and auto-merge `NO`. Workflow/control enforcement files, control scripts, app source, package manifests, lockfiles, dependency/toolchain paths, backend or identity-system scope, and unknown paths fail closed as low-risk candidates.
 
 ## Human Approval Policy
 

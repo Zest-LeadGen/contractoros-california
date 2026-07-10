@@ -8,7 +8,7 @@ Record the owner-approved redirect toward workflow automation, the planning sequ
 
 Phase 4K-5 ended as blocked-before-mutation dependency/toolchain evidence. Issue #39 is closed/completed and PR #40 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52` without implementing the dependency baseline.
 
-Phase 4K-6 is the active policy/documentation gate through Issue #41. Current workflow administration uses approximately 8-14 owner/collaborator actions per phase, and auto-merge remains inactive.
+Phase 4K-6 is merged through PR #42. Phase 4K-7 is the active low-risk lane validator / control-gate implementation gate through Issue #43. Current workflow administration uses approximately 8-14 owner/collaborator actions per phase, and auto-merge remains inactive.
 
 ## Owner-Approved Redirect
 
@@ -18,7 +18,7 @@ The strategic goal is approximately 95% workflow/process automation while retain
 
 ## Phase 4K-6 Policy Gate
 
-Status: Active through Issue #41.
+Status: Merged through PR #42 at `4315c943b6210f023849592213882bc8983c31d2`.
 
 Outcome: version the target state, low-risk lane policy, owner-trigger boundaries, retained human/red-team controls, measurable manual-action targets, stop conditions, and the planning sequence through Phase 4K-12.
 
@@ -26,11 +26,11 @@ No automation implementation, workflow mutation, control-script mutation, toolch
 
 ## Phase 4K-7 Low-Risk Lane Validator / Control-Gate Implementation Gate
 
-Status: Planning target only; not started and requires its own future durable GitHub issue.
+Status: Active through Issue #43.
 
 Planned outcome: implement and test deterministic low-risk candidate classification, owner-trigger consistency, fail-closed behavior, and control-gate integration without changing approval policy or activating auto-merge.
 
-Dependency: Phase 4K-6 merged, main verified, Issue #41 closed, and a separately approved implementation allowlist.
+Dependency: Phase 4K-6 merged, main verified, Issue #41 closed, and Issue #43 approved as the durable implementation intake.
 
 ## Phase 4K-8 Workflow Automation Command-Pack / Operator Runbook Gate
 
@@ -38,7 +38,7 @@ Status: Planning target only; not started and requires its own future durable Gi
 
 Planned outcome: define and implement an approved operator command pack and runbook for repetitive evidence collection, check monitoring, and stop-condition reporting.
 
-Dependency: validated Phase 4K-7 lane/control behavior.
+Dependency: Phase 4K-7 merged, main-verified, Issue #43 closed, and validated lane/control behavior.
 
 ## Phase 4K-9 Phase Intake + Codex Handoff Automation Gate
 
@@ -93,4 +93,4 @@ Stop the sequence when a prerequisite phase is not merged/main-verified/closed, 
 
 ## Claim Limits
 
-Phase 4K-6 proves policy and roadmap documentation only. It does not prove automation implementation, reduced manual action in practice, lane-classifier accuracy, runtime behavior, toolchain availability, dependency baseline, build status, product status, or release status.
+Phase 4K-7 may prove low-risk lane validator implementation and control-gate integration only after local validation, external review, and merge. It does not prove low-risk automation activation, reduced manual action in practice, runtime behavior, toolchain availability, dependency baseline, build status, product status, or release status.

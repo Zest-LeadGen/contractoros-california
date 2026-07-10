@@ -129,9 +129,9 @@ Phase 4K-4 documented the dependency/lockfile governance decision. It recommende
 
 Phase 4K-5 is historical blocked-before-mutation dependency/toolchain evidence. Issue #39 is closed/completed and PR #40 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52` without implementing the dependency baseline.
 
-Phase 4K-6 is the current owner-trigger / low-risk lane automation policy gate through Issue #41. It records the owner-approved redirect toward approximately 95% workflow/process automation and does not implement automation.
+Phase 4K-6 is historical after PR #42 merged at `4315c943b6210f023849592213882bc8983c31d2`. It records the owner-approved redirect toward approximately 95% workflow/process automation and does not implement automation.
 
-Phase 4K-7 through Phase 4K-12 are planning targets only until each receives its own future durable GitHub issue. The toolchain availability / npm bootstrap governance path is deferred, not rejected.
+Phase 4K-7 is active through Issue #43 for the first low-risk lane validator / control-gate implementation. Phase 4K-8 through Phase 4K-12 remain planning targets until each receives its own future durable GitHub issue. The toolchain availability / npm bootstrap governance path is deferred, not rejected.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -161,8 +161,9 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4K-3 | Product / development source-of-truth reconciliation gate | Issue #35 + PR #36 | Merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`; created canonical product/development register |
 | Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 + PR #38 | Merged at `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`; historical decision documentation only |
 | Phase 4K-5 | Web dependency / lockfile baseline implementation gate | Issue #39 + PR #40 | Merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`; blocked-before-mutation evidence and no dependency baseline implementation |
-| Phase 4K-6 | Owner-trigger / low-risk lane automation policy gate | Issue #41 + current PR | Active policy/documentation phase; no automation implementation and no Phase 4K-7 start |
-| Phase 4K-7 through 4K-12 | Workflow automation implementation, operator, intake, closeout, dry-run, and decision planning sequence | Future durable issues required | Planning targets only; not started or authorized by Phase 4K-6 |
+| Phase 4K-6 | Owner-trigger / low-risk lane automation policy gate | Issue #41 + PR #42 | Merged at `4315c943b6210f023849592213882bc8983c31d2`; policy/documentation phase only |
+| Phase 4K-7 | Low-risk lane validator / control-gate implementation gate | Issue #43 + current PR | Active control-gate validator implementation; no automation activation or approval reduction |
+| Phase 4K-8 through 4K-12 | Workflow automation operator, intake, closeout, dry-run, and decision planning sequence | Future durable issues required | Planning targets only; not started or authorized by Phase 4K-7 |
 
 This table must be updated after each completed phase.
 
@@ -313,7 +314,7 @@ Track by gates instead:
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
 | Public/production gate        | no release readiness proven or approved         | Not passed                             |
 | Source-of-truth reconciliation gate | Product/development current-state register exists | Passed by PR #36 merge at `196a48545285afdf8f5d5bc3f948395a5f289a4d` |
-| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Active in Phase 4K-6; not passed until reviewed, merged, main-verified, and Issue #41 closed |
+| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Passed through Phase 4K-6 / PR #42; Phase 4K-7 validator gate is active |
 
 Progress is measured by passed gates, not optimism.
 

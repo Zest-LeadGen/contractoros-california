@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate
+
+```text
+Phase: Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate
+Lane: Control / Infrastructure
+Date: 2026-07-10
+Branch: phase-4k-7-low-risk-lane-validator
+Phase issue: #43
+PR: Pending until opened
+Base SHA: 4315c943b6210f023849592213882bc8983c31d2
+Head SHA: Active branch head; final reviewed head SHA must be taken from PR metadata and the external red-team marker before merge.
+Merge SHA: Pending
+Changed files: Low-risk lane validator, control-gates workflow integration, Phase 4K-7 report, and allowed project-control evidence updates
+Commands run: Starting-state and GitHub evidence reads, control validator inspection, validator self-test, workflow integration, documentation edits, and required local validation before commit
+Claim level: Control-gate validator implementation only; no workflow automation activation, auto-merge, approval reduction, product implementation, dependency/toolchain mutation, runtime QA, build, backend or identity-system implementation, scoring, pass/fail, public content, or release claim
+Next phase: Phase 4K-8 is not started; Phase 4I remains paused
+```
+
 ### Phase 4K-6 - Owner-Trigger / Low-Risk Lane Automation Policy Gate
 
 ```text
@@ -14,14 +32,14 @@ Lane: Control / Infrastructure
 Date: 2026-07-09
 Branch: phase-4k-6-low-risk-lane-automation-policy
 Phase issue: #41
-PR: Pending until opened
+PR: #42
 Base SHA: e531c4d8bc1904c231be1f43114f16f652c4ec52
-Head SHA: Active branch head; final reviewed head SHA must be taken from PR metadata and the external red-team marker before merge.
-Merge SHA: Pending
+Head SHA: 8f04070fa7709c4da2af44e7c9c02a4bc53e92f9
+Merge SHA: 4315c943b6210f023849592213882bc8983c31d2
 Changed files: Three automation policy/roadmap anchors, Phase 4K-6 report, and allowed project-control reconciliation records
-Commands run: Starting-state and GitHub evidence reads, project-control inspection, documentation edits, and required local control validation before commit
+Commands run: Starting-state and GitHub evidence reads, project-control inspection, documentation edits, local control validation, external review route, and protected merge
 Claim level: Workflow automation policy and roadmap documentation only; no automation implementation, workflow/control-script mutation, auto-merge, dependency/toolchain mutation, runtime QA, build, product, public, backend or auth implementation, scoring, pass/fail, or release claim
-Next phase: Phase 4K-7 is a planning target only and not started; toolchain/npm path is deferred, not rejected; Phase 4I remains paused
+Next phase: Phase 4K-7 is active through Issue #43; toolchain/npm path is deferred, not rejected; Phase 4I remains paused
 ```
 
 ### Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate

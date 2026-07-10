@@ -176,3 +176,18 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-4K6-012 | External red-team must add the exact SHA-bound decision evidence before merge. | PR body after external review and phase report | Codex does not add that marker; required GitHub Actions should fail until external evidence matches current PR head SHA. |
 | RTM-4K6-013 | Phase 4K-6 must remain inside the 14-file project-control allowlist. | Phase report, `VALIDATION_TASKS.md`, `ARTIFACT_INDEX.md` | Changed-file, forbidden-scope, lockfile, report-contract, owner-trigger, claims, and whitespace checks must pass. |
 | RTM-4K6-014 | Phase 4K-7 must not start and Phase 4I must remain paused. | `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`, `AUTOMATION_PHASE_ROADMAP.md`, phase report | Next-phase status records both stop conditions. |
+
+## Phase 4K-7 Traceability
+
+| Requirement ID | Requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-4K7-001 | Phase 4K-7 must verify starting main after Phase 4K-6 at `4315c943b6210f023849592213882bc8983c31d2`. | `phase_4k_7_low_risk_lane_validator_control_gate_implementation_gate_report.md`, `SOURCE_REGISTER.md`, `VALIDATION_TASKS.md` | Starting-state evidence and PR #42 merge metadata match the required SHA. |
+| RTM-4K7-002 | Issue #43 must be open while Issue #41 is closed/completed and PR #42 is merged. | Phase report, `SOURCE_REGISTER.md`, `DEVELOPMENT_LEDGER.md` | Direct GitHub reads verify all lifecycle facts. |
+| RTM-4K7-003 | Low-risk lane evidence must allow only `NOT_AUTOMATION_ELIGIBLE` or `FUTURE_LOW_RISK_CANDIDATE`. | `scripts/control/check_low_risk_lane.py`, `LOW_RISK_LANE_POLICY.md`, phase report | Validator self-test covers valid and invalid lane eligibility examples. |
+| RTM-4K7-004 | Owner-triggered work must not be admitted as a future low-risk candidate. | `scripts/control/check_low_risk_lane.py`, `LOW_RISK_LANE_POLICY.md`, `RISK_REGISTER.md` | Validator fails when `FUTURE_LOW_RISK_CANDIDATE` is paired with non-`NONE` trigger categories or owner interruption `YES`. |
+| RTM-4K7-005 | Human approval and external red-team requirements must remain in force. | `WORKFLOW_AUTOMATION_TARGET_STATE.md`, `DECISION_LOG.md`, phase report | Validator requires human approval `YES`; PR still requires the SHA-bound red-team marker. |
+| RTM-4K7-006 | Auto-merge must remain inactive and ineligible. | `scripts/control/check_low_risk_lane.py`, `DECISION_LOG.md`, phase report | Validator fails on auto-merge `YES`; report records auto-merge inactive. |
+| RTM-4K7-007 | Low-risk candidate changed files must fail closed outside the current safe documentation-only pattern. | `scripts/control/check_low_risk_lane.py`, `LOW_RISK_LANE_POLICY.md` | Self-tests cover workflow/control, script, dependency/package, lockfile, app source, and unknown-path failures. |
+| RTM-4K7-008 | ContractorOS Control Gates must run the new validator without weakening existing checks. | `.github/workflows/control-gates.yml`, phase report | Workflow adds the low-risk lane step after owner-trigger validation and before mandatory red-team marker validation. |
+| RTM-4K7-009 | Phase 4K-7 must stay within control-gate validator implementation scope. | Phase report, `ARTIFACT_INDEX.md`, `VALIDATION_TASKS.md` | Changed-file, forbidden-scope, lockfile, contract, owner-trigger, low-risk, claims, and whitespace checks must pass. |
+| RTM-4K7-010 | Phase 4K-8 must not start and Phase 4I must remain paused. | `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`, `PROJECT_VISION_AND_PHASE_TRACKER.md`, phase report | Next-phase status records both stop conditions. |

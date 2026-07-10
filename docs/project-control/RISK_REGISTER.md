@@ -19,11 +19,22 @@ Last reviewed:
 
 ```text
 Risk: low-risk lane misclassification
-Status: Active / policy defined; implementation not started
-Evidence: Phase 4K-6 defines candidate criteria and owner-trigger exclusions, but no future validator or dry-run evidence exists yet.
+Status: Active / Phase 4K-7 validator implementation in progress
+Evidence: Phase 4K-7 adds a fail-closed validator and self-test coverage for marker consistency and changed-file classification, but no dry-run evidence or approval-policy reduction exists.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: A later approved validator phase implements fail-closed classification, tests all trigger categories, and produces dry-run evidence before any approval or merge policy is reduced.
-Last reviewed: 2026-07-09
+Resolution condition: Phase 4K-7 is reviewed, merged, and main-verified; later dry-run evidence proves false-positive and false-negative behavior before any approval or merge policy is reduced.
+Last reviewed: 2026-07-10
+```
+
+### low-risk validator workflow drift
+
+```text
+Risk: low-risk validator workflow drift
+Status: Active / controlled by protected control-gates workflow and external review
+Evidence: Phase 4K-7 adds a new required pull-request validator step. A future workflow edit could weaken ordering, skip PR context, or treat missing evidence as a low-risk pass.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Workflow changes remain protected by required control-gate review, validator self-tests, external red-team review, human approval, and fail-closed behavior for missing or ambiguous evidence.
+Last reviewed: 2026-07-10
 ```
 
 ### automation approval overreach
