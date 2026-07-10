@@ -6,6 +6,24 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate
+
+```text
+Phase: Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate
+Lane: Dependency / Architecture / QA, represented as Control / Infrastructure in this blocked-before-mutation docs-only correction
+Date: 2026-07-09
+Branch: phase-4k-5-web-dependency-lockfile-baseline
+Phase issue: #39
+PR: Pending until opened
+Base SHA: 61f5354ea55f7de9d0e88fd82031bacd94a9bf60
+Head SHA: Pending until Phase 4K-5 blocked-evidence commit
+Merge SHA: Pending
+Changed files: Phase 4K-5 blocked-before-mutation report plus allowed project-control records
+Commands run: Starting SHA/worktree checks, direct GitHub issue reads, package/toolchain inspection without mutation, local control validation planned before commit
+Claim level: Blocked-before-mutation dependency/toolchain evidence only; no web dependency baseline, package mutation, lockfile creation, npmrc creation, dependency directory, runtime QA, visual QA, device QA, install QA, build readiness, APK readiness, public readiness, production readiness, scoring, pass/fail, backend, Firebase, auth, cloud, content-currentness, public content, payment, CRM, marketplace, or release claim
+Next phase: Recommended toolchain availability / npm bootstrap governance decision gate is not started; Phase 4K-6 not started; Phase 4I remains paused
+```
+
 ### Phase 4K-4 - Dependency / Lockfile Governance Decision Gate
 
 ```text
@@ -21,7 +39,7 @@ Merge SHA: Pending
 Changed files: Dependency/lockfile governance decision report plus allowed project-control records
 Commands run: Starting main/worktree checks, direct GitHub issue reads, package/dependency-state inspection without mutation, local control validation planned before commit
 Claim level: Dependency/lockfile governance decision documentation only; no dependency baseline, package mutation, lockfile creation, dependency installation, runtime QA, visual QA, device QA, install QA, build readiness, APK readiness, public readiness, production readiness, scoring, pass/fail, backend, Firebase, auth, cloud, content-currentness, public content, payment, CRM, marketplace, or release claim
-Next phase: Recommended deterministic dependency/lockfile baseline implementation phase is not started; Phase 4K-5 not started; Phase 4I remains paused
+Next phase: Recommended deterministic dependency/lockfile baseline implementation phase was later opened as Phase 4K-5 through Issue #39 and is blocked before mutation; Phase 4I remains paused
 ```
 
 ### Phase 4K-3 - Product / Development Source-of-Truth Reconciliation Gate

@@ -30,6 +30,27 @@ Purpose: record validation tasks for ContractorOS California governance and phas
 
 Validation task status must be updated by repo evidence, not memory.
 
+## Phase 4K-5 Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-4K5-001 | Verify starting main after Phase 4K-4. | `git rev-parse HEAD` before documentation edits | Returns `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`; stop if main has moved unexpectedly. | Passed before documentation edits. |
+| VAL-4K5-002 | Verify Issue #39 is open. | Direct GitHub API read of Issue #39 | Issue #39 state is `open`. | Passed with direct GitHub issue evidence. |
+| VAL-4K5-003 | Verify Issue #37 is closed/completed. | Direct GitHub API read of Issue #37 | Issue #37 state is `closed` with state reason `completed`. | Passed with direct GitHub issue evidence. |
+| VAL-4K5-004 | Verify Issue #34 is closed/not planned and not active. | Direct GitHub API read of Issue #34 | Issue #34 state is `closed` with state reason `not_planned`. | Passed with direct GitHub issue evidence. |
+| VAL-4K5-005 | Record node/npm tooling blocker evidence. | `npm --version`, `node --version`, escalated `npm --version`, escalated `node --version`, bundled Node version check, bundled bin listing | npm and node are unavailable on PATH; bundled Node exists; bundled npm does not exist at the bundled Node path. | Passed; blocker recorded in Phase 4K-5 report. |
+| VAL-4K5-006 | Verify changed files match the Issue #39 blocked-correction allowlist. | Changed-file review | Only allowed `docs/project-control/**` records are changed. | Passed in local validation. |
+| VAL-4K5-007 | Run changed-file lane check. | `python3 scripts/control/check_changed_files.py` | Pass; no app, package, lockfile, dependency, build, backend, database, native, mobile, or web source file is changed. | Passed in local validation. |
+| VAL-4K5-008 | Run forbidden-scope scan. | `python3 scripts/control/check_forbidden_scope.py` | Pass; no implementation-looking forbidden terms outside blocked, deferred, future, risk, claim, or documentation context. | Passed in local validation. |
+| VAL-4K5-009 | Run required control update check. | `python3 scripts/control/check_required_control_updates.py` | Pass; current report and required control updates are present. | Passed in local validation. |
+| VAL-4K5-010 | Run PR/report contract check. | `python3 scripts/control/check_pr_contract.py` | Pass; required report sections and `Phase issue: #39` reference are present. | Passed in local validation. |
+| VAL-4K5-011 | Run owner-trigger marker check. | `python3 scripts/control/check_owner_trigger_review.py` | Pass; Phase 4K-5 report contains the required `OWNER_TRIGGER_REVIEW` marker. | Passed in local validation. |
+| VAL-4K5-012 | Run lockfile contamination check. | `python3 scripts/control/check_forbidden_scope.py --lockfiles-only` | Pass; no package or lockfile changes are present. | Passed in local validation. |
+| VAL-4K5-013 | Run claim-language check. | `python3 scripts/control/check_pr_contract.py --claims-only` | Pass; no unsupported dependency baseline, runtime QA, release, production, backend, Firebase, auth, cloud, build, distribution, app-store, public-launch, readiness, scoring, pass/fail, CRM, marketplace, or payment implementation claim is made. | Passed in local validation. |
+| VAL-4K5-014 | Verify whitespace safety. | `git diff --check` | Pass; no whitespace errors. | Passed in local validation. |
+| VAL-4K5-015 | Verify no package, lockfile, npmrc, dependency directory, runtime, build, artifact, backend, cloud, auth, scoring, readiness, pass/fail, analytics, saved-progress, public-content, payment, CRM, marketplace, Phase 4I, Phase 4K-6, merge, or auto-merge scope was added. | Changed-file review, package/lockfile/dependency-directory scan, and phase report commands section | No forbidden scope appears in changed files or commands. | Passed in local validation. |
+| VAL-4K5-016 | Verify expected PR behavior. | GitHub Actions after PR opens | Owner-trigger evidence should pass; mandatory SHA-bound red-team marker check should fail until external red-team adds a valid marker for the exact current PR head SHA. | Pending PR creation. |
+
 ## Phase 4K-4 Tasks
 
 | Task ID | Task | Command or check | Expected result | Status |

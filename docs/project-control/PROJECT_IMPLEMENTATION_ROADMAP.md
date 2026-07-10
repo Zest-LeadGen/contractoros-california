@@ -139,8 +139,8 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 ## 16. Phase-Based Implementation Sequence
 
 - Phase One: internal scaffold and control foundation
-- Current active phase: Phase 4K-4 - Dependency / Lockfile Governance Decision Gate
-- Recommended next controlled phase: deterministic web dependency/lockfile baseline implementation after Phase 4K-4 is merged, main is verified, Issue #37 is closed, and a later durable GitHub issue defines scope
+- Current active phase: Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate, blocked before mutation
+- Recommended next controlled phase: toolchain availability / npm bootstrap governance decision gate after Phase 4K-5 review records the blocker and Issue #39 is closed or superseded by durable evidence
 - Later: content governance
 - Later: visual QA
 - Later: dependency control
@@ -175,13 +175,17 @@ Phase 4K-3 creates `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` as the canonical pro
 
 Phase 4K-4 uses Issue #37 to document the dependency/lockfile governance decision. It recommends a later controlled deterministic web lockfile baseline implementation phase, but does not implement that dependency baseline.
 
+Phase 4K-5 uses Issue #39 to attempt the web dependency/lockfile baseline implementation gate, but it is blocked before mutation because required node/npm tooling is unavailable. Phase 4K-5 does not create package manifests, lockfiles, npmrc files, dependency directories, runtime QA, build output, or artifacts.
+
+The next recommended controlled phase is a toolchain availability / npm bootstrap governance decision gate before retrying dependency resolution.
+
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
 ## 19. Current Phase Constraint
 
-Current Phase 4K-4 work is dependency/lockfile governance decision documentation only. It does not change app source, dependencies, packages, lockfiles, build, runtime, backend, or public content.
+Current Phase 4K-5 work is blocked-before-mutation dependency/toolchain evidence only. It does not change app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
 
-Phase 4K-4 does not start dependency/lockfile baseline implementation, mobile dependency baseline work, runtime QA, Phase 4K-5, or Phase 4I.
+Phase 4K-5 does not implement the dependency/lockfile baseline, mobile dependency baseline work, runtime QA, Phase 4K-6, or Phase 4I.
 
 ## 20. Final Rule
 
