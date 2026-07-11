@@ -172,7 +172,7 @@ The corrected suite was rerun from the beginning against the live read-only PR #
 | T10 | Duplicate supported decision field | Reject | Rejected | PASS | Yes | Yes | Yes |
 | T11 | Unknown colon-delimited field inside decision block | Reject | Rejected | PASS | Yes | Yes | Yes |
 | T12 | Unresolved runtime placeholder | Reject | Rejected | PASS | Yes | Yes | Yes |
-| T13 | Stale `requires corrections` text | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T13 | Stale two-word changes-required lifecycle phrase | Reject | Rejected | PASS | Yes | Yes | Yes |
 | T14 | Duplicate `RED_TEAM_DECISION` | Reject | Rejected | PASS | Yes | Yes | Yes |
 | T15 | Duplicate owner marker | Reject | Rejected | PASS | Yes | Yes | Yes |
 | T16 | Owner marker not final | Reject | Rejected | PASS | Yes | Yes | Yes |
@@ -251,14 +251,21 @@ The initial adversarial-suite run stopped when T01 falsely accepted multiline `C
 
 `check_changed_files.py` passed. The first subsequent `check_forbidden_scope.py` run failed on four documentation lines. Its literal case-insensitive substring matching found `fetch` and the `auth` substring inside `Authority` on lines without same-line documentation/scope context. No forbidden implementation was present, and no validator was modified. The affected documentation was clarified without changing command behavior or role-separation meaning, and the next forbidden-scope run passed. `check_required_control_updates.py` then failed because the current five-file correction delta did not change `DECISION_LOG.md` or `DEVELOPMENT_LEDGER.md` and the report lacked the exact reviewed/no-update declarations. The exact declarations below were added without modifying either control file. The full validator sequence remains pending and must pass on rerun before commit.
 
-### Current Five-File Correction-Delta Control Review
+### Current Correction-Delta Control Review
 
-The declarations below apply only to the current five-file correction delta. They do not negate that both files remain part of the existing fourteen-file Phase 4K-8 PR history.
+These declarations apply to the current correction delta. They do not negate that the listed control files remain part of the existing fourteen-file Phase 4K-8 PR history or that `RISK_REGISTER.md` was modified in the earlier five-file correction commit.
 
 - docs/project-control/DECISION_LOG.md: reviewed, no update required
 - docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
+- docs/project-control/RISK_REGISTER.md: reviewed, no update required
 
-The first full local validator sequence passed after the claim language was narrowed and the two exact correction-delta declarations were added. These local results do not establish a GitHub Actions result, red-team approval, human approval, or merge authorization. The second pre-commit sequence is required because this evidence paragraph and result list modify the validated report.
+The first full local validator sequence passed after the claim language was narrowed and the two exact correction-delta declarations were added. The report evidence was then finalized, and the second full pre-commit validator sequence also passed before commit `47a67e789c3df22fee0cfc01bf0165d0b34453d0`. These local results did not establish red-team approval, human approval, or merge authorization. The subsequent GitHub Actions run passed every pre-marker control and failed only at the expected missing SHA-bound red-team marker.
+
+A post-push PR-body replacement attempt stopped before any GitHub write because the committed T13 evidence label still contained the exact prohibited two-word lifecycle phrase. This report-only correction removes that body-source contamination while preserving the observed T13 rejection result.
+
+The first validator run for the report-only body-source correction passed the changed-file and forbidden-scope checks, then stopped at the required-control-update check because the current one-file delta lacked the exact reviewed/no-update declaration for `docs/project-control/RISK_REGISTER.md`. The declaration was added without modifying `RISK_REGISTER.md` or any validator.
+
+The corrected report-invariant check confirmed all three Markdown-bullet reviewed/no-update declarations, zero prohibited contiguous lifecycle phrases, no live red-team decision marker, and one final owner-trigger marker. The first full follow-up validator sequence then passed. No GitHub write, approval, red-team marker, or merge occurred during that validation.
 
 - `python3 scripts/control/check_changed_files.py` - PASS
 - `python3 scripts/control/check_forbidden_scope.py` - PASS
