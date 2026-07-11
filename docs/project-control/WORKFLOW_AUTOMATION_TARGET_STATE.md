@@ -44,7 +44,7 @@ The current governance route requires approximately 8-14 owner/collaborator acti
 | Dependency/security/toolchain phases | Approximately 5-9 owner/human actions | Risk acceptance and toolchain decisions remain human controlled unless later durable policy reduces them. |
 | Legal, financial, public-release, production, app-store/build/distribution, backend or identity/security, and high-risk product phases | No autonomous reduction of required approval | Owner/human approval remains required. |
 
-These are target ranges for manual relay reduction, not guarantees and not approval to activate automation in Phase 4K-7.
+These are target ranges for manual relay reduction, not guarantees and not approval to activate automation. Phase 4K-7 completed through Issue #43 and merged PR #44 at `8d443310cf006b82966163f8e486d1f52d8d4e6c`; Phase 4K-8 is active through Issue #45 and PR #46.
 
 ## Source-of-Truth Requirements
 
@@ -80,6 +80,12 @@ Phase 4K-7 may add deterministic lane classification to the control-gates workfl
 
 Current low-risk candidate validation is documentation-only and fail-closed. Workflow/control enforcement changes, control scripts, app source, package manifests, lockfiles, dependency/toolchain paths, backend or identity-system scope, public-release, production, app-store/build/distribution, legal, financial, paid-service, architecture-threshold, scope-expansion, and ambiguous evidence remain outside the low-risk candidate lane.
 
+## Phase 4K-8 Command-Pack Boundary
+
+Phase 4K-8 may document copy-safe commands, operator responsibilities, marker assembly constraints, red-team handoff evidence, manual merge checks, main verification, and issue closeout evidence. It does not execute those lifecycle actions for future phases or activate automation.
+
+The command pack is an operator reference. It preserves manual merge, external red-team, human approval, exact SHA binding, auto-merge prohibition, and no hidden approvals.
+
 ## Phase 4K-11 / 4K-12 Readiness Criteria (Blocked Until Evidence)
 
 Phase 4K-11 may begin only from its own future durable issue after Phases 4K-7 through 4K-10 are separately implemented, reviewed, merged, and main-verified. Its dry run must demonstrate deterministic lane classification, marker/check behavior, stop conditions, audit evidence, and no branch-protection bypass.
@@ -90,4 +96,4 @@ Neither phase is started or approved by this document.
 
 ## Non-Goals
 
-Phase 4K-7 implements a control-gate validator only. It does not implement scripts outside `scripts/control/`, bots, issue-intake automation, Codex-handoff automation, merge automation, issue-closeout automation, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims.
+Phase 4K-8 documents operator controls only. It does not implement bots, issue-intake automation, Codex-handoff automation, merge automation, issue-closeout automation, repo-backed red-team memory, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims. Phase 4K-9 is not started, Phase 4I remains paused, and the toolchain/npm path remains deferred rather than rejected.

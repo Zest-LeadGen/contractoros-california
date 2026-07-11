@@ -30,7 +30,7 @@ C10, C46, and C39 remain future/deferred roadmap domains until separate durable 
 
 ## Current Implemented State
 
-Current implemented state is limited to repository source and project-control evidence on main at Phase 4K-6 starting SHA `e531c4d8bc1904c231be1f43114f16f652c4ec52`.
+Current implemented state is limited to repository source and project-control evidence on main at `8d443310cf006b82966163f8e486d1f52d8d4e6c`, the Phase 4K-7 merge/current-main SHA and Phase 4K-8 starting SHA.
 
 Implemented source-level surfaces:
 
@@ -138,11 +138,11 @@ Development-model items not proven by durable evidence:
 
 ## Active Phase State
 
-Current active phase: Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate.
+Current active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate.
 
-Active issue: Issue #43.
+Active issue and pull request: Issue #45 and PR #46.
 
-Starting main SHA: `4315c943b6210f023849592213882bc8983c31d2`.
+Starting main SHA: `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
 
 Prior phase state:
 
@@ -157,7 +157,9 @@ Prior phase state:
 - PR #40 / Phase 4K-5 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`.
 - Issue #41 / Phase 4K-6 is closed/completed.
 - PR #42 / Phase 4K-6 merged at `4315c943b6210f023849592213882bc8983c31d2`.
-- Issue #43 / Phase 4K-7 is open/active.
+- Issue #43 / Phase 4K-7 is closed/completed.
+- PR #44 merged Phase 4K-7. Its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
+- Issue #45 / Phase 4K-8 is open/active through PR #46.
 
 ## Phase Sequence and Dependency Rules
 
@@ -168,10 +170,10 @@ Phase sequence rules:
 - Do not start dependency/lockfile baseline implementation from Issue #34 because Issue #34 is closed/not planned.
 - Do not start dependency/lockfile baseline implementation inside Phase 4K-4 because Phase 4K-4 is decision documentation only.
 - Treat Phase 4K-5 as historical blocked-before-mutation evidence; no dependency baseline was implemented.
-- The owner-approved immediate path is Phase 4K-7 low-risk lane validator implementation before later automation-command phases.
-- Phase 4K-8 through Phase 4K-12 are planning targets only and each requires its own future durable GitHub issue after the prior phase is merged, main-verified, and closed.
-- Do not retry dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, or build work from Phase 4K-7.
-- Do not start Phase 4K-8 inside Phase 4K-7.
+- The owner-approved immediate path is Phase 4K-8 command-pack and operator-runbook documentation through Issue #45 and PR #46.
+- Phase 4K-9 through Phase 4K-12 are planning targets only and each requires its own future durable GitHub issue after the prior phase is merged, main-verified, and closed.
+- Do not retry dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, or build work from Phase 4K-8. The toolchain/npm path is deferred, not rejected.
+- Do not start Phase 4K-9 inside Phase 4K-8. Phase 4I remains paused.
 
 Dependency rules:
 
@@ -186,8 +188,6 @@ Deferred candidates are not active scope:
 
 - deterministic dependency baseline implementation;
 - toolchain availability / npm bootstrap governance decision;
-- Phase 4K-7 low-risk lane validator / control-gate implementation;
-- Phase 4K-8 workflow automation command-pack / operator runbook;
 - Phase 4K-9 phase intake and Codex handoff automation;
 - Phase 4K-10 post-marker checks, merge verification, and issue closeout automation;
 - Phase 4K-11 low-risk automation dry run;
@@ -233,7 +233,7 @@ This register does not authorize:
 - C10/C46/C39 public content;
 - ZIP/binary/archive/Drive artifact;
 - Phase 4I resume;
-- Phase 4K-7 start;
+- Phase 4K-9 start;
 - auto-merge activation.
 
 ## Evidence Anchors
@@ -246,11 +246,15 @@ This register does not authorize:
 - Issue #37 - Phase 4K-4 Dependency / Lockfile Governance Decision Gate.
 - Issue #39 - Phase 4K-5 Web Dependency / Lockfile Baseline Implementation Gate.
 - Issue #41 - Phase 4K-6 Owner-Trigger / Low-Risk Lane Automation Policy Gate.
+- Issue #43 - completed Phase 4K-7 Low-Risk Lane Validator / Control-Gate Implementation Gate.
+- Issue #45 - active Phase 4K-8 Workflow Automation Command-Pack / Operator Runbook Gate.
 - PR #30 - Phase 4K-1 merged at `07226b7ebed4661a425aab72799d307df1c296ac`.
 - PR #33 - Phase 4K-2 merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`.
 - PR #36 - Phase 4K-3 merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`.
 - PR #38 - Phase 4K-4 merged at `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`.
 - PR #40 - Phase 4K-5 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`.
+- PR #44 - Phase 4K-7 reviewed head `a519ef5579c130181ac1b25f74bb48f481478378`, merged at `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
+- PR #46 - active Phase 4K-8 pull request.
 - `docs/project-control/phase_4k_1_internal_scaffold_product_qa_hardening_report.md`.
 - `docs/project-control/phase_4k_2_internal_runtime_smoke_qa_feasibility_gate_report.md`.
 - `docs/project-control/WORKFLOW_AUTOMATION_TARGET_STATE.md`.
@@ -272,7 +276,7 @@ Resolved by this register:
 - Phase 4K-5 used Issue #39 as its durable web baseline implementation intake and stopped before mutation because node/npm tooling was unavailable. No baseline was implemented.
 - Phase 4K-5 is historical after Issue #39 closed/completed and PR #40 merged at the Phase 4K-6 starting main SHA.
 - Phase 4K-6 records the owner-approved redirect toward approximately 95% workflow/process automation before the toolchain/npm bootstrap path resumes.
-- Phase 4K-7 implements the first validator/control-gate step in the automation sequence, but no low-risk automation lane, approval reduction, or auto-merge is activated by Phase 4K-7.
+- Phase 4K-7 implemented the first validator/control-gate step and completed through Issue #43 and PR #44, but no low-risk automation lane, approval reduction, or auto-merge was activated.
 - Long-term platform architecture categories are roadmap candidates only unless backed by later durable GitHub/project-control evidence.
 - The Issue #35 requested owner-trigger semantic category `PRODUCT_SOURCE_OF_TRUTH` is not supported by the current owner-trigger validator category list. Until a later control phase updates the validator, Phase 4K-3 records the source-of-truth concern under supported category `ARCHITECTURE_THRESHOLD` and documents the unsupported semantic category as missing control-script support.
 
@@ -289,13 +293,13 @@ Resolved by this register:
 
 ## Validation Tasks
 
-Current validation tasks for Phase 4K-7:
+Current validation tasks for Phase 4K-8:
 
-- verify starting main SHA `4315c943b6210f023849592213882bc8983c31d2`;
-- verify Issue #43 open, Issue #41 closed/completed, and PR #42 merged;
-- verify changed files stay inside the Issue #43 implementation and project-control allowlist;
+- verify starting main SHA `8d443310cf006b82966163f8e486d1f52d8d4e6c`;
+- verify Issue #43 closed/completed, PR #44 merged, and Issue #45 / PR #46 active;
+- verify changed files stay inside the Issue #45 project-control allowlist;
 - run changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, low-risk lane self-test, low-risk lane local evidence, lockfile-only, claims-only, and whitespace checks;
-- verify no app source, package, lockfile, dependency/toolchain mutation, dependency directory, runtime launch, build, artifact, backend or identity-system implementation, public content, automation activation, Phase 4I, Phase 4K-8, merge, or auto-merge scope is added.
+- verify no workflow, control-script, PR-template, app source, package, lockfile, dependency/toolchain mutation, dependency directory, runtime launch, build, artifact, backend or identity-system implementation, public content, automation activation, Phase 4I, Phase 4K-9, merge, or auto-merge scope is added.
 
 ## Maintenance Rule
 

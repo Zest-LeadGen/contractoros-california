@@ -141,9 +141,9 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 - Phase One: internal scaffold and control foundation
 - Historical Phase 4K-5: blocked-before-mutation dependency/toolchain evidence merged through PR #40 at `e531c4d8bc1904c231be1f43114f16f652c4ec52`
 - Historical Phase 4K-6: owner-trigger / low-risk lane automation policy gate merged through PR #42 at `4315c943b6210f023849592213882bc8983c31d2`
-- Current active phase: Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate through Issue #43
-- Next planning target: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate, not started and requiring its own future durable GitHub issue
-- Later planning targets: Phase 4K-8 workflow command pack, Phase 4K-9 intake/handoff automation, Phase 4K-10 post-marker/closeout automation, Phase 4K-11 dry run, and Phase 4K-12 workflow automation decision gate
+- Completed Phase 4K-7: Issue #43 closed/completed and PR #44 merged; reviewed head `a519ef5579c130181ac1b25f74bb48f481478378`, merge/current-main SHA `8d443310cf006b82966163f8e486d1f52d8d4e6c`
+- Current active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate through Issue #45 and PR #46
+- Later planning targets: Phase 4K-9 intake/handoff automation, Phase 4K-10 post-marker/closeout automation, Phase 4K-11 dry run, and Phase 4K-12 workflow automation decision gate; none is started
 - Deferred, not rejected: toolchain availability / npm bootstrap governance decision path before any dependency-resolution retry
 - Later: content governance
 - Later: visual QA
@@ -185,15 +185,15 @@ Issue #39 is closed/completed and PR #40 merged Phase 4K-5 blocked-before-mutati
 
 The owner-approved immediate path is redirected to Phase 4K-6 workflow-automation policy and the planning sequence through Phase 4K-12. The toolchain availability / npm bootstrap governance path remains valid but deferred, not rejected.
 
-Phase 4K-7 is active through Issue #43 for low-risk lane validator implementation only. Phase 4K-8 through Phase 4K-12 remain planning targets. Each later phase requires its own future durable GitHub issue and must not start before its prerequisite phase is merged, main-verified, and closed.
+Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 is active through Issue #45 and PR #46 for command-pack and operator-runbook documentation only. Phase 4K-9 through Phase 4K-12 remain planning targets. Each later phase requires its own future durable GitHub issue and must not start before its prerequisite phase is merged, main-verified, and closed.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
 ## 19. Current Phase Constraint
 
-Current Phase 4K-7 work is low-risk lane validator / control-gate implementation only. It changes a control script, the control-gates workflow, and project-control evidence; it does not change app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
+Current Phase 4K-8 work is project-control documentation only. It does not change control scripts, workflows, PR templates, app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
 
-Phase 4K-7 does not activate workflow automation, reduce current human approval or external red-team requirements, activate auto-merge, resume the deferred toolchain path, start Phase 4K-8, or resume Phase 4I.
+Phase 4K-8 does not activate workflow automation, reduce current human approval or external red-team requirements, activate auto-merge, resume the deferred toolchain/npm path, start Phase 4K-9, or resume Phase 4I.
 
 ## 20. Final Rule
 
