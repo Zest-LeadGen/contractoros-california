@@ -19,20 +19,27 @@ Red-team approval does not replace human/write-access approval. Hidden approval 
 
 ## Fail-Closed Starting-State Rule
 
-Initial evidence verification must stop on a dirty worktree before any documentation-only source synchronization. The operator may fetch `origin/main`, then switch to `main`, but must not pull or mutate local history during initial verification. After fetch/switch, the worktree must still be clean, the current branch must be `main`, and both local `HEAD` and `origin/main` must equal the exact approved starting SHA.
+Initial evidence verification checks worktree cleanliness first, then verifies the local `main` ref against `START_SHA` before any remote-reference refresh. The operator then refreshes only `origin/main` using the documented source-sync command and verifies both local `main` and refreshed `origin/main` against `START_SHA` before any branch switch. Only after both checks pass may the operator switch to `main`. After switching, clean state, current branch, and both SHA assertions are checked again. Initial verification excludes `git pull`, reset, rebase, and reconciliation.
 
 ```bash
 set -euo pipefail
 
 test -z "$(git status --porcelain=v1)"
 
+test "$(git rev-parse refs/heads/main)" = "$START_SHA"
+
 git fetch origin main # documentation source sync
+
+test "$(git rev-parse refs/heads/main)" = "$START_SHA"
+test "$(git rev-parse refs/remotes/origin/main)" = "$START_SHA"
+
 git switch main
 
 test -z "$(git status --porcelain=v1)"
 test "$(git branch --show-current)" = "main"
 test "$(git rev-parse HEAD)" = "$START_SHA"
-test "$(git rev-parse origin/main)" = "$START_SHA"
+test "$(git rev-parse refs/heads/main)" = "$START_SHA"
+test "$(git rev-parse refs/remotes/origin/main)" = "$START_SHA"
 ```
 
 If local main and `origin/main` differ, stop. Any reconciliation is a separately controlled recovery step; it is not part of initial evidence verification.

@@ -195,20 +195,27 @@ require_resolved_variables START_SHA
 
 test -z "$(git status --porcelain=v1)"
 
+test "$(git rev-parse refs/heads/main)" = "$START_SHA"
+
 git fetch origin main # documentation source sync
+
+test "$(git rev-parse refs/heads/main)" = "$START_SHA"
+test "$(git rev-parse refs/remotes/origin/main)" = "$START_SHA"
+
 git switch main
 
 test -z "$(git status --porcelain=v1)"
 test "$(git branch --show-current)" = "main"
 test "$(git rev-parse HEAD)" = "$START_SHA"
-test "$(git rev-parse origin/main)" = "$START_SHA"
+test "$(git rev-parse refs/heads/main)" = "$START_SHA"
+test "$(git rev-parse refs/remotes/origin/main)" = "$START_SHA"
 git remote get-url origin
 gh issue view "$PRIOR_ISSUE" --repo "$REPO" --json number,title,state,stateReason,closedAt,url
 gh pr view "$PRIOR_PR" --repo "$REPO" --json number,state,mergedAt,mergeCommit,headRefOid,url
 gh issue view "$ACTIVE_ISSUE" --repo "$REPO" --json number,title,state,stateReason,url
 ```
 
-Success: the worktree is clean before and after the fetch/switch, main and `origin/main` equal the exact starting SHA, the prior issue is `CLOSED` / `COMPLETED`, the prior PR is `MERGED`, the active issue is `OPEN`, and remote identity matches `REPO`. Do not use `git pull` during initial evidence verification. If local main and `origin/main` differ, stop for a separately controlled recovery step.
+Success: the worktree is clean before and after verification; the local `main` ref equals `START_SHA` before any remote-reference refresh; local `main` and refreshed `origin/main` both equal `START_SHA` before any branch switch; and all assertions are repeated after switching. `git switch main` is prohibited until both pre-switch SHA assertions pass. The prior issue is `CLOSED` / `COMPLETED`, the prior PR is `MERGED`, the active issue is `OPEN`, and remote identity matches `REPO`. Initial verification excludes `git pull`, reset, rebase, and reconciliation. If local main and `origin/main` differ, stop for a separately controlled recovery step.
 
 ## 2. Branch Preparation
 
