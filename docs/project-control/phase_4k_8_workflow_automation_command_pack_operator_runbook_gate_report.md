@@ -16,7 +16,7 @@ Control / Infrastructure
 
 ## Current Lifecycle State
 
-Developer execution in progress. The phase is not merge-approved, and Phase 4K-9 is not started.
+PR #46 is open. The PR is not merge-approved. External red-team review requires corrections. Human/write-access approval is pending. Auto-merge is inactive. Phase 4K-9 is not started. Phase 4I remains paused.
 
 ## Starting Main SHA
 
@@ -55,10 +55,15 @@ This phase is documentation-only. It creates command and operator reference mate
 - `docs/project-control/AUTOMATION_PHASE_ROADMAP.md`
 - `docs/project-control/DECISION_LOG.md`
 - `docs/project-control/DEVELOPMENT_LEDGER.md`
+- `docs/project-control/HANDOFF_PLAYBOOK.md`
 - `docs/project-control/LOW_RISK_LANE_POLICY.md`
+- `docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`
+- `docs/project-control/PROJECT_IMPLEMENTATION_ROADMAP.md`
+- `docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md`
+- `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
 - `docs/project-control/RISK_REGISTER.md`
-- `docs/project-control/WORKFLOW_AUTOMATION_TARGET_STATE.md`
 - `docs/project-control/WORKFLOW_AUTOMATION_COMMAND_PACK.md`
+- `docs/project-control/WORKFLOW_AUTOMATION_TARGET_STATE.md`
 - `docs/project-control/WORKFLOW_OPERATOR_RUNBOOK.md`
 - `docs/project-control/phase_4k_8_workflow_automation_command_pack_operator_runbook_gate_report.md`
 
@@ -69,6 +74,9 @@ This phase is documentation-only. It creates command and operator reference mate
 - Existing workflow target, roadmap, and low-risk lane policy docs.
 - Existing ledger, decision, risk, validation, traceability, source, and artifact records.
 - Existing control validators and ContractorOS Control Gates behavior.
+- Issue #45 body and correction comment `4940178196`.
+- Issue #24 comments `4940177098` and `4942006420`.
+- PR #46 metadata/body and GitHub main branch-protection API evidence.
 
 ## Role And Permission Matrix
 
@@ -96,7 +104,7 @@ The command pack records parser constraints for hidden HTML comments, fenced cod
 
 ## PR-Body Assembly Rule
 
-Initial PR creation may use the full phase report because it contains one live owner-trigger marker as the final report section and no live red-team decision marker. After external review, the operator must copy report content only up to the owner-trigger heading, append exactly one live red-team decision, append exactly one live owner-trigger marker matching the committed report marker, and ensure no later `Rationale:` or colon-delimited evidence appears after the final owner marker.
+Initial PR creation may use the full phase report because it contains one live owner-trigger marker as the final report section and no live red-team decision marker. The historical Issue #24 append-only procedure is superseded. After external review, the operator must generate a replacement body that preserves report content outside stale marker sections, removes the existing `## Red-Team Status` and owner-marker sections, appends exactly one supported-field decision bound to the full current 40-character PR head SHA, and appends exactly one owner marker matching the committed report as the final section. Generated-body checks must prove marker counts, decision-before-owner order, current-head SHA equality, final owner placement, stale pending-status removal, and resolved runtime values before any PR edit.
 
 ## External Red-Team Preservation
 
@@ -112,22 +120,35 @@ Auto-merge remains inactive and prohibited. The command pack requires auto-merge
 
 ## Branch-Protection Preservation
 
-Manual merge remains protected by required checks, exact current head SHA, external red-team evidence, and human approval. Codex does not merge.
+GitHub branch-protection API evidence proves strict required status check `contractoros-control-gates`; one approving review; code-owner review; stale-review dismissal; conversation resolution; admin enforcement; force pushes disabled; and deletions disabled. Signatures, last-push approval, and linear history are disabled. Phase 4K-8 does not change protection. Manual merge still requires exact current-head red-team evidence, passing required checks, and human/write-access approval. Codex does not merge.
+
+## GitHub Actions Ordering Limitation
+
+The current workflow runs changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, and low-risk-lane checks before the mandatory red-team marker. While the marker is missing, that marker step fails and later GitHub lockfile-only and claim-language steps are skipped. Their equivalent local checks remain mandatory and passed for this correction. No workflow modification is authorized, and this report does not claim every GitHub step passes before marker insertion.
 
 ## Tabletop / No-Write Verification
 
-Completed Phase 4K-7 evidence resolves placeholders unambiguously:
+Completed Phase 4K-7 evidence used for tabletop verification:
 
-- Issue #43
-- PR #44
-- Starting SHA `4315c943b6210f023849592213882bc8983c31d2`
-- Reviewed head SHA `a519ef5579c130181ac1b25f74bb48f481478378`
-- Merge/main SHA `8d443310cf006b82966163f8e486d1f52d8d4e6c`
-- Closeout comment `4934579739`
+- Repository: `Zest-LeadGen/contractoros-california`
+- Issue: #43
+- PR: #44
+- Starting SHA: `4315c943b6210f023849592213882bc8983c31d2`
+- Reviewed head SHA: `a519ef5579c130181ac1b25f74bb48f481478378`
+- Merge/main SHA: `8d443310cf006b82966163f8e486d1f52d8d4e6c`
+- Closeout comment: `4934579739`
 
-The tabletop verifies that commands target the correct repository, exact SHA checks fail closed, marker assembly avoids duplicate-rationale conflicts, manual merge verification requires the reviewed SHA, and closeout verification identifies Issue #43 as `CLOSED` / `COMPLETED`.
-
-No lifecycle write command is executed during tabletop verification. Only this Phase 4K-8 documentation work is changed.
+| Command or validation performed | Resolved Phase 4K-7 input | Expected result | Observed result | Pass/fail scope | No-write confirmation |
+|---|---|---|---|---|---|
+| `git remote get-url origin` | Repository `Zest-LeadGen/contractoros-california` | Exact repository remote | `https://github.com/Zest-LeadGen/contractoros-california.git` | PASS | Read-only Git command. |
+| Issue-state read | Issue #43 | `CLOSED` / `COMPLETED` | `CLOSED` / `COMPLETED`, closed `2026-07-10T10:54:40Z` | PASS | Read-only GitHub command. |
+| PR-state read | PR #44 | `MERGED` with known head and merge SHA | Merged `2026-07-10T10:52:41Z`; head `a519ef5579c130181ac1b25f74bb48f481478378`; merge `8d443310cf006b82966163f8e486d1f52d8d4e6c` | PASS | Read-only GitHub command. |
+| Local and remote-main reads | Merge/main `8d443310cf006b82966163f8e486d1f52d8d4e6c` | Both refs equal merge SHA | Both returned the expected SHA | PASS | Read-only Git commands. |
+| Closeout-comment read | Comment `4934579739` | Existing Phase 4K-7 closeout | Comment exists on Issue #43 with closeout body | PASS | Read-only GitHub command. |
+| Correct SHA assertion | Merge/main SHA | Exit `0` | Exit `0` | PASS | Local comparison only. |
+| Deliberately wrong SHA assertion | All-zero SHA | Exit nonzero and stop | Exit `1` | PASS | Fail-closed local comparison; no mutation. |
+| Generated replacement-body checks | Reviewed head, marker fields, owner marker | One decision, one owner marker, correct order/SHA, owner final | Temporary body had one status heading, one decision marker line, one owner marker, no unresolved value, and no stale pending text | PASS | Local `/tmp` generation only; no PR edit. |
+| Lifecycle-write review | Issue #43, PR #44, temporary body | No lifecycle write command during tabletop | No `gh pr edit`, `gh pr merge`, `gh issue comment`, or `gh issue close` was executed | PASS | All tabletop GitHub operations were reads. |
 
 ## Documentation Impact
 
@@ -137,7 +158,7 @@ This documentation does not authorize product implementation, runtime QA, build 
 
 ## Product / Development Source-of-Truth Updates
 
-`PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` was inspected. No change was required because the existing product-development authority remains blocked for product, runtime, build, dependency, and Phase 4I scope, and Phase 4K-8 adds only workflow command documentation.
+`PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` was updated to record Phase 4K-7 completion through Issue #43 and PR #44, Phase 4K-8 activity through Issue #45 and PR #46, Phase 4K-9 not started, Phase 4I paused, and the toolchain/npm path deferred rather than rejected.
 
 ## Roadmap / Tracker Updates
 
@@ -145,7 +166,7 @@ This documentation does not authorize product implementation, runtime QA, build 
 
 `WORKFLOW_AUTOMATION_TARGET_STATE.md` was modified to add the Phase 4K-8 command-pack boundary while preserving manual merge, external red-team, human approval, exact SHA binding, and auto-merge prohibition.
 
-`PROJECT_IMPLEMENTATION_ROADMAP.md` and `PROJECT_VISION_AND_PHASE_TRACKER.md` were inspected. No change was required for this nine-file correction because Phase 4K-8 does not change product implementation sequencing or active product scope.
+`PROJECT_IMPLEMENTATION_ROADMAP.md` and `PROJECT_VISION_AND_PHASE_TRACKER.md` were updated to remove stale active-Phase-4K-7 and unstarted-Phase-4K-8 claims while preserving product-scope boundaries.
 
 ## Decision Log Impact
 
@@ -173,7 +194,7 @@ This documentation does not authorize product implementation, runtime QA, build 
 
 ## Artifact
 
-No artifact is created. The new command pack, runbook, and report are source/text repository files only.
+No artifact is created. The command pack, runbook, and report are source/text repository files only. The research ZIP and private owner-decision PDF/DOCX/source package are excluded from PR #46.
 
 ## Commands Run
 
@@ -186,6 +207,7 @@ No artifact is created. The new command pack, runbook, and report are source/tex
 - `gh issue view 45 --repo Zest-LeadGen/contractoros-california --json number,title,state,stateReason,url`
 - `gh issue view 43 --repo Zest-LeadGen/contractoros-california --json number,title,state,stateReason,closedAt,url`
 - `gh pr view 44 --repo Zest-LeadGen/contractoros-california --json number,state,mergedAt,mergeCommit,headRefOid,url`
+- `gh api repos/Zest-LeadGen/contractoros-california/branches/main/protection`
 
 ## Dependency / Lockfile Handling
 
@@ -209,7 +231,7 @@ Local validations passed before commit:
 
 ## Red-Team Status
 
-External red-team review is pending. Codex does not add red-team decision evidence.
+PR #46 external red-team review requires corrections. Codex does not add red-team decision evidence. The prior reviewed-but-not-approved head SHA `33d5e14f690b1681c125efe5265c844c41eb75d2` is stale after this correction commit and requires fresh external review of the new PR head SHA.
 
 ## Human Approval Status
 
@@ -234,6 +256,7 @@ Inactive and prohibited. Phase 4K-8 does not activate auto-merge.
 - [x] No browser, visual, emulator, device, or install QA.
 - [x] No build.
 - [x] No build or release artifact.
+- [x] No ZIP, binary, archive, or private owner-decision artifact.
 - [x] No backend, database, Firebase, auth, identity, or cloud implementation.
 - [x] No payment, CRM, marketplace, analytics, saved progress, scoring, readiness, or pass/fail implementation.
 - [x] No public content.
@@ -243,12 +266,17 @@ Inactive and prohibited. Phase 4K-8 does not activate auto-merge.
 - [x] No merge automation.
 - [x] No issue-closeout automation.
 - [x] No bot implementation.
+- [x] No GitHub App implementation.
+- [x] No external red-team reduction.
+- [x] No repo-backed red-team memory/window-handoff implementation.
+- [x] No human-approval reduction.
 - [x] No auto-merge activation.
 - [x] No approval reduction.
 - [x] No branch-protection bypass.
 - [x] No merge by Codex.
 - [x] No Phase 4K-9 start.
 - [x] No Phase 4I resume.
+- [x] No toolchain/npm bootstrap governance work.
 
 Forbidden scope confirmation: confirmed Phase 4K-8 documentation-only command-pack and operator-runbook scope.
 
@@ -260,6 +288,7 @@ Documentation-only command-pack and operator-runbook gate. This phase does not p
 
 - The command pack and runbook are documentation only and are not executable automation.
 - External red-team review, human/write-access approval, and manual merge remain required.
+- Current GitHub ordering skips later lockfile-only and claim-language steps while the mandatory marker is missing; equivalent local checks remain mandatory.
 - Tabletop verification uses completed Phase 4K-7 evidence only and performs no lifecycle write actions.
 - Future Phase 4K-9, Phase 4K-10, Phase 4K-11, and Phase 4K-12 each require separate durable GitHub issues.
 

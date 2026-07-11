@@ -55,13 +55,78 @@ Every GitHub CLI read or write command must include `--repo "$REPO"`.
 | `<owner_trigger_rationale>` | Exact owner marker rationale. | Exact marker text | Phase report | `Phase 4K-8 defines...` | Yes | Yes |
 | `<pr_body_file>` | Temporary PR body file. | Local file path | Operator shell | `/tmp/pr-body.md` | No | Yes |
 
-Universal fail-stop check before commit, push, PR creation, PR-body edit, merge, issue comment, or issue close:
+Use runtime-variable validation before write commands. Do not scan source documentation for angle-bracket placeholders, because this command pack intentionally contains placeholder examples.
 
 ```bash
-if grep -R '<[^>][^>]*>' docs/project-control/WORKFLOW_AUTOMATION_COMMAND_PACK.md docs/project-control/WORKFLOW_OPERATOR_RUNBOOK.md docs/project-control/phase_4k_8_workflow_automation_command_pack_operator_runbook_gate_report.md; then
-  echo "FAIL: unresolved placeholder remains in committed docs."
-  exit 1
-fi
+require_resolved_variables() {
+  local variable_name
+  local variable_value
+
+  for variable_name in "$@"; do
+    variable_value="${!variable_name-}"
+
+    if [[ -z "$variable_value" ]]; then
+      echo "FAIL: required variable $variable_name is empty or unset."
+      return 1
+    fi
+
+    if [[ "$variable_value" == *"<"* || "$variable_value" == *">"* ]]; then
+      echo "FAIL: required variable $variable_name contains an unresolved placeholder."
+      return 1
+    fi
+  done
+}
+```
+
+Required variables before commit and push:
+
+```bash
+require_resolved_variables \
+  BRANCH \
+  PHASE_COMMIT_MESSAGE
+```
+
+Required variables before PR creation:
+
+```bash
+require_resolved_variables \
+  REPO \
+  BRANCH \
+  PHASE_TITLE \
+  REPORT
+```
+
+Required variables before PR-body replacement:
+
+```bash
+require_resolved_variables \
+  REPO \
+  PR \
+  REPORT \
+  HEAD_SHA \
+  REVIEW_DATE \
+  SCOPE_REVIEWED \
+  CONDITIONS \
+  FORBIDDEN_SCOPE_CONFIRMATION \
+  PR_BODY_FILE
+```
+
+Required variables before merge:
+
+```bash
+require_resolved_variables \
+  REPO \
+  PR \
+  HEAD_SHA
+```
+
+Required variables before issue closeout:
+
+```bash
+require_resolved_variables \
+  REPO \
+  ACTIVE_ISSUE \
+  CLOSEOUT_FILE
 ```
 
 ## 1. Starting-State Verification
@@ -118,7 +183,39 @@ git status --short --branch
 git diff --name-only
 git diff --cached --name-only
 git ls-files --others --exclude-standard
-git add $ALLOWED_FILES
+
+ALLOWED_FILES=(
+  "docs/project-control/AUTOMATION_PHASE_ROADMAP.md"
+  "docs/project-control/DECISION_LOG.md"
+  "docs/project-control/DEVELOPMENT_LEDGER.md"
+  "docs/project-control/HANDOFF_PLAYBOOK.md"
+  "docs/project-control/LOW_RISK_LANE_POLICY.md"
+  "docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md"
+  "docs/project-control/PROJECT_IMPLEMENTATION_ROADMAP.md"
+  "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md"
+  "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
+  "docs/project-control/RISK_REGISTER.md"
+  "docs/project-control/WORKFLOW_AUTOMATION_COMMAND_PACK.md"
+  "docs/project-control/WORKFLOW_AUTOMATION_TARGET_STATE.md"
+  "docs/project-control/WORKFLOW_OPERATOR_RUNBOOK.md"
+  "docs/project-control/phase_4k_8_workflow_automation_command_pack_operator_runbook_gate_report.md"
+)
+
+printf '%s\n' "${ALLOWED_FILES[@]}" | LC_ALL=C sort \
+  > /tmp/phase_4k8_expected_files.txt
+
+git diff --name-only HEAD | LC_ALL=C sort \
+  > /tmp/phase_4k8_actual_files.txt
+
+diff -u \
+  /tmp/phase_4k8_expected_files.txt \
+  /tmp/phase_4k8_actual_files.txt
+
+require_resolved_variables \
+  BRANCH \
+  PHASE_COMMIT_MESSAGE
+
+git add -- "${ALLOWED_FILES[@]}"
 git diff --cached --name-only
 git diff --cached --check
 git commit -m "$PHASE_COMMIT_MESSAGE"
@@ -181,15 +278,44 @@ PR="<pr>"
 REPORT="docs/project-control/phase_4k_8_workflow_automation_command_pack_operator_runbook_gate_report.md"
 HEAD_SHA="<full-40-character-head-sha>"
 REVIEW_DATE="<YYYY-MM-DD>"
+SCOPE_REVIEWED="<resolved-scope-reviewed>"
+CONDITIONS="<resolved-conditions>"
+FORBIDDEN_SCOPE_CONFIRMATION="<resolved-forbidden-scope-confirmation>"
 PR_BODY_FILE="$(mktemp)"
 
-test -n "$PR"
 test "${#HEAD_SHA}" -eq 40
+[[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
 test -f "$REPORT"
 
+require_resolved_variables \
+  REPO \
+  PR \
+  REPORT \
+  HEAD_SHA \
+  REVIEW_DATE \
+  SCOPE_REVIEWED \
+  CONDITIONS \
+  FORBIDDEN_SCOPE_CONFIRMATION \
+  PR_BODY_FILE
+
 awk '
-  /^## OWNER_TRIGGER_REVIEW marker$/ { exit }
-  { print }
+  /^## Red-Team Status$/ {
+    skipping_section = 1
+    next
+  }
+
+  /^## OWNER_TRIGGER_REVIEW marker$/ {
+    skipping_section = 1
+    next
+  }
+
+  skipping_section && /^## / {
+    skipping_section = 0
+  }
+
+  !skipping_section {
+    print
+  }
 ' "$REPORT" > "$PR_BODY_FILE"
 
 cat >> "$PR_BODY_FILE" <<EOF
@@ -202,9 +328,9 @@ PR head SHA: ${HEAD_SHA}
 Decision: APPROVED
 Reviewer role: External red-team reviewer
 Review date: ${REVIEW_DATE}
-Scope reviewed: <resolved-scope-reviewed>
-Conditions: <resolved-conditions>
-Forbidden-scope confirmation: <resolved-forbidden-scope-confirmation>
+Scope reviewed: ${SCOPE_REVIEWED}
+Conditions: ${CONDITIONS}
+Forbidden-scope confirmation: ${FORBIDDEN_SCOPE_CONFIRMATION}
 SHA-bound statement: This decision applies only to the listed PR head SHA.
 
 ## OWNER_TRIGGER_REVIEW marker
@@ -219,13 +345,26 @@ Rationale: Phase 4K-8 defines the canonical operator workflow, command sequence,
 EOF
 
 if grep -Eq '<[^>]+>' "$PR_BODY_FILE"; then
-  echo "FAIL: unresolved placeholders remain in PR body."
+  echo "FAIL: unresolved placeholders remain in generated PR body."
   exit 1
 fi
 
+if grep -Fq 'External red-team review is pending' "$PR_BODY_FILE"; then
+  echo "FAIL: stale pending red-team status remains in approved PR body."
+  exit 1
+fi
+
+test "$(grep -c '^## Red-Team Status$' "$PR_BODY_FILE")" -eq 1
 test "$(grep -c '^RED_TEAM_DECISION$' "$PR_BODY_FILE")" -eq 1
 test "$(grep -c '^OWNER_TRIGGER_REVIEW$' "$PR_BODY_FILE")" -eq 1
-test "$(tail -n 7 "$PR_BODY_FILE" | grep -c '^OWNER_TRIGGER_REVIEW$')" -eq 1
+test "$(grep -c '^## OWNER_TRIGGER_REVIEW marker$' "$PR_BODY_FILE")" -eq 1
+grep -Fqx "PR head SHA: ${HEAD_SHA}" "$PR_BODY_FILE"
+
+DECISION_LINE="$(grep -n '^RED_TEAM_DECISION$' "$PR_BODY_FILE" | cut -d: -f1)"
+OWNER_LINE="$(grep -n '^OWNER_TRIGGER_REVIEW$' "$PR_BODY_FILE" | cut -d: -f1)"
+test "$DECISION_LINE" -lt "$OWNER_LINE"
+test "$(grep '^## ' "$PR_BODY_FILE" | tail -n 1)" = "## OWNER_TRIGGER_REVIEW marker"
+test "$(awk 'NF { line=$0 } END { print line }' "$PR_BODY_FILE")" = "Rationale: Phase 4K-8 defines the canonical operator workflow, command sequence, role boundaries, marker handling, and future automation handoff controls. These operating rules affect future development-control architecture and automation execution safety, so owner interruption, external red-team review, and human approval are required. This phase must not activate automation, reduce current approval requirements, enable auto-merge, or authorize Phase 4K-9."
 
 gh pr edit "$PR" \
   --repo "$REPO" \

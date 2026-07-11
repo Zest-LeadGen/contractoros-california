@@ -8,7 +8,7 @@ Record the owner-approved redirect toward workflow automation, the planning sequ
 
 Phase 4K-5 ended as blocked-before-mutation dependency/toolchain evidence. Issue #39 is closed/completed and PR #40 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52` without implementing the dependency baseline.
 
-Phase 4K-6 is merged through PR #42. Phase 4K-7 is merged through PR #44. Phase 4K-8 is the active workflow command-pack / operator runbook gate through Issue #45. Current workflow administration uses approximately 8-14 owner/collaborator actions per phase, and auto-merge remains inactive.
+Phase 4K-6 is merged through PR #42. Phase 4K-7 completed through Issue #43 and merged PR #44; its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`. Phase 4K-8 is active through Issue #45 and PR #46. Phase 4K-9 is not started, Phase 4I remains paused, and auto-merge remains inactive.
 
 ## Owner-Approved Redirect
 
@@ -34,7 +34,7 @@ Dependency: Phase 4K-6 merged, main verified, Issue #41 closed, and Issue #43 ap
 
 ## Phase 4K-8 Workflow Automation Command-Pack / Operator Runbook Gate
 
-Status: Active through Issue #45.
+Status: Active through Issue #45 and PR #46.
 
 Planned outcome: define an approved operator command pack and runbook for repetitive evidence collection, check monitoring, marker assembly, merge verification, issue closeout, and stop-condition reporting.
 

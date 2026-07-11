@@ -31,7 +31,7 @@ Last reviewed: 2026-07-10
 ```text
 Risk: low-risk validator workflow drift
 Status: Active / controlled by protected control-gates workflow and external review
-Evidence: Phase 4K-7 adds a new required pull-request validator step. A future workflow edit could weaken ordering, skip PR context, or treat missing evidence as a low-risk pass.
+Evidence: Phase 4K-7 completed through Issue #43 and merged PR #44 after adding the required pull-request validator step. Its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`. A future workflow edit could weaken ordering, skip PR context, or treat missing evidence as a low-risk pass.
 Owner: ContractorOS development lead / red-team gate / project owner
 Resolution condition: Workflow changes remain protected by required control-gate review, validator self-tests, external red-team review, human approval, and fail-closed behavior for missing or ambiguous evidence.
 Last reviewed: 2026-07-10
@@ -53,9 +53,20 @@ Last reviewed: 2026-07-10
 ```text
 Risk: marker assembly ambiguity
 Status: Active / controlled by Phase 4K-8 PR-body assembly rule
-Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Phase 4K-8 documents safe marker order and parser constraints.
+Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Active Phase 4K-8 through Issue #45 and PR #46 supersedes the historical append-only procedure with replacement-body assembly and generated-body validation.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: Future PR evidence keeps templates fenced or commented, places the red-team marker before the final live owner-trigger marker, and avoids additional `Rationale:` fields after that final owner-trigger marker.
+Resolution condition: Future PR evidence keeps templates fenced or commented, removes stale live-marker sections before replacement, places exactly one red-team marker before exactly one final owner-trigger marker, binds the decision to the current full head SHA, and leaves nothing after the final owner rationale.
+Last reviewed: 2026-07-10
+```
+
+### pre-marker workflow ordering visibility
+
+```text
+Risk: pre-marker workflow ordering visibility
+Status: Active / documented limitation; no workflow change authorized in Phase 4K-8
+Evidence: Changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, and low-risk-lane checks run before the mandatory red-team marker. While the marker is missing, later GitHub lockfile-only and claim-language steps are skipped even though their local equivalents remain mandatory. Main protection is proven with strict `contractoros-control-gates`, required review controls, conversation resolution, and admin enforcement.
+Owner: ContractorOS development lead / red-team gate / project owner
+Resolution condition: Operators report the ordering accurately, run the equivalent local checks, and do not claim every GitHub step passed before marker insertion. Any workflow reordering requires a separate authorized phase.
 Last reviewed: 2026-07-10
 ```
 

@@ -39,6 +39,18 @@ Red-team approval does not replace human/write-access approval. Hidden approval 
 
 Every transition requires durable GitHub or committed repository evidence: active issue and scope, clean starting main, branch and changed files, local validation results, PR body and markers, exact PR head SHA, control-gate results for that SHA, external red-team result, human/write-access approval, merge commit, verified main, closeout comment, and closed/completed issue state.
 
+## PR-Body Replacement Rule
+
+The historical Issue #24 append-only procedure is superseded. For current PRs, generate a replacement body from the committed phase report: preserve content outside the stale `## Red-Team Status` and final owner-marker sections, remove those sections, append exactly one supported-field `RED_TEAM_DECISION` for the full current 40-character PR head SHA, and append exactly one owner-trigger section matching the committed report as the final section.
+
+Before the owner/operator updates a PR body, verify exactly one decision marker, exactly one PR-body owner marker, no stale pending red-team status, decision-before-owner ordering, final owner-marker placement, exact current-head SHA equality, and no unresolved runtime placeholders in the generated temporary body. Codex does not perform this marker write.
+
+## Proven Protection And Check Ordering
+
+GitHub repository evidence proves strict `contractoros-control-gates`, one approving review, code-owner review, stale-review dismissal, conversation resolution, and admin enforcement. Force pushes and deletions are disabled. Signatures, last-push approval, and linear history are disabled. Do not change these settings in Phase 4K-8.
+
+The current workflow runs changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, and low-risk-lane checks before the mandatory red-team marker. While the marker is missing, the later GitHub lockfile-only and claim-language steps are skipped. Their equivalent local checks remain mandatory, and the operator must not claim every GitHub step passes before marker insertion.
+
 ## Exact Stop Conditions
 
 Stop when main moved unexpectedly; changed files exceed the active issue allowlist; validation fails; marker evidence is missing, malformed, hidden, fenced, duplicated with conflicting fields, or stale; PR head SHA changes after review; control gates fail for any reason other than expected missing pre-review red-team marker; human approval is missing; auto-merge is active; Codex is asked to approve or merge; closeout evidence is missing; or Phase 4K-9 / Phase 4I is requested without durable approval evidence.
@@ -47,7 +59,7 @@ Stop when main moved unexpectedly; changed files exceed the active issue allowli
 
 Stale SHA: return to external review for the new exact 40-character SHA.
 
-Failed check: preserve the failing step and URL, then stop unless the only failure is the expected missing pre-review red-team marker.
+Failed check: preserve the failing step and URL, then stop unless the only failure is the expected missing pre-review red-team marker. Record that later GitHub lockfile-only and claim-language steps may be skipped by current ordering even when their local equivalents passed.
 
 Malformed marker: correct live PR evidence, keep examples fenced or commented, and rerun checks.
 

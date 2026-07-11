@@ -88,6 +88,9 @@ Purpose: record durable architectural and process decisions.
 - Phase 4K-7 treats workflow/control enforcement changes, control scripts, dependency/package/lockfile paths, app source, product claims, and owner-triggered categories as not low-risk candidates.
 - Phase 4K-8 is active through Issue #45 to document a copy-safe command pack and operator runbook for the protected lifecycle without implementing automation.
 - Phase 4K-8 records that safe PR-body marker assembly places `RED_TEAM_DECISION` before the final live `OWNER_TRIGGER_REVIEW` marker and does not put live markers in comments or fenced code.
+- Phase 4K-8 supersedes the historical Issue #24 append-only marker procedure with replacement-body assembly that removes stale red-team status and existing owner-marker sections before adding exactly one current-SHA decision and one final owner marker.
+- Main branch protection is proven by GitHub repository evidence: strict `contractoros-control-gates`, one approving review, code-owner review, stale-review dismissal, conversation resolution, and admin enforcement are required; force pushes and deletions are disabled; signatures, last-push approval, and linear history are not enabled.
+- In the current workflow order, changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, and low-risk-lane checks precede the mandatory red-team marker. While that marker is missing, later GitHub lockfile-only and claim-language steps are skipped, so their equivalent local checks remain mandatory.
 - Phase 4K-8 preserves manual merge, external red-team, human approval, exact PR-head SHA binding, auto-merge prohibition, and no hidden or chat-only approvals.
 - Phase 4K-9 through Phase 4K-12 remain future planning targets. Each must have its own future durable GitHub issue and cannot start inside Phase 4K-8.
 

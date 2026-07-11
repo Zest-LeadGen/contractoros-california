@@ -109,26 +109,27 @@ Codex must not add the marker or provide self-review.
 
 Owner-trigger evidence is separate from red-team evidence. Future pull requests must include the owner-trigger marker required by Phase 4J-4, and current policy still requires human approval and makes auto-merge ineligible.
 
+### Replacement-Body Supersession
+
+Issue #24 remains the policy anchor, but its historical append-only PR-body marker procedure is superseded by the Phase 4K-8 replacement-body rule.
+
+The current procedure must preserve report content outside stale live-marker sections, remove the existing `## Red-Team Status` and final `## OWNER_TRIGGER_REVIEW marker` sections, append exactly one supported-field `RED_TEAM_DECISION` bound to the full current 40-character PR head SHA, and append exactly one matching owner-trigger marker last. Before a PR-body update, validate marker counts, marker order, exact SHA equality, absence of stale pending red-team status, and absence of unresolved runtime placeholders in the generated temporary body.
+
+Red-team marker evidence remains outside the Codex role. External review, exact-SHA binding, human/write-access approval, no-memory-only decision power, branch protection, and the auto-merge prohibition remain unchanged.
+
 ## Progress Snapshot Requirement
 
 Future red-team responses must include the current project progress snapshot unless the response is only a brief acknowledgment or the owner explicitly asks for no progress section.
 
-Current baseline after Phase 4J-4:
+The Phase 4J percentage table is historical baseline only and must not be presented as current evidence.
 
-| Area | Governance estimate |
-|---|---|
-| Governance/control automation | 85-90% |
-| Protected PR review safety | 90-95% |
-| Owner-trigger / lane automation | 60-70% after Phase 4J-4 merge; auto-merge remains inactive |
-| Actual product development | 15-25% |
-| Content governance / question system | 10-20% |
-| Backend / Firebase / auth / cloud | 0%; claim: no implemented scope |
-| Build/distribution readiness | 0-10%; claim: no distribution scope |
-| Overall full project | 30-40% |
+Current snapshots must separately estimate governance/control maturity, workflow automation implementation, product implementation, content governance/production, dependency/runtime capability, backend/data-platform capability, build/distribution capability, business/market validation, and overall program progress. Each estimate must cite current GitHub evidence, committed files, terminal output explicitly pasted by the owner, uploaded files, or a clearly labeled assumption. Missing support is `not proven`.
 
-These percentages are governance estimates. They are not product-readiness, exam-readiness, public-launch, pass/fail, production, build, backend, Firebase, auth, cloud, or distribution claims.
+Governance progress must not be used to inflate product, content, dependency/runtime, backend, build, business-validation, or overall progress.
 
-Progress percentages may change only from GitHub evidence, terminal output explicitly pasted by the owner, uploaded files, or clearly labeled assumptions.
+## Proven Main Branch Protection
+
+Current GitHub repository evidence proves strict required status check `contractoros-control-gates`; one approving review; code-owner review; stale-review dismissal; conversation resolution; admin enforcement; force pushes disabled; and deletions disabled. Required signatures, last-push approval, and linear history are disabled. Phase 4K-8 records this evidence and does not propose changing protection.
 
 ## Evidence Hierarchy
 

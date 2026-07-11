@@ -15,6 +15,7 @@ At the start of a red-team window:
    - CLI Expected Output Requirement
    - Progress Snapshot Requirement
    - Red-Team Operator State Machine Addendum
+   - Consolidated owner direction, while treating it as future program direction that does not expand the active phase
 4. Read the committed project-control protocol files:
    - `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
    - `docs/project-control/RED_TEAM_STATE_MACHINE.md`
@@ -32,6 +33,12 @@ At the start of a red-team window:
 13. Verify merge, main, and issue-closeout state before allowing next-phase planning.
 
 Never rely on chat memory as source of truth.
+
+## Current Marker Handoff Rule
+
+Issue #24 remains the policy anchor, but its historical append-only marker procedure is superseded. Current handoffs must use the Phase 4K-8 replacement-body rule: preserve report content outside stale red-team and owner-marker sections, remove those existing sections, append exactly one current-SHA `RED_TEAM_DECISION`, and append exactly one matching `OWNER_TRIGGER_REVIEW` section last. Validate counts, ordering, the full current 40-character head SHA, stale pending-status removal, and resolved runtime values before any PR-body update.
+
+This rule does not let Codex add red-team evidence. External exact-SHA review and human/write-access approval remain separate, auto-merge remains prohibited, and no memory-only authority is valid.
 
 ## Required Evidence Checks
 
@@ -96,22 +103,21 @@ Progress snapshot:
 
 ## Progress Snapshot Template
 
-Unless the owner explicitly asks for no progress section or the response is only a brief acknowledgment, include:
+The old Phase 4J percentages are historical baseline only. Do not carry them forward as current estimates.
 
-```text
-Governance/control automation: 85-90%
-Protected PR review safety: 90-95%
-Owner-trigger / lane automation: 60-70% after Phase 4J-4 merge; auto-merge remains inactive
-Actual product development: 15-25%
-Content governance / question system: 10-20%
-Backend / Firebase / auth / cloud: 0% (claim: no implemented scope)
-Build/distribution readiness: 0-10% (claim: no distribution scope)
-Overall full project: 30-40%
-```
+Unless the owner explicitly asks for no progress section or the response is only a brief acknowledgment, give a current evidence-based estimate for each distinct area:
 
-State whether any percentage changed and what GitHub, terminal, uploaded-file, or labeled-assumption evidence caused the change.
+- governance and control maturity;
+- workflow automation implementation;
+- product implementation;
+- content governance and content production;
+- dependency and runtime capability;
+- backend and data-platform capability;
+- build and distribution capability;
+- business and market validation;
+- overall program progress.
 
-These percentages are governance estimates and must not be presented as product-readiness, exam-readiness, public-launch, pass/fail, production, build, backend, Firebase, auth, cloud, or distribution claims.
+For every estimate, cite the current GitHub, committed-file, terminal, uploaded-file, or clearly labeled assumption evidence that supports it. Mark an area `not proven` when evidence is unavailable. Do not blend governance progress into product, content, runtime, backend, build, business-validation, or overall progress.
 
 ## Closeout Sequence
 
@@ -129,7 +135,7 @@ Only then may red-team prepare next-phase issue guidance or implementation promp
 
 - Do not ask the owner to choose next-phase options before current phase closeout.
 - Do not resume Phase 4I unless explicitly authorized.
-- Do not start Phase 4J-6 until Phase 4J-5 is merged, main-verified, and issue-closed.
+- Do not start Phase 4K-9 until Phase 4K-8 is merged, main-verified, and Issue #45 is closed.
 - Do not treat chat memory, sandbox state, connector state, or local scratch files as durable evidence.
 - Do not invent Google Drive artifacts, branch state, PR state, GitHub Actions state, validation results, approvals, merge state, or issue state.
 - Do not merge, approve, self-review, bypass branch protection, or activate auto-merge.

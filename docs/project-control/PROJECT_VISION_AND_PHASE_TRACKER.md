@@ -131,7 +131,7 @@ Phase 4K-5 is historical blocked-before-mutation dependency/toolchain evidence. 
 
 Phase 4K-6 is historical after PR #42 merged at `4315c943b6210f023849592213882bc8983c31d2`. It records the owner-approved redirect toward approximately 95% workflow/process automation and does not implement automation.
 
-Phase 4K-7 is active through Issue #43 for the first low-risk lane validator / control-gate implementation. Phase 4K-8 through Phase 4K-12 remain planning targets until each receives its own future durable GitHub issue. The toolchain availability / npm bootstrap governance path is deferred, not rejected.
+Phase 4K-7 completed through Issue #43 and merged PR #44. Its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`. Phase 4K-8 is active through Issue #45 and PR #46. Phase 4K-9 through Phase 4K-12 remain planning targets and are not started. The toolchain availability / npm bootstrap governance path is deferred, not rejected.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -162,8 +162,9 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4K-4 | Dependency / lockfile governance decision gate | Issue #37 + PR #38 | Merged at `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`; historical decision documentation only |
 | Phase 4K-5 | Web dependency / lockfile baseline implementation gate | Issue #39 + PR #40 | Merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`; blocked-before-mutation evidence and no dependency baseline implementation |
 | Phase 4K-6 | Owner-trigger / low-risk lane automation policy gate | Issue #41 + PR #42 | Merged at `4315c943b6210f023849592213882bc8983c31d2`; policy/documentation phase only |
-| Phase 4K-7 | Low-risk lane validator / control-gate implementation gate | Issue #43 + current PR | Active control-gate validator implementation; no automation activation or approval reduction |
-| Phase 4K-8 through 4K-12 | Workflow automation operator, intake, closeout, dry-run, and decision planning sequence | Future durable issues required | Planning targets only; not started or authorized by Phase 4K-7 |
+| Phase 4K-7 | Low-risk lane validator / control-gate implementation gate | Issue #43 + PR #44 | Completed; reviewed head `a519ef5579c130181ac1b25f74bb48f481478378`, merged at `8d443310cf006b82966163f8e486d1f52d8d4e6c` |
+| Phase 4K-8 | Workflow automation command-pack / operator runbook gate | Issue #45 + PR #46 | Active documentation-only gate; no automation activation or approval reduction |
+| Phase 4K-9 through 4K-12 | Intake, closeout, dry-run, and decision planning sequence | Future durable issues required | Planning targets only; not started or authorized by Phase 4K-8 |
 
 This table must be updated after each completed phase.
 
@@ -314,7 +315,7 @@ Track by gates instead:
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
 | Public/production gate        | no release readiness proven or approved         | Not passed                             |
 | Source-of-truth reconciliation gate | Product/development current-state register exists | Passed by PR #36 merge at `196a48545285afdf8f5d5bc3f948395a5f289a4d` |
-| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Passed through Phase 4K-6 / PR #42; Phase 4K-7 validator gate is active |
+| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Phase 4K-7 validator merged through PR #44; Phase 4K-8 documentation gate is active through Issue #45 and PR #46 |
 
 Progress is measured by passed gates, not optimism.
 

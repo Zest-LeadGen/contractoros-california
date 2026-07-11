@@ -14,11 +14,11 @@ Lane: Control / Infrastructure
 Date: 2026-07-10
 Branch: phase-4k-8-workflow-command-pack-operator-runbook
 Phase issue: #45
-PR: Pending until opened
+PR: #46
 Base SHA: 8d443310cf006b82966163f8e486d1f52d8d4e6c
-Head SHA: Active branch head; final reviewed head SHA must be taken from PR metadata and the external red-team marker before merge.
+Head SHA: Active PR head; the exact final head SHA must be taken from PR #46 metadata after each correction commit and must receive fresh external red-team review before merge.
 Merge SHA: Pending
-Changed files: Workflow command pack, operator runbook, Phase 4K-8 report, and allowed project-control evidence updates in automation roadmap, decision log, low-risk lane policy, risk register, workflow target state, and this ledger
+Changed files: Exactly fourteen Issue #45-authorized project-control files: automation roadmap, decision log, development ledger, handoff playbook, low-risk lane policy, product/development source of truth, implementation roadmap, vision/phase tracker, red-team protocol, risk register, command pack, workflow target state, operator runbook, and Phase 4K-8 report
 Commands run: Starting-state and GitHub evidence reads, protocol/control documentation inspection, documentation edits, full local validation suite, staged whitespace validation
 Claim level: Documentation-only command-pack and operator-runbook gate; no automation activation, auto-merge, approval reduction, product implementation, dependency/toolchain mutation, runtime QA, build, backend or identity-system implementation, scoring, pass/fail, public content, or release claim
 Next phase: Phase 4K-9 is not started; Phase 4I remains paused
@@ -57,7 +57,7 @@ Merge SHA: 4315c943b6210f023849592213882bc8983c31d2
 Changed files: Three automation policy/roadmap anchors, Phase 4K-6 report, and allowed project-control reconciliation records
 Commands run: Starting-state and GitHub evidence reads, project-control inspection, documentation edits, local control validation, external review route, and protected merge
 Claim level: Workflow automation policy and roadmap documentation only; no automation implementation, workflow/control-script mutation, auto-merge, dependency/toolchain mutation, runtime QA, build, product, public, backend or auth implementation, scoring, pass/fail, or release claim
-Next phase: Phase 4K-7 is active through Issue #43; toolchain/npm path is deferred, not rejected; Phase 4I remains paused
+Next phase: Phase 4K-7 later completed through Issue #43 and merged PR #44; toolchain/npm path remains deferred, not rejected; Phase 4I remains paused
 ```
 
 ### Phase 4K-5 - Web Dependency / Lockfile Baseline Implementation Gate
