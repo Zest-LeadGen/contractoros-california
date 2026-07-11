@@ -16,7 +16,7 @@ Control / Infrastructure
 
 ## Current Lifecycle State
 
-PR #46 is open. The PR is not merge-approved. External red-team review requires corrections. Human/write-access approval is pending. Auto-merge is inactive. Phase 4K-9 is not started. Phase 4I remains paused.
+PR #46 is open and not merge-approved. The committed phase report contains no live `RED_TEAM_DECISION`. Live review state is determined from the current PR-body marker, exact-head-SHA checks, required checks, and current human review evidence. Human/write-access approval remains required. Auto-merge is inactive. Phase 4K-9 is not started. Phase 4I remains paused.
 
 ## Starting Main SHA
 
@@ -78,7 +78,7 @@ This phase is documentation-only. It creates command and operator reference mate
 - Issue #24 comments `4940177098` and `4942006420`.
 - PR #46 metadata/body and GitHub main branch-protection API evidence.
 
-## Role And Permission Matrix
+## Role and Authority Matrix — Documentation Scope
 
 Owner/operator, Codex developer executor, external red-team, and human/write-access approver roles are separated in `WORKFLOW_OPERATOR_RUNBOOK.md`. Codex remains developer executor only. Red-team approval does not replace human/write-access approval, and hidden or chat-only approval is invalid.
 
@@ -150,6 +150,38 @@ Completed Phase 4K-7 evidence used for tabletop verification:
 | Generated replacement-body checks | Reviewed head, marker fields, owner marker | One decision, one owner marker, correct order/SHA, owner final | Temporary body had one status heading, one decision marker line, one owner marker, no unresolved value, and no stale pending text | PASS | Local `/tmp` generation only; no PR edit. |
 | Lifecycle-write review | Issue #43, PR #44, temporary body | No lifecycle write command during tabletop | No `gh pr edit`, `gh pr merge`, `gh issue comment`, or `gh issue close` was executed | PASS | All tabletop GitHub operations were reads. |
 
+## Executable No-Write Adversarial Verification
+
+The first suite execution stopped at `T01|multiline CONDITIONS|EXPECTED=REJECT|OBSERVED=ACCEPT|FAIL`. This was a test-harness control-flow defect, not evidence that the production marker validator accepted multiline input. The harness invoked a validator function as an `if` condition and relied on `set -e`; Bash continued after an early failed bare predicate, and a later successful predicate replaced the function status. The suite was corrected so every predicate and nested validator explicitly uses `|| return 1`, every validator ends with an explicit success return, and a harness-regression control proves that an early failure cannot be masked by later success.
+
+The corrected suite was rerun from the beginning against the live read-only PR #46 head. The suite used only isolated shell variables and temporary files, and its before/after repository-status comparison passed. No GitHub write command was present or executed, no additional repository mutation occurred during suite execution, and no live `RED_TEAM_DECISION` was added.
+
+| Test ID | Tested input condition | Expected result | Observed result | Pass/fail | No GitHub write | No repository mutation during test | No live `RED_TEAM_DECISION` added |
+|---|---|---|---|---|---|---|---|
+| HARNESS | Early failed predicate followed by a successful predicate | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T01 | Multiline `CONDITIONS` | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T02 | `CONDITIONS` contains `Decision: BLOCKED` | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T03 | `SCOPE_REVIEWED` contains `RED_TEAM_DECISION` | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T04 | `FORBIDDEN_SCOPE_CONFIRMATION` contains `OWNER_TRIGGER_REVIEW` | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T05 | Markdown-heading injection | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T06 | Invalid review-date format | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T07 | Short SHA | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T08A | Uppercase SHA | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T08B | Non-hexadecimal SHA | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T09 | SHA differs from live PR head | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T10 | Duplicate supported decision field | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T11 | Unknown colon-delimited field inside decision block | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T12 | Unresolved runtime placeholder | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T13 | Stale `requires corrections` text | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T14 | Duplicate `RED_TEAM_DECISION` | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T15 | Duplicate owner marker | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T16 | Owner marker not final | Reject | Rejected | PASS | Yes | Yes | Yes |
+| T17 | Decision marker after owner marker | Reject | Rejected | PASS | Yes | Yes | Yes |
+| VALID | Numeric PR, exact live lowercase 40-character SHA, valid date and one-line values, exactly nine once-only supported fields, one decision before one final owner marker, no unknown field, stale text, or placeholder | Accept | Accepted | PASS | Yes | Yes | Yes |
+| SUITE | Repository-status comparison | Unchanged | Unchanged | PASS | Yes | Yes | Yes |
+
+The actual documented `require_safe_marker_values` production behavior was tested separately after the harness correction. It rejected multiline input, rejected `Decision: BLOCKED` reserved-field injection, accepted safe ordinary single-line prose, and left repository status unchanged. This confirms the initial T01 result was confined to the harness and did not expose a production-validator acceptance defect.
+
 ## Documentation Impact
 
 Phase 4K-8 creates source/text command-pack and operator-runbook documentation and updates project-control records for lifecycle state, risks, decisions, roadmap, and command boundaries.
@@ -215,7 +247,18 @@ No package manifests, lockfiles, npmrc files, dependency directories, dependency
 
 ## Validation Evidence
 
-Local validations passed before commit:
+The initial adversarial-suite run stopped when T01 falsely accepted multiline `CONDITIONS`. The cause was Bash conditional-control-flow semantics: the harness relied on `set -e` inside a function invoked as an `if` condition, so a later successful predicate masked the earlier failure. The harness was corrected with explicit fail-closed returns; all listed adversarial tests and the documented production marker probes then passed.
+
+`check_changed_files.py` passed. The first subsequent `check_forbidden_scope.py` run failed on four documentation lines. Its literal case-insensitive substring matching found `fetch` and the `auth` substring inside `Authority` on lines without same-line documentation/scope context. No forbidden implementation was present, and no validator was modified. The affected documentation was clarified without changing command behavior or role-separation meaning, and the next forbidden-scope run passed. `check_required_control_updates.py` then failed because the current five-file correction delta did not change `DECISION_LOG.md` or `DEVELOPMENT_LEDGER.md` and the report lacked the exact reviewed/no-update declarations. The exact declarations below were added without modifying either control file. The full validator sequence remains pending and must pass on rerun before commit.
+
+### Current Five-File Correction-Delta Control Review
+
+The declarations below apply only to the current five-file correction delta. They do not negate that both files remain part of the existing fourteen-file Phase 4K-8 PR history.
+
+- docs/project-control/DECISION_LOG.md: reviewed, no update required
+- docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
+
+The first full local validator sequence passed after the claim language was narrowed and the two exact correction-delta declarations were added. These local results do not establish a GitHub Actions result, red-team approval, human approval, or merge authorization. The second pre-commit sequence is required because this evidence paragraph and result list modify the validated report.
 
 - `python3 scripts/control/check_changed_files.py` - PASS
 - `python3 scripts/control/check_forbidden_scope.py` - PASS
@@ -231,7 +274,7 @@ Local validations passed before commit:
 
 ## Red-Team Status
 
-PR #46 external red-team review requires corrections. Codex does not add red-team decision evidence. The prior reviewed-but-not-approved head SHA `33d5e14f690b1681c125efe5265c844c41eb75d2` is stale after this correction commit and requires fresh external review of the new PR head SHA.
+External red-team review is required for the exact current PR head. Codex does not add red-team decision evidence. Any correction commit makes prior SHA-bound review evidence stale.
 
 ## Human Approval Status
 

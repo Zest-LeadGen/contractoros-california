@@ -42,9 +42,9 @@ Last reviewed: 2026-07-10
 ```text
 Risk: workflow command misuse
 Status: Active / controlled by Phase 4K-8 command-pack stop conditions
-Evidence: Copy/paste lifecycle commands can affect branch, PR, marker, merge, and issue-closeout evidence if placeholders, repository identity, or SHA values are wrong.
+Evidence: Copy/paste lifecycle commands can affect branch, PR, marker, merge, and issue-closeout evidence if placeholders, repository identity, or SHA values are wrong. A dirty worktree or branch synchronization before exact local/origin starting-SHA proof can also mutate or misclassify the starting state.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: Future operator use follows the command pack, verifies repository identity and exact SHAs, and stops on unresolved placeholders or unexpected output.
+Resolution condition: Future operator use follows the command pack, proves a clean worktree before synchronization, fetches without pulling, verifies exact local and `origin/main` starting SHAs before branch creation, and stops on unresolved placeholders, ref mismatch, or unexpected output.
 Last reviewed: 2026-07-10
 ```
 
@@ -53,9 +53,9 @@ Last reviewed: 2026-07-10
 ```text
 Risk: marker assembly ambiguity
 Status: Active / controlled by Phase 4K-8 PR-body assembly rule
-Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Active Phase 4K-8 through Issue #45 and PR #46 supersedes the historical append-only procedure with replacement-body assembly and generated-body validation.
+Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Multiline review values or embedded reserved marker/field text can inject contradictory decisions while superficial marker counts still pass. Active Phase 4K-8 through Issue #45 and PR #46 supersedes the historical append-only procedure with replacement-body assembly and generated-body validation.
 Owner: ContractorOS development lead / red-team gate / project owner
-Resolution condition: Future PR evidence keeps templates fenced or commented, removes stale live-marker sections before replacement, places exactly one red-team marker before exactly one final owner-trigger marker, binds the decision to the current full head SHA, and leaves nothing after the final owner rationale.
+Resolution condition: Future PR evidence keeps templates fenced or commented; rejects empty, multiline, placeholder, marker-token, heading, and reserved-field values; validates supported formats and exactly one of every decision field; rejects unknown fields; rechecks the live PR head immediately before body replacement; and leaves exactly one owner marker final.
 Last reviewed: 2026-07-10
 ```
 

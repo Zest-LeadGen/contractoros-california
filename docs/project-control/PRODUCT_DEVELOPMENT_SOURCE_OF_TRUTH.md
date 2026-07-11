@@ -188,8 +188,6 @@ Deferred candidates are not active scope:
 
 - deterministic dependency baseline implementation;
 - toolchain availability / npm bootstrap governance decision;
-- Phase 4K-7 low-risk lane validator / control-gate implementation;
-- Phase 4K-8 workflow automation command-pack / operator runbook;
 - Phase 4K-9 phase intake and Codex handoff automation;
 - Phase 4K-10 post-marker checks, merge verification, and issue closeout automation;
 - Phase 4K-11 low-risk automation dry run;

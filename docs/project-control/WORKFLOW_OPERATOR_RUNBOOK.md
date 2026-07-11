@@ -17,6 +17,26 @@ For the current workflow, the project owner is also the human operator unless a 
 
 Red-team approval does not replace human/write-access approval. Hidden approval is invalid.
 
+## Fail-Closed Starting-State Rule
+
+Initial evidence verification must stop on a dirty worktree before any documentation-only source synchronization. The operator may fetch `origin/main`, then switch to `main`, but must not pull or mutate local history during initial verification. After fetch/switch, the worktree must still be clean, the current branch must be `main`, and both local `HEAD` and `origin/main` must equal the exact approved starting SHA.
+
+```bash
+set -euo pipefail
+
+test -z "$(git status --porcelain=v1)"
+
+git fetch origin main # documentation source sync
+git switch main
+
+test -z "$(git status --porcelain=v1)"
+test "$(git branch --show-current)" = "main"
+test "$(git rev-parse HEAD)" = "$START_SHA"
+test "$(git rev-parse origin/main)" = "$START_SHA"
+```
+
+If local main and `origin/main` differ, stop. Any reconciliation is a separately controlled recovery step; it is not part of initial evidence verification.
+
 ## State Transition Table
 
 `RED_TEAM_STATE_MACHINE.md` remains the controlling source. Use this table as the operator view of the same lifecycle.
@@ -67,7 +87,7 @@ Duplicate owner marker: required fields must be identical; place red-team decisi
 
 Unexpected files: compare the changed-file list to the active issue allowlist and stop on any app, package, lockfile, runtime, build, backend, dependency, product, or artifact path without durable approval evidence.
 
-Moved main: stop before branch creation; do not rebase or reset without owner direction.
+Moved or divergent main: stop before branch creation. Do not pull, rebase, or reset as part of initial verification; require a separately controlled recovery step.
 
 Review dismissal or stale review: return to the review state for current SHA.
 
