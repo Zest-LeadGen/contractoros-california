@@ -204,3 +204,9 @@ Roadmap categories are not approved scope.
 Verified GitHub evidence controls the claim level.
 
 `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` controls current product/development source-of-truth.
+
+## 21. Pre-4K-9 Constitution And Continuity Gate
+
+Phase 4K-8 is completed. Issue #47 is active at starting main `b99fc7d1fe0882380fc53041be42bb0aad35c02e` for documentation, schema, ADR, and source-of-truth reconciliation only. Phase 4K-9 remains not started, Phase 4I remains paused, and the toolchain path remains deferred.
+
+The next permissible implementation gate after Issue #47 closeout is the read-only continuity evidence collector/startup-packet gate. Product modules, source ingestion, database construction, public content, private infrastructure, and paid services require separate later gates.

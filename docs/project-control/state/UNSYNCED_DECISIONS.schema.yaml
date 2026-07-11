@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContractorOS unsynced-decision inbox",
+  "type": "object",
+  "required": ["schema_version","items"],
+  "properties": {
+    "schema_version": {"type":"string"},
+    "items": {"type":"array","items":{"type":"object","required":["item_id","status","summary","origin","owner_confirmation","durable_record","created_at","updated_at"],"properties":{"item_id":{"type":"string"},"status":{"enum":["proposed","owner_confirmed","rejected","recorded","superseded","blocked"]},"summary":{"type":"string"},"origin":{"type":"string"},"owner_confirmation":{"type":["string","null"]},"durable_record":{"type":["string","null"]},"created_at":{"type":"string"},"updated_at":{"type":"string"}},"additionalProperties":false}}
+  },
+  "additionalProperties": false
+}

@@ -83,3 +83,9 @@ Phase 4J-5 preserves the same behavior using the explicit labels in this file:
 - `APPROVED_MERGE_READY` maps to `HUMAN_APPROVED_WAITING_FOR_MERGE`.
 - `MERGED_MAIN_NOT_VERIFIED` maps to `MERGED_WAITING_FOR_MAIN_VERIFICATION`.
 - `MAIN_VERIFIED_ISSUE_OPEN` maps to `MAIN_VERIFIED_WAITING_FOR_ISSUE_CLOSE`.
+
+## Canonical-State Compatibility
+
+Canonical state is a public-safe snapshot, not a substitute for lifecycle classification. If canonical state and live GitHub evidence differ, classify the state as blocked, mark the snapshot stale or quarantined, and stop consequential guidance. A future generated startup packet must derive from both versioned state and live read-only evidence.
+
+Issue #47 itself remains a documentation implementation gate until its PR is externally reviewed, human-approved, merged, main-verified, and closed. Phase 4K-9 remains not started.

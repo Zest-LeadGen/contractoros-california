@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContractorOS public-safe canonical state",
+  "type": "object",
+  "required": ["schema_version","current_main_sha","active_gate","linked_issue","linked_pr","lifecycle_state","paused_phases","completed_prior_phase","blockers","next_authorized_planning_target","documentation_scope","evidence_timestamps","evidence_identifiers","public_private_references","consistency_status"],
+  "properties": {
+    "schema_version": {"type":"string"},
+    "current_main_sha": {"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "active_gate": {"type":"string"},
+    "linked_issue": {"type":"object","required":["number","state"],"properties":{"number":{"type":"integer"},"state":{"type":"string"}}},
+    "linked_pr": {"type":["object","null"]},
+    "lifecycle_state": {"type":"string"},
+    "paused_phases": {"type":"array","items":{"type":"string"}},
+    "completed_prior_phase": {"type":"object"},
+    "blockers": {"type":"array"},
+    "next_authorized_planning_target": {"type":"string"}, "documentation_scope": {"const":"public_safe"},
+    "evidence_timestamps": {"type":"object"},
+    "evidence_identifiers": {"type":"array"},
+    "public_private_references": {"type":"object"},
+    "consistency_status": {"enum":["consistent","stale","blocked","quarantined"]}
+  },
+  "additionalProperties": false
+}

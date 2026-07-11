@@ -234,3 +234,14 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-4J5-014 | Verify no npm, Expo, EAS, Android, iOS, native build, backend, Firebase, database, auth, deployment, or dependency commands were run. | Phase report commands section and model run log | Commands are limited to git, direct GitHub reads, local text edits, and local control validation. | Passed in local documentation review. |
 | VAL-4J5-015 | Verify GitHub Actions after PR opens. | PR control-gates workflow | Owner-trigger check should pass and mandatory red-team marker check should fail until external red-team adds a valid SHA-bound marker. | Pending PR creation. |
 | VAL-4J5-016 | Verify no auto-merge activation and no next-phase start. | PR/report review | Auto-merge remains inactive; Phase 4J-6 is not started; Phase 4I remains paused. | Pending PR creation. |
+
+## Pre-4K-9 Validation Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-PRE4K9-001 | Validate D1–D26 register. | Temporary standard-library Python JSON/YAML-subset check. | Exactly D1–D26, all required fields, option A, D1/D11 conditions, no operational overclaim. | Passed locally. |
+| VAL-PRE4K9-002 | Validate canonical state and schemas. | Temporary standard-library Python structural checks. | Verified lifecycle values and valid JSON-compatible YAML. | Passed locally. |
+| VAL-PRE4K9-003 | Validate ADR index. | Temporary standard-library Python and file review. | Nine existing ADRs; every ADR links owner decisions and required sections. | Passed locally. |
+| VAL-PRE4K9-004 | Scan public-safe files. | Git path and secret-pattern review. | No private artifact, credential, secret, raw PDF, DOCX, or ZIP. | Passed locally. |
+| VAL-PRE4K9-005 | Run existing controls. | Required eleven-command control sequence. | All local controls pass before commit. | First and final full sequences passed. |
+| VAL-PRE4K9-006 | Verify pre-marker PR behavior. | GitHub Actions after PR creation. | Pre-marker checks pass; mandatory exact-SHA marker fails; later checks may skip. | Pending PR creation. |

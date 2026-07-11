@@ -84,3 +84,14 @@ Purpose: record sources used for ContractorOS California control decisions.
 External paid services, hosted bots, and unversioned connector memory are not sources for Phase 4J-0.
 
 The UI label "Extra High" is recorded only as UI-observed terminology unless an official OpenAI UI source is added later.
+
+## Pre-4K-9 Sources
+
+| Source ID | Source | Type | Used for | Verification status | Notes |
+|---|---|---|---|---|---|
+| SRC-PRE4K9-001 | GitHub Issue #47 owner amendment comment `4949071184` | Owner GitHub evidence | D1–D26, scope, five-layer continuity, conflicts, next gate | Verified 2026-07-11 | Public-safe durable intake; private originals not committed. |
+| SRC-PRE4K9-002 | GitHub Issue #47 path correction comment `4949139219` | Owner GitHub evidence | Compatible phase-report path and branch reuse | Verified 2026-07-11 | Supersedes the incompatible `pre_` report path. |
+| SRC-PRE4K9-003 | GitHub Issue #24 and comments | Historical GitHub evidence | Handoff history, state machine, no-memory-only rule, marker supersession | Verified 2026-07-11 | Body lifecycle is stale; committed protocol and later notices control. |
+| SRC-PRE4K9-004 | GitHub Issue #45 closeout comment `4948981071` and merged PR #46 | GitHub evidence | Phase 4K-8 completion and main SHA | Verified 2026-07-11 | Merge/current main is `b99fc7d1fe0882380fc53041be42bb0aad35c02e`. |
+| SRC-PRE4K9-005 | Current committed project-control files | Repository evidence | Precedence, lifecycle, risks, decisions, validators | Inspected 2026-07-11 | Updated only where consistency required. |
+| SRC-PRE4K9-006 | UI-observed GPT-5.6 Sol label | UI-observed evidence | Execution attestation only | Not official model taxonomy | No permanent provider fact derived. |

@@ -177,3 +177,9 @@ If a new decision, feature, scope boundary, future roadmap item, payment/securit
 - phase report
 
 If it is not recorded in durable evidence, it is not durable.
+
+## Program Continuity Architecture
+
+Issue #47 defines a future five-layer continuity model: sanitized canonical state, append-only decisions/events, a derived startup packet, an unsynced-decision inbox, and separated private planes. This documentation does not implement the collector or replace current live GitHub verification. Issue #24 remains audit history; its original append-only marker example is historical and the Phase 4K-8 replacement-body procedure remains controlling.
+
+The first implementation gate must be read-only and cannot possess write, approval, merge, release, budget, credential-management, or policy-amendment decision power.

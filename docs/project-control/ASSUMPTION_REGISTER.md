@@ -21,3 +21,11 @@ Purpose: record assumptions that affect ContractorOS California control, deliver
 ## Register Rule
 
 Assumptions must remain versioned here until confirmed, replaced by a design decision, or closed by evidence.
+
+## Pre-4K-9 Assumptions
+
+| ID | Assumption | Evidence | Risk if wrong | Control | Status |
+|---|---|---|---|---|---|
+| ASM-PRE4K9-001 | Issue #47 owner amendment is the public-safe representation of the signed D1–D26 source. | Issue comment `4949071184`; private originals were not accessed or committed. | A private condition may be omitted. | Owner and external red-team review the register; later corrections use explicit supersession. | Active |
+| ASM-PRE4K9-002 | No current official source was retrieved to verify GPT-5.6 Sol, Terra, or Luna as official taxonomy. | This gate used only UI-observed labels and repository evidence. | Permanent policy could record unstable naming. | Leave `PROMPT_CONVENTION.md` unchanged and require official-source refresh later. | Active |
+| ASM-PRE4K9-003 | A null linked PR is accurate for the canonical snapshot before PR creation. | Issue #47 active; branch created; PR not yet created at snapshot time. | Snapshot becomes stale after PR creation. | Generated collector must compare live GitHub state; next canonical update records the PR through a protected change. | Active |

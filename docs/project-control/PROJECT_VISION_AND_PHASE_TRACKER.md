@@ -405,3 +405,18 @@ Claim levels control wording.
 Verified main controls phase advancement.
 
 `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` controls current product/development source-of-truth.
+
+## 16. Current Program Gate
+
+| Item | Verified state |
+|---|---|
+| Phase 4K-8 | Completed |
+| PR #46 | Merged at `b99fc7d1fe0882380fc53041be42bb0aad35c02e` |
+| Issue #45 | Closed/completed |
+| Issue #47 | Active Program Constitution documentation gate |
+| Phase 4K-9 | Not started |
+| Phase 4I | Paused |
+| Toolchain/npm | Deferred, not rejected |
+| Continuity collector | Not implemented |
+
+The next recommended gate after Issue #47 closeout is the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.

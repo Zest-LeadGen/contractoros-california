@@ -271,3 +271,19 @@ Changed files:
 Commands run:
 Claim level:
 ```
+
+## Pre-4K-9 Program Constitution Reconciliation
+
+```text
+Phase: Pre-4K-9 Program Constitution and Red-Team Continuity Reconciliation
+Lane: Control / Infrastructure
+Date: 2026-07-11
+Branch: pre-4k-9-program-constitution-reconciliation
+Issue: #47
+Base SHA: b99fc7d1fe0882380fc53041be42bb0aad35c02e
+PR: pending
+Head SHA: pending
+Merge SHA: pending
+Changed files: public-safe governance, schemas, ADRs, and current-state records only
+Claim level: documentation and architecture direction; operational continuity not implemented
+```
