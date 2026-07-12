@@ -454,6 +454,223 @@ class MarkerSemanticsTests(unittest.TestCase):
         self.assertEqual(self.evaluations(body)["owner"]["status"], "missing")
 
 
+class WorkflowProvenanceTests(unittest.TestCase):
+    def data(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def job(self, data):
+        return data["workflow_run"]["jobs"][0]
+
+    def step(self, data, name):
+        return next(step for step in self.job(data)["steps"] if step["name"] == name)
+
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def make_full_success(self, data, marker=True):
+        run = data["workflow_run"]
+        job = self.job(data)
+        run["conclusion"] = "success"
+        job["conclusion"] = "success"
+        for step in job["steps"]:
+            step["conclusion"] = "success"
+        data["checks"][0].update({"state": "SUCCESS", "bucket": "pass"})
+        if marker:
+            data["markers"] = {
+                "owner_trigger_status": "valid",
+                "red_team_status": "valid",
+                "red_team_bound_sha": ACTIVE_HEAD,
+            }
+        return data
+
+    def assert_quarantined(self, data):
+        code, evidence, _ = self.classify(data)
+        self.assertEqual(code, 2)
+        self.assertEqual(evidence["consistency_classification"], "quarantined")
+        self.assertTrue(evidence["quarantine"])
+        return evidence
+
+    def test_expected_control_workflow_identity_is_accepted(self):
+        code, evidence, _ = self.classify(self.data())
+        self.assertEqual(code, 0)
+        self.assertEqual(evidence["consistency_classification"], "requires_live_verification")
+
+    def test_wrong_repository_is_quarantined(self):
+        data = self.data()
+        data["repository"]["name"] = "Zest-LeadGen/another-repository"
+        evidence = self.assert_quarantined(data)
+        self.assertIn("Workflow provenance mismatch: repository", evidence["comparison_findings"])
+
+    def test_wrong_workflow_name_is_quarantined(self):
+        data = self.data()
+        data["workflow_run"]["name"] = "Another Workflow"
+        self.assert_quarantined(data)
+
+    def test_wrong_workflow_id_is_quarantined(self):
+        data = self.data()
+        data["workflow_run"]["workflow_id"] = 1
+        self.assert_quarantined(data)
+
+    def test_push_event_is_quarantined(self):
+        data = self.data()
+        data["workflow_run"]["event"] = "push"
+        self.assert_quarantined(data)
+
+    def test_wrong_run_head_is_quarantined(self):
+        data = self.data()
+        data["workflow_run"]["head_sha"] = "d" * 40
+        self.assert_quarantined(data)
+
+    def test_wrong_run_branch_is_quarantined(self):
+        data = self.data()
+        data["workflow_run"]["head_branch"] = "another-branch"
+        self.assert_quarantined(data)
+
+    def test_pr_check_link_to_another_run_is_quarantined(self):
+        data = self.data()
+        data["checks"][0]["link"] = (
+            "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/999/job/1"
+        )
+        self.assert_quarantined(data)
+
+    def test_missing_expected_job_is_blocked(self):
+        data = self.data()
+        data["workflow_run"]["jobs"] = []
+        code, evidence, _ = self.classify(data)
+        self.assertEqual(code, 3)
+        self.assertIn("Missing expected ContractorOS workflow job", evidence["blockers"])
+
+    def test_duplicate_expected_job_is_quarantined(self):
+        data = self.data()
+        data["workflow_run"]["jobs"].append(copy.deepcopy(self.job(data)))
+        self.assert_quarantined(data)
+
+    def test_missing_required_step_is_blocked(self):
+        data = self.data()
+        self.job(data)["steps"] = [
+            step for step in self.job(data)["steps"] if step["name"] != "Python version"
+        ]
+        code, evidence, _ = self.classify(data)
+        self.assertEqual(code, 3)
+        self.assertIn("Missing required workflow step: Python version", evidence["blockers"])
+
+    def test_duplicate_required_step_is_quarantined(self):
+        data = self.data()
+        self.job(data)["steps"].append(copy.deepcopy(self.step(data, "Python version")))
+        self.assert_quarantined(data)
+
+    def test_required_step_order_mismatch_is_quarantined(self):
+        data = self.data()
+        self.step(data, "Python version")["number"] = 20
+        self.assert_quarantined(data)
+
+    def test_failed_pre_marker_step_is_quarantined(self):
+        data = self.data()
+        self.step(data, "Forbidden-scope check")["conclusion"] = "failure"
+        self.assert_quarantined(data)
+
+    def test_expected_missing_marker_failure_remains_pending(self):
+        code, evidence, _ = self.classify(self.data())
+        self.assertEqual(code, 0)
+        self.assertIn("External exact-SHA red-team review is pending", evidence["blockers"])
+
+    def test_marker_step_success_without_marker_is_quarantined(self):
+        data = self.make_full_success(self.data(), marker=False)
+        self.assert_quarantined(data)
+
+    def test_valid_marker_with_marker_step_failure_is_quarantined(self):
+        data = self.data()
+        data["markers"] = {
+            "owner_trigger_status": "valid",
+            "red_team_status": "valid",
+            "red_team_bound_sha": ACTIVE_HEAD,
+        }
+        self.assert_quarantined(data)
+
+    def test_post_marker_success_before_marker_is_quarantined(self):
+        data = self.data()
+        self.step(data, rtc.POST_MARKER_STEPS[0])["conclusion"] = "success"
+        self.assert_quarantined(data)
+
+    def test_valid_marker_with_skipped_post_marker_steps_is_quarantined(self):
+        data = self.data()
+        data["markers"] = {
+            "owner_trigger_status": "valid",
+            "red_team_status": "valid",
+            "red_team_bound_sha": ACTIVE_HEAD,
+        }
+        self.step(data, rtc.MARKER_STEP)["conclusion"] = "success"
+        data["workflow_run"]["conclusion"] = "success"
+        self.job(data)["conclusion"] = "success"
+        data["checks"][0].update({"state": "SUCCESS", "bucket": "pass"})
+        self.assert_quarantined(data)
+
+    def test_full_success_matrix_is_accepted(self):
+        code, evidence, _ = self.classify(self.make_full_success(self.data()))
+        self.assertEqual(code, 0)
+        self.assertEqual(evidence["consistency_classification"], "requires_live_verification")
+
+    def test_pending_run_cannot_support_approval(self):
+        data = self.make_full_success(self.data())
+        data["workflow_run"].update({"status": "in_progress", "conclusion": None})
+        code, evidence, _ = self.classify(data)
+        self.assertEqual(code, 3)
+        self.assertIn("ContractorOS workflow run is pending or in progress", evidence["blockers"])
+
+    def test_check_state_conflict_is_quarantined(self):
+        data = self.data()
+        data["checks"][0].update({"state": "SUCCESS", "bucket": "pass"})
+        self.assert_quarantined(data)
+
+    def test_unknown_failed_check_is_quarantined(self):
+        data = self.data()
+        data["checks"].append(
+            {
+                "name": "unexpected-check",
+                "state": "FAILURE",
+                "bucket": "fail",
+                "link": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000001",
+            }
+        )
+        self.assert_quarantined(data)
+
+    def test_completed_run_with_pending_required_step_is_quarantined(self):
+        data = self.data()
+        self.step(data, "Python version")["status"] = "in_progress"
+        self.assert_quarantined(data)
+
+    def test_workflow_success_with_failed_step_is_quarantined(self):
+        data = self.make_full_success(self.data())
+        self.step(data, "Changed-file allowlist / lane check")["conclusion"] = "failure"
+        self.assert_quarantined(data)
+
+    def test_workflow_failure_without_explaining_step_is_quarantined(self):
+        data = self.make_full_success(self.data())
+        data["workflow_run"]["conclusion"] = "failure"
+        self.job(data)["conclusion"] = "failure"
+        data["checks"][0].update({"state": "FAILURE", "bucket": "fail"})
+        self.assert_quarantined(data)
+
+    def test_unknown_contradictory_step_is_quarantined(self):
+        data = self.data()
+        self.job(data)["steps"].append(
+            {"name": "Unexpected control", "number": 13, "status": "completed", "conclusion": "failure"}
+        )
+        self.assert_quarantined(data)
+
+    def test_step_and_finding_order_is_deterministic(self):
+        data = self.data()
+        data["workflow_run"].update(
+            {"name": "Wrong", "workflow_id": 1, "event": "push", "head_branch": "wrong"}
+        )
+        first = self.assert_quarantined(copy.deepcopy(data))["comparison_findings"]
+        second = self.assert_quarantined(copy.deepcopy(data))["comparison_findings"]
+        self.assertEqual(first, second)
+        self.assertEqual(first, sorted(first))
+
+
 class GovernanceHardeningTests(unittest.TestCase):
     def text(self, path):
         return path.read_text(encoding="utf-8")

@@ -12,6 +12,8 @@ Fixture mode consumes a bounded JSON fixture plus an explicit observation timest
 
 Live provenance includes bounded local Git metadata; canonical state read from the exact ref; issue, pull request, checks, workflow run and step evidence; owner-trigger and red-team marker status; review decision and qualifying approvals; auto-merge state; comparison findings; blockers; and gaps. Raw credentials, headers, environment contents, unrelated comment bodies, and unrestricted command output are not persisted.
 
+The version `1.1.0` evidence contract requires PR head branch, check link, workflow name and database ID, event, run head branch, bounded jobs, and numbered step status/conclusion evidence. The generator and both generated schemas use `1.1.0`; every fixture uses `fixture_version: 1.1.0`.
+
 ## Read-Only Command Security
 
 Every subprocess uses an argument array, `shell=False`, a finite timeout, captured standard output and error, and a normalized return code. A positive allowlist admits only the exact Git reads and narrowly shaped GitHub CLI reads documented in `scripts/continuity/README.md`.
@@ -35,6 +37,12 @@ For an active developer pull request, absent external red-team evidence and abse
 For a pull request claiming external approval or merge eligibility, a missing or stale marker is quarantined, a marker bound to another SHA is quarantined, missing required human approval is blocked or quarantined, and active auto-merge is quarantined.
 
 For a merged/closed gate, merge SHA, main evidence, required control evidence, exact-SHA review, human approval, workflow evidence, and linked-issue closeout must agree. Contradiction is quarantined; inaccessible required evidence is blocked.
+
+## Workflow And Required-Check Binding
+
+The trusted run must belong to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, event `pull_request`, the exact current PR head SHA and branch, and exactly one `contractoros-control-gates` job. Exactly one same-named PR check must link to the supplied run ID. Matching SHA alone is insufficient.
+
+The expected job must contain exactly one ordered occurrence of each governed workflow step. A valid pre-review run is completed/failure with every pre-marker step successful, the marker step failed while marker evidence is missing, both post-marker steps skipped, and the linked check failed. A valid post-review run requires a valid exact-head marker and success for every governed step, job, run, and linked check. Missing required jobs or steps are blocked. Identity mismatches, duplicate jobs or steps, invalid ordering, pre-marker failures, premature post-marker success, unexplained run failures, and check contradictions are quarantined. Pending or in-progress runs remain blocked and cannot support external approval, merge readiness, or completed-gate status.
 
 ## Exit Contract
 

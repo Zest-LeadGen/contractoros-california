@@ -98,6 +98,25 @@ The C1A marker-semantics packet changes exactly these five existing files:
 4. `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
 5. `docs/project-control/VALIDATION_TASKS.md`
 
+The C1B required-check and workflow-provenance packet changes exactly these sixteen existing files:
+
+1. `scripts/continuity/red_team_continuity.py`
+2. `scripts/continuity/README.md`
+3. `scripts/continuity/tests/test_red_team_continuity.py`
+4. `scripts/continuity/tests/fixtures/consistent_closed_gate.json`
+5. `scripts/continuity/tests/fixtures/active_pr_requires_live_verification.json`
+6. `scripts/continuity/tests/fixtures/stale_main.json`
+7. `scripts/continuity/tests/fixtures/moved_pr_head.json`
+8. `scripts/continuity/tests/fixtures/missing_evidence.json`
+9. `scripts/continuity/tests/fixtures/unsafe_private_value.json`
+10. `scripts/continuity/tests/fixtures/expected_startup_packet.md`
+11. `docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md`
+12. `docs/project-control/state/red-team-continuity-evidence.schema.json`
+13. `docs/project-control/state/red-team-startup-packet.schema.json`
+14. `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+15. `docs/project-control/VALIDATION_TASKS.md`
+16. `docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md`
+
 No workflow, existing control script, package manifest, lockfile, application, mobile, web, backend, database, build, release, content, production, credential, cloud, hosted-service, or paid-resource file changed.
 
 ## Commands Run
@@ -125,6 +144,9 @@ Implementation validation run so far included:
 - the required live starting-main stale baseline command recorded below
 - 32 focused C1A marker-semantics tests
 - the full 87-test continuity suite
+- 28 focused C1B workflow-provenance tests
+- the full 115-test continuity suite
+- live C1B verification against Issue #49, PR #50 and run `29205653852`
 
 The full current-control sequence remains required immediately before the implementation commit.
 
@@ -141,6 +163,8 @@ Live mode reads bounded local Git metadata and narrowly selected GitHub CLI JSON
 Supported classifications are exactly `consistent`, `requires_live_verification`, `stale`, `blocked`, and `quarantined`.
 
 C1A replaces permissive marker summaries with one bounded parser and two semantic evaluators. Both marker types ignore fenced and HTML-comment examples, reject duplicate fields, reject duplicate or conflicting governing blocks, preserve stable reason ordering, and never use first-marker-wins or last-marker-wins behavior. The red-team evaluator enforces exact required fields, numeric PR binding, full current SHA binding, decisions, date shape and SHA-bound statement. The owner evaluator enforces fields, enumerations, category consistency, lane consistency, human approval `YES`, auto-merge `NO`, and non-empty rationale. The collector does not import or execute either control validator.
+
+C1B adds one deterministic workflow evaluator. It binds the bounded GitHub repository field, workflow name `ContractorOS Control Gates`, workflow database ID `309083557`, `pull_request` event, PR head SHA and branch, exact-run PR check link, one `contractoros-control-gates` job and the ordered governed step matrix. Missing required job or step evidence is blocked. Mismatches, duplicates, ordering errors, pre-marker failures, premature post-marker success, unexplained failures and run/check/step contradictions are quarantined. Pending runs cannot support approval or completed-gate claims. This does not implement remote normalization, collaborator permission, human-approval qualification, merge logic or inaccessible-evidence exit remapping.
 
 Exit contract:
 
@@ -160,7 +184,7 @@ Unknown executables, subcommands, flags, and command shapes are rejected. Git re
 
 ## Evidence Schema
 
-`red-team-continuity-evidence.schema.json` uses Draft 2020-12 and defines required version, time, repository, source SHA, command-result, canonical, live-state, comparison, blocker, missing-evidence, classification, quarantine, public-safe, packet-hash and structured-packet fields. Nested bounded objects use `additionalProperties: false` where the runtime structure is controlled.
+`red-team-continuity-evidence.schema.json` uses Draft 2020-12 and defines required version, time, repository, source SHA, command-result, canonical, live-state, comparison, blocker, missing-evidence, classification, quarantine, public-safe, packet-hash and structured-packet fields. C1B migrates fixture, evidence, packet and generator contracts to `1.1.0` and requires PR head branch, check link, workflow identity/event/head branch, bounded jobs and numbered step status/conclusion. Nested bounded objects use `additionalProperties: false` where the runtime structure is controlled.
 
 Standard-library runtime validation checks the bounded fixture and required canonical-state shape. No third-party schema validator or dependency was added.
 
@@ -183,7 +207,7 @@ Hash normalization is UTF-8, LF newlines, stable headings, stable list and JSON 
 
 ## Security Test Evidence
 
-The 87-test suite includes the prior 55 tests plus 32 C1A marker-semantics tests. It covers collector command/output security; governance hardening; valid, missing, malformed, stale, adverse, duplicate, conflicting and example marker evidence; exact PR/head binding; owner-trigger consistency; pending missing-review behavior; deterministic classification; and prior-head workflow truthfulness.
+The 115-test suite includes the prior 87 tests plus 28 C1B workflow-provenance tests. It covers collector command/output security; governance hardening; marker semantics; repository/workflow/event/head/branch/check-link binding; job and step presence, duplication, status and order; pre-marker and post-marker matrices; pending evidence; expected and unknown check contradictions; unexplained failures; unknown contradictory steps; deterministic classification; and prior-head workflow truthfulness.
 
 The forbidden-scope validator passed after the security-control literals were kept on explicitly forbidden, blocked, no-authority, or risk lines.
 
@@ -199,7 +223,7 @@ Observed explicit CLI exit matrix:
 - unsafe/private evidence: `4`
 - malformed JSON: `5`
 
-The 32-test focused marker class and full 87-test suite passed in the C1A validation sequence.
+The 32-test focused marker class and full 87-test suite passed in the C1A validation sequence. The 28-test focused workflow-provenance class and full 115-test suite passed in the C1B implementation sequence.
 
 ## Baseline Stale-State Evidence
 
@@ -264,6 +288,8 @@ The G1.1 correction commit creates a new head. Run `29203963944` remains histori
 
 G1.1 head `09e867ff984384676032e1aa0cf87f9cb990d55d` was evaluated by run `29205093385`. The run completed with overall conclusion `failure`; every pre-marker control passed, the mandatory current-head marker step failed because no marker existed, and post-marker checks skipped. The bounded governance subreview later passed, but PR #50 remained changes-requested for collector defects. C1A creates another head and requires a fresh run and external exact-SHA review.
 
+C1A head `0801bd6497a3e16fa0565c7ac13a6a455da962f9` passed its bounded subreview. Run `29205653852` is `ContractorOS Control Gates` workflow ID `309083557`, event `pull_request`, exact branch `pre-4k-9-read-only-continuity-collector`, exact C1A head and expected `contractoros-control-gates` job. Its linked PR check points to that exact run. The C1B live collector observed all eight pre-marker steps successful, the marker step failed with marker evidence missing, both post-marker steps skipped, and run/job/check failure; consequential action remains blocked with auto-merge inactive and human approval pending. At `2026-07-12T19:30:00Z` it returned exit `0`, classification `requires_live_verification`, packet hash `49614f0f6afd703fd05efca4f45bcc056a6a5f407020e589c9e3c5330ea34af1`, and left repository status unchanged apart from authorized C1B edits.
+
 ## Canonical-State Reconciliation
 
 The canonical snapshot now records:
@@ -286,6 +312,8 @@ The Issue #49 governance-hardening packet adds the ten-field prompt profile; red
 
 C1A hardens collector marker semantics only. Missing red-team evidence on an otherwise valid active PR remains pending. Exact current-head approval may be represented as valid evidence but grants no merge power. Stale, malformed, adverse, duplicate, conflicting or ambiguous red-team evidence and invalid owner-trigger evidence are quarantined. Required-check evaluation, workflow identity, human approval qualification, repository identity, inaccessible-evidence handling, output-path changes, lifecycle reconciliation and schema expansion remain outside this packet.
 
+C1B makes required-check and exact workflow/run/PR/event/job/step evidence classification inputs and performs the explicit `1.1.0` schema/fixture migration. Human/write-access approval qualification, collaborator permission reads, remote normalization, inaccessible-evidence exit changes, output-directory corrections, merge logic and closeout remain outside this packet.
+
 No existing workflow or control script changed.
 
 docs/project-control/DECISION_LOG.md: reviewed, no update required
@@ -296,7 +324,7 @@ docs/project-control/RISK_REGISTER.md: reviewed, no update required
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests, the complete 87-test suite and the required eleven-command local-control sequence. The cumulative branch changed-file set remains within the permitted 32-file set and C1A changes exactly five existing files; no workflow, existing control script, fixture, schema, manifest, lockfile, application/runtime, cache, temporary artifact, private path or credential was added.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests, the complete 87-test suite and the required eleven-command local-control sequence. C1B passed 28 focused provenance tests, the complete 115-test suite, both schema parses, byte-identical deterministic JSON and Markdown comparisons, the required live starting-head verification and the required eleven-command local-control sequence. The consistent-fixture packet hash is `556ef5a137869e896ad25a4da3cf2e10065aa3f1674ea0da282efa7477ba55b9`. The cumulative branch changed-file set remains within the permitted 32-file set and C1B changes exactly sixteen existing files; no workflow, existing control script, manifest, lockfile, application/runtime, cache, repository temporary artifact, private path or credential was added.
 
 ## Risk Register Impact
 
@@ -312,7 +340,7 @@ The artifact index records source, specification, schemas, fixtures, and tests. 
 
 ## Red-Team Status
 
-The G1.1 governance subreview passed for `09e867ff984384676032e1aa0cf87f9cb990d55d`. PR #50 remains changes-requested for collector defects. External exact-SHA review is pending for the C1A head, and no C1A red-team marker exists.
+The C1A bounded subreview passed for `0801bd6497a3e16fa0565c7ac13a6a455da962f9`. PR #50 remains changes-requested. External exact-SHA review is pending for the later C1B head, and no C1B red-team marker exists.
 
 ## Human Approval Status
 
@@ -348,9 +376,8 @@ Read-only local/CLI continuity evidence collection and deterministic derived sta
 - Private evidence remains outside this public gate.
 - Intermediate live evidence will be bound to the implementation commit; the later reconciliation commit makes that head stale and requires a fresh external run and review.
 - Official model choices, Plus usage ranges, Fast support, and speed/consumption multipliers are dated 2026-07-12 and require revalidation before future recommendation.
-- C1B still must address required-check classification and workflow identity binding.
 - C2 still must address human/write-access approval qualification.
-- Repository identity, inaccessible-evidence handling, output-path safety, lifecycle reconciliation and schema expansion remain deferred to separately bounded packets.
+- C3 still must address remote normalization, inaccessible-evidence handling, output-path safety and lifecycle reconciliation.
 
 ## Next Phase Status
 

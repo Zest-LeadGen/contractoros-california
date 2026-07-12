@@ -16,9 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.0.0"
-EVIDENCE_SCHEMA_VERSION = "1.0.0"
-PACKET_SCHEMA_VERSION = "1.0.0"
+GENERATOR_VERSION = "1.1.0"
+EVIDENCE_SCHEMA_VERSION = "1.1.0"
+PACKET_SCHEMA_VERSION = "1.1.0"
+FIXTURE_VERSION = "1.1.0"
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_PATH = "docs/project-control/state/contractoros-state.yaml"
 OUTPUT_NAMES = ("continuity-evidence.json", "RED_TEAM_STARTUP_PACKET.md")
@@ -83,6 +84,28 @@ OWNER_TRIGGER_CATEGORIES = {
     "ARCHITECTURE_THRESHOLD",
 }
 OWNER_LANE_VALUES = {"NOT_AUTOMATION_ELIGIBLE", "FUTURE_LOW_RISK_CANDIDATE"}
+EXPECTED_REPOSITORY = "Zest-LeadGen/contractoros-california"
+EXPECTED_WORKFLOW_NAME = "ContractorOS Control Gates"
+EXPECTED_WORKFLOW_ID = 309083557
+EXPECTED_WORKFLOW_EVENT = "pull_request"
+EXPECTED_JOB_NAME = "contractoros-control-gates"
+PRE_MARKER_STEPS = (
+    "Checkout repository",
+    "Python version",
+    "Changed-file allowlist / lane check",
+    "Forbidden-scope check",
+    "Required control-file update check",
+    "PR body / linked issue / template completeness check",
+    "Owner-trigger / lane-eligibility marker check",
+    "Low-risk lane classification check",
+)
+MARKER_STEP = "Mandatory SHA-bound red-team marker check"
+POST_MARKER_STEPS = (
+    "Lockfile / dependency contamination check",
+    "Claim-language check",
+)
+REQUIRED_STEPS = PRE_MARKER_STEPS + (MARKER_STEP,) + POST_MARKER_STEPS
+IGNORED_RUNNER_STEPS = {"Set up job", "Post Checkout repository", "Complete job"}
 
 # Every entry is forbidden private material and causes a fail-closed rejection.
 FORBIDDEN_PRIVATE_PATTERNS = (
@@ -396,9 +419,36 @@ def _normalized_checks(raw: Any) -> list[dict[str, str]]:
                 "name": str(item.get("name") or ""),
                 "state": str(item.get("state") or ""),
                 "bucket": str(item.get("bucket") or ""),
+                "link": str(item.get("link") or ""),
             }
         )
-    return sorted(checks, key=lambda item: (item["name"], item["state"], item["bucket"]))
+    return sorted(
+        checks,
+        key=lambda item: (item["name"], item["state"], item["bucket"], item["link"]),
+    )
+
+
+def _normalized_jobs(raw: Any) -> list[dict[str, Any]]:
+    jobs = []
+    for job in raw if isinstance(raw, list) else []:
+        steps = [
+            {
+                "name": str(step.get("name") or ""),
+                "number": int(step.get("number") or 0),
+                "status": str(step.get("status") or ""),
+                "conclusion": str(step.get("conclusion") or "") or None,
+            }
+            for step in (job.get("steps") or [])
+        ]
+        jobs.append(
+            {
+                "name": str(job.get("name") or ""),
+                "status": str(job.get("status") or ""),
+                "conclusion": str(job.get("conclusion") or "") or None,
+                "steps": sorted(steps, key=lambda item: (item["number"], item["name"])),
+            }
+        )
+    return sorted(jobs, key=lambda item: (item["name"], _canonical_json(item)))
 
 
 def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
@@ -455,7 +505,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "--repo",
             args.repository,
             "--json",
-            "number,state,baseRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,reviews,body",
+            "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,reviews,body",
         ],
         repo_root,
         commands,
@@ -483,7 +533,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "--repo",
             args.repository,
             "--json",
-            "databaseId,status,conclusion,headSha,url,jobs",
+            "databaseId,name,workflowDatabaseId,event,status,conclusion,headSha,headBranch,url,jobs",
         ],
         repo_root,
         commands,
@@ -504,7 +554,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         int(pr.get("number")),
     )
     evidence = {
-        "fixture_version": "1.0.0",
+        "fixture_version": FIXTURE_VERSION,
         "repository": {
             "name": str(repo.get("nameWithOwner") or args.repository),
             "default_branch": str(default_ref.get("name") or "main"),
@@ -529,6 +579,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "number": int(pr.get("number")),
             "state": str(pr.get("state") or "").lower(),
             "base": str(pr.get("baseRefName") or ""),
+            "head_branch": str(pr.get("headRefName") or ""),
             "head": str(pr.get("headRefOid") or ""),
             "draft": bool(pr.get("isDraft")),
             "merge_commit": (pr.get("mergeCommit") or {}).get("oid"),
@@ -538,21 +589,15 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         "checks": _normalized_checks(raw_checks),
         "workflow_run": {
             "id": int(run.get("databaseId")),
+            "name": str(run.get("name") or ""),
+            "workflow_id": int(run.get("workflowDatabaseId") or 0),
+            "event": str(run.get("event") or ""),
             "status": str(run.get("status") or ""),
             "conclusion": str(run.get("conclusion") or "") or None,
             "head_sha": str(run.get("headSha") or ""),
+            "head_branch": str(run.get("headBranch") or ""),
             "url": str(run.get("url") or ""),
-            "steps": sorted(
-                [
-                    {
-                        "name": str(step.get("name") or ""),
-                        "conclusion": str(step.get("conclusion") or "") or None,
-                    }
-                    for job in (run.get("jobs") or [])
-                    for step in (job.get("steps") or [])
-                ],
-                key=lambda item: item["name"],
-            ),
+            "jobs": _normalized_jobs(run.get("jobs")),
         },
         "markers": marker,
         "review": {
@@ -603,7 +648,7 @@ def _validate_input(data: dict[str, Any]) -> None:
         raise CollectorError("fixture contains unknown top-level fields")
     if not required.issubset(data):
         raise CollectorError("fixture is missing required top-level fields")
-    if data.get("fixture_version") != "1.0.0":
+    if data.get("fixture_version") != FIXTURE_VERSION:
         raise CollectorError("fixture version is unsupported")
     if data.get("raw_chat_status") != "no authority":
         raise CollectorError("raw chat input has no authority")
@@ -647,6 +692,154 @@ def _validate_input(data: dict[str, Any]) -> None:
         raise CollectorError("checks evidence is malformed")
 
 
+def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:
+    repository = data["repository"]
+    pr = data["pr"]
+    checks = data["checks"]
+    run = data["workflow_run"]
+    markers = data["markers"]
+    blocked: list[str] = []
+    quarantined: list[str] = []
+
+    identity = (
+        ("repository", repository.get("name"), EXPECTED_REPOSITORY),
+        ("workflow name", run.get("name"), EXPECTED_WORKFLOW_NAME),
+        ("workflow ID", run.get("workflow_id"), EXPECTED_WORKFLOW_ID),
+        ("workflow event", run.get("event"), EXPECTED_WORKFLOW_EVENT),
+        ("workflow head SHA", run.get("head_sha"), pr.get("head")),
+        ("workflow head branch", run.get("head_branch"), pr.get("head_branch")),
+    )
+    for label, actual, expected in identity:
+        if actual in {None, "", 0}:
+            blocked.append(f"Missing required workflow evidence: {label}")
+        elif actual != expected:
+            quarantined.append(f"Workflow provenance mismatch: {label}")
+
+    run_id = run.get("id")
+    expected_link = re.compile(
+        rf"^https://github\.com/{re.escape(EXPECTED_REPOSITORY)}/actions/runs/{run_id}(?:/job/\d+)?$"
+    )
+    expected_checks = [check for check in checks if check.get("name") == EXPECTED_JOB_NAME]
+    if not expected_checks:
+        blocked.append("Missing required ContractorOS PR check")
+    elif len(expected_checks) > 1:
+        quarantined.append("Duplicate ContractorOS PR checks")
+    elif not expected_link.fullmatch(str(expected_checks[0].get("link") or "")):
+        quarantined.append("ContractorOS PR check link differs from the supplied workflow run")
+    for check in checks:
+        if check.get("name") == EXPECTED_JOB_NAME:
+            continue
+        if str(check.get("state") or "").upper() in {
+            "FAILURE",
+            "ERROR",
+            "CANCELLED",
+            "TIMED_OUT",
+            "ACTION_REQUIRED",
+        } or str(check.get("bucket") or "").lower() == "fail":
+            quarantined.append("Unknown failed PR check contradicts the governed lifecycle")
+
+    jobs = run.get("jobs") if isinstance(run.get("jobs"), list) else []
+    expected_jobs = [job for job in jobs if job.get("name") == EXPECTED_JOB_NAME]
+    if not expected_jobs:
+        blocked.append("Missing expected ContractorOS workflow job")
+    elif len(expected_jobs) > 1:
+        quarantined.append("Duplicate expected ContractorOS workflow jobs")
+
+    if blocked or quarantined or len(expected_jobs) != 1 or len(expected_checks) != 1:
+        return {"blocked": sorted(set(blocked)), "quarantined": sorted(set(quarantined))}
+
+    run_status = str(run.get("status") or "").lower()
+    if run_status != "completed":
+        blocked.append("ContractorOS workflow run is pending or in progress")
+        return {"blocked": sorted(set(blocked)), "quarantined": []}
+
+    job = expected_jobs[0]
+    if str(job.get("status") or "").lower() != "completed":
+        blocked.append("ContractorOS workflow job is pending or in progress")
+        return {"blocked": sorted(set(blocked)), "quarantined": []}
+
+    steps = job.get("steps") if isinstance(job.get("steps"), list) else []
+    by_name: dict[str, list[dict[str, Any]]] = {}
+    for step in steps:
+        by_name.setdefault(str(step.get("name") or ""), []).append(step)
+    for name in REQUIRED_STEPS:
+        count = len(by_name.get(name, []))
+        if count == 0:
+            blocked.append(f"Missing required workflow step: {name}")
+        elif count > 1:
+            quarantined.append(f"Duplicate required workflow step: {name}")
+    if blocked or quarantined:
+        return {"blocked": sorted(set(blocked)), "quarantined": sorted(set(quarantined))}
+
+    governed = [by_name[name][0] for name in REQUIRED_STEPS]
+    numbers = [int(step.get("number") or 0) for step in governed]
+    if any(number <= 0 for number in numbers) or numbers != sorted(numbers) or len(set(numbers)) != len(numbers):
+        quarantined.append("Required workflow step order is invalid")
+    if any(str(step.get("status") or "").lower() != "completed" for step in governed):
+        quarantined.append("A required workflow step is not completed in a completed run")
+
+    for job_item in jobs:
+        if job_item is job:
+            continue
+        if str(job_item.get("status") or "").lower() != "completed" or str(
+            job_item.get("conclusion") or ""
+        ).lower() not in {"success", "skipped"}:
+            quarantined.append("Unknown workflow job evidence contradicts the governed lifecycle")
+    for step in steps:
+        name = str(step.get("name") or "")
+        if name in REQUIRED_STEPS or name in IGNORED_RUNNER_STEPS:
+            continue
+        if str(step.get("status") or "").lower() != "completed" or str(
+            step.get("conclusion") or ""
+        ).lower() not in {"success", "skipped"}:
+            quarantined.append("Unknown workflow step evidence contradicts the governed lifecycle")
+
+    conclusions = {
+        name: str(by_name[name][0].get("conclusion") or "").lower() for name in REQUIRED_STEPS
+    }
+    pre = [conclusions[name] for name in PRE_MARKER_STEPS]
+    marker = conclusions[MARKER_STEP]
+    post = [conclusions[name] for name in POST_MARKER_STEPS]
+    run_conclusion = str(run.get("conclusion") or "").lower()
+    job_conclusion = str(job.get("conclusion") or "").lower()
+    check_state = str(expected_checks[0].get("state") or "").upper()
+    red_status = markers.get("red_team_status")
+
+    if any(value != "success" for value in pre):
+        quarantined.append("A required pre-marker workflow step did not succeed")
+    if marker == "success" and red_status != "valid":
+        quarantined.append("Marker step succeeded without valid exact-head marker evidence")
+    if marker != "success" and red_status == "valid":
+        quarantined.append("Valid exact-head marker evidence conflicts with the marker step")
+    if marker != "success" and any(value == "success" for value in post):
+        quarantined.append("A post-marker workflow step succeeded before the marker gate")
+    if marker == "success" and any(value != "success" for value in post):
+        quarantined.append("A post-marker workflow step did not succeed after the marker gate")
+
+    missing_marker_matrix = (
+        red_status == "missing"
+        and pre == ["success"] * len(PRE_MARKER_STEPS)
+        and marker == "failure"
+        and post == ["skipped"] * len(POST_MARKER_STEPS)
+        and run_conclusion == "failure"
+        and job_conclusion == "failure"
+        and check_state == "FAILURE"
+    )
+    approved_matrix = (
+        red_status == "valid"
+        and pre == ["success"] * len(PRE_MARKER_STEPS)
+        and marker == "success"
+        and post == ["success"] * len(POST_MARKER_STEPS)
+        and run_conclusion == "success"
+        and job_conclusion == "success"
+        and check_state == "SUCCESS"
+    )
+    if not missing_marker_matrix and not approved_matrix:
+        quarantined.append("Workflow run, job, check and required-step evidence are contradictory")
+
+    return {"blocked": sorted(set(blocked)), "quarantined": sorted(set(quarantined))}
+
+
 def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
     source = data["source_shas"]
     canonical = data["canonical_state"]
@@ -665,8 +858,14 @@ def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
         "issue state": issue.get("state"),
         "PR number": pr.get("number"),
         "PR state": pr.get("state"),
+        "PR head branch": pr.get("head_branch"),
         "PR head": pr.get("head"),
+        "workflow run ID": run.get("id"),
+        "workflow name": run.get("name"),
+        "workflow ID": run.get("workflow_id"),
+        "workflow event": run.get("event"),
         "workflow run head": run.get("head_sha"),
+        "workflow run branch": run.get("head_branch"),
     }
     missing = [label for label, value in required_values.items() if value in {None, ""}]
     if missing:
@@ -720,9 +919,13 @@ def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
     if data["auto_merge"].get("active"):
         findings.append("Auto-merge is active despite the gate prohibition")
         return "quarantined", sorted(findings), sorted(blockers), True
-    if run.get("head_sha") != pr.get("head"):
-        findings.append("Workflow run head differs from the current PR head")
-        return "quarantined", sorted(findings), sorted(blockers), True
+    workflow = _control_workflow_evaluation(data)
+    if workflow["blocked"]:
+        blockers.extend(workflow["blocked"])
+        return "blocked", sorted(findings), sorted(set(blockers)), False
+    if workflow["quarantined"]:
+        findings.extend(workflow["quarantined"])
+        return "quarantined", sorted(set(findings)), sorted(blockers), True
 
     claim = data["lifecycle_claim"]
     pr_state = str(pr.get("state") or "").lower()
@@ -851,10 +1054,14 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         f"- Issue closeout: {issue.get('closeout_state')}",
         f"- PR: #{pr.get('number')} {pr.get('state')} ({pr.get('url')})",
         f"- PR base: {pr.get('base')}",
+        f"- PR head branch: {pr.get('head_branch')}",
         f"- PR head: {pr.get('head')}",
         f"- PR draft: {str(bool(pr.get('draft'))).lower()}",
         f"- Merge commit: {pr.get('merge_commit')}",
+        f"- Workflow: {run.get('name')} ({run.get('workflow_id')})",
+        f"- Workflow event: {run.get('event')}",
         f"- Workflow run: {run.get('id')} {run.get('status')} / {run.get('conclusion')}",
+        f"- Workflow head: {run.get('head_sha')} on {run.get('head_branch')}",
         "",
         "## Review And Control Evidence",
         "",
@@ -869,7 +1076,7 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         "",
         *(
             [
-                f"- {check.get('name')}: {check.get('state')} / {check.get('bucket')}"
+                f"- {check.get('name')}: {check.get('state')} / {check.get('bucket')} ({check.get('link')})"
                 for check in packet["checks"]
             ]
             or ["- None observed."]

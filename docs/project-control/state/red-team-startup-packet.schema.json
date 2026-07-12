@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schema_version", "generator_version", "observed_at", "repository", "canonical_schema_version", "source_shas", "issue", "pr", "checks", "workflow_run", "markers", "review", "auto_merge", "classification", "quarantine", "findings", "blockers", "missing_evidence", "next_action", "stop_conditions", "prohibited_actions", "evidence_classification", "derived_status"],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "1.1.0"},
     "generator_version": {"type": "string", "minLength": 1},
     "observed_at": {"type": "string", "format": "date-time"},
     "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
@@ -48,13 +48,14 @@
       "additionalProperties": false
     },
     "pr": {
-      "type": "object", "required": ["number", "state", "base", "head", "draft", "merge_commit", "merged_at", "url"],
-      "properties": {"number": {"type": "integer", "minimum": 1}, "state": {"enum": ["open", "closed", "merged"]}, "base": {"type": "string", "minLength": 1}, "head": {"$ref": "#/$defs/sha"}, "draft": {"type": "boolean"}, "merge_commit": {"$ref": "#/$defs/sha"}, "merged_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]}, "url": {"type": "string", "format": "uri"}},
+      "type": "object", "required": ["number", "state", "base", "head_branch", "head", "draft", "merge_commit", "merged_at", "url"],
+      "properties": {"number": {"type": "integer", "minimum": 1}, "state": {"enum": ["open", "closed", "merged"]}, "base": {"type": "string", "minLength": 1}, "head_branch": {"type": "string", "minLength": 1}, "head": {"$ref": "#/$defs/sha"}, "draft": {"type": "boolean"}, "merge_commit": {"$ref": "#/$defs/sha"}, "merged_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]}, "url": {"type": "string", "format": "uri"}},
       "additionalProperties": false
     },
-    "check": {"type": "object", "required": ["name", "state", "bucket"], "properties": {"name": {"type": "string"}, "state": {"type": "string"}, "bucket": {"type": "string"}}, "additionalProperties": false},
-    "step": {"type": "object", "required": ["name", "conclusion"], "properties": {"name": {"type": "string"}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}}, "additionalProperties": false},
-    "workflowRun": {"type": "object", "required": ["id", "status", "conclusion", "head_sha", "url", "steps"], "properties": {"id": {"type": "integer", "minimum": 1}, "status": {"type": "string", "minLength": 1}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "head_sha": {"$ref": "#/$defs/sha"}, "url": {"type": "string", "format": "uri"}, "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}}}, "additionalProperties": false},
+    "check": {"type": "object", "required": ["name", "state", "bucket", "link"], "properties": {"name": {"type": "string"}, "state": {"type": "string"}, "bucket": {"type": "string"}, "link": {"type": "string", "format": "uri"}}, "additionalProperties": false},
+    "step": {"type": "object", "required": ["name", "number", "status", "conclusion"], "properties": {"name": {"type": "string"}, "number": {"type": "integer", "minimum": 1}, "status": {"type": "string", "minLength": 1}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}}, "additionalProperties": false},
+    "job": {"type": "object", "required": ["name", "status", "conclusion", "steps"], "properties": {"name": {"type": "string", "minLength": 1}, "status": {"type": "string", "minLength": 1}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}}}, "additionalProperties": false},
+    "workflowRun": {"type": "object", "required": ["id", "name", "workflow_id", "event", "status", "conclusion", "head_sha", "head_branch", "url", "jobs"], "properties": {"id": {"type": "integer", "minimum": 1}, "name": {"type": "string", "minLength": 1}, "workflow_id": {"type": "integer", "minimum": 1}, "event": {"type": "string", "minLength": 1}, "status": {"type": "string", "minLength": 1}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "head_sha": {"$ref": "#/$defs/sha"}, "head_branch": {"type": "string", "minLength": 1}, "url": {"type": "string", "format": "uri"}, "jobs": {"type": "array", "items": {"$ref": "#/$defs/job"}}}, "additionalProperties": false},
     "markers": {"type": "object", "required": ["owner_trigger_status", "red_team_status", "red_team_bound_sha"], "properties": {"owner_trigger_status": {"enum": ["valid", "missing_or_invalid"]}, "red_team_status": {"enum": ["valid", "missing", "stale"]}, "red_team_bound_sha": {"$ref": "#/$defs/sha"}}, "additionalProperties": false},
     "review": {"type": "object", "required": ["decision", "qualifying_approvals"], "properties": {"decision": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "qualifying_approvals": {"$ref": "#/$defs/uniqueStrings"}}, "additionalProperties": false},
     "autoMerge": {"type": "object", "required": ["active"], "properties": {"active": {"type": "boolean"}}, "additionalProperties": false}

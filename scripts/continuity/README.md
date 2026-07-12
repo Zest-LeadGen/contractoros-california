@@ -75,6 +75,12 @@ Unsafe/private-looking input is rejected. Forbidden categories include token for
 
 Raw chat input cannot become decision power. The collector reads canonical state as a versioned observed snapshot and requires live evidence for changing lifecycle facts.
 
+## Workflow provenance contract
+
+Fixture, evidence, startup-packet, and generator versions are `1.1.0`. Required provenance is not optional: the collector binds the supplied run to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run.
+
+The governed job must contain one ordered copy of every step declared by `.github/workflows/control-gates.yml`. Before external review, only the exact completed matrix of successful pre-marker steps, a failed marker step with missing marker evidence, skipped post-marker steps, failed run/job, and failed linked PR check is valid pending evidence. After a valid exact-head marker, all governed steps, the job, run, and linked check must succeed. Missing jobs or steps are blocked; identity mismatches, duplicates, impossible ordering, and contradictory run/check/step states are quarantined. Pending or in-progress evidence cannot support approval or completed-gate claims.
+
 ## Tests
 
 ```text
@@ -83,4 +89,4 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ```
 
-Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, and the exact two-file output boundary.
+Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, and the exact two-file output boundary.
