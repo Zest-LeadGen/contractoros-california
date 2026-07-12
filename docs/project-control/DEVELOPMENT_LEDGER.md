@@ -32,7 +32,9 @@ PR: #50
 Branch: pre-4k-9-read-only-continuity-collector
 Starting main: 01b90ab8b12416101b4be067794bf543a3488779
 Bootstrap commit: 6aabfd9cd25889d4f0bbdf4dae11008291fce9f0
-Implementation evidence commit: pending until the implementation commit exists; live GitHub head remains required
+Implementation evidence commit: ee0ffc7c17072543cf818849252a8c07d2019538
+Intermediate live run: 29177537570 for implementation evidence commit ee0ffc7c17072543cf818849252a8c07d2019538
+Final reconciliation head: live GitHub evidence required after the evidence commit; no static value grants review decision power
 Current PR head: live GitHub evidence required; static ledger values grant no review decision power
 Merge SHA: pending
 Phase 4K-9: not started

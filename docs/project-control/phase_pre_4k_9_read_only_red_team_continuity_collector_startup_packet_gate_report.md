@@ -167,7 +167,7 @@ Observed explicit CLI exit matrix:
 - unsafe/private evidence: `4`
 - malformed JSON: `5`
 
-The 30-test unit suite passed before documentation reconciliation; the required final rerun remains pending before the implementation commit.
+The 30-test unit suite passed in the final pre-implementation-commit sequence.
 
 ## Baseline Stale-State Evidence
 
@@ -204,7 +204,27 @@ Repository status before and after the collector run was unchanged. Output resol
 
 PR #50 is open, non-draft, based on `main`, and uses branch `pre-4k-9-read-only-continuity-collector`. Bootstrap head `6aabfd9cd25889d4f0bbdf4dae11008291fce9f0` was verified live with auto-merge inactive and the external review marker absent.
 
-Intermediate exact live implementation evidence is pending until the implementation commit is pushed and its workflow run exists. Final-head evidence will require another external collector run because the final evidence-reconciliation commit changes the PR head.
+Intermediate implementation head: `ee0ffc7c17072543cf818849252a8c07d2019538`.
+
+Intermediate workflow run: `29177537570`.
+
+The run completed with every pre-marker step passing, the mandatory exact-SHA marker step failing as expected because external review is pending, and later steps skipped.
+
+Intermediate live collector command used Issue #49, PR #50, run `29177537570`, canonical ref `ee0ffc7c17072543cf818849252a8c07d2019538`, observation time `2026-07-12T03:00:00Z`, and `/tmp/contractoros-issue49-intermediate`.
+
+Observed intermediate result:
+
+- exit `0`;
+- classification `requires_live_verification`;
+- PR head `ee0ffc7c17072543cf818849252a8c07d2019538`;
+- external review marker missing and pending;
+- qualifying human approvals `0` and pending;
+- auto-merge `false`;
+- packet hash `4dcf61157d2ca1a6c2b4deb90666c67110aa1802f283ebeb93d6f7d7aca4f3f8`;
+- output `/private/tmp/contractoros-issue49-intermediate`;
+- repository status unchanged.
+
+This intermediate run is bound only to the implementation head. The final evidence-reconciliation commit creates a new head and therefore requires a fresh external exact-SHA collector run, fresh external review, and a new SHA-bound marker only after external approval.
 
 ## Canonical-State Reconciliation
 
@@ -226,9 +246,13 @@ Authorized records now identify the source/specification/test artifacts, risks a
 
 No existing workflow or control script changed.
 
+docs/project-control/DECISION_LOG.md: reviewed, no update required
+
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
+
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The required full local control sequence, final 28-file subset proof, no-cache proof, staged whitespace check, and PR/report validators remain required before the implementation commit.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The full local sequence passed before the implementation commit: 30 unit tests, schema parsing, changed-file, forbidden-scope, required-control, PR/report, owner-trigger, low-risk self-test and classification, lockfile, claim-language, and whitespace checks. The final changed-file set was exactly the 28-file allowlist, cache count was zero, and the staged whitespace check passed.
 
 ## Risk Register Impact
 

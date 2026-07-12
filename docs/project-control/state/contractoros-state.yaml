@@ -29,7 +29,7 @@
   ],
   "next_authorized_planning_target":"No scope expansion; Issue #49 review, protected merge, main verification and closeout only",
   "documentation_scope":"public_safe",
-  "evidence_timestamps":{"github_verified_at":"2026-07-12T02:52:41Z","state_recorded_on":"2026-07-11"},
+  "evidence_timestamps":{"github_verified_at":"2026-07-12T03:00:00Z","state_recorded_on":"2026-07-11"},
   "evidence_identifiers": [
     "issue:49",
     "issue:47:closed_completed",
@@ -37,7 +37,9 @@
     "reviewed-head:8a81d429a93a342527e0efe7962f9bfef22d22d4",
     "actions-run:29176103821:success",
     "merge:01b90ab8b12416101b4be067794bf543a3488779",
-    "pr:50:open"
+    "pr:50:open",
+    "implementation-head:ee0ffc7c17072543cf818849252a8c07d2019538",
+    "actions-run:29177537570:expected_pre_marker_failure"
   ],
   "public_private_references": {
     "public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml","docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"],
