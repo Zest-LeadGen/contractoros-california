@@ -22,6 +22,8 @@ OPERATING_MODEL = ROOT / "docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md
 RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
 HANDOFF_PLAYBOOK = ROOT / "docs/project-control/HANDOFF_PLAYBOOK.md"
 TRACKER = ROOT / "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md"
+SOURCE_REGISTER = ROOT / "docs/project-control/SOURCE_REGISTER.md"
+PHASE_REPORT = ROOT / "docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md"
 
 
 def fixture(name):
@@ -310,7 +312,7 @@ class GovernanceHardeningTests(unittest.TestCase):
 
     def test_interactive_chart_is_actual_single_and_last_where_supported(self):
         text = self.text(RED_TEAM_PROTOCOL)
-        self.assertIn("exactly one actual detailed and expandable chart at the absolute bottom", text)
+        self.assertIn("exactly one actual detailed interactive chart at the absolute bottom", text)
         self.assertIn("Nothing may appear after the chart", text)
 
     def test_raw_chart_configuration_is_prohibited(self):
@@ -334,6 +336,95 @@ class GovernanceHardeningTests(unittest.TestCase):
         )
         self.assertIn("workflow", agents.lower())
         self.assertIn("no existing workflow or control script changed", report.lower())
+
+    def test_red_team_protocol_requires_complete_prompt_profile(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        fields = (
+            "Recommended Codex model:",
+            "Recommended reasoning effort:",
+            "Why this model/effort:",
+            "Do not change model/effort unless:",
+            "Recommended speed mode:",
+            "Agent strategy:",
+            "Plan/quota mode:",
+            "Context-window strategy:",
+            "Checkpoint cadence:",
+            "Maximum scope:",
+        )
+        positions = [text.index(field) for field in fields]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("Each field must have a non-empty value", text)
+        for prompt_type in (
+            "implementation prompt", "correction prompt", "continuation prompt",
+            "review-remediation prompt", "new-window handoff", "automation prompt",
+        ):
+            self.assertIn(prompt_type, text)
+
+    def test_red_team_protocol_requires_hidden_metadata_fallback(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("ACTUAL_CODEX_MODEL=GPT-5 family; exact identifier not exposed", text)
+        self.assertIn("ACTUAL_REASONING_EFFORT=NOT_EXPOSED", text)
+        self.assertIn("SPEED_MODE=NOT_EXPOSED", text)
+        self.assertIn("must never be guessed", text)
+
+    def test_red_team_protocol_requires_visible_selector_preservation(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("preserve a visible selector choice", text)
+        self.assertIn("must not silently change or downgrade it", text)
+        self.assertIn("Medium reasoning, Standard speed, and one lead agent", text)
+        self.assertIn("quota-aware atomic packet", text)
+
+    def test_official_source_review_is_dated(self):
+        text = self.text(PROMPT_CONVENTION)
+        self.assertIn("Current official-source review date: 2026-07-12", text)
+        self.assertIn("dated snapshot, not permanent policy", text)
+        self.assertIn("must be reverified before recommendation", text)
+
+    def test_official_model_pricing_and_speed_sources_are_recorded(self):
+        text = self.text(SOURCE_REGISTER)
+        for url in (
+            "https://developers.openai.com/codex/models/",
+            "https://developers.openai.com/codex/pricing/",
+            "https://learn.chatgpt.com/docs/agent-configuration/speed",
+        ):
+            self.assertIn(url, text)
+        self.assertGreaterEqual(text.count("Verified 2026-07-12; time-sensitive"), 3)
+        self.assertGreaterEqual(text.count("Reverify"), 3)
+
+    def test_stable_policy_is_separate_from_dated_guidance(self):
+        text = self.text(PROMPT_CONVENTION)
+        stable = text.index("## Stable Policy")
+        dated = text.index("## Dated Current Guidance")
+        self.assertLess(stable, dated)
+        self.assertIn("do not depend on a current model catalog", text[stable:dated])
+        self.assertIn("Sol 15-90, Terra 20-110, and Luna 50-280", text[dated:])
+
+    def test_stale_gpt55_guidance_is_marked_superseded(self):
+        text = self.text(SOURCE_REGISTER)
+        self.assertIn("SRC-4J0-008", text)
+        self.assertIn("Historical; superseded for current guidance on 2026-07-12", text)
+        self.assertIn("GPT-5.5-only guidance is not current routing policy", text)
+
+    def test_interactive_chart_does_not_require_unsupported_expandability(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("expand/collapse or drill-down only when the response surface explicitly supports", text)
+        self.assertIn("use compact Markdown tables", text)
+        self.assertNotIn("actual detailed and expandable chart", text)
+
+    def test_hoverability_is_not_claimed_as_expandability(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("Use hover details or tooltips where supported", text)
+        self.assertIn("Hoverability is not evidence of expandability", text)
+
+    def test_prior_head_workflow_evidence_is_recorded_truthfully(self):
+        text = self.text(PHASE_REPORT)
+        self.assertIn("29203963944", text)
+        self.assertIn("9a684f427bc45e5cf8575e4bd105671a22baf1fd", text)
+        self.assertIn("completed with overall conclusion `failure`", text)
+        self.assertIn("all pre-marker controls passed", text)
+        self.assertIn("mandatory SHA-bound red-team marker step failed", text)
+        self.assertIn("post-marker checks were skipped", text)
+        self.assertIn("created no review, approval, merge, or release decision power", text)
 
 
 if __name__ == "__main__":

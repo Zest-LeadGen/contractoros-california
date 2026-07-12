@@ -37,6 +37,10 @@ This report records implementation in review. Merged capability is not yet prove
 - Prior successful run: https://github.com/Zest-LeadGen/contractoros-california/actions/runs/29176103821
 - Starting main: `01b90ab8b12416101b4be067794bf543a3488779`
 - Issue #49 owner amendments: comments `4950672136`, `4950911091`, `4950952134`, `4950969409`, and `4950978131`.
+- OpenAI Codex Models: https://developers.openai.com/codex/models/ — verified 2026-07-12.
+- OpenAI Codex Pricing: https://developers.openai.com/codex/pricing/ — verified 2026-07-12.
+- ChatGPT Learn Speed: https://learn.chatgpt.com/docs/agent-configuration/speed — verified 2026-07-12.
+- Governance-hardening workflow run `29203963944`: https://github.com/Zest-LeadGen/contractoros-california/actions/runs/29203963944
 
 ## Changed Files
 
@@ -74,6 +78,16 @@ The current permitted 32-file branch set is:
 30. `docs/project-control/PROMPT_CONVENTION.md`
 31. `docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md`
 32. `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
+
+The G1.1 correction packet changes exactly these seven existing files:
+
+1. `docs/project-control/PROMPT_CONVENTION.md`
+2. `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
+3. `docs/project-control/SOURCE_REGISTER.md`
+4. `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+5. `docs/project-control/VALIDATION_TASKS.md`
+6. `docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md`
+7. `scripts/continuity/tests/test_red_team_continuity.py`
 
 No workflow, existing control script, package manifest, lockfile, application, mobile, web, backend, database, build, release, content, production, credential, cloud, hosted-service, or paid-resource file changed.
 
@@ -156,7 +170,7 @@ Hash normalization is UTF-8, LF newlines, stable headings, stable list and JSON 
 
 ## Security Test Evidence
 
-The 45-test suite includes the original 30 collector tests plus 15 governance-hardening tests. It covers collector command/output security and the ten-field prompt profile, honest hidden-metadata fallback, Medium/Standard/one-lead defaults, Fast and Ultra exceptions, atomic packets, 79% and 85% context behavior, compact tables, paragraph-compression prohibition, required phase/program categories, single-last interactive-chart behavior, raw-chart-configuration prohibition, capability separation, and governance non-inflation.
+The 55-test suite includes the prior 45 tests plus 10 G1.1 governance-correction tests. It covers collector command/output security; the ten-field prompt profile and red-team inheritance; honest hidden-metadata fallback; visible-selector preservation; Medium/Standard/one-lead defaults; Fast, Max, and Ultra exceptions; atomic packets; context rotation; dated official sources; stable/dynamic policy separation; historical GPT-5.5 supersession; compact tables; conditional chart capabilities; raw-chart-configuration prohibition; capability separation; governance non-inflation; and prior-head workflow truthfulness.
 
 The forbidden-scope validator passed after the security-control literals were kept on explicitly forbidden, blocked, no-authority, or risk lines.
 
@@ -172,7 +186,7 @@ Observed explicit CLI exit matrix:
 - unsafe/private evidence: `4`
 - malformed JSON: `5`
 
-The 45-test unit suite passed in the governance-hardening validation sequence.
+The 55-test unit suite passed in the G1.1 governance-correction validation sequence.
 
 ## Baseline Stale-State Evidence
 
@@ -231,6 +245,10 @@ Observed intermediate result:
 
 This intermediate run is bound only to the implementation head. The final evidence-reconciliation commit creates a new head and therefore requires a fresh external exact-SHA collector run, fresh external review, and a new SHA-bound marker only after external approval.
 
+Governance-hardening head `9a684f427bc45e5cf8575e4bd105671a22baf1fd` was evaluated by ContractorOS Control Gates run `29203963944`. The run completed with overall conclusion `failure`. Checkout and all pre-marker controls passed, including changed-file, forbidden-scope, required-control update, PR contract, owner-trigger, and low-risk lane checks. The mandatory SHA-bound red-team marker step failed because no current-head marker existed, and the post-marker checks were skipped. This expected pre-review failure created no review, approval, merge, or release decision power.
+
+The G1.1 correction commit creates a new head. Run `29203963944` remains historical evidence only for `9a684f427bc45e5cf8575e4bd105671a22baf1fd`; the new head requires a fresh Actions run and fresh external exact-SHA review.
+
 ## Canonical-State Reconciliation
 
 The canonical snapshot now records:
@@ -249,7 +267,7 @@ The snapshot does not embed a commit's own SHA as live authority and is not upda
 
 Authorized records now identify the source/specification/test artifacts, risks and controls, implementation decision, requirements mapping, validation tasks, future red-team invocation, collector statuses, Issue #47/PR #48 closeout, active Issue #49/PR #50, Phase 4K-9 not started, and Phase 4I paused.
 
-The Issue #49 governance-hardening packet adds the ten-field prompt profile; honest hidden-metadata fallback; proportional Terra/Sol/Luna, effort, and speed routing; Standard/Medium/one-lead Plus defaults; Max/Ultra exceptions; atomic quota packets; context rotation; compact structured progress tables; actual single-last-chart behavior where supported; raw-chart-configuration prohibition; and phase/program capability separation without governance inflation.
+The Issue #49 governance-hardening packet adds the ten-field prompt profile; red-team generated-prompt inheritance; honest hidden-metadata fallback; proportional Terra/Sol/Luna, effort, and speed routing; Standard/Medium/one-lead Plus defaults; Max/Ultra exceptions; atomic quota packets; context rotation; dated official-source reconciliation; compact structured progress tables; conditional interactive-chart capabilities; raw-chart-configuration prohibition; and phase/program capability separation without governance inflation.
 
 No existing workflow or control script changed.
 
@@ -257,11 +275,11 @@ docs/project-control/DECISION_LOG.md: reviewed, no update required
 
 docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
 
-docs/project-control/RISK_REGISTER.md: updated for metadata, quota/context, chart, and progress-inflation risk
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The governance-hardening sequence passed with 45 unit tests plus changed-file, forbidden-scope, required-control, PR/report, owner-trigger, low-risk self-test and classification, lockfile-only, claim-language, and unstaged/staged whitespace checks. The final branch changed-file set remains within the permitted 32-file set; no workflow, existing control script, manifest, lockfile, application/runtime, cache, temporary artifact, private path, or credential was added.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The G1.1 sequence passed with 55 unit tests plus changed-file, forbidden-scope, required-control, PR/report, owner-trigger, low-risk self-test and classification, lockfile-only, claim-language, and unstaged/staged whitespace checks. The cumulative branch changed-file set remains within the permitted 32-file set and the G1.1 packet changes exactly seven files; no workflow, existing control script, manifest, lockfile, application/runtime, cache, temporary artifact, private path, or credential was added.
 
 ## Risk Register Impact
 
@@ -312,6 +330,7 @@ Read-only local/CLI continuity evidence collection and deterministic derived sta
 - Canonical state has no live decision power and is not updated automatically.
 - Private evidence remains outside this public gate.
 - Intermediate live evidence will be bound to the implementation commit; the later reconciliation commit makes that head stale and requires a fresh external run and review.
+- Official model choices, Plus usage ranges, Fast support, and speed/consumption multipliers are dated 2026-07-12 and require revalidation before future recommendation.
 
 ## Next Phase Status
 

@@ -184,6 +184,38 @@ Issue #47 defines a future five-layer continuity model: sanitized canonical stat
 
 The first implementation gate must be read-only and cannot possess write, approval, merge, release, budget, credential-management, or policy-amendment decision power.
 
+## Generated Prompt Profile Inheritance
+
+Every red-team-generated implementation prompt, correction prompt, continuation prompt, review-remediation prompt, new-window handoff, and automation prompt must begin with this exact ordered ten-field profile:
+
+```text
+Recommended Codex model:
+Recommended reasoning effort:
+Why this model/effort:
+Do not change model/effort unless:
+Recommended speed mode:
+Agent strategy:
+Plan/quota mode:
+Context-window strategy:
+Checkpoint cadence:
+Maximum scope:
+```
+
+Each field must have a non-empty value. Model, reasoning effort, and speed must be explicit. Red-team must preserve a visible selector choice and must not silently change or downgrade it.
+
+When selectors are hidden, generated prompts must permit execution with the available compatible session and require these exact final attestations instead of fabricated values:
+
+```text
+ACTUAL_CODEX_MODEL=GPT-5 family; exact identifier not exposed
+ACTUAL_REASONING_EFFORT=NOT_EXPOSED
+SPEED_MODE=NOT_EXPOSED
+AGENT_STRATEGY=ONE_LEAD_AGENT
+```
+
+Medium reasoning, Standard speed, and one lead agent are the normal Plus defaults. Escalation must be proportional to one identified difficult problem. Max and Ultra are bounded owner-approved exceptions; Ultra subagents do not constitute independent red-team review.
+
+Generated prompts must define a quota-aware atomic packet, exact permitted scope, focused validation, checkpoint cadence, stop conditions, next packet, and the context-rotation behavior in `PROMPT_CONVENTION.md`. Hidden model, effort, speed, or context metadata alone must not stop a valid packet and must never be guessed.
+
 ## Compact Progress And Chart Protocol
 
 Every substantive Codex or red-team response must present, in order near the end:
@@ -199,6 +231,6 @@ Tables must use short labels and concise evidence notes. They must not be flatte
 
 Percentages are evidence-based estimates, not proof. Use `NOT_PROVEN` when support is insufficient, avoid false precision, identify supporting evidence, and explain material changes. Documentation-only work must not increase product progress. Governance progress must not inflate workflow, product, content, runtime, backend, build, business, or overall-program capability. No gated phase is 100% until its required review, approval, merge, main verification, and closeout are proven.
 
-When the response surface supports interactive charts, render exactly one actual detailed and expandable chart at the absolute bottom. It must include current-phase subsections, grouped phase progression, and all program-capability categories with delivery progress, evidence confidence, operational readiness as an estimate rather than a readiness claim, and short context where supported. Nothing may appear after the chart.
+When the response surface supports interactive charts, render exactly one actual detailed interactive chart at the absolute bottom. It must use grouped categories and include current-phase subsections, grouped phase progression, and all program-capability categories with delivery progress, evidence confidence, operational readiness as an estimate rather than a readiness claim, and short context. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability. Nothing may appear after the chart.
 
-Raw chart JSON, widget arguments, terminal representations, and implementation specifications must never be presented as the chart. If the surface cannot render an interactive chart, keep the compact structured tables, state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`, and do not expose raw chart configuration.
+Raw chart JSON, widget arguments, terminal representations, and implementation specifications must never be presented as the chart. If the surface cannot render an interactive chart, use compact Markdown tables, state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`, and do not expose raw chart configuration.
