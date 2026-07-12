@@ -97,3 +97,7 @@ Neither phase is started or approved by this document.
 ## Non-Goals
 
 Phase 4K-8 documents operator controls only. It does not implement bots, issue-intake automation, Codex-handoff automation, merge automation, issue-closeout automation, repo-backed red-team memory, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims. Phase 4K-9 is not started, Phase 4I remains paused, and the toolchain/npm path remains deferred rather than rejected.
+
+## Program Constitution Reconciliation
+
+The 95% target now means eligible routine workflow steps, not protected high-impact decisions. Exact-SHA external review, human/write-access approval, branch protection, manual protected merge, and issue closeout remain retained boundaries. Issue #47 documents canonical state and continuity architecture only; no collector or automation is operational.

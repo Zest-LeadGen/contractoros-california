@@ -106,3 +106,9 @@ Every assumption, design decision, source, model run, validation task, and origi
 ## Bootstrap Exception
 
 Phase 4J-0 may create this file and the AI governance files before `AGENTS.md` exists. This exception is active only for Phase 4J-0 and does not permit future bypass, product work, auto-merge, lane-based automation, self-review, branch-protection bypass, or merge without red-team review and human/write-access approval.
+
+## Program Constitution Authority — Documentation Scope
+
+`docs/project-control/PROGRAM_CONSTITUTION.md` is the top-level public-safe program-direction authority. It does not replace phase issues, exact file allowlists, external exact-SHA red-team review, current human/write-access approval, branch protection, merge verification, or issue closeout. `OWNER_DECISION_REGISTER.yaml`, linked ADRs, risk and assumption registers, and canonical state provide subordinate evidence. Chat-only direction is not authority.
+
+Canonical-state files must be changed by one active pull request at a time. No more than three non-overlapping active pull requests may be considered, and no lane may assume unmerged canonical state.

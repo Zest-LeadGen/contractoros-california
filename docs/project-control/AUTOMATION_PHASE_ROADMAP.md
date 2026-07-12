@@ -94,3 +94,9 @@ Stop the sequence when a prerequisite phase is not merged/main-verified/closed, 
 ## Claim Limits
 
 Phase 4K-8 may prove command-pack and operator-runbook documentation only after local validation, external review, and merge. It does not prove low-risk automation activation, reduced manual action in practice, runtime behavior, toolchain availability, dependency baseline, build status, product status, or release status.
+
+## Pre-4K-9 Program Constitution Gate
+
+Phase 4K-8 is completed through merged PR #46 and closed/completed Issue #45 at main `b99fc7d1fe0882380fc53041be42bb0aad35c02e`. Issue #47 is the active documentation gate for the Program Constitution, D1–D26 decision reconciliation, red-team continuity architecture, public/private policy, and current-state records. Phase 4K-9 remains not started and Phase 4I remains paused.
+
+After Issue #47 is merged, main-verified, and closed, the next gate is the **Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate**. It must precede Phase 4K-9 and begin with read-only evidence access only.

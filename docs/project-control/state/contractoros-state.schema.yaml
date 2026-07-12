@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContractorOS public-safe canonical-state snapshot",
+  "type": "object",
+  "required": ["schema_version","snapshot_semantics","current_main_sha","active_gate","linked_issue","linked_pr","lifecycle_state","paused_phases","completed_prior_phase","blockers","next_authorized_planning_target","documentation_scope","evidence_timestamps","evidence_identifiers","public_private_references","consistency_status"],
+  "properties": {
+    "schema_version": {"type":"string","minLength":1},
+    "snapshot_semantics": {"const":"observed_snapshot_requires_live_verification"},
+    "current_main_sha": {"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "active_gate": {"type":"string","minLength":1},
+    "linked_issue": {
+      "type":"object",
+      "required":["number","state"],
+      "properties": {
+        "number":{"type":"integer","minimum":1},
+        "state":{"enum":["active","open","closed_completed","closed_not_planned"]}
+      },
+      "additionalProperties":false
+    },
+    "linked_pr": {
+      "anyOf": [
+        {"type":"null"},
+        {
+          "type":"object",
+          "required":["number","state","url","head_sha_source","observed_head_sha"],
+          "properties": {
+            "number":{"type":"integer","minimum":1},
+            "state":{"enum":["open","closed","merged"]},
+            "url":{"type":"string","format":"uri"},
+            "head_sha_source":{"const":"live_github_required"},
+            "observed_head_sha":{"anyOf":[{"type":"null"},{"type":"string","pattern":"^[0-9a-f]{40}$"}]}
+          },
+          "additionalProperties":false
+        }
+      ]
+    },
+    "lifecycle_state":{"type":"string","minLength":1},
+    "paused_phases":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "completed_prior_phase": {
+      "type":"object",
+      "required":["phase","issue_number","issue_state","pr_number","pr_state","merge_sha"],
+      "properties": {
+        "phase":{"type":"string","minLength":1},
+        "issue_number":{"type":"integer","minimum":1},
+        "issue_state":{"enum":["closed_completed","closed_not_planned"]},
+        "pr_number":{"type":"integer","minimum":1},
+        "pr_state":{"const":"merged"},
+        "merge_sha":{"type":"string","pattern":"^[0-9a-f]{40}$"}
+      },
+      "additionalProperties":false
+    },
+    "blockers":{"type":"array","minItems":1,"items":{"type":"string","minLength":1}},
+    "next_authorized_planning_target":{"type":"string","minLength":1}, "documentation_scope":{"const":"public_safe"},
+    "evidence_timestamps": {
+      "type":"object",
+      "required":["github_verified_at","state_recorded_on"],
+      "properties": {
+        "github_verified_at":{"type":"string","format":"date-time"},
+        "state_recorded_on":{"type":"string","format":"date"}
+      },
+      "additionalProperties":false
+    },
+    "evidence_identifiers":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "public_private_references": {
+      "type":"object",
+      "required":["public","private"],
+      "properties": {
+        "public":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
+        "private":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      },
+      "additionalProperties":false
+    },
+    "consistency_status":{"enum":["consistent","requires_live_verification","stale","blocked","quarantined"]}
+  },
+  "additionalProperties":false
+}

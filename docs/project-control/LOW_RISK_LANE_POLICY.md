@@ -117,3 +117,7 @@ Automation must stop without merge or issue closeout when:
 - Can any future low-risk lane reduce human approval while retaining external red-team review?
 - What audit retention and rollback evidence must precede any future auto-merge proposal?
 - Which routine source-safe patches have sufficiently deterministic tests and ownership boundaries?
+
+## Program Constitution Gate Classification
+
+Program Constitution, owner-decision, canonical-state, private-plane, legal/source, AI tool, model/provider, spending, and nationwide architecture changes are `NOT_AUTOMATION_ELIGIBLE`. They require `ARCHITECTURE_THRESHOLD`, owner interruption, external exact-SHA red-team review, and human approval. No future low-risk lane may change shared canonical state concurrently or infer authority from an unsynced item.

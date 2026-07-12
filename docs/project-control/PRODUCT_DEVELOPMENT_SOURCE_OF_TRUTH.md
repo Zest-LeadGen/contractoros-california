@@ -308,3 +308,16 @@ Future project-control updates must update this register when they change produc
 Roadmap and tracker files may summarize or link to this register, but they must not reintroduce competing current-state claims.
 
 Historical records should be preserved as evidence, not rewritten into false current-state claims.
+
+## Verified State After Phase 4K-8
+
+- Phase 4K-8: completed.
+- PR #46: merged at `b99fc7d1fe0882380fc53041be42bb0aad35c02e`.
+- Issue #45: closed/completed.
+- Issue #47: active Program Constitution and continuity documentation gate.
+- Phase 4K-9: not started.
+- Phase 4I: paused.
+- Toolchain/npm path: deferred, not rejected.
+- Continuity collector: not implemented.
+
+Law & Business is the first governed product/content priority and C-10 is a priority follow-on condition. This direction does not authorize public content, source ingestion, a database, product implementation, or release.

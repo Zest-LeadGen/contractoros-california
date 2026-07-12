@@ -38,3 +38,6 @@ No new Google Drive artifact was created in this phase.
 - Phase 4K-6 is source/text workflow-automation policy, low-risk lane policy, and roadmap documentation only.
 - Phase 4K-7 creates no artifact, ZIP, binary, build output, lockfile artifact, dependency archive, dependency directory, Drive artifact, hosted artifact, runtime artifact, automation artifact, release artifact, install artifact, device QA artifact, or archive artifact.
 - Phase 4K-7 is source/text control-gate validator implementation and project-control evidence only.
+- Pre-4K-9 Issue #47 creates public-safe Markdown and JSON-compatible YAML source records only.
+- No raw PDF, DOCX, ZIP, binary, build output, private archive, hosted artifact, credential, service, or release artifact is added.
+- The canonical state and schemas are governance source files, not operational collector output.

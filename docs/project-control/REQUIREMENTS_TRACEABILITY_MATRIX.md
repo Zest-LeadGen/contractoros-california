@@ -191,3 +191,16 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-4K7-008 | ContractorOS Control Gates must run the new validator without weakening existing checks. | `.github/workflows/control-gates.yml`, phase report | Workflow adds the low-risk lane step after owner-trigger validation and before mandatory red-team marker validation. |
 | RTM-4K7-009 | Phase 4K-7 must stay within control-gate validator implementation scope. | Phase report, `ARTIFACT_INDEX.md`, `VALIDATION_TASKS.md` | Changed-file, forbidden-scope, lockfile, contract, owner-trigger, low-risk, claims, and whitespace checks must pass. |
 | RTM-4K7-010 | Phase 4K-8 must not start and Phase 4I must remain paused. | `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md`, `PROJECT_VISION_AND_PHASE_TRACKER.md`, phase report | Next-phase status records both stop conditions. |
+
+## Pre-4K-9 Program Constitution Traceability
+
+| Requirement ID | Requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-PRE4K9-001 | Preserve D1–D26 and owner conditions as approved direction. | `OWNER_DECISION_REGISTER.yaml`, `PROGRAM_CONSTITUTION.md` | Deterministic register validation. |
+| RTM-PRE4K9-002 | Define five-layer red-team continuity without implementation. | `RED_TEAM_CONTINUITY_ARCHITECTURE.md`, state schemas | Schema, lifecycle, and non-implementation checks. |
+| RTM-PRE4K9-003 | Separate public, private-governance, and private-artifact evidence. | `PRIVATE_CONTROL_PLANE_POLICY.md`, ADR-003 | Public/private review and sensitive-data scan. |
+| RTM-PRE4K9-004 | Define legal/source lineage and qualified reliance. | `LEGAL_REGULATORY_SOURCE_INTELLIGENCE_ARCHITECTURE.md`, ADR-004 | Required-field and boundary review. |
+| RTM-PRE4K9-005 | Preserve California-first national pack direction and modular monolith. | `JURISDICTION_PACK_ARCHITECTURE.md`, ADR-005 | Architecture section checks. |
+| RTM-PRE4K9-006 | Define AI Levels A–D and tool controls. | `AI_AUTHORITY_MODEL_AND_TOOL_SECURITY.md`, ADR-002, ADR-006 | Prohibited-action and control review in documentation scope. |
+| RTM-PRE4K9-007 | Reconcile provider policy and paid pilots. | `MODEL_PROVIDER_COST_GOVERNANCE.md`, ADR-007 | Official-evidence and bounded-spend review. |
+| RTM-PRE4K9-008 | Keep Phase 4K-9 unstarted and Phase 4I paused. | Canonical state, roadmap, tracker, report | Deterministic state check. |

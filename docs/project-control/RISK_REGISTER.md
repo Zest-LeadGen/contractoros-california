@@ -81,6 +81,39 @@ Resolution condition: Future implementation preserves Codex executor-only status
 Last reviewed: 2026-07-09
 ```
 
+### canonical continuity state drift or leakage
+
+```text
+Risk: public canonical state becomes stale or exposes private evidence
+Status: Active / architecture documented; collector not implemented
+Evidence: Issue #47 defines schema validation, exact-SHA comparison, sanitization, quarantine, opaque private references, and serialized canonical-state changes.
+Owner: ContractorOS owner / future continuity gate
+Resolution condition: read-only collector gate proves stale detection, deterministic derived packets, leak controls, and rollback without write authority.
+Last reviewed: 2026-07-11
+```
+
+### program targets mistaken for guarantees
+
+```text
+Risk: twenty-four-month, fourteen-day, or ninety-five-percent targets are treated as unconditional commitments
+Status: Active / controlled by Constitution wording and later evidence gates
+Evidence: Risk documentation for D1, D2, D13, and D14 distinguishes targets from readiness, release, or completion proof.
+Owner: ContractorOS owner / program governance
+Resolution condition: milestone and automation claims use measured evidence, explicit denominators, prerequisites, and retained human gates.
+Last reviewed: 2026-07-11
+```
+
+### paid pilot bypasses zero-spend policy
+
+```text
+Risk: a pilot activates spend without explicit bounded owner approval
+Status: Active / blocked by policy
+Evidence: D21 requires a named objective, ceiling, duration, data class, exit criteria, and hard shutdown threshold; no automatic recharge or uncapped fallback.
+Owner: ContractorOS owner
+Resolution condition: a separate paid-pilot gate records approval and measured need before any purchase or activation.
+Last reviewed: 2026-07-11
+```
+
 ### automated SHA and closeout drift
 
 ```text

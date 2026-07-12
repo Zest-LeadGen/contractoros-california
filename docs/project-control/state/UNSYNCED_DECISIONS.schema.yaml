@@ -1,0 +1,44 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"ContractorOS unsynced-decision inbox",
+  "type":"object",
+  "required":["schema_version","items"],
+  "properties": {
+    "schema_version":{"type":"string","minLength":1},
+    "items": {
+      "type":"array",
+      "uniqueItems":true,
+      "items": {
+        "type":"object",
+        "required":["item_id","status","summary","origin","owner_confirmation","durable_record","created_at","updated_at"],
+        "properties": {
+          "item_id":{"type":"string","pattern":"^UD-[A-Za-z0-9][A-Za-z0-9._-]*$"},
+          "status":{"enum":["proposed","owner_confirmed","rejected","recorded","superseded","blocked"]},
+          "summary":{"type":"string","minLength":1},
+          "origin":{"type":"string","minLength":1},
+          "owner_confirmation":{"anyOf":[{"type":"null"},{"type":"string","minLength":1}]},
+          "durable_record":{"anyOf":[{"type":"null"},{"type":"string","minLength":1}]},
+          "supersession_reference":{"anyOf":[{"type":"null"},{"type":"string","minLength":1}]},
+          "created_at":{"type":"string","format":"date-time"},
+          "updated_at":{"type":"string","format":"date-time"}
+        },
+        "allOf": [
+          {
+            "if":{"properties":{"status":{"const":"owner_confirmed"}},"required":["status"]},
+            "then":{"properties":{"owner_confirmation":{"type":"string","minLength":1}}}
+          },
+          {
+            "if":{"properties":{"status":{"const":"recorded"}},"required":["status"]},
+            "then":{"properties":{"owner_confirmation":{"type":"string","minLength":1},"durable_record":{"type":"string","minLength":1}}}
+          },
+          {
+            "if":{"properties":{"status":{"const":"superseded"}},"required":["status"]},
+            "then":{"anyOf":[{"properties":{"durable_record":{"type":"string","minLength":1}}},{"required":["supersession_reference"],"properties":{"supersession_reference":{"type":"string","minLength":1}}}]}
+          }
+        ],
+        "additionalProperties":false
+      }
+    }
+  },
+  "additionalProperties":false
+}

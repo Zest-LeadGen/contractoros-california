@@ -97,3 +97,13 @@ Purpose: record durable architectural and process decisions.
 ## Review Condition
 
 Update decisions through project-control PRs or explicitly approved control milestones.
+
+## Pre-4K-9 Program Constitution Decisions
+
+- Issue #47 owner amendment `4949071184` approves D1–D26 as program direction, not implemented capability.
+- The Program Constitution has top-level public-safe direction precedence while phase-specific issues and protected lifecycle gates remain mandatory.
+- Canonical public-safe state, append-only decisions, derived startup packets, an unsynced-decision inbox, and a future private plane form the five-layer continuity direction.
+- The 95% objective applies only to eligible routine steps; high-impact decisions retain protected human control.
+- Zero spend is the default before revenue; only a separately owner-approved bounded paid pilot may be considered.
+- Provider policy is evidence-driven and provider-agnostic. UI labels are not official taxonomy without current official evidence.
+- Phase 4K-9 remains not started. The read-only continuity collector/startup-packet gate must come first.

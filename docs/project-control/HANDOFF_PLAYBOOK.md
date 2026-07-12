@@ -139,3 +139,7 @@ Only then may red-team prepare next-phase issue guidance or implementation promp
 - Do not treat chat memory, sandbox state, connector state, or local scratch files as durable evidence.
 - Do not invent Google Drive artifacts, branch state, PR state, GitHub Actions state, validation results, approvals, merge state, or issue state.
 - Do not merge, approve, self-review, bypass branch protection, or activate auto-merge.
+
+## Future Generated Startup Packet
+
+After Issue #47 closeout, a dedicated read-only gate may implement a deterministic `RED_TEAM_STARTUP_PACKET.md` generator from canonical state and live GitHub reads. The packet is derived, never authoritative by itself, and must disclose source SHAs, timestamps, stale checks, and missing evidence. Until that gate passes, use this playbook and live evidence; do not manually maintain a packet and call it canonical.

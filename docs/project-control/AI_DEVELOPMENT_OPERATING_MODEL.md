@@ -134,3 +134,7 @@ Stop instead of proceeding when:
 - A hook or connector context appears unrelated to ContractorOS California.
 - A command would add dependency, build, backend, database, native, release, or product scope.
 - Red-team review or human/write-access approval is missing for merge.
+
+## Program Constitution Alignment
+
+The Program Constitution and Owner Decision Register govern public-safe program direction. The four-level AI decision-power model, least-privilege tools, separate read/write identities, and read-only-first continuity collector are architecture direction only. This documentation does not grant credentials, approval, merge, release, budget, policy-amendment, or production decision power.
