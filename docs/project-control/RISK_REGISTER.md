@@ -27,6 +27,7 @@ Last reviewed:
 | R-I49-08 | Inaccessible GitHub evidence | Required read failure becomes blocked or invalid input; no safe classification is inferred. | Missing-evidence and malformed-input tests. | Controlled in implementation review. |
 | R-I49-09 | Deterministic-output drift | Stable ordering, normalized line endings and explicit packet-hash rule. | Identical-run comparison, expected packet and hash recomputation. | Controlled in implementation review. |
 | R-I49-10 | Contradictory lifecycle or active auto-merge | Quarantine protected-boundary contradictions. | Contradictory lifecycle and auto-merge tests. | Controlled in implementation review. |
+| R-I49-11 | Hidden metadata fabrication, quota/context loss, or governance-progress inflation | Exact honest fallbacks, proportional routing, atomic packets, context bands, compact structured tables, capability separation, and chart-output prohibitions. | Governance profile, routing, context, progress, chart, and non-inflation tests. | Controlled in governance-hardening review; exact-SHA external review pending. |
 
 ## Active Risks
 

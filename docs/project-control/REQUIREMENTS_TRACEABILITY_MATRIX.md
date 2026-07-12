@@ -218,3 +218,10 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-I49-007 | Draft 2020-12 bounded evidence and packet schemas. | `red-team-continuity-evidence.schema.json`, `red-team-startup-packet.schema.json` | JSON parse and standard-library runtime structural tests. |
 | RTM-I49-008 | Raw chat grants no authority and output grants no write permission. | Collector source, specification and packet fixture | Raw-chat rejection and packet-content tests. |
 | RTM-I49-009 | Phase 4K-9 not started; Phase 4I paused. | Canonical state, roadmaps, tracker and report | Changed-file and report review. |
+| RTM-I49-010 | Every substantive prompt has ten exact ordered non-empty profile fields. | `PROMPT_CONVENTION.md`, `AGENTS.md` | Governance-profile unit tests. |
+| RTM-I49-011 | Visible model/effort/speed selections remain explicit; hidden metadata uses honest fallbacks and does not stop work. | `PROMPT_CONVENTION.md`, `AI_DEVELOPMENT_OPERATING_MODEL.md` | Fallback and prompt-order tests. |
+| RTM-I49-012 | Medium, Standard, and one lead agent are normal Plus defaults; Fast, Max, and Ultra are bounded exceptions. | Prompt convention and operating model | Routing/default unit tests. |
+| RTM-I49-013 | Substantial work uses atomic quota packets and context bands; 79% rotates windows and 85% is handoff-only. | Prompt convention and handoff playbook | Context and packet-profile unit tests. |
+| RTM-I49-014 | Substantive responses use compact structured phase and program tables; paragraph compression is prohibited. | Red-team protocol and operating model | Progress-structure unit tests. |
+| RTM-I49-015 | Exactly one actual interactive chart is last where supported; raw configuration is prohibited and unsupported surfaces retain tables. | Red-team protocol | Chart-policy unit tests. |
+| RTM-I49-016 | Governance, phase, and real product capabilities remain separate; documentation cannot inflate product progress. | Tracker, protocol, operating model | Category-separation and non-inflation tests. |

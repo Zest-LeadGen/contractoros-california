@@ -43,6 +43,14 @@ If the pull request head SHA changes after red-team review:
 
 If the current head SHA is unknown, the state is `RED_TEAM_BLOCKED`.
 
+## Context And Presentation Guards
+
+Context pressure does not advance lifecycle state or authorize broader work. At 60-74% context, scope cannot expand and a checkpoint is prepared. At 75-84%, only the smallest safe unit may finish before validation and a new-window handoff. At 85-100%, the only permitted state transition is to a truthful handoff; new implementation is prohibited. A visible 79% therefore requires a new window before a broad implementation packet.
+
+Hidden model, effort, speed, or context metadata is not lifecycle evidence and must not be fabricated. Hidden execution metadata alone is not a blocker when the prompt profile is valid and an available compatible session can proceed.
+
+Progress estimates do not change lifecycle state. Current-phase gates and program capabilities remain separately reported in compact tables, governance progress cannot inflate product or operational capability, and no chart or percentage substitutes for exact-SHA review, checks, human approval, merge, main verification, or issue closeout.
+
 ## Failed Check Handling
 
 If checks fail because the required red-team marker is missing before red-team has approved, remain in `CODEX_RESPONSE_RECEIVED_NEEDS_REVIEW`, `RED_TEAM_REVIEW_IN_PROGRESS`, or `RED_TEAM_BLOCKED` depending on review status.

@@ -17,6 +17,11 @@ rtc = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 SPEC.loader.exec_module(rtc)
 OBSERVED_AT = "2026-07-13T00:00:00Z"
+PROMPT_CONVENTION = ROOT / "docs/project-control/PROMPT_CONVENTION.md"
+OPERATING_MODEL = ROOT / "docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md"
+RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
+HANDOFF_PLAYBOOK = ROOT / "docs/project-control/HANDOFF_PLAYBOOK.md"
+TRACKER = ROOT / "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md"
 
 
 def fixture(name):
@@ -221,6 +226,114 @@ class ContinuityCollectorTests(unittest.TestCase):
     def test_only_two_output_files_are_generated(self):
         _, _, _, output = self.generate("active_pr_requires_live_verification.json")
         self.assertEqual(sorted(path.name for path in output.iterdir()), sorted(rtc.OUTPUT_NAMES))
+
+
+class GovernanceHardeningTests(unittest.TestCase):
+    def text(self, path):
+        return path.read_text(encoding="utf-8")
+
+    def test_prompt_profile_has_all_ten_fields_in_order(self):
+        text = self.text(PROMPT_CONVENTION)
+        fields = (
+            "Recommended Codex model:",
+            "Recommended reasoning effort:",
+            "Why this model/effort:",
+            "Do not change model/effort unless:",
+            "Recommended speed mode:",
+            "Agent strategy:",
+            "Plan/quota mode:",
+            "Context-window strategy:",
+            "Checkpoint cadence:",
+            "Maximum scope:",
+        )
+        positions = [text.index(field) for field in fields]
+        self.assertEqual(positions, sorted(positions))
+        self.assertEqual(len(set(positions)), 10)
+        self.assertIn("exact ordered, non-empty fields", text)
+
+    def test_medium_and_standard_are_normal_defaults(self):
+        text = self.text(PROMPT_CONVENTION)
+        self.assertIn("Medium | Default for inspection, recovery, bounded implementation", text)
+        self.assertIn("`STANDARD` is the default for ContractorOS Plus-plan work", text)
+
+    def test_fast_requires_explicit_justification_and_owner_approval(self):
+        text = self.text(PROMPT_CONVENTION)
+        self.assertIn("Fast may be used only when", text)
+        self.assertIn("latency is materially important", text)
+        self.assertIn("the owner approves it", text)
+
+    def test_one_lead_agent_is_default_and_ultra_is_not(self):
+        text = self.text(PROMPT_CONVENTION)
+        self.assertIn("One lead agent is the default", text)
+        self.assertIn("Ultra | Owner-approved parallelizable exception; never the default", text)
+
+    def test_hidden_execution_metadata_does_not_stop_or_get_fabricated(self):
+        text = self.text(PROMPT_CONVENTION)
+        self.assertIn("ACTUAL_CODEX_MODEL=GPT-5 family; exact identifier not exposed", text)
+        self.assertIn("ACTUAL_REASONING_EFFORT=NOT_EXPOSED", text)
+        self.assertIn("SPEED_MODE=NOT_EXPOSED", text)
+        self.assertIn("Hidden metadata alone must never stop permitted work", text)
+        self.assertIn("Do not guess a hidden model, effort, or speed value", text)
+
+    def test_atomic_packet_fields_are_durable(self):
+        text = self.text(PROMPT_CONVENTION)
+        for field in (
+            "Primary objective:", "Permitted files/functions:", "Model:",
+            "Reasoning effort:", "Speed:", "Agent count:", "Focused validation:",
+            "Checkpoint:", "Stop conditions:", "Next packet:",
+        ):
+            self.assertIn(field, text)
+
+    def test_79_percent_requires_new_window(self):
+        self.assertIn("A reported 79% requires a new Codex window", self.text(HANDOFF_PLAYBOOK))
+
+    def test_85_percent_requires_handoff_only(self):
+        text = self.text(HANDOFF_PLAYBOOK)
+        self.assertIn("85-100%: handoff-only; no new implementation", text)
+
+    def test_compact_tables_are_required_and_paragraph_compression_is_prohibited(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("a compact Markdown table", text)
+        self.assertIn("must not be flattened into delimiter-separated or compressed paragraph strings", text)
+
+    def test_active_phase_and_program_categories_are_required(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        for value in (
+            "durable intake/scope", "implementation", "tests/validation",
+            "documentation reconciliation", "external exact-SHA review", "human approval",
+            "merge/main verification", "issue closeout", "governance/control",
+            "workflow automation", "product implementation", "content governance/production",
+            "dependency/runtime", "backend/data platform", "build/distribution",
+            "business/market validation", "overall program",
+        ):
+            self.assertIn(value, text)
+
+    def test_interactive_chart_is_actual_single_and_last_where_supported(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("exactly one actual detailed and expandable chart at the absolute bottom", text)
+        self.assertIn("Nothing may appear after the chart", text)
+
+    def test_raw_chart_configuration_is_prohibited(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn("Raw chart JSON, widget arguments, terminal representations", text)
+        self.assertIn("must never be presented as the chart", text)
+
+    def test_percentage_categories_remain_separate(self):
+        text = self.text(TRACKER)
+        self.assertIn("Current-phase reporting must remain separate from program-capability reporting", text)
+        self.assertIn("Overall program | Must not inherit governance-only gains", text)
+
+    def test_governance_inflation_is_prohibited(self):
+        text = self.text(OPERATING_MODEL)
+        self.assertIn("Governance documentation cannot increase actual product or operational capability", text)
+
+    def test_workflow_and_control_script_changes_remain_forbidden(self):
+        agents = self.text(ROOT / "AGENTS.md")
+        report = self.text(
+            ROOT / "docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md"
+        )
+        self.assertIn("workflow", agents.lower())
+        self.assertIn("no existing workflow or control script changed", report.lower())
 
 
 if __name__ == "__main__":

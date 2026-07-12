@@ -183,3 +183,22 @@ If it is not recorded in durable evidence, it is not durable.
 Issue #47 defines a future five-layer continuity model: sanitized canonical state, append-only decisions/events, a derived startup packet, an unsynced-decision inbox, and separated private planes. This documentation does not implement the collector or replace current live GitHub verification. Issue #24 remains audit history; its original append-only marker example is historical and the Phase 4K-8 replacement-body procedure remains controlling.
 
 The first implementation gate must be read-only and cannot possess write, approval, merge, release, budget, credential-management, or policy-amendment decision power.
+
+## Compact Progress And Chart Protocol
+
+Every substantive Codex or red-team response must present, in order near the end:
+
+1. Product development stage: one concise evidence-based statement.
+2. Current lifecycle state: a short line or compact state table naming the active issue/PR and next gate.
+3. Current phase: a compact Markdown table with one row per durable intake/scope, implementation, tests/validation, documentation reconciliation, external exact-SHA review, human approval, merge/main verification, issue closeout, and current-phase overall.
+4. Phase progression: compact grouped rows; completed historical phase ranges and zero-value future phase ranges may be grouped.
+5. Program capability: a compact Markdown table with governance/control, workflow automation, product implementation, content governance/production, dependency/runtime, backend/data platform, build/distribution, business/market validation, and overall program.
+6. Evidence and confidence note.
+
+Tables must use short labels and concise evidence notes. They must not be flattened into delimiter-separated or compressed paragraph strings. Duplicate large tables or multiple charts are not required.
+
+Percentages are evidence-based estimates, not proof. Use `NOT_PROVEN` when support is insufficient, avoid false precision, identify supporting evidence, and explain material changes. Documentation-only work must not increase product progress. Governance progress must not inflate workflow, product, content, runtime, backend, build, business, or overall-program capability. No gated phase is 100% until its required review, approval, merge, main verification, and closeout are proven.
+
+When the response surface supports interactive charts, render exactly one actual detailed and expandable chart at the absolute bottom. It must include current-phase subsections, grouped phase progression, and all program-capability categories with delivery progress, evidence confidence, operational readiness as an estimate rather than a readiness claim, and short context where supported. Nothing may appear after the chart.
+
+Raw chart JSON, widget arguments, terminal representations, and implementation specifications must never be presented as the chart. If the surface cannot render an interactive chart, keep the compact structured tables, state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`, and do not expose raw chart configuration.

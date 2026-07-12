@@ -161,3 +161,20 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/continuity/red_team_continuity.py live
 ```
 
 Expected safe active-PR output is exit `0` with `requires_live_verification`, a packet bound to the current head, pending external review and human approval disclosed, auto-merge inactive, and no merge permission. Exit `2`, `3`, `4`, or `5` is a stop condition. The operator must compare the live head and run evidence again before any next action. Generated output remains external and derived; it has no authority by itself.
+
+## Quota-Aware Atomic Packet Handoff
+
+Every substantial packet declares primary objective, permitted files/functions, model, reasoning effort, speed, agent count, focused validation, checkpoint, stop conditions, and next packet. One lead agent, Medium effort, and Standard speed are the normal Plus defaults; hidden session values use the honest fallback attestations in `PROMPT_CONVENTION.md`.
+
+Before quota or context exhaustion, preserve a truthful checkpoint containing issue and PR, branch, local and remote head SHAs, staged/unstaged/untracked paths, completed packet, tests and exact results, remaining blockers, next packet, and prohibited actions. Do not create a commit merely to hide partial or failing work.
+
+Context thresholds control handoff behavior:
+
+- 0-59%: normal bounded work.
+- 60-74%: no scope expansion; prepare the checkpoint.
+- 75-84%: finish only the smallest safe unit, validate, and prepare a new-window handoff.
+- 85-100%: handoff-only; no new implementation.
+
+A reported 79% requires a new Codex window before another broad implementation packet. If percentage is unavailable, record that fact and use visible compaction warnings or context-loss symptoms without inventing a value.
+
+The final handoff records `ACTUAL_CODEX_MODEL`, `ACTUAL_REASONING_EFFORT`, `SPEED_MODE`, `AGENT_STRATEGY`, context-window state, lifecycle evidence, validation, changed files, and the single next packet. It also follows the compact tables, percentage-integrity, and chart rules in `RED_TEAM_OPERATING_PROTOCOL.md`.

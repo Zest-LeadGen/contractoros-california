@@ -36,10 +36,11 @@ This report records implementation in review. Merged capability is not yet prove
 - PR #48: https://github.com/Zest-LeadGen/contractoros-california/pull/48
 - Prior successful run: https://github.com/Zest-LeadGen/contractoros-california/actions/runs/29176103821
 - Starting main: `01b90ab8b12416101b4be067794bf543a3488779`
+- Issue #49 owner amendments: comments `4950672136`, `4950911091`, `4950952134`, `4950969409`, and `4950978131`.
 
 ## Changed Files
 
-The allowed 28-file set is:
+The current permitted 32-file branch set is:
 
 1. `scripts/continuity/red_team_continuity.py`
 2. `scripts/continuity/README.md`
@@ -69,6 +70,10 @@ The allowed 28-file set is:
 26. `docs/project-control/SOURCE_REGISTER.md`
 27. `docs/project-control/VALIDATION_TASKS.md`
 28. `docs/project-control/state/contractoros-state.yaml`
+29. `AGENTS.md`
+30. `docs/project-control/PROMPT_CONVENTION.md`
+31. `docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md`
+32. `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
 
 No workflow, existing control script, package manifest, lockfile, application, mobile, web, backend, database, build, release, content, production, credential, cloud, hosted-service, or paid-resource file changed.
 
@@ -151,7 +156,7 @@ Hash normalization is UTF-8, LF newlines, stable headings, stable list and JSON 
 
 ## Security Test Evidence
 
-The 30-test suite covers unknown executable and subcommand rejection, prohibited Git and GitHub mutation rejection, argument-array subprocess execution with `shell=False`, finite timeout, output-inside-repository rejection, directory-symlink rejection, output-file-symlink rejection, unsafe/private evidence, absolute home paths, moved marker binding, contradictory lifecycle, active auto-merge, raw-chat rejection, and no write permission in generated output.
+The 45-test suite includes the original 30 collector tests plus 15 governance-hardening tests. It covers collector command/output security and the ten-field prompt profile, honest hidden-metadata fallback, Medium/Standard/one-lead defaults, Fast and Ultra exceptions, atomic packets, 79% and 85% context behavior, compact tables, paragraph-compression prohibition, required phase/program categories, single-last interactive-chart behavior, raw-chart-configuration prohibition, capability separation, and governance non-inflation.
 
 The forbidden-scope validator passed after the security-control literals were kept on explicitly forbidden, blocked, no-authority, or risk lines.
 
@@ -167,7 +172,7 @@ Observed explicit CLI exit matrix:
 - unsafe/private evidence: `4`
 - malformed JSON: `5`
 
-The 30-test unit suite passed in the final pre-implementation-commit sequence.
+The 45-test unit suite passed in the governance-hardening validation sequence.
 
 ## Baseline Stale-State Evidence
 
@@ -244,19 +249,23 @@ The snapshot does not embed a commit's own SHA as live authority and is not upda
 
 Authorized records now identify the source/specification/test artifacts, risks and controls, implementation decision, requirements mapping, validation tasks, future red-team invocation, collector statuses, Issue #47/PR #48 closeout, active Issue #49/PR #50, Phase 4K-9 not started, and Phase 4I paused.
 
+The Issue #49 governance-hardening packet adds the ten-field prompt profile; honest hidden-metadata fallback; proportional Terra/Sol/Luna, effort, and speed routing; Standard/Medium/one-lead Plus defaults; Max/Ultra exceptions; atomic quota packets; context rotation; compact structured progress tables; actual single-last-chart behavior where supported; raw-chart-configuration prohibition; and phase/program capability separation without governance inflation.
+
 No existing workflow or control script changed.
 
 docs/project-control/DECISION_LOG.md: reviewed, no update required
 
-docs/project-control/RISK_REGISTER.md: reviewed, no update required
+docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
+
+docs/project-control/RISK_REGISTER.md: updated for metadata, quota/context, chart, and progress-inflation risk
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The full local sequence passed before the implementation commit: 30 unit tests, schema parsing, changed-file, forbidden-scope, required-control, PR/report, owner-trigger, low-risk self-test and classification, lockfile, claim-language, and whitespace checks. The final changed-file set was exactly the 28-file allowlist, cache count was zero, and the staged whitespace check passed.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The governance-hardening sequence passed with 45 unit tests plus changed-file, forbidden-scope, required-control, PR/report, owner-trigger, low-risk self-test and classification, lockfile-only, claim-language, and unstaged/staged whitespace checks. The final branch changed-file set remains within the permitted 32-file set; no workflow, existing control script, manifest, lockfile, application/runtime, cache, temporary artifact, private path, or credential was added.
 
 ## Risk Register Impact
 
-The risk register records stale-state false negatives, command allowlist bypass, shell execution, output-path/symlink escape, private-evidence leakage, moved-head approval reuse, misleading derived packet authority, inaccessible GitHub evidence, deterministic drift, contradictory lifecycle, and active auto-merge, with controls and validation tasks.
+The risk register records stale-state false negatives, command allowlist bypass, shell execution, output-path/symlink escape, private-evidence leakage, moved-head approval reuse, misleading derived packet authority, inaccessible GitHub evidence, deterministic drift, contradictory lifecycle, active auto-merge, hidden-metadata fabrication, quota/context loss, and governance-progress inflation, with controls and validation tasks.
 
 ## Decision Log Impact
 
