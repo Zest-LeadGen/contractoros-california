@@ -45,6 +45,44 @@ SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 RFC3339_RE = re.compile(
     r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
 )
+MARKER_TEXT_LIMIT = 1_000_000
+MARKER_NAMES = ("OWNER_TRIGGER_REVIEW", "RED_TEAM_DECISION")
+RED_TEAM_REQUIRED_FIELDS = (
+    "PR number",
+    "PR head SHA",
+    "Decision",
+    "Reviewer role",
+    "Review date",
+    "Scope reviewed",
+    "Conditions",
+    "Forbidden-scope confirmation",
+    "SHA-bound statement",
+)
+RED_TEAM_DECISIONS = {"APPROVED", "CHANGES_REQUESTED", "BLOCKED"}
+RED_TEAM_SHA_BOUND_STATEMENT = "This decision applies only to the listed PR head SHA."
+OWNER_REQUIRED_FIELDS = (
+    "Owner interruption required",
+    "Trigger categories",
+    "Lane eligibility",
+    "Human approval required",
+    "Auto-merge eligible",
+    "Rationale",
+)
+OWNER_INTERRUPTION_VALUES = {"YES", "NO"}
+OWNER_TRIGGER_CATEGORIES = {
+    "NONE",
+    "LEGAL",
+    "FINANCIAL",
+    "PAID_SERVICE",
+    "PUBLIC_RELEASE",
+    "PRODUCTION_READINESS",
+    "APP_STORE_BUILD_DISTRIBUTION",
+    "SCOPE_EXPANSION",
+    "UNRESOLVED_RED_TEAM_BLOCKED",
+    "DEPENDENCY_SECURITY_RISK_ACCEPTANCE",
+    "ARCHITECTURE_THRESHOLD",
+}
+OWNER_LANE_VALUES = {"NOT_AUTOMATION_ELIGIBLE", "FUTURE_LOW_RISK_CANDIDATE"}
 
 # Every entry is forbidden private material and causes a fail-closed rejection.
 FORBIDDEN_PRIVATE_PATTERNS = (
@@ -176,48 +214,177 @@ def _json_command(argv: list[str], cwd: Path, commands: list[dict[str, Any]]) ->
         raise CollectorError("read command returned malformed JSON") from exc
 
 
-def _parse_marker(body: str, marker_name: str) -> list[dict[str, str]]:
-    body = re.sub(r"<!--.*?-->", "", body or "", flags=re.S)
-    body = re.sub(r"```.*?```", "", body, flags=re.S)
-    lines = body.splitlines()
-    markers: list[dict[str, str]] = []
+def _extract_marker_blocks(body: str) -> dict[str, list[dict[str, Any]]]:
+    text = str(body or "")
+    if len(text) > MARKER_TEXT_LIMIT:
+        raise CollectorError("marker evidence exceeds the bounded input limit")
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
+    text = re.sub(r"```.*?```", "", text, flags=re.S)
+    lines = text.splitlines()
+    markers: dict[str, list[dict[str, Any]]] = {name: [] for name in MARKER_NAMES}
     for index, line in enumerate(lines):
-        if line.strip() != marker_name:
+        marker_name = line.strip()
+        if marker_name not in markers:
             continue
         fields: dict[str, str] = {}
+        duplicate_fields: list[str] = []
         for raw in lines[index + 1 :]:
             stripped = raw.strip()
-            if stripped in {marker_name, "OWNER_TRIGGER_REVIEW", "RED_TEAM_DECISION"}:
+            if stripped in MARKER_NAMES or stripped.startswith("#"):
                 break
-            if stripped.startswith("#"):
-                break
+            if not stripped:
+                continue
             match = re.match(r"^([^:]+):\s*(.*)$", stripped)
-            if match:
-                fields[match.group(1).strip()] = match.group(2).strip()
-        markers.append(fields)
+            if not match:
+                continue
+            field = match.group(1).strip()
+            value = match.group(2).strip()
+            if field in fields:
+                duplicate_fields.append(field)
+            else:
+                fields[field] = value
+        markers[marker_name].append(
+            {"fields": fields, "duplicate_fields": sorted(set(duplicate_fields))}
+        )
     return markers
 
 
-def _marker_summary(body: str, pr_head: str) -> dict[str, Any]:
-    owner_markers = _parse_marker(body, "OWNER_TRIGGER_REVIEW")
-    red_markers = _parse_marker(body, "RED_TEAM_DECISION")
-    owner_valid = any(
-        marker.get("Human approval required") == "YES"
-        and marker.get("Auto-merge eligible") == "NO"
-        and marker.get("Lane eligibility") == "NOT_AUTOMATION_ELIGIBLE"
-        for marker in owner_markers
-    )
-    valid_red = [
-        marker
-        for marker in red_markers
-        if marker.get("Decision") == "APPROVED"
-        and marker.get("PR head SHA", "").lower() == (pr_head or "").lower()
+def _parse_marker(body: str, marker_name: str) -> list[dict[str, str]]:
+    """Compatibility view of the centralized bounded marker parser."""
+    return [block["fields"] for block in _extract_marker_blocks(body).get(marker_name, [])]
+
+
+def _multiple_marker_reason(prefix: str, blocks: list[dict[str, Any]]) -> str:
+    normalized = [
+        (tuple(sorted(block["fields"].items())), tuple(block["duplicate_fields"]))
+        for block in blocks
     ]
-    stale_red = bool(red_markers) and not valid_red
+    return f"{prefix}_DUPLICATE_GOVERNING_MARKERS" if len(set(normalized)) == 1 else f"{prefix}_CONFLICTING_GOVERNING_MARKERS"
+
+
+def _evaluate_red_team_blocks(
+    blocks: list[dict[str, Any]], pr_head: str, pr_number: int | str
+) -> dict[str, Any]:
+    if not blocks:
+        return {"status": "missing", "bound_sha": None, "reasons": ["RT_MISSING"]}
+    if len(blocks) > 1:
+        reason = _multiple_marker_reason("RT", blocks)
+        status = "ambiguous" if "DUPLICATE" in reason else "conflicting"
+        return {"status": status, "bound_sha": None, "reasons": [reason]}
+
+    block = blocks[0]
+    marker = block["fields"]
+    reasons = [f"RT_DUPLICATE_FIELD:{field}" for field in block["duplicate_fields"]]
+    for field in RED_TEAM_REQUIRED_FIELDS:
+        if not marker.get(field):
+            reasons.append(f"RT_REQUIRED_FIELD_MISSING_OR_EMPTY:{field}")
+
+    decision = marker.get("Decision", "")
+    if decision and decision not in RED_TEAM_DECISIONS:
+        reasons.append("RT_DECISION_UNSUPPORTED")
+    elif decision == "BLOCKED":
+        reasons.append("RT_DECISION_BLOCKED")
+    elif decision == "CHANGES_REQUESTED":
+        reasons.append("RT_DECISION_CHANGES_REQUESTED")
+
+    current_pr = str(pr_number or "").strip().lstrip("#")
+    marker_pr = marker.get("PR number", "").strip().lstrip("#")
+    if marker_pr and not re.fullmatch(r"\d+", marker_pr):
+        reasons.append("RT_PR_NUMBER_MALFORMED")
+    elif marker_pr and current_pr and marker_pr != current_pr:
+        reasons.append("RT_PR_NUMBER_MISMATCH")
+
+    marker_sha = marker.get("PR head SHA", "")
+    if marker_sha and not re.fullmatch(r"[0-9a-fA-F]{40}", marker_sha):
+        reasons.append("RT_SHA_MALFORMED")
+    elif marker_sha and pr_head and marker_sha.lower() != pr_head.lower():
+        reasons.append("RT_SHA_MISMATCH")
+
+    review_date = marker.get("Review date", "")
+    if review_date and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", review_date):
+        reasons.append("RT_REVIEW_DATE_MALFORMED")
+    if marker.get("SHA-bound statement") != RED_TEAM_SHA_BOUND_STATEMENT:
+        reasons.append("RT_SHA_BOUND_STATEMENT_INVALID")
+
+    reasons = sorted(set(reasons))
+    if not reasons:
+        return {"status": "valid", "bound_sha": marker_sha, "reasons": []}
+    if reasons == ["RT_SHA_MISMATCH"]:
+        status = "stale"
+    elif any(reason in {"RT_DECISION_BLOCKED", "RT_DECISION_CHANGES_REQUESTED"} for reason in reasons):
+        status = "adverse"
+    else:
+        status = "malformed"
+    return {"status": status, "bound_sha": None, "reasons": reasons}
+
+
+def _parse_categories(value: str) -> list[str]:
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def _evaluate_owner_blocks(blocks: list[dict[str, Any]]) -> dict[str, Any]:
+    if not blocks:
+        return {"status": "missing", "reasons": ["OWNER_MISSING"]}
+    if len(blocks) > 1:
+        reason = _multiple_marker_reason("OWNER", blocks)
+        status = "ambiguous" if "DUPLICATE" in reason else "conflicting"
+        return {"status": status, "reasons": [reason]}
+
+    block = blocks[0]
+    marker = block["fields"]
+    reasons = [f"OWNER_DUPLICATE_FIELD:{field}" for field in block["duplicate_fields"]]
+    for field in OWNER_REQUIRED_FIELDS:
+        if not marker.get(field):
+            reasons.append(f"OWNER_REQUIRED_FIELD_MISSING_OR_EMPTY:{field}")
+
+    owner_required = marker.get("Owner interruption required", "")
+    if owner_required and owner_required not in OWNER_INTERRUPTION_VALUES:
+        reasons.append("OWNER_INTERRUPTION_VALUE_INVALID")
+
+    categories = _parse_categories(marker.get("Trigger categories", ""))
+    if marker.get("Trigger categories") and not categories:
+        reasons.append("OWNER_CATEGORIES_EMPTY")
+    if any(category not in OWNER_TRIGGER_CATEGORIES for category in categories):
+        reasons.append("OWNER_CATEGORY_UNKNOWN")
+    if "NONE" in categories and len(categories) > 1:
+        reasons.append("OWNER_NONE_CATEGORY_CONFLICT")
+    if owner_required == "YES" and categories == ["NONE"]:
+        reasons.append("OWNER_INTERRUPTION_CATEGORY_CONFLICT")
+    if owner_required == "NO" and categories != ["NONE"]:
+        reasons.append("OWNER_INTERRUPTION_CATEGORY_CONFLICT")
+
+    lane = marker.get("Lane eligibility", "")
+    if lane and lane not in OWNER_LANE_VALUES:
+        reasons.append("OWNER_LANE_VALUE_INVALID")
+    if any(category != "NONE" for category in categories) and lane == "FUTURE_LOW_RISK_CANDIDATE":
+        reasons.append("OWNER_CATEGORY_LANE_CONFLICT")
+    if marker.get("Human approval required") and marker.get("Human approval required") != "YES":
+        reasons.append("OWNER_HUMAN_APPROVAL_MUST_BE_YES")
+    if marker.get("Auto-merge eligible") and marker.get("Auto-merge eligible") != "NO":
+        reasons.append("OWNER_AUTO_MERGE_MUST_BE_NO")
+
+    reasons = sorted(set(reasons))
+    return {"status": "valid" if not reasons else "malformed", "reasons": reasons}
+
+
+def _marker_evaluations(body: str, pr_head: str, pr_number: int | str) -> dict[str, Any]:
+    blocks = _extract_marker_blocks(body)
     return {
-        "owner_trigger_status": "valid" if owner_valid else "missing_or_invalid",
-        "red_team_status": "valid" if valid_red else ("stale" if stale_red else "missing"),
-        "red_team_bound_sha": valid_red[0].get("PR head SHA") if valid_red else None,
+        "owner": _evaluate_owner_blocks(blocks["OWNER_TRIGGER_REVIEW"]),
+        "red_team": _evaluate_red_team_blocks(blocks["RED_TEAM_DECISION"], pr_head, pr_number),
+    }
+
+
+def _marker_summary(body: str, pr_head: str, pr_number: int | str = "") -> dict[str, Any]:
+    evaluations = _marker_evaluations(body, pr_head, pr_number)
+    owner = evaluations["owner"]
+    red_team = evaluations["red_team"]
+    return {
+        "owner_trigger_status": "valid" if owner["status"] == "valid" else "missing_or_invalid",
+        "red_team_status": (
+            "valid" if red_team["status"] == "valid" else "missing" if red_team["status"] == "missing" else "stale"
+        ),
+        "red_team_bound_sha": red_team["bound_sha"] if red_team["status"] == "valid" else None,
     }
 
 
@@ -331,7 +498,11 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             if review.get("state") == "APPROVED" and (review.get("author") or {}).get("login")  # no authority is inferred
         }
     )
-    marker = _marker_summary(str(pr.get("body") or ""), str(pr.get("headRefOid") or ""))
+    marker = _marker_summary(
+        str(pr.get("body") or ""),
+        str(pr.get("headRefOid") or ""),
+        int(pr.get("number")),
+    )
     evidence = {
         "fixture_version": "1.0.0",
         "repository": {
@@ -540,8 +711,11 @@ def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
         return "quarantined", sorted(set(findings)), sorted(blockers), True
     if findings:
         return "stale", sorted(findings), sorted(blockers), False
+    if markers.get("owner_trigger_status") != "valid":
+        findings.append("Owner-trigger marker evidence is missing, malformed, conflicting, or ambiguous")
+        return "quarantined", sorted(findings), sorted(blockers), True
     if markers.get("red_team_status") == "stale":
-        findings.append("Red-team marker is bound to another PR head")
+        findings.append("Red-team marker evidence is stale, adverse, malformed, conflicting, or ambiguous")
         return "quarantined", sorted(findings), sorted(blockers), True
     if data["auto_merge"].get("active"):
         findings.append("Auto-merge is active despite the gate prohibition")
@@ -560,8 +734,6 @@ def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
         if pr_state != "open" or issue_state not in {"open", "active"} or pr.get("merge_commit"):
             findings.append("Active-PR lifecycle evidence is contradictory")
             return "quarantined", sorted(findings), sorted(blockers), True
-        if markers.get("owner_trigger_status") != "valid":
-            blockers.append("Owner-trigger marker is missing or invalid")
         if red_status == "missing":
             blockers.append("External exact-SHA red-team review is pending")
         if not approvals:

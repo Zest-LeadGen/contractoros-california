@@ -17,6 +17,7 @@ rtc = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 SPEC.loader.exec_module(rtc)
 OBSERVED_AT = "2026-07-13T00:00:00Z"
+ACTIVE_HEAD = "c" * 40
 PROMPT_CONVENTION = ROOT / "docs/project-control/PROMPT_CONVENTION.md"
 OPERATING_MODEL = ROOT / "docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md"
 RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
@@ -28,6 +29,57 @@ PHASE_REPORT = ROOT / "docs/project-control/phase_pre_4k_9_read_only_red_team_co
 
 def fixture(name):
     return json.loads((FIXTURES / name).read_text(encoding="utf-8"))
+
+
+def marker_block(name, fields, omit=(), duplicate=None):
+    lines = [name]
+    for field, value in fields:
+        if field not in omit:
+            lines.append(f"{field}: {value}")
+    if duplicate:
+        lines.append(f"{duplicate[0]}: {duplicate[1]}")
+    return "\n".join(lines) + "\n"
+
+
+def red_team_marker(**overrides):
+    fields = [
+        ("PR number", "#50"),
+        ("PR head SHA", ACTIVE_HEAD),
+        ("Decision", "APPROVED"),
+        ("Reviewer role", "External red-team reviewer"),
+        ("Review date", "2026-07-12"),
+        ("Scope reviewed", "Marker parsing and classification."),
+        ("Conditions", "None."),
+        ("Forbidden-scope confirmation", "Confirmed."),
+        ("SHA-bound statement", rtc.RED_TEAM_SHA_BOUND_STATEMENT),
+    ]
+    values = dict(fields)
+    values.update({key: value for key, value in overrides.items() if key not in {"omit", "duplicate"}})
+    return marker_block(
+        "RED_TEAM_DECISION",
+        [(field, values[field]) for field, _ in fields],
+        omit=overrides.get("omit", ()),
+        duplicate=overrides.get("duplicate"),
+    )
+
+
+def owner_trigger_marker(**overrides):
+    fields = [
+        ("Owner interruption required", "YES"),
+        ("Trigger categories", "ARCHITECTURE_THRESHOLD"),
+        ("Lane eligibility", "NOT_AUTOMATION_ELIGIBLE"),
+        ("Human approval required", "YES"),
+        ("Auto-merge eligible", "NO"),
+        ("Rationale", "Marker semantics remain owner-triggered and not automation eligible."),
+    ]
+    values = dict(fields)
+    values.update({key: value for key, value in overrides.items() if key not in {"omit", "duplicate"}})
+    return marker_block(
+        "OWNER_TRIGGER_REVIEW",
+        [(field, values[field]) for field, _ in fields],
+        omit=overrides.get("omit", ()),
+        duplicate=overrides.get("duplicate"),
+    )
 
 
 class ContinuityCollectorTests(unittest.TestCase):
@@ -228,6 +280,178 @@ class ContinuityCollectorTests(unittest.TestCase):
     def test_only_two_output_files_are_generated(self):
         _, _, _, output = self.generate("active_pr_requires_live_verification.json")
         self.assertEqual(sorted(path.name for path in output.iterdir()), sorted(rtc.OUTPUT_NAMES))
+
+
+class MarkerSemanticsTests(unittest.TestCase):
+    def evaluations(self, body):
+        return rtc._marker_evaluations(body, ACTIVE_HEAD, 50)
+
+    def classify(self, body):
+        data = fixture("active_pr_requires_live_verification.json")
+        data["markers"] = rtc._marker_summary(body, ACTIVE_HEAD, 50)
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def test_complete_current_head_red_team_marker_is_valid(self):
+        summary = rtc._marker_summary(owner_trigger_marker() + red_team_marker(), ACTIVE_HEAD, 50)
+        self.assertEqual(summary["red_team_status"], "valid")
+        self.assertEqual(summary["red_team_bound_sha"], ACTIVE_HEAD)
+
+    def test_missing_red_team_marker_remains_pending(self):
+        code, evidence, _ = self.classify(owner_trigger_marker())
+        self.assertEqual(code, 0)
+        self.assertEqual(evidence["consistency_classification"], "requires_live_verification")
+        self.assertIn("External exact-SHA red-team review is pending", evidence["blockers"])
+
+    def test_red_team_marker_missing_required_field_is_rejected(self):
+        result = self.evaluations(red_team_marker(omit=("Reviewer role",)))["red_team"]
+        self.assertEqual(result["status"], "malformed")
+        self.assertIn("RT_REQUIRED_FIELD_MISSING_OR_EMPTY:Reviewer role", result["reasons"])
+
+    def test_red_team_marker_empty_required_field_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"Conditions": ""}))["red_team"]
+        self.assertIn("RT_REQUIRED_FIELD_MISSING_OR_EMPTY:Conditions", result["reasons"])
+
+    def test_red_team_marker_missing_forbidden_confirmation_is_rejected(self):
+        result = self.evaluations(red_team_marker(omit=("Forbidden-scope confirmation",)))["red_team"]
+        self.assertIn(
+            "RT_REQUIRED_FIELD_MISSING_OR_EMPTY:Forbidden-scope confirmation", result["reasons"]
+        )
+
+    def test_red_team_marker_malformed_pr_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"PR number": "fifty"}))["red_team"]
+        self.assertIn("RT_PR_NUMBER_MALFORMED", result["reasons"])
+
+    def test_red_team_marker_wrong_pr_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"PR number": "#51"}))["red_team"]
+        self.assertIn("RT_PR_NUMBER_MISMATCH", result["reasons"])
+
+    def test_red_team_marker_malformed_sha_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"PR head SHA": "not-a-sha"}))["red_team"]
+        self.assertIn("RT_SHA_MALFORMED", result["reasons"])
+
+    def test_red_team_marker_abbreviated_sha_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"PR head SHA": ACTIVE_HEAD[:12]}))["red_team"]
+        self.assertIn("RT_SHA_MALFORMED", result["reasons"])
+
+    def test_red_team_marker_stale_sha_is_quarantined(self):
+        code, evidence, _ = self.classify(
+            owner_trigger_marker() + red_team_marker(**{"PR head SHA": "e" * 40})
+        )
+        self.assertEqual(code, 2)
+        self.assertTrue(evidence["quarantine"])
+
+    def test_red_team_unsupported_decision_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"Decision": "PASS"}))["red_team"]
+        self.assertIn("RT_DECISION_UNSUPPORTED", result["reasons"])
+
+    def test_red_team_blocked_decision_is_not_approval(self):
+        result = self.evaluations(red_team_marker(**{"Decision": "BLOCKED"}))["red_team"]
+        self.assertEqual(result["status"], "adverse")
+        self.assertIn("RT_DECISION_BLOCKED", result["reasons"])
+
+    def test_red_team_changes_requested_is_not_approval(self):
+        result = self.evaluations(red_team_marker(**{"Decision": "CHANGES_REQUESTED"}))["red_team"]
+        self.assertEqual(result["status"], "adverse")
+        self.assertIn("RT_DECISION_CHANGES_REQUESTED", result["reasons"])
+
+    def test_red_team_marker_malformed_review_date_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"Review date": "07/12/2026"}))["red_team"]
+        self.assertIn("RT_REVIEW_DATE_MALFORMED", result["reasons"])
+
+    def test_red_team_marker_wrong_bound_statement_is_rejected(self):
+        result = self.evaluations(red_team_marker(**{"SHA-bound statement": "Applies forever."}))[
+            "red_team"
+        ]
+        self.assertIn("RT_SHA_BOUND_STATEMENT_INVALID", result["reasons"])
+
+    def test_red_team_duplicate_field_is_rejected(self):
+        result = self.evaluations(red_team_marker(duplicate=("Decision", "APPROVED")))["red_team"]
+        self.assertIn("RT_DUPLICATE_FIELD:Decision", result["reasons"])
+
+    def test_conflicting_red_team_markers_are_quarantined(self):
+        body = owner_trigger_marker() + red_team_marker() + red_team_marker(**{"Decision": "BLOCKED"})
+        result = self.evaluations(body)["red_team"]
+        self.assertEqual(result["status"], "conflicting")
+        code, evidence, _ = self.classify(body)
+        self.assertEqual(code, 2)
+        self.assertTrue(evidence["quarantine"])
+
+    def test_duplicate_red_team_markers_are_ambiguous(self):
+        body = red_team_marker() + red_team_marker()
+        result = self.evaluations(body)["red_team"]
+        self.assertEqual(result["status"], "ambiguous")
+        self.assertIn("RT_DUPLICATE_GOVERNING_MARKERS", result["reasons"])
+
+    def test_fenced_red_team_marker_example_is_ignored(self):
+        body = owner_trigger_marker() + "```text\n" + red_team_marker() + "```\n"
+        self.assertEqual(rtc._marker_summary(body, ACTIVE_HEAD, 50)["red_team_status"], "missing")
+
+    def test_html_comment_red_team_marker_example_is_ignored(self):
+        body = owner_trigger_marker() + "<!--\n" + red_team_marker() + "-->\n"
+        self.assertEqual(rtc._marker_summary(body, ACTIVE_HEAD, 50)["red_team_status"], "missing")
+
+    def test_complete_owner_trigger_marker_is_valid(self):
+        result = self.evaluations(owner_trigger_marker())["owner"]
+        self.assertEqual(result, {"status": "valid", "reasons": []})
+
+    def test_owner_trigger_missing_rationale_is_rejected(self):
+        body = owner_trigger_marker(omit=("Rationale",))
+        result = self.evaluations(body)["owner"]
+        self.assertIn("OWNER_REQUIRED_FIELD_MISSING_OR_EMPTY:Rationale", result["reasons"])
+        code, evidence, _ = self.classify(body)
+        self.assertEqual(code, 2)
+        self.assertTrue(evidence["quarantine"])
+
+    def test_owner_trigger_unknown_category_is_rejected(self):
+        result = self.evaluations(owner_trigger_marker(**{"Trigger categories": "MAGIC"}))["owner"]
+        self.assertIn("OWNER_CATEGORY_UNKNOWN", result["reasons"])
+
+    def test_owner_trigger_category_interruption_conflict_is_rejected(self):
+        result = self.evaluations(owner_trigger_marker(**{"Trigger categories": "NONE"}))["owner"]
+        self.assertIn("OWNER_INTERRUPTION_CATEGORY_CONFLICT", result["reasons"])
+
+    def test_owner_trigger_category_lane_conflict_is_rejected(self):
+        result = self.evaluations(
+            owner_trigger_marker(**{"Lane eligibility": "FUTURE_LOW_RISK_CANDIDATE"})
+        )["owner"]
+        self.assertIn("OWNER_CATEGORY_LANE_CONFLICT", result["reasons"])
+
+    def test_owner_trigger_unknown_lane_is_rejected(self):
+        result = self.evaluations(owner_trigger_marker(**{"Lane eligibility": "UNKNOWN"}))["owner"]
+        self.assertIn("OWNER_LANE_VALUE_INVALID", result["reasons"])
+
+    def test_owner_trigger_human_approval_no_is_rejected(self):
+        result = self.evaluations(owner_trigger_marker(**{"Human approval required": "NO"}))[
+            "owner"
+        ]
+        self.assertIn("OWNER_HUMAN_APPROVAL_MUST_BE_YES", result["reasons"])
+
+    def test_owner_trigger_auto_merge_yes_is_rejected(self):
+        result = self.evaluations(owner_trigger_marker(**{"Auto-merge eligible": "YES"}))["owner"]
+        self.assertIn("OWNER_AUTO_MERGE_MUST_BE_NO", result["reasons"])
+
+    def test_conflicting_owner_trigger_markers_are_quarantined(self):
+        body = owner_trigger_marker() + owner_trigger_marker(**{"Trigger categories": "LEGAL"})
+        result = self.evaluations(body)["owner"]
+        self.assertEqual(result["status"], "conflicting")
+        code, evidence, _ = self.classify(body)
+        self.assertEqual(code, 2)
+        self.assertTrue(evidence["quarantine"])
+
+    def test_duplicate_owner_trigger_markers_are_ambiguous(self):
+        result = self.evaluations(owner_trigger_marker() + owner_trigger_marker())["owner"]
+        self.assertEqual(result["status"], "ambiguous")
+        self.assertIn("OWNER_DUPLICATE_GOVERNING_MARKERS", result["reasons"])
+
+    def test_fenced_owner_trigger_example_is_ignored(self):
+        body = "```text\n" + owner_trigger_marker() + "```\n"
+        self.assertEqual(self.evaluations(body)["owner"]["status"], "missing")
+
+    def test_html_comment_owner_trigger_example_is_ignored(self):
+        body = "<!--\n" + owner_trigger_marker() + "-->\n"
+        self.assertEqual(self.evaluations(body)["owner"]["status"], "missing")
 
 
 class GovernanceHardeningTests(unittest.TestCase):

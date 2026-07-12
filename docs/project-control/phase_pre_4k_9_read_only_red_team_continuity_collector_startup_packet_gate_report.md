@@ -41,6 +41,7 @@ This report records implementation in review. Merged capability is not yet prove
 - OpenAI Codex Pricing: https://developers.openai.com/codex/pricing/ — verified 2026-07-12.
 - ChatGPT Learn Speed: https://learn.chatgpt.com/docs/agent-configuration/speed — verified 2026-07-12.
 - Governance-hardening workflow run `29203963944`: https://github.com/Zest-LeadGen/contractoros-california/actions/runs/29203963944
+- G1.1 correction workflow run `29205093385`: https://github.com/Zest-LeadGen/contractoros-california/actions/runs/29205093385
 
 ## Changed Files
 
@@ -89,6 +90,14 @@ The G1.1 correction packet changes exactly these seven existing files:
 6. `docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md`
 7. `scripts/continuity/tests/test_red_team_continuity.py`
 
+The C1A marker-semantics packet changes exactly these five existing files:
+
+1. `scripts/continuity/red_team_continuity.py`
+2. `scripts/continuity/tests/test_red_team_continuity.py`
+3. `docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md`
+4. `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+5. `docs/project-control/VALIDATION_TASKS.md`
+
 No workflow, existing control script, package manifest, lockfile, application, mobile, web, backend, database, build, release, content, production, credential, cloud, hosted-service, or paid-resource file changed.
 
 ## Commands Run
@@ -114,6 +123,8 @@ Implementation validation run so far included:
 - `python3 -m json.tool` for both schemas
 - `python3 scripts/control/check_forbidden_scope.py`
 - the required live starting-main stale baseline command recorded below
+- 32 focused C1A marker-semantics tests
+- the full 87-test continuity suite
 
 The full current-control sequence remains required immediately before the implementation commit.
 
@@ -128,6 +139,8 @@ The CLI exposes `fixture` and `live` subcommands. Fixture mode reads a bounded J
 Live mode reads bounded local Git metadata and narrowly selected GitHub CLI JSON fields. It compares canonical state with live main, issue, PR, head, checks, run, marker, approval, auto-merge, merge and closeout evidence. It renders exactly two derived files outside the repository using safe atomic replacement.
 
 Supported classifications are exactly `consistent`, `requires_live_verification`, `stale`, `blocked`, and `quarantined`.
+
+C1A replaces permissive marker summaries with one bounded parser and two semantic evaluators. Both marker types ignore fenced and HTML-comment examples, reject duplicate fields, reject duplicate or conflicting governing blocks, preserve stable reason ordering, and never use first-marker-wins or last-marker-wins behavior. The red-team evaluator enforces exact required fields, numeric PR binding, full current SHA binding, decisions, date shape and SHA-bound statement. The owner evaluator enforces fields, enumerations, category consistency, lane consistency, human approval `YES`, auto-merge `NO`, and non-empty rationale. The collector does not import or execute either control validator.
 
 Exit contract:
 
@@ -170,7 +183,7 @@ Hash normalization is UTF-8, LF newlines, stable headings, stable list and JSON 
 
 ## Security Test Evidence
 
-The 55-test suite includes the prior 45 tests plus 10 G1.1 governance-correction tests. It covers collector command/output security; the ten-field prompt profile and red-team inheritance; honest hidden-metadata fallback; visible-selector preservation; Medium/Standard/one-lead defaults; Fast, Max, and Ultra exceptions; atomic packets; context rotation; dated official sources; stable/dynamic policy separation; historical GPT-5.5 supersession; compact tables; conditional chart capabilities; raw-chart-configuration prohibition; capability separation; governance non-inflation; and prior-head workflow truthfulness.
+The 87-test suite includes the prior 55 tests plus 32 C1A marker-semantics tests. It covers collector command/output security; governance hardening; valid, missing, malformed, stale, adverse, duplicate, conflicting and example marker evidence; exact PR/head binding; owner-trigger consistency; pending missing-review behavior; deterministic classification; and prior-head workflow truthfulness.
 
 The forbidden-scope validator passed after the security-control literals were kept on explicitly forbidden, blocked, no-authority, or risk lines.
 
@@ -186,7 +199,7 @@ Observed explicit CLI exit matrix:
 - unsafe/private evidence: `4`
 - malformed JSON: `5`
 
-The 55-test unit suite passed in the G1.1 governance-correction validation sequence.
+The 32-test focused marker class and full 87-test suite passed in the C1A validation sequence.
 
 ## Baseline Stale-State Evidence
 
@@ -249,6 +262,8 @@ Governance-hardening head `9a684f427bc45e5cf8575e4bd105671a22baf1fd` was evaluat
 
 The G1.1 correction commit creates a new head. Run `29203963944` remains historical evidence only for `9a684f427bc45e5cf8575e4bd105671a22baf1fd`; the new head requires a fresh Actions run and fresh external exact-SHA review.
 
+G1.1 head `09e867ff984384676032e1aa0cf87f9cb990d55d` was evaluated by run `29205093385`. The run completed with overall conclusion `failure`; every pre-marker control passed, the mandatory current-head marker step failed because no marker existed, and post-marker checks skipped. The bounded governance subreview later passed, but PR #50 remained changes-requested for collector defects. C1A creates another head and requires a fresh run and external exact-SHA review.
+
 ## Canonical-State Reconciliation
 
 The canonical snapshot now records:
@@ -269,6 +284,8 @@ Authorized records now identify the source/specification/test artifacts, risks a
 
 The Issue #49 governance-hardening packet adds the ten-field prompt profile; red-team generated-prompt inheritance; honest hidden-metadata fallback; proportional Terra/Sol/Luna, effort, and speed routing; Standard/Medium/one-lead Plus defaults; Max/Ultra exceptions; atomic quota packets; context rotation; dated official-source reconciliation; compact structured progress tables; conditional interactive-chart capabilities; raw-chart-configuration prohibition; and phase/program capability separation without governance inflation.
 
+C1A hardens collector marker semantics only. Missing red-team evidence on an otherwise valid active PR remains pending. Exact current-head approval may be represented as valid evidence but grants no merge power. Stale, malformed, adverse, duplicate, conflicting or ambiguous red-team evidence and invalid owner-trigger evidence are quarantined. Required-check evaluation, workflow identity, human approval qualification, repository identity, inaccessible-evidence handling, output-path changes, lifecycle reconciliation and schema expansion remain outside this packet.
+
 No existing workflow or control script changed.
 
 docs/project-control/DECISION_LOG.md: reviewed, no update required
@@ -279,7 +296,7 @@ docs/project-control/RISK_REGISTER.md: reviewed, no update required
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. The G1.1 sequence passed with 55 unit tests plus changed-file, forbidden-scope, required-control, PR/report, owner-trigger, low-risk self-test and classification, lockfile-only, claim-language, and unstaged/staged whitespace checks. The cumulative branch changed-file set remains within the permitted 32-file set and the G1.1 packet changes exactly seven files; no workflow, existing control script, manifest, lockfile, application/runtime, cache, temporary artifact, private path, or credential was added.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests, the complete 87-test suite and the required eleven-command local-control sequence. The cumulative branch changed-file set remains within the permitted 32-file set and C1A changes exactly five existing files; no workflow, existing control script, fixture, schema, manifest, lockfile, application/runtime, cache, temporary artifact, private path or credential was added.
 
 ## Risk Register Impact
 
@@ -295,7 +312,7 @@ The artifact index records source, specification, schemas, fixtures, and tests. 
 
 ## Red-Team Status
 
-External exact-SHA red-team review is pending. The external review marker is absent.
+The G1.1 governance subreview passed for `09e867ff984384676032e1aa0cf87f9cb990d55d`. PR #50 remains changes-requested for collector defects. External exact-SHA review is pending for the C1A head, and no C1A red-team marker exists.
 
 ## Human Approval Status
 
@@ -331,6 +348,9 @@ Read-only local/CLI continuity evidence collection and deterministic derived sta
 - Private evidence remains outside this public gate.
 - Intermediate live evidence will be bound to the implementation commit; the later reconciliation commit makes that head stale and requires a fresh external run and review.
 - Official model choices, Plus usage ranges, Fast support, and speed/consumption multipliers are dated 2026-07-12 and require revalidation before future recommendation.
+- C1B still must address required-check classification and workflow identity binding.
+- C2 still must address human/write-access approval qualification.
+- Repository identity, inaccessible-evidence handling, output-path safety, lifecycle reconciliation and schema expansion remain deferred to separately bounded packets.
 
 ## Next Phase Status
 
