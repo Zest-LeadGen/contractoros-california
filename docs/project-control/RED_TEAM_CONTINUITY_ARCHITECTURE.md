@@ -6,9 +6,11 @@ This public-safe architecture defines continuity controls; it does not implement
 
 ## Layer 1 — Canonical State
 
-`docs/project-control/state/contractoros-state.yaml` is the sanitized canonical state snapshot governed by its schema. It records schema version, main SHA, active gate, linked issue/PR, lifecycle state, paused and completed phases, blockers, next planning target, timestamps, evidence identifiers, public/private references, and consistency status. It must contain no private strategy, customer data, secrets, raw legal analysis, or private AI traces.
+`docs/project-control/state/contractoros-state.yaml` is a sanitized observed snapshot governed by its schema. It records schema version, main SHA, active gate, linked issue/PR, lifecycle state, paused and completed phases, blockers, next planning target, timestamps, evidence identifiers, public/private references, and consistency status. It is not live authority and must require live GitHub verification while PR evidence changes. It must contain no private strategy, customer data, secrets, raw legal analysis, or private AI traces.
 
-Canonical state changes are serialized through one protected pull request at a time. A reader must compare the recorded main SHA, issue, PR, and timestamps with live GitHub evidence. A mismatch is stale-state failure and requires quarantine; no downstream write may proceed.
+Canonical state changes are serialized through one protected pull request at a time. A reader must compare the recorded main SHA, issue, PR, and timestamps with live GitHub evidence and must read the exact current PR head SHA from GitHub. The containing snapshot does not embed a supposedly current self-referential PR head. A mismatch is stale-state failure and requires quarantine; no downstream write may proceed.
+
+`requires_live_verification` is a valid consistency status while an open pull request changes lifecycle or exact-SHA evidence. A snapshot must not claim `consistent` after known lifecycle evidence has changed; it may return to `consistent` only when the committed observation and required live comparison agree under the applicable gate.
 
 ## Layer 2 — Append-Only Decisions And Events
 
@@ -20,7 +22,7 @@ Owner decisions and architecture events are append-only. Corrections add a new e
 
 ## Layer 4 — Unsynced-Decision Inbox
 
-The inbox schema permits `proposed`, `owner_confirmed`, `rejected`, `recorded`, `superseded`, and `blocked`. Chat-originated content is never authority automatically. Owner confirmation plus durable GitHub or committed recording is required before `recorded`. Failed validation or ambiguous provenance quarantines the item.
+The inbox schema permits `proposed`, `owner_confirmed`, `rejected`, `recorded`, `superseded`, and `blocked`. Chat-originated content is never authority automatically. Status-dependent schema rules require non-null owner confirmation for `owner_confirmed`, require both non-null owner confirmation and a non-null durable record for `recorded`, and require durable or supersession evidence for `superseded`. Failed validation or ambiguous provenance quarantines the item.
 
 ## Layer 5 — Private Control Plane
 

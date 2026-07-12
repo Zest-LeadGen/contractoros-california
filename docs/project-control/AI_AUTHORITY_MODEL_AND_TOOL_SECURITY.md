@@ -10,7 +10,7 @@ Reversible, deterministic, narrowly scoped preparation where inputs, outputs, ch
 
 ## Level B — Autonomous Preparation With Final Gate
 
-AI may prepare branches, commits, pull requests, drafts, and evidence, but a protected human or system gate controls consequential writes or release.
+AI may prepare branches, commits, pull requests, drafts and evidence. Consequential writes and release require all mandatory system controls plus protected human/write-access approval under current policy. A system gate does not replace human approval unless a later owner-approved governance amendment explicitly authorizes that change.
 
 ## Level C — Supervised High-Impact Evidence
 

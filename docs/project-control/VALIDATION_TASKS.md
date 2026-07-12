@@ -244,4 +244,4 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-PRE4K9-003 | Validate ADR index. | Temporary standard-library Python and file review. | Nine existing ADRs; every ADR links owner decisions and required sections. | Passed locally. |
 | VAL-PRE4K9-004 | Scan public-safe files. | Git path and secret-pattern review. | No private artifact, credential, secret, raw PDF, DOCX, or ZIP. | Passed locally. |
 | VAL-PRE4K9-005 | Run existing controls. | Required eleven-command control sequence. | All local controls pass before commit. | First and final full sequences passed. |
-| VAL-PRE4K9-006 | Verify pre-marker PR behavior. | GitHub Actions after PR creation. | Pre-marker checks pass; mandatory exact-SHA marker fails; later checks may skip. | Pending PR creation. |
+| VAL-PRE4K9-006 | Verify pre-marker PR behavior. | GitHub Actions after PR creation and after every correction head. | Pre-marker checks pass; mandatory exact-SHA marker fails; later checks may skip. | Initial run `29172467406` observed: steps before the marker passed, marker failed as expected, and later steps skipped. A fresh run is required for the correction head. |

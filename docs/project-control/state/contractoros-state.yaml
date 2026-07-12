@@ -1,16 +1,50 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.0.1",
+  "snapshot_semantics": "observed_snapshot_requires_live_verification",
   "current_main_sha": "b99fc7d1fe0882380fc53041be42bb0aad35c02e",
   "active_gate": "Pre-4K-9 Program Constitution and Red-Team Continuity Reconciliation",
   "linked_issue": {"number":47,"state":"active"},
-  "linked_pr": null,
-  "lifecycle_state": "documentation_implementation_in_progress",
-  "paused_phases": ["Phase 4I"],
-  "completed_prior_phase": {"phase":"Phase 4K-8","issue_45":"closed_completed","pr_46":"merged","merge_sha":"b99fc7d1fe0882380fc53041be42bb0aad35c02e"},
-  "blockers": ["Issue #47 requires external exact-SHA red-team review and human approval before merge","Phase 4K-9 remains not started","Continuity collector is not implemented"],
-  "next_authorized_planning_target": "Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate", "documentation_scope": "public_safe",
-  "evidence_timestamps": {"github_verified_at":"2026-07-11T23:25:38Z","state_recorded_on":"2026-07-11"},
-  "evidence_identifiers": ["issue:47","issue-comment:4949071184","issue-comment:4949139219","issue:45","pr:46","merge:b99fc7d1fe0882380fc53041be42bb0aad35c02e"],
-  "public_private_references": {"public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml"],"private":[]},
-  "consistency_status": "consistent"
+  "linked_pr": {
+    "number":48,
+    "state":"open",
+    "url":"https://github.com/Zest-LeadGen/contractoros-california/pull/48",
+    "head_sha_source":"live_github_required",
+    "observed_head_sha":null
+  },
+  "lifecycle_state":"red_team_changes_requested",
+  "paused_phases":["Phase 4I"],
+  "completed_prior_phase": {
+    "phase":"Phase 4K-8",
+    "issue_number":45,
+    "issue_state":"closed_completed",
+    "pr_number":46,
+    "pr_state":"merged",
+    "merge_sha":"b99fc7d1fe0882380fc53041be42bb0aad35c02e"
+  },
+  "blockers": [
+    "PR #48 requires the exact red-team corrections recorded for reviewed head bd6b39340e3cf6bc3ec221e94a7a9b398947b765",
+    "Fresh external exact-SHA red-team review is required after the correction commit",
+    "Human/write-access approval remains required before merge",
+    "Phase 4K-9 remains not started",
+    "Continuity collector is not implemented"
+  ],
+  "next_authorized_planning_target":"Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate — blocked until Issue #47 merge, main verification and closeout",
+  "documentation_scope":"public_safe",
+  "evidence_timestamps":{"github_verified_at":"2026-07-12T00:59:58Z","state_recorded_on":"2026-07-11"},
+  "evidence_identifiers": [
+    "issue:47",
+    "issue-comment:4949071184",
+    "issue-comment:4949139219",
+    "pr:48",
+    "actions-run:29172467406",
+    "reviewed-head:bd6b39340e3cf6bc3ec221e94a7a9b398947b765",
+    "issue:45",
+    "pr:46",
+    "merge:b99fc7d1fe0882380fc53041be42bb0aad35c02e"
+  ],
+  "public_private_references": {
+    "public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml"],
+    "private":[]
+  },
+  "consistency_status":"requires_live_verification"
 }

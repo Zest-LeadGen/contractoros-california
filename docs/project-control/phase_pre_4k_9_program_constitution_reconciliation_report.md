@@ -16,7 +16,7 @@ Control / Infrastructure
 
 ## Lifecycle State
 
-Documentation implementation in progress on the authorized branch. Phase 4K-8 is completed through merged PR #46 and closed/completed Issue #45. Issue #47 is active. Phase 4K-9 is not started. Phase 4I is paused.
+PR #48 is active in lifecycle state `red_team_changes_requested`. The external review of head `bd6b39340e3cf6bc3ec221e94a7a9b398947b765` returned `CHANGES_REQUESTED`; this correction requires fresh external exact-SHA review after commit. Phase 4K-8 is completed through merged PR #46 and closed/completed Issue #45. Issue #47 is active. Phase 4K-9 is not started. Phase 4I is paused.
 
 ## Scope
 
@@ -94,6 +94,29 @@ Exactly 41 files are changed:
 - `docs/project-control/state/contractoros-state.schema.yaml`
 - `docs/project-control/state/contractoros-state.yaml`
 
+## Red-Team Correction Scope
+
+Exactly ten files correct the reviewed head `bd6b39340e3cf6bc3ec221e94a7a9b398947b765`:
+
+- `docs/project-control/AI_AUTHORITY_MODEL_AND_TOOL_SECURITY.md` (documentation scope)
+- `docs/project-control/ASSUMPTION_REGISTER.md`
+- `docs/project-control/DEVELOPMENT_LEDGER.md`
+- `docs/project-control/OWNER_DECISION_REGISTER.yaml`
+- `docs/project-control/RED_TEAM_CONTINUITY_ARCHITECTURE.md`
+- `docs/project-control/VALIDATION_TASKS.md`
+- `docs/project-control/phase_pre_4k_9_program_constitution_reconciliation_report.md`
+- `docs/project-control/state/UNSYNCED_DECISIONS.schema.yaml`
+- `docs/project-control/state/contractoros-state.schema.yaml`
+- `docs/project-control/state/contractoros-state.yaml`
+
+The five blocking findings are corrected as follows:
+
+1. Replace the stale null-PR/`consistent` canonical snapshot with observed-snapshot semantics for open PR #48 and mandatory live GitHub comparison.
+2. Harden the canonical schema’s nested issue, PR, prior-phase, evidence, reference and consistency contracts.
+3. Enforce status-dependent owner-confirmation, durable-record and supersession evidence in the unsynced-decision schema, with negative and positive tests.
+4. Restore protected human/write-access approval as mandatory for Level B consequential writes and release.
+5. Correct lifecycle overclaims in D25, the ledger, validation tasks, assumption register, continuity architecture and this report.
+
 ## Files Inspected
 
 | Allowed existing file | Result |
@@ -107,10 +130,10 @@ Exactly 41 files are changed:
 | `PROJECT_IMPLEMENTATION_ROADMAP.md` | Updated with the active documentation gate and next permissible implementation gate. |
 | `PROJECT_VISION_AND_PHASE_TRACKER.md` | Updated with verified post-4K-8 state. |
 | `DECISION_LOG.md` | Updated with Constitution, continuity, provider, and spending decisions. |
-| `DEVELOPMENT_LEDGER.md` | Updated with the active branch and pending PR lifecycle. |
+| `DEVELOPMENT_LEDGER.md` | Updated with PR #48 and the rule that live GitHub evidence, not a static ledger SHA, controls review. |
 | `RISK_REGISTER.md` | Updated for state drift/leakage, target claims, and bounded-pilot risk. |
-| `ASSUMPTION_REGISTER.md` | Updated with owner-amendment, model-evidence, and pre-PR snapshot assumptions. |
-| `VALIDATION_TASKS.md` | Updated with deterministic and control checks. |
+| `ASSUMPTION_REGISTER.md` | Supersedes the null-PR assumption and records the self-referential-head limitation and live-evidence rule. |
+| `VALIDATION_TASKS.md` | Records observed Actions run `29172467406` and requires a new run for the correction head. |
 | `REQUIREMENTS_TRACEABILITY_MATRIX.md` | Updated with Issue #47 requirements and evidence. |
 | `SOURCE_REGISTER.md` | Updated with owner amendments, Issue #24, closeout, repo evidence, and UI-observed label classification. |
 | `ARTIFACT_INDEX.md` | Updated to record public-safe source files and absence of private artifacts. |
@@ -118,6 +141,10 @@ Exactly 41 files are changed:
 | `RED_TEAM_OPERATING_PROTOCOL.md` | Updated with five-layer architecture and read-only-first boundary. |
 | `RED_TEAM_STATE_MACHINE.md` | Updated with stale canonical-state handling. |
 | `LOW_RISK_LANE_POLICY.md` | Updated to classify this architecture gate as not automation eligible. |
+
+`docs/project-control/DECISION_LOG.md: reviewed, no update required`
+
+`docs/project-control/RISK_REGISTER.md: reviewed, no update required`
 
 ## D1–D26 Reconciliation
 
@@ -133,7 +160,7 @@ Exactly 41 files are changed:
 | D17–D19 | Modular monolith, security/privacy program, least-privilege tools | Direction only |
 | D20–D21 | Provider-agnostic routing and bounded paid pilots | Policy only; no router or paid service |
 | D22–D24 | Product validation, experimental monetization, maximum three PRs | Future work/policy only |
-| D25–D26 | Constitution, durable decisions, overall gated direction | Documentation created; later capabilities not implemented |
+| D25–D26 | Constitution, durable decisions, overall gated direction | Documentation in review and not merged; later capabilities not implemented |
 
 All 26 primary records select option A, name Adnan Khan / ContractorOS, use decision date 2026-07-10, distinguish direction from capability, and include required fields and supersession arrays.
 
@@ -163,7 +190,7 @@ Operational continuity, packet generation, private planes, source intelligence, 
 
 ## Assumptions
 
-The public-safe owner amendment is assumed to faithfully summarize the private signed source. The pre-PR canonical snapshot uses a null linked PR. UI-observed model labels are not official taxonomy. Each assumption is recorded in `ASSUMPTION_REGISTER.md` and requires later confirmation or supersession.
+The public-safe owner amendment is assumed to faithfully summarize the private signed source. A committed snapshot cannot prove its own live PR head; live GitHub evidence controls and an active-PR snapshot uses `requires_live_verification`. UI-observed model labels are not official taxonomy. Each assumption is recorded in `ASSUMPTION_REGISTER.md` and requires later confirmation or supersession.
 
 ## Conflict Register
 
@@ -195,11 +222,11 @@ Nine ADRs group D1–D26 into horizons, AI decision power, continuity/private pl
 
 ## Canonical-State Summary
 
-The JSON-compatible YAML snapshot records main `b99fc7d1fe0882380fc53041be42bb0aad35c02e`, Phase 4K-8 completed, Issue #45 closed/completed, PR #46 merged, Issue #47 active, Phase 4K-9 not started, Phase 4I paused, a null pre-PR link, blockers, evidence IDs, and consistent status at the recorded timestamp.
+The JSON-compatible YAML file is an observed snapshot requiring comparison with live GitHub. It records main `b99fc7d1fe0882380fc53041be42bb0aad35c02e`, active Issue #47, open PR #48, `head_sha_source: live_github_required`, no self-referential correction SHA, lifecycle `red_team_changes_requested`, consistency `requires_live_verification`, Actions run `29172467406`, reviewed head `bd6b39340e3cf6bc3ec221e94a7a9b398947b765`, fresh exact-SHA review as required, Phase 4K-9 not started, Phase 4I paused, and the follow-on collector gate blocked until Issue #47 is merged, main-verified and closed.
 
 ## Red-Team Continuity Architecture
 
-Five layers are specified: sanitized canonical state; append-only decisions/events; derived startup packet; controlled unsynced inbox; and separated private planes. Schema failure, moved SHA, conflicting lifecycle evidence, or missing confirmation causes blocked/quarantined state. No collector or generator exists.
+Five layers are specified: sanitized observed canonical state; append-only decisions/events; derived startup packet; controlled unsynced inbox; and separated private planes. Live GitHub comparison is mandatory, `requires_live_verification` is valid during a changing PR lifecycle, and a snapshot cannot remain `consistent` after known lifecycle evidence changes. Status-dependent inbox rules enforce owner confirmation and durable recording. Schema failure, moved SHA, conflicting lifecycle evidence, or missing confirmation causes blocked/quarantined state. No collector or generator exists.
 
 ## Public/Private Classification
 
@@ -243,7 +270,7 @@ Lawful source ingestion and database construction require a dedicated later gate
 
 ## Current-State Reconciliation
 
-Phase 4K-8 is completed; PR #46 is merged; Issue #45 is closed/completed; main is `b99fc7d1fe0882380fc53041be42bb0aad35c02e`; Issue #47 is active; Phase 4K-9 is not started; Phase 4I is paused; toolchain/npm remains deferred, not rejected; Constitution documentation is in progress; continuity collector is not implemented.
+Phase 4K-8 is completed; PR #46 is merged; Issue #45 is closed/completed; main is `b99fc7d1fe0882380fc53041be42bb0aad35c02e`; Issue #47 and PR #48 are active; reviewed head `bd6b39340e3cf6bc3ec221e94a7a9b398947b765` received `CHANGES_REQUESTED`; Phase 4K-9 is not started; Phase 4I is paused; toolchain/npm remains deferred, not rejected; Issue #47 documentation is in review and not merged to main; continuity collector is not implemented.
 
 ## Next-Gate Recommendation
 
@@ -251,10 +278,11 @@ After Issue #47 is externally reviewed, human-approved, merged, main-verified, a
 
 ## Commands Run
 
-- Read-only git and GitHub verification of main, issues #24/#45/#47, PR #46, amendments, closeout, and branch absence.
-- `git switch -c pre-4k-9-program-constitution-reconciliation b99fc7d1fe0882380fc53041be42bb0aad35c02e`
-- Repository file and validator inspection.
-- Temporary standard-library Python validation loaded all JSON-compatible YAML files and checked register, state, schemas, ADRs, public-safe paths, and secret patterns.
+- Read-only recovery inventory of the existing `pre-4k-9-program-constitution-reconciliation` branch, local and remote heads, worktree, PR #48, Issue #47 and Actions run `29172467406`.
+- `git diff --name-only bd6b39340e3cf6bc3ec221e94a7a9b398947b765` and `git diff --cached --name-only` for correction-scope proof.
+- Temporary standard-library Python parsing of JSON-compatible YAML and targeted content assertions.
+- Local JSON Schema validation of canonical state and negative/positive canonical and unsynced-decision fixtures.
+- The existing eleven-command control sequence listed below.
 
 ## Dependency / Lockfile Handling
 
@@ -262,22 +290,27 @@ No package, dependency, lockfile, package-manager, runtime, build, or installati
 
 ## Documentation Impact
 
-Adds top-level public-safe direction, machine-readable decisions/state, continuity and evidence-plane policies, nine ADRs, and consistent lifecycle links. It does not implement operational capability.
+Adds top-level public-safe direction, machine-readable decisions/state, continuity and evidence-plane policies, and nine ADRs. PR #48 documentation remains in review and is not implemented on main. It does not implement operational capability.
 
 ## Validation Evidence
 
-Temporary deterministic validation passed with these observed results:
+Temporary deterministic correction validation produced these observed results:
 
 - `REGISTER=PASS count=26 ids=D1-D26 options=A required_fields=PASS custom_D1_D11=PASS`
-- `SCHEMAS=PASS json_compatible_yaml=3`
-- `CANONICAL_STATE=PASS main/phase/issues/pr/paused/next-target`
+- `SCHEMAS=PASS json_compatible_yaml=4 strict_nested_contracts=PASS`
+- `CANONICAL_STATE=PASS linked_pr=48/open consistency=requires_live_verification null_pr_consistent=REJECTED malformed_nested=REJECTED`
+- `UNSYNCED_NEGATIVE=PASS invalid_recorded_rejected`
+- `UNSYNCED_POSITIVE=PASS confirmed_recorded_accepted`
+- `D25=PASS documentation_in_review_not_merged_operational_collector_not_implemented`
+- `LEVEL_B=PASS protected_human_write_access_required`
+- `CORRECTION_SCOPE=PASS files=10 authorized_only=PASS`
 - `ADRS=PASS count=9 required_sections_and_decision_links=PASS`
 - `PRIVATE_ARTIFACT_EXTENSIONS=PASS`
 - `TOTAL_CHANGED_FILE_COUNT=41`
 - `SENSITIVE_DATA_SCAN=PASS files=41 private_artifacts=0 credential_patterns=0`
 - Scanner-semantic preflight found zero unqualified forbidden-scope terms.
 
-The first existing-control sequence passed on the 41-file scope:
+The initial correction control pass identified two validator-contract presentation issues: the forbidden-scope scanner required the AI-authority correction path to be qualified as documentation scope, and the required-control validator required exact no-update declarations for the unchanged decision and risk registers. Both were corrected within the authorized report/schema files. The final existing-control sequence then passed on the ten-file correction scope and complete 41-file PR:
 
 - `python3 scripts/control/check_changed_files.py` — PASS
 - `python3 scripts/control/check_forbidden_scope.py` — PASS
@@ -291,7 +324,9 @@ The first existing-control sequence passed on the 41-file scope:
 - `git diff --check` — PASS
 - `git diff --cached --check` — PASS
 
-No GitHub write, red-team marker, approval, merge, issue closure, next-phase start, service activation, credential creation, or private artifact action occurred during validation. The same full sequence was then rerun on final report content and every command passed.
+Actions run `29172467406` was observed against reviewed head `bd6b39340e3cf6bc3ec221e94a7a9b398947b765`: checks before the mandatory marker passed, the mandatory marker failed as expected because it was absent, and later steps skipped. A new workflow run is required for the correction head; this report does not claim that future run passed.
+
+No red-team marker, approval, merge, issue closure, next-phase start, service activation, credential creation, or private artifact action occurred during validation.
 
 ## Risk Register Impact
 
@@ -307,7 +342,7 @@ Updated to record public-safe source/schema artifacts and confirm no private or 
 
 ## Red-Team Status
 
-External exact-SHA review is pending. Codex does not act as red-team or add `RED_TEAM_DECISION`.
+The external decision for reviewed head `bd6b39340e3cf6bc3ec221e94a7a9b398947b765` was `CHANGES_REQUESTED`. Fresh external exact-SHA red-team review is required for the correction commit. Codex does not act as red-team or add a red-team decision marker.
 
 ## Human Approval Status
 
@@ -331,7 +366,7 @@ Public-safe governance documentation and architecture direction only. This gate 
 
 ## Known Limitations
 
-- Canonical state is a pre-PR snapshot and will become stale when live lifecycle evidence changes.
+- Canonical state is an observed snapshot and requires comparison with live GitHub; it does not embed its own correction commit SHA.
 - No startup-packet generator or collector is implemented.
 - Private-plane storage and controls are policy only.
 - Current provider/model facts were not refreshed from official sources and remain not proven.
