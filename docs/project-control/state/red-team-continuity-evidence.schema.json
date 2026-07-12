@@ -5,13 +5,13 @@
   "type": "object",
   "required": ["schema_version", "generator_version", "observed_at", "repository", "source_shas", "source_commands", "canonical_state", "live_state", "comparison_findings", "blockers", "missing_evidence", "consistency_classification", "quarantine", "public_private_classification", "packet_hash", "packet_hash_rule", "startup_packet"],
   "properties": {
-    "schema_version": {"const": "1.3.0"},
+    "schema_version": {"const": "1.3.1"},
     "generator_version": {"type": "string", "minLength": 1},
     "observed_at": {"type": "string", "format": "date-time"},
     "repository": {"$ref": "#/$defs/repository"},
     "source_shas": {"$ref": "#/$defs/sourceShas"},
     "source_commands": {"type": "array", "items": {"$ref": "#/$defs/commandResult"}},
-    "canonical_state": {"type": "object"},
+    "canonical_state": {"$ref": "#/$defs/canonicalState"},
     "live_state": {"$ref": "#/$defs/liveState"},
     "comparison_findings": {"$ref": "#/$defs/uniqueStrings"},
     "blockers": {"$ref": "#/$defs/uniqueStrings"},
@@ -27,6 +27,41 @@
     "sha": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{40}$"}]},
     "classification": {"enum": ["consistent", "requires_live_verification", "stale", "blocked", "quarantined"]},
     "uniqueStrings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "canonicalLinkedIssue": {
+      "type": "object",
+      "required": ["number", "state"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "state": {"enum": ["active", "open", "closed_completed", "closed_not_planned"]}
+      },
+      "additionalProperties": false
+    },
+    "canonicalLinkedPr": {
+      "type": "object",
+      "required": ["number", "state", "observed_head_sha"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "state": {"enum": ["open", "closed", "merged"]},
+        "url": {"type": "string", "format": "uri"},
+        "head_sha_source": {"const": "live_github_required"},
+        "observed_head_sha": {"$ref": "#/$defs/sha"}
+      },
+      "additionalProperties": false
+    },
+    "canonicalState": {
+      "type": "object",
+      "required": ["schema_version", "snapshot_semantics", "current_main_sha", "linked_issue", "linked_pr", "lifecycle_state", "consistency_status"],
+      "properties": {
+        "schema_version": {"type": "string", "minLength": 1},
+        "snapshot_semantics": {"const": "observed_snapshot_requires_live_verification"},
+        "current_main_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "linked_issue": {"$ref": "#/$defs/canonicalLinkedIssue"},
+        "linked_pr": {"$ref": "#/$defs/canonicalLinkedPr"},
+        "lifecycle_state": {"type": "string", "minLength": 1},
+        "consistency_status": {"$ref": "#/$defs/classification"}
+      },
+      "additionalProperties": true
+    },
     "repository": {
       "type": "object",
       "required": ["requested_name", "name", "default_branch", "remote_name", "remote_transport", "root_verified", "remote_verified", "remote_identifier"],

@@ -1,4 +1,5 @@
 import copy
+import io
 import importlib.util
 import json
 import subprocess
@@ -1092,6 +1093,149 @@ class CollectorCorrectionCluster3Tests(unittest.TestCase):
         for record in data["review"]["review_records"]:
             record["commit_id"] = data["pr"]["head"]
         return data
+
+    def raw_approval(self):
+        return {
+            "id": 1,
+            "user": {"login": "reviewer", "type": "User"},  # scope-bound approval evidence
+            "state": "APPROVED",
+            "submitted_at": "2026-07-13T00:00:00Z",
+            "commit_id": ACTIVE_HEAD,
+            "author_association": "MEMBER",  # scope-bound approval evidence
+        }
+
+    def collect_permission_with(self, permission_result):
+        with mock.patch.object(
+            rtc, "_json_command", side_effect=[[self.raw_approval()], permission_result]
+        ):
+            return rtc._collect_review_evidence(ROOT, [], ACTIVE_HEAD, "author")  # scope-bound approval evidence
+
+    def test_live_repository_name_empty_is_blocked(self):
+        repo = {"nameWithOwner": "", "defaultBranchRef": {"name": "main", "target": {"oid": "a" * 40}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_live_repository_name_missing_is_blocked(self):
+        repo = {"defaultBranchRef": {"name": "main", "target": {"oid": "a" * 40}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_default_branch_ref_wrong_type_is_blocked(self):
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(
+                {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": []},
+                rtc.EXPECTED_REPOSITORY,
+            )
+
+    def test_default_branch_name_missing_is_blocked(self):
+        repo = {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": {"target": {"oid": "a" * 40}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_default_branch_target_missing_is_blocked(self):
+        repo = {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": {"name": "main"}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_default_branch_target_oid_missing_is_blocked(self):
+        repo = {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": {"name": "main", "target": {}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_default_branch_target_oid_malformed_is_blocked(self):
+        repo = {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": {"name": "main", "target": {"oid": "A" * 40}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_live_default_branch_never_falls_back_to_origin_main(self):
+        repo = {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": {"name": "", "target": {"oid": None}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+
+    def test_permission_command_rejection_remains_exit_5_through_collection(self):
+        with self.assertRaises(rtc.CommandRejectedError) as caught:
+            self.collect_permission_with(rtc.CommandRejectedError("rejected"))
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_permission_unsafe_evidence_remains_exit_4(self):
+        with self.assertRaises(rtc.UnsafeEvidenceError) as caught:
+            self.collect_permission_with(rtc.UnsafeEvidenceError("unsafe"))
+        self.assertEqual(caught.exception.exit_code, 4)
+
+    def test_permission_read_unavailable_returns_exit_3(self):
+        with self.assertRaises(rtc.ApprovalEvidenceUnavailableError) as caught:
+            self.collect_permission_with(rtc.EvidenceUnavailableError("unavailable"))
+        self.assertEqual(caught.exception.exit_code, 3)
+
+    def test_permission_response_wrong_type_is_blocked(self):
+        with self.assertRaises(rtc.ApprovalEvidenceUnavailableError):
+            self.collect_permission_with([])
+
+    def test_permission_response_missing_permission_is_blocked(self):
+        with self.assertRaises(rtc.ApprovalEvidenceUnavailableError):
+            self.collect_permission_with({"role_name": "write", "user": {"type": "User"}})
+
+    def test_permission_response_missing_user_type_is_blocked(self):
+        with self.assertRaises(rtc.ApprovalEvidenceUnavailableError):
+            self.collect_permission_with({"permission": "write", "role_name": "write", "user": {}})
+
+    def test_canonical_linked_issue_wrong_type_returns_exit_5(self):
+        data = self.active()
+        data["canonical_state"]["linked_issue"] = []
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_canonical_linked_issue_missing_number_returns_exit_5(self):
+        data = self.active()
+        del data["canonical_state"]["linked_issue"]["number"]
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_canonical_linked_issue_invalid_state_returns_exit_5(self):
+        data = self.active()
+        data["canonical_state"]["linked_issue"]["state"] = "unknown"
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_canonical_linked_pr_wrong_type_returns_exit_5(self):
+        data = self.active()
+        data["canonical_state"]["linked_pr"] = "open"
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_canonical_linked_pr_missing_number_returns_exit_5(self):
+        data = self.active()
+        del data["canonical_state"]["linked_pr"]["number"]
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_canonical_linked_pr_invalid_observed_head_returns_exit_5(self):
+        data = self.active()
+        data["canonical_state"]["linked_pr"]["observed_head_sha"] = "not-a-sha"
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_malformed_nested_canonical_cli_returns_exit_5_without_traceback(self):
+        data = self.active()
+        data["canonical_state"]["linked_pr"] = []
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture_path = Path(temporary) / "fixture.json"
+            fixture_path.write_text(json.dumps(data), encoding="utf-8")
+            stderr = io.StringIO()
+            with mock.patch("sys.stderr", stderr):
+                code = rtc.main(
+                    [
+                        "fixture", "--fixture", str(fixture_path), "--observed-at", OBSERVED_AT,
+                        "--output-dir", str(Path(temporary) / "output"),
+                    ]
+                )
+        self.assertEqual(code, 5)
+        self.assertNotIn("Traceback", stderr.getvalue())
+
+    def test_closed_gate_requires_canonical_linked_pr_identity(self):
+        data = fixture("consistent_closed_gate.json")
+        data["canonical_state"]["linked_pr"]["number"] = 51
+        self.assertEqual(self.classify(data)[0], 2)
 
     def test_exact_https_origin_is_verified(self):
         self.assertTrue(rtc._normalize_origin("https://github.com/Zest-LeadGen/contractoros-california")["remote_verified"])

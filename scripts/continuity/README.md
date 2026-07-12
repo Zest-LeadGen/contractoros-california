@@ -51,11 +51,12 @@ Commands use argument arrays, `shell=False`, finite timeouts, captured output, a
 - `git rev-parse --show-toplevel`
 - `git status --porcelain=v1 --branch`
 - `git show <exact-sha>:docs/project-control/state/contractoros-state.yaml`
-- narrowly shaped `gh repo view`, `gh issue view`, `gh pr view`, `gh pr checks`, and `gh run view` JSON reads
+- one exact repository GraphQL query for `nameWithOwner` and `defaultBranchRef { name target { oid } }`
+- narrowly shaped `gh issue view`, `gh pr view`, `gh pr checks`, and `gh run view` JSON reads
 - `gh api --method GET repos/Zest-LeadGen/contractoros-california/pulls/50/reviews?per_page=100&page=<1-5>`
 - `gh api --method GET repos/Zest-LeadGen/contractoros-california/collaborators/<sourced-reviewer>/permission`
 
-The runtime rejects unknown executables, subcommands, flags, and shapes. Review pages are sequential, fixed at 100 records, stop on the first short page, and are limited to five pages. A full fifth page marks review evidence truncated and blocked. Permission reads are limited to normalized exact-head submitted human approval candidates, with at most 100 candidates. Command output is size-bounded. `git fetch`, `git pull`, `git push`, `git commit`, `git merge`, `git reset`, `git clean`, `git checkout`, and `git switch` are forbidden runtime commands. Every other `gh api` shape and all issue, pull-request, review, approval, merge, or closeout mutations are forbidden runtime commands.
+The runtime rejects unknown executables, subcommands, flags, and shapes. The GraphQL allowlist admits only the fixed repository query above and no mutation or caller-supplied field. Review pages are sequential, fixed at 100 records, stop on the first short page, and are limited to five pages. A full fifth page marks review evidence truncated and blocked. Permission reads are limited to normalized exact-head submitted human approval candidates, with at most 100 candidates. Command output is size-bounded. `git fetch`, `git pull`, `git push`, `git commit`, `git merge`, `git reset`, `git clean`, `git checkout`, and `git switch` are forbidden runtime commands. Every other `gh api` shape and all issue, pull-request, review, approval, merge, or closeout mutations are forbidden runtime commands.
 
 ## Classification and exit contract
 
@@ -85,9 +86,11 @@ For each reviewer, decisive current-head records are sorted by submission timest
 
 A reviewer qualifies only with a submitted exact-current-head approval, account type `User`, separation from the PR author, and calculated base permission `write` or `admin`. GitHub maps maintain access to base permission `write`. Read, none, unknown, bot, PR-author, stale, dismissed, superseded, unsubmitted, inaccessible, or association-only evidence does not qualify. External red-team evidence and human approval remain separate requirements.
 
+Permission-command rejection remains invalid-command exit `5`, unsafe evidence remains exit `4`, and genuinely unavailable permission evidence maps to exit `3`. A permission response must be an object with a nonempty calculated permission, a present string role name, a user object, and a supported nonempty account type before any normalized record is created.
+
 ## Workflow provenance contract
 
-Fixture, evidence, startup-packet, and generator versions are `1.3.0`. Required provenance includes public-safe root and normalized origin identity plus binding of the supplied run to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run.
+Fixture, evidence, startup-packet, and generator versions are `1.3.1`. Required provenance includes a primary nonempty live GitHub repository name equal to `Zest-LeadGen/contractoros-california`, a primary nonempty live default-branch name and exact lowercase target SHA, public-safe root and normalized origin identity, plus binding of the supplied run to workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run. Missing live repository or default-branch values never fall back to CLI arguments, local Git, canonical state, or conventional branch names.
 
 The governed job must contain one ordered copy of every step declared by `.github/workflows/control-gates.yml`. Before external review, only the exact completed matrix of successful pre-marker steps, a failed marker step with missing marker evidence, skipped post-marker steps, failed run/job, and failed linked PR check is valid pending evidence. After a valid exact-head marker, all governed steps, the job, run, and linked check must succeed. Missing jobs or steps are blocked; identity mismatches, duplicates, impossible ordering, and contradictory run/check/step states are quarantined. Pending or in-progress evidence cannot support approval or completed-gate claims.
 
@@ -99,4 +102,4 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ```
 
-Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, bounded REST pagination, reviewer-state reduction, scope-bound author/bot rejection, calculated permission qualification, approval contradictions, review-body exclusion, and the exact two-file output boundary.
+Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input and nested canonical objects, authoritative live repository/default-branch validation, command rejection and exception-class preservation, permission-response validation, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, bounded REST pagination, reviewer-state reduction, scope-bound author/bot rejection, calculated permission qualification, approval contradictions, review-body exclusion, and the exact two-file output boundary.

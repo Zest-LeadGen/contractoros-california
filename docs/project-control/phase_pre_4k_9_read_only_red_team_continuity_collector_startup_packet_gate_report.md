@@ -359,6 +359,8 @@ C2 makes qualifying human approval a computed evidence result rather than a coar
 
 C3 completes the remaining trust boundaries and performs the explicit `1.3.0` schema/fixture migration. It binds the strictly resolved requested root to Git's top level and valid control identity, normalizes only the four permitted public GitHub origin forms, stores no absolute root or raw remote URL, maps required live-read unavailability to exit `3`, validates output destinations before creation, and separates active, externally approved, merge-ready and closed-gate lifecycle matrices. It reconciles reporting amendments `4952599609` and `4952612646`: Product development stage, one Current lifecycle table, and exactly one final three-series interactive chart or combined fallback, with no separate Current readiness section.
 
+C3.1 is the final bounded fail-closed correction required by external whole-PR review `4680818177` at exact head `4b92dae569f07bbb4eedd117e9666e5bb340b9c4`. It requires authoritative nonempty live repository/default-branch evidence with no local, CLI, canonical or conventional-name fallback; preserves command-rejection exit `5`, unsafe-evidence exit `4` and unavailable-evidence exit `3` across permission collection; validates permission responses before normalization; validates bounded linked-issue and linked-PR canonical objects before comparison; and migrates the fixture, evidence, packet and generator contracts coherently to `1.3.1`. It adds no marker, approval, merge, closeout, Phase 4K-9 or Phase 4I power.
+
 C3 changes exactly these nineteen existing paths:
 
 1. `scripts/continuity/red_team_continuity.py`
@@ -393,7 +395,9 @@ docs/project-control/RISK_REGISTER.md: updated for C3 repository identity, live-
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests and the complete 87-test suite. C1B passed 28 focused provenance tests and the complete 115-test suite. C2 passed 30 focused approval-evidence tests and the complete 145-test suite. C3 adds 51 focused cases and passes 196 total tests. Both `1.3.0` schemas parse; two fixed-time consistent-fixture generations are byte-identical; independent hash recomputation matches `ca5f2da6a3c2531c9f4a4985edd45a0de1d6e9b44841d21fbbee5a1b9fc0aa1b`. The mandatory prohibited-output probe returned exit `4`, created no repository path or temporary output, and left status unchanged. The C3 live starting-head run returned exit `0`, `requires_live_verification`, verified root and remote identity, missing marker, zero qualifying approvals, inactive auto-merge, and packet hash `bd4bd6079922c85d4b81eaeafc38781f1bcae88c165195073114525ba4e04078`. Final local and PR-context controls remain required immediately before commit.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests and the complete 87-test suite. C1B passed 28 focused provenance tests and the complete 115-test suite. C2 passed 30 focused approval-evidence tests and the complete 145-test suite. C3 adds 51 focused cases and passes 196 total tests. Both historical `1.3.0` schemas parsed; two fixed-time consistent-fixture generations were byte-identical; independent hash recomputation matched `ca5f2da6a3c2531c9f4a4985edd45a0de1d6e9b44841d21fbbee5a1b9fc0aa1b`. The mandatory prohibited-output probe returned exit `4`, created no repository path or temporary output, and left status unchanged. The C3 live starting-head run returned exit `0`, `requires_live_verification`, verified root and remote identity, missing marker, zero qualifying approvals, inactive auto-merge, and packet hash `bd4bd6079922c85d4b81eaeafc38781f1bcae88c165195073114525ba4e04078`.
+
+C3.1 adds 22 fail-closed cases to the existing C3 class, for 73 focused C3 tests and 218 total tests. Both `1.3.1` schemas parse. Two fixed-time consistent-fixture generations are byte-identical and the independent packet-hash recomputation matches `c84d8905a14c998f085adb2fc3c9f3b3555e039e94056de7afe9d5b985418f76`. The eleven local controls and three pull-request-context reproductions pass. At `2026-07-12T21:44:03Z`, the required live collector used run `29209108826` and canonical ref `4b92dae569f07bbb4eedd117e9666e5bb340b9c4`; it returned exit `0`, `requires_live_verification`, complete primary GitHub repository/default-branch evidence without fallback, verified root/remote identity, missing marker, zero qualifying approvals, inactive auto-merge and packet hash `278816f9f995ac665a700ac647ed7b6ee5caca9ad2c77917247b4026ab53aa31`. No workflow or existing control validator is modified.
 
 ## Risk Register Impact
 
@@ -409,7 +413,7 @@ The artifact index records source, specification, schemas, fixtures, and tests. 
 
 ## Red-Team Status
 
-The C1A, C1B and C2 bounded subreviews passed for their exact reviewed heads. The exact C2 reviewed head is `053ac81a63dc44f448bfbf2ae58166eed8d927a3`, PR review `4680746563`. PR #50 as a whole remains changes-requested. C3 creates a new head that requires fresh external whole-PR exact-SHA review, and no current-head red-team marker exists.
+The C1A, C1B and C2 bounded subreviews passed for their exact reviewed heads. The exact C2 reviewed head is `053ac81a63dc44f448bfbf2ae58166eed8d927a3`, PR review `4680746563`. External whole-PR review `4680818177` requested changes at exact C3 head `4b92dae569f07bbb4eedd117e9666e5bb340b9c4`. C3.1 creates a new head that requires a fresh external whole-PR exact-SHA review, and no current-head red-team marker exists.
 
 ## Human Approval Status
 

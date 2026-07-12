@@ -16,10 +16,14 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.0"
-EVIDENCE_SCHEMA_VERSION = "1.3.0"
-PACKET_SCHEMA_VERSION = "1.3.0"
-FIXTURE_VERSION = "1.3.0"
+GENERATOR_VERSION = "1.3.1"
+EVIDENCE_SCHEMA_VERSION = "1.3.1"
+PACKET_SCHEMA_VERSION = "1.3.1"
+FIXTURE_VERSION = "1.3.1"
+REPOSITORY_GRAPHQL_QUERY = (
+    'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
+    "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
+)
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_PATH = "docs/project-control/state/contractoros-state.yaml"
 OUTPUT_NAMES = ("continuity-evidence.json", "RED_TEAM_STARTUP_PACKET.md")
@@ -215,6 +219,9 @@ def _validate_command(
         if permission_match and permission_match.group(1) in (allowed_permission_logins or set()):  # scope-bound approval evidence
             return
         raise CommandRejectedError("unbounded or unsourced GitHub API shape rejected")
+
+    if argv == ["gh", "api", "graphql", "-f", f"query={REPOSITORY_GRAPHQL_QUERY}"]:
+        return
 
     # Every other gh api shape and every GitHub mutation are forbidden.
     allowed_prefixes = {
@@ -820,17 +827,17 @@ def _collect_review_evidence(
                     commands,
                     allowed_permission_logins=allowed,  # scope-bound approval evidence
                 )
-            except CollectorError as exc:
+            except EvidenceUnavailableError as exc:
                 raise ApprovalEvidenceUnavailableError(
                     f"permission approval evidence is inaccessible for reviewer: {login}"  # scope-bound approval evidence
                 ) from exc
-            user = permission.get("user") or {} if isinstance(permission, dict) else {}
+            permission_value, role_name, account_type = _validate_permission_response(permission, login)  # scope-bound approval evidence
             permission_records.append(
                 {
                     "reviewer_login": login,  # scope-bound approval evidence
-                    "permission": str(permission.get("permission") or "") if isinstance(permission, dict) else "",
-                    "role_name": str(permission.get("role_name") or "") if isinstance(permission, dict) else "",
-                    "account_type": str(user.get("type") or ""),
+                    "permission": permission_value,
+                    "role_name": role_name,
+                    "account_type": account_type,
                 }
             )
     return {
@@ -838,6 +845,54 @@ def _collect_review_evidence(
         "review_records": records,
         "permission_records": permission_records,
     }
+
+
+def _validate_permission_response(permission: Any, login: str) -> tuple[str, str, str]:  # scope-bound approval evidence
+    if not isinstance(permission, dict):
+        raise ApprovalEvidenceUnavailableError(
+            f"permission approval evidence is malformed for reviewer: {login}"  # scope-bound approval evidence
+        )
+    permission_value = permission.get("permission")
+    if not isinstance(permission_value, str) or not permission_value.strip():
+        raise ApprovalEvidenceUnavailableError(
+            f"permission approval evidence is missing permission for reviewer: {login}"  # scope-bound approval evidence
+        )
+    if "role_name" not in permission or not isinstance(permission.get("role_name"), str):
+        raise ApprovalEvidenceUnavailableError(
+            f"permission approval evidence is missing role name for reviewer: {login}"  # scope-bound approval evidence
+        )
+    user = permission.get("user")
+    if not isinstance(user, dict):
+        raise ApprovalEvidenceUnavailableError(
+            f"permission approval evidence is missing user for reviewer: {login}"  # scope-bound approval evidence
+        )
+    account_type = user.get("type")
+    if account_type not in {"User", "Bot"}:
+        raise ApprovalEvidenceUnavailableError(
+            f"permission approval evidence has unsupported user type for reviewer: {login}"  # scope-bound approval evidence
+        )
+    return permission_value, permission["role_name"], account_type
+
+
+def _validate_live_repository(repo: Any, permitted_repository: str) -> tuple[str, str, str]:
+    if not isinstance(repo, dict):
+        raise EvidenceUnavailableError("required repository fields are unavailable")
+    name = repo.get("nameWithOwner")
+    if not isinstance(name, str) or not name.strip() or name != permitted_repository:
+        raise EvidenceUnavailableError("primary live GitHub repository name is unavailable or invalid")
+    default_ref = repo.get("defaultBranchRef")
+    if not isinstance(default_ref, dict):
+        raise EvidenceUnavailableError("primary live GitHub default branch is unavailable or invalid")
+    default_name = default_ref.get("name")
+    if not isinstance(default_name, str) or not default_name.strip():
+        raise EvidenceUnavailableError("primary live GitHub default branch name is unavailable or invalid")
+    target = default_ref.get("target")
+    if not isinstance(target, dict):
+        raise EvidenceUnavailableError("primary live GitHub default branch target is unavailable or invalid")
+    target_oid = target.get("oid")
+    if not _is_sha(target_oid):
+        raise EvidenceUnavailableError("primary live GitHub default branch target OID is unavailable or invalid")
+    return name, default_name, target_oid
 
 
 def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
@@ -876,11 +931,14 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     except json.JSONDecodeError as exc:
         raise CollectorError("canonical state is malformed") from exc
 
-    repo = _json_command(
-        ["gh", "repo", "view", args.repository, "--json", "nameWithOwner,defaultBranchRef"],
+    repo_response = _json_command(
+        ["gh", "api", "graphql", "-f", f"query={REPOSITORY_GRAPHQL_QUERY}"],
         repo_root,
         commands,
     )
+    if not isinstance(repo_response, dict) or not isinstance(repo_response.get("data"), dict):
+        raise EvidenceUnavailableError("required repository GraphQL response is unavailable")
+    repo = repo_response["data"].get("repository")
     issue = _json_command(
         [
             "gh",
@@ -953,7 +1011,9 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     if not isinstance(raw_checks, list):
         raise EvidenceUnavailableError("required pull-request check fields are unavailable")
 
-    default_ref = repo.get("defaultBranchRef") or {}
+    repository_name, default_branch_name, default_branch_oid = _validate_live_repository(
+        repo, args.repository
+    )
     pr_author = pr.get("author") or {}  # scope-bound approval evidence
     approval_evidence = _collect_review_evidence(
         repo_root,
@@ -970,8 +1030,8 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         "fixture_version": FIXTURE_VERSION,
         "repository": {
             "requested_name": args.repository,
-            "name": str(repo.get("nameWithOwner") or args.repository),
-            "default_branch": str(default_ref.get("name") or "main"),
+            "name": repository_name,
+            "default_branch": default_branch_name,
             "root_verified": root_verified,
             **remote_identity,
         },
@@ -979,7 +1039,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "local_head": local_head,
             "local_main": local_main,
             "local_origin_main": local_origin,
-            "live_default_branch": str((default_ref.get("target") or {}).get("oid") or local_origin),
+            "live_default_branch": default_branch_oid,
             "canonical_ref": args.canonical_ref,
         },
         "canonical_state": canonical,
@@ -1103,6 +1163,32 @@ def _validate_input(data: dict[str, Any]) -> None:
         raise CollectorError("canonical main SHA is malformed")
     if canonical.get("consistency_status") not in CLASSIFICATIONS:
         raise CollectorError("canonical consistency status is invalid")
+    linked_issue = canonical.get("linked_issue")
+    if not isinstance(linked_issue, dict) or set(linked_issue) != {"number", "state"}:
+        raise CollectorError("canonical linked issue is malformed")
+    if type(linked_issue.get("number")) is not int or linked_issue["number"] < 1:
+        raise CollectorError("canonical linked issue number is malformed")
+    if linked_issue.get("state") not in {"active", "open", "closed_completed", "closed_not_planned"}:
+        raise CollectorError("canonical linked issue state is invalid")
+    linked_pr = canonical.get("linked_pr")
+    linked_pr_required = {"number", "state", "observed_head_sha"}
+    linked_pr_allowed = linked_pr_required | {"url", "head_sha_source"}
+    if (
+        not isinstance(linked_pr, dict)
+        or not linked_pr_required.issubset(linked_pr)
+        or set(linked_pr) - linked_pr_allowed
+    ):
+        raise CollectorError("canonical linked PR is malformed")
+    if type(linked_pr.get("number")) is not int or linked_pr["number"] < 1:
+        raise CollectorError("canonical linked PR number is malformed")
+    if linked_pr.get("state") not in {"open", "closed", "merged"}:
+        raise CollectorError("canonical linked PR state is invalid")
+    if linked_pr.get("observed_head_sha") is not None and not _is_sha(linked_pr["observed_head_sha"]):
+        raise CollectorError("canonical linked PR observed head SHA is malformed")
+    if "url" in linked_pr and (not isinstance(linked_pr["url"], str) or not linked_pr["url"].strip()):
+        raise CollectorError("canonical linked PR URL is malformed")
+    if "head_sha_source" in linked_pr and linked_pr["head_sha_source"] != "live_github_required":
+        raise CollectorError("canonical linked PR head SHA source is malformed")
     for key in ("repository", "issue", "pr", "workflow_run", "markers", "review", "auto_merge"):
         if not isinstance(data.get(key), dict):
             raise CollectorError(f"{key} evidence is malformed")
@@ -1330,8 +1416,8 @@ def _compare(
     if findings:
         return "quarantined", sorted(set(findings)), sorted(blockers), True
 
-    canonical_issue = canonical.get("linked_issue") or {}
-    canonical_pr = canonical.get("linked_pr") or {}
+    canonical_issue = canonical["linked_issue"]
+    canonical_pr = canonical["linked_pr"]
     if source["local_main"] != source["live_default_branch"]:
         findings.append("Local main differs from the live default branch")
     if source.get("local_origin_main") and source["local_origin_main"] != source["live_default_branch"]:
@@ -1340,7 +1426,7 @@ def _compare(
         findings.append("Canonical main differs from the live default branch")
     if canonical_issue.get("number") != issue.get("number"):
         findings.append("Canonical linked issue differs from live issue")
-    if canonical_pr and canonical_pr.get("number") != pr.get("number"):
+    if canonical_pr.get("number") != pr.get("number"):
         findings.append("Canonical linked PR differs from live PR")
     canonical_issue_state = str(canonical_issue.get("state") or "").lower()
     live_issue_state = str(issue.get("state") or "").lower()
@@ -1355,7 +1441,7 @@ def _compare(
         findings.append("Canonical PR lifecycle differs from live PR lifecycle")
     if data["lifecycle_claim"] == "closed_gate" and canonical.get("lifecycle_state") != "phase_closed_ready_for_next_phase":
         findings.append("Canonical lifecycle state differs from the closed gate")
-    observed_head = canonical_pr.get("observed_head_sha") if isinstance(canonical_pr, dict) else None
+    observed_head = canonical_pr.get("observed_head_sha")
     if observed_head and observed_head != pr.get("head"):
         findings.append("Canonical observed PR head moved")
         return "quarantined", sorted(findings), sorted(blockers), True
