@@ -30,7 +30,7 @@ It provides no write authorization and cannot approve, merge, release or close a
 - PR head branch: collector-branch
 - PR head: cccccccccccccccccccccccccccccccccccccccc
 - PR draft: false
-- PR author: pr-author (User)
+- PR author: pr-author-scope (User)
 - Merge commit: None
 - Workflow: ContractorOS Control Gates (309083557)
 - Workflow event: pull_request
@@ -92,4 +92,4 @@ External exact-SHA review must rerun this collector against the current PR head.
 
 ## Packet Hash
 
-`ed66e107d66699b0c768f31d86a5ff15d3fbb91f5c584d8eacd3fe22cc3cee1f`
+`88b83e49dc0d378baf50416b9410a124cc0eb956f6e47d6b3a5f93dc06e1521f`

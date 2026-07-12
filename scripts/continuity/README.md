@@ -79,7 +79,7 @@ Raw chat input cannot become decision power. The collector reads canonical state
 
 ## Approval evidence contract
 
-Only normalized public-safe review fields are retained: review ID, reviewer login and account type, state, submission time, exact commit ID, and author association. Review bodies are never persisted. Permission evidence retains only reviewer login, calculated base permission, role name, and account type.
+Only normalized public-safe review fields are retained: review ID, reviewer login and account type, state, submission time, exact commit ID, and author association. Review bodies are never persisted. Permission evidence retains only reviewer login, calculated base permission, role name, and account type. These fields are scope-bound approval evidence.
 
 For each reviewer, decisive current-head records are sorted by submission timestamp and numeric review ID. The latest `APPROVED`, `CHANGES_REQUESTED`, or `DISMISSED` state governs; a later `COMMENTED` record does not erase approval. Duplicate IDs, conflicting duplicates, malformed commit IDs, identity mismatches, or a coarse approved decision without a qualifying reviewer are quarantined. Missing or truncated approval evidence is blocked.
 
@@ -99,4 +99,4 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ```
 
-Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, bounded REST pagination, reviewer-state reduction, author/bot rejection, calculated permission qualification, approval contradictions, review-body exclusion, and the exact two-file output boundary.
+Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, bounded REST pagination, reviewer-state reduction, scope-bound author/bot rejection, calculated permission qualification, approval contradictions, review-body exclusion, and the exact two-file output boundary.

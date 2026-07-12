@@ -74,7 +74,7 @@
     },
     "pr": {
       "type": "object",
-      "required": ["number", "state", "base", "head_branch", "head", "draft", "merge_commit", "merged_at", "url", "author_login", "author_type"],
+      "required": ["number", "state", "base", "head_branch", "head", "draft", "merge_commit", "merged_at", "url", "author_login", "author_type"], "description": "scope-bound PR identity evidence",
       "properties": {
         "number": {"type": "integer", "minimum": 1},
         "state": {"enum": ["open", "closed", "merged"]},
@@ -85,8 +85,8 @@
         "merge_commit": {"$ref": "#/$defs/sha"},
         "merged_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
         "url": {"type": "string", "format": "uri"},
-        "author_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"},
-        "author_type": {"enum": ["User", "Bot"]}
+        "author_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$", "description": "scope-bound PR identity"},
+        "author_type": {"enum": ["User", "Bot"], "description": "scope-bound PR identity"}
       },
       "additionalProperties": false
     },
@@ -152,23 +152,23 @@
     },
     "reviewRecord": {
       "type": "object",
-      "required": ["review_id", "reviewer_login", "reviewer_type", "state", "submitted_at", "commit_id", "author_association"],
+      "required": ["review_id", "reviewer_login", "reviewer_type", "state", "submitted_at", "commit_id", "author_association"], "description": "scope-bound review identity evidence",
       "properties": {
         "review_id": {"type": "integer", "minimum": 1},
-        "reviewer_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"},
+        "reviewer_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$", "description": "scope-bound reviewer identity"},
         "reviewer_type": {"type": "string", "minLength": 1},
         "state": {"enum": ["APPROVED", "CHANGES_REQUESTED", "DISMISSED", "COMMENTED", "PENDING"]},
         "submitted_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
         "commit_id": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-        "author_association": {"type": "string"}
+        "author_association": {"type": "string", "description": "scope-bound review metadata"}
       },
       "additionalProperties": false
     },
     "permissionRecord": {
       "type": "object",
-      "required": ["reviewer_login", "permission", "role_name", "account_type"],
+      "required": ["reviewer_login", "permission", "role_name", "account_type"], "description": "scope-bound permission identity evidence",
       "properties": {
-        "reviewer_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"},
+        "reviewer_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$", "description": "scope-bound reviewer identity"},
         "permission": {"type": "string"},
         "role_name": {"type": "string"},
         "account_type": {"type": "string"}

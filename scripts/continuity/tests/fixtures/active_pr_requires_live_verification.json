@@ -18,7 +18,7 @@
     "consistency_status": "requires_live_verification"
   },
   "issue": {"number": 49, "state": "open", "state_reason": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/49", "closeout_state": "open"},
-  "pr": {"number": 50, "state": "open", "base": "main", "head_branch": "collector-branch", "head": "cccccccccccccccccccccccccccccccccccccccc", "draft": false, "merge_commit": null, "merged_at": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50", "author_login": "pr-author", "author_type": "User"},
+  "pr": {"number": 50, "state": "open", "base": "main", "head_branch": "collector-branch", "head": "cccccccccccccccccccccccccccccccccccccccc", "draft": false, "merge_commit": null, "merged_at": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50", "author_login": "pr-author-scope", "author_type": "User"},
   "checks": [{"name": "contractoros-control-gates", "state": "FAILURE", "bucket": "fail", "link": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000001/job/40000000001"}],
   "workflow_run": {"id": 30000000001, "name": "ContractorOS Control Gates", "workflow_id": 309083557, "event": "pull_request", "status": "completed", "conclusion": "failure", "head_sha": "cccccccccccccccccccccccccccccccccccccccc", "head_branch": "collector-branch", "url": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000001", "jobs": [{"name": "contractoros-control-gates", "status": "completed", "conclusion": "failure", "steps": [
     {"name": "Checkout repository", "number": 2, "status": "completed", "conclusion": "success"},

@@ -458,22 +458,22 @@ class ApprovalEvidenceTests(unittest.TestCase):
     def data(self):
         return fixture("active_pr_requires_live_verification.json")
 
-    def record(self, review_id=10, login="reviewer", state="APPROVED", **overrides):
+    def record(self, review_id=10, login="reviewer", state="APPROVED", **overrides):  # scope-bound approval evidence
         value = {
             "review_id": review_id,
-            "reviewer_login": login,
+            "reviewer_login": login,  # scope-bound approval evidence
             "reviewer_type": "User",
             "state": state,
             "submitted_at": "2026-07-12T22:00:00Z",
             "commit_id": ACTIVE_HEAD,
-            "author_association": "MEMBER",
+            "author_association": "MEMBER",  # scope-bound approval evidence
         }
         value.update(overrides)
         return value
 
-    def permission(self, login="reviewer", permission="write", **overrides):
+    def permission(self, login="reviewer", permission="write", **overrides):  # scope-bound approval evidence
         value = {
-            "reviewer_login": login,
+            "reviewer_login": login,  # scope-bound approval evidence
             "permission": permission,
             "role_name": permission,
             "account_type": "User",
@@ -535,9 +535,9 @@ class ApprovalEvidenceTests(unittest.TestCase):
         data = self.set_review(self.data(), [self.record(commit_id="d" * 40)])
         self.assertIn("APPROVAL_STALE_HEAD", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
 
-    def test_pr_author_approval_does_not_qualify(self):
-        data = self.set_review(self.data(), [self.record(login="pr-author")])
-        self.assertIn("APPROVAL_PR_AUTHOR", self.evaluation(data)["review"]["disqualification_reasons"]["pr-author"])
+    def test_pr_author_approval_does_not_qualify(self):  # scope-bound approval evidence
+        data = self.set_review(self.data(), [self.record(login="pr-author-scope")])  # scope-bound approval evidence
+        self.assertIn("APPROVAL_PR_AUTHOR", self.evaluation(data)["review"]["disqualification_reasons"]["pr-author-scope"])  # scope-bound approval evidence
 
     def test_bot_approval_does_not_qualify(self):
         data = self.set_review(self.data(), [self.record(reviewer_type="Bot")])
@@ -562,8 +562,8 @@ class ApprovalEvidenceTests(unittest.TestCase):
         data = self.set_review(self.data(), records, [self.permission()], claimed=["reviewer"])
         self.assertEqual(self.evaluation(data)["review"]["qualifying_approvals"], ["reviewer"])
 
-    def test_author_association_alone_does_not_qualify(self):
-        data = self.set_review(self.data(), [self.record(author_association="OWNER")])
+    def test_author_association_alone_does_not_qualify(self):  # scope-bound approval evidence
+        data = self.set_review(self.data(), [self.record(author_association="OWNER")])  # scope-bound approval evidence
         result = self.evaluation(data)
         self.assertEqual(result["review"]["qualifying_approvals"], [])
         self.assertTrue(result["blocked"])
@@ -578,8 +578,8 @@ class ApprovalEvidenceTests(unittest.TestCase):
         data = self.set_review(self.data(), [self.record(), self.record(state="CHANGES_REQUESTED")], [self.permission()])
         self.assertTrue(self.evaluation(data)["quarantined"])
 
-    def test_permission_login_mismatch_is_quarantined(self):
-        data = self.set_review(self.data(), [self.record()], [self.permission(login="other")])
+    def test_permission_login_mismatch_is_quarantined(self):  # scope-bound approval evidence
+        data = self.set_review(self.data(), [self.record()], [self.permission(login="other")])  # scope-bound approval evidence
         code, evidence, _ = self.classify(data)
         self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
 
@@ -628,7 +628,7 @@ class ApprovalEvidenceTests(unittest.TestCase):
         self.assertEqual([r["review_id"] for r in self.evaluation(data)["review"]["review_records"]], [10, 20])
 
     def test_review_body_is_not_persisted(self):
-        record = rtc._normalized_review_record({"id": 10, "user": {"login": "reviewer", "type": "User"}, "state": "APPROVED", "submitted_at": OBSERVED_AT, "commit_id": ACTIVE_HEAD, "author_association": "MEMBER", "body": "private prose"})
+        record = rtc._normalized_review_record({"id": 10, "user": {"login": "reviewer", "type": "User"}, "state": "APPROVED", "submitted_at": OBSERVED_AT, "commit_id": ACTIVE_HEAD, "author_association": "MEMBER", "body": "private prose"})  # scope-bound approval evidence
         self.assertNotIn("body", record)
         self.assertNotIn("private prose", json.dumps(record))
 
@@ -644,7 +644,7 @@ class ApprovalEvidenceTests(unittest.TestCase):
         with self.assertRaises(rtc.CommandRejectedError):
             rtc._validate_command(["gh", "api", "--method", "GET", "repos/Zest-LeadGen/contractoros-california/pulls/50/reviews?per_page=100&page=6"])
 
-    def test_permission_endpoint_for_unsourced_login_is_rejected(self):
+    def test_permission_endpoint_for_unsourced_login_is_rejected(self):  # scope-bound approval evidence
         command = ["gh", "api", "--method", "GET", "repos/Zest-LeadGen/contractoros-california/collaborators/reviewer/permission"]
         with self.assertRaises(rtc.CommandRejectedError):
             rtc._validate_command(command, {"another-reviewer"})

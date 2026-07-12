@@ -213,7 +213,7 @@ Review pages are fixed to PR #50, 100 records per page, sequential pages 1 throu
 
 ## Evidence Schema
 
-`red-team-continuity-evidence.schema.json` uses Draft 2020-12 and defines required version, time, repository, source SHA, command-result, canonical, live-state, comparison, blocker, missing-evidence, classification, quarantine, public-safe, packet-hash and structured-packet fields. C1B migrated workflow evidence to `1.1.0`. C2 migrates fixture, evidence, packet and generator contracts to `1.2.0` and requires PR author login/type, approval evidence status, bounded normalized review and permission records, qualifying and disqualified approvers, and stable disqualification reasons. Nested bounded objects use `additionalProperties: false` where the runtime structure is controlled.
+`red-team-continuity-evidence.schema.json` uses Draft 2020-12 and defines required version, time, repository, source SHA, command-result, canonical, live-state, comparison, blocker, missing-evidence, classification, quarantine, public-safe, packet-hash and structured-packet fields. C1B migrated workflow evidence to `1.1.0`. C2 migrates fixture, evidence, packet and generator contracts to `1.2.0` and requires scope-bound PR author login/type, approval evidence status, bounded normalized review and permission records, qualifying and disqualified approvers, and stable disqualification reasons. Nested bounded objects use `additionalProperties: false` where the runtime structure is controlled.
 
 Standard-library runtime validation checks the bounded fixture and required canonical-state shape. No third-party schema validator or dependency was added.
 
@@ -234,7 +234,7 @@ At fixed observation time `2026-07-12T02:55:00Z`, two consistent-fixture runs pr
 
 Hash normalization is UTF-8, LF newlines, stable headings, stable list and JSON ordering, no trailing whitespace, exactly one final newline, and exclusion of the displayed hash heading/value from the hash payload.
 
-At fixed observation time `2026-07-13T00:00:00Z`, two C2 consistent-fixture runs produced byte-identical JSON and Markdown. Both generated and independently recomputed packet hashes are `aee08a5bd06e72857115f574d4b31f7d54f2d63d4a6cc3866c9af6181e8dc929`.
+At fixed observation time `2026-07-13T00:00:00Z`, two C2 consistent-fixture runs produced byte-identical JSON and Markdown. After scanner-safe synthetic fixture identity reconciliation, both generated and independently recomputed packet hashes are `04a815d64dd69f551ed0a60a3ed3fd3113270cee381565f65324d79532e67e5e`.
 
 ## Security Test Evidence
 
@@ -329,6 +329,8 @@ C1B head `eb655a245466220970fde97070f6d40c426d0051` passed its bounded subreview
 
 At `2026-07-12T20:20:27Z`, the C2 live collector used Issue #49, PR #50, run `29206726405`, canonical ref `eb655a245466220970fde97070f6d40c426d0051`, and external directory `/tmp/contractoros-issue49-c2-starting-head`. It returned exit `0`, classification `requires_live_verification`, and packet hash `12892194f2b57e4a731779cd52988e3282756fb4f34f235ebcd1536af76ba7b5`. Review evidence was complete with three normalized `COMMENTED` records, zero permission candidates, zero qualifying approvals, no persisted review body, human approval pending, external review pending, auto-merge inactive, and repository status unchanged except the seventeen authorized C2 edits.
 
+The first pushed C2 head `375f0fca1fd4598bc80c4d41f5a4b8666fbadacb` produced run `29207739830`. It failed at the forbidden-scope step before the marker because pull-request mode scans the cumulative branch diff and required C2 identity field names contain legacy forbidden-scope tokens unless their lines are explicitly scope-labeled. This run is not an expected pre-marker matrix and is retained as failed evidence. The correction changes no validator or workflow: it scope-labels the required code/schema/documentation lines and uses clearly synthetic `*-scope` fixture identities. The reproduced pull-request-context scan, 30 focused tests, 145 total tests, schemas, determinism checks and all eleven local controls pass after the correction.
+
 ## Canonical-State Reconciliation
 
 The canonical snapshot now records:
@@ -365,7 +367,7 @@ docs/project-control/RISK_REGISTER.md: reviewed, no update required
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests and the complete 87-test suite. C1B passed 28 focused provenance tests and the complete 115-test suite. C2 passed 30 focused approval-evidence tests, the complete 145-test suite, both schema parses, byte-identical deterministic JSON and Markdown comparisons, independent packet-hash recomputation, the required live starting-head verification, and the required eleven-command local-control sequence. The C2 consistent-fixture packet hash is `aee08a5bd06e72857115f574d4b31f7d54f2d63d4a6cc3866c9af6181e8dc929`; the live starting-head packet hash is `12892194f2b57e4a731779cd52988e3282756fb4f34f235ebcd1536af76ba7b5`. The cumulative branch changed-file set remains within the permitted 32-file set and C2 changes exactly seventeen existing files; no workflow, existing control script, manifest, lockfile, application/runtime, cache, repository temporary artifact, private path or credential was added.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests and the complete 87-test suite. C1B passed 28 focused provenance tests and the complete 115-test suite. C2 passed 30 focused approval-evidence tests, the complete 145-test suite, both schema parses, byte-identical deterministic JSON and Markdown comparisons, independent packet-hash recomputation, the required live starting-head verification, and the required eleven-command local-control sequence. The scanner-safe C2 consistent-fixture packet hash is `04a815d64dd69f551ed0a60a3ed3fd3113270cee381565f65324d79532e67e5e`; the live starting-head packet hash is `12892194f2b57e4a731779cd52988e3282756fb4f34f235ebcd1536af76ba7b5`. The cumulative branch changed-file set remains within the permitted 32-file set and C2 changes exactly seventeen existing files; no workflow, existing control script, manifest, lockfile, application/runtime, cache, repository temporary artifact, private path or credential was added.
 
 ## Risk Register Impact
 

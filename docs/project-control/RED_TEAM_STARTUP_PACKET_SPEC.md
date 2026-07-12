@@ -12,7 +12,7 @@ Fixture mode consumes a bounded JSON fixture plus an explicit observation timest
 
 Live provenance includes bounded local Git metadata; canonical state read from the exact ref; issue, pull request, checks, workflow run and step evidence; owner-trigger and red-team marker status; normalized pull-request reviews; calculated repository-permission evidence for sourced candidates; deterministic qualifying and disqualified approvals; auto-merge state; comparison findings; blockers; and gaps. Raw credentials, headers, environment contents, review bodies, unrelated comment bodies, and unrestricted command output are not persisted.
 
-The version `1.2.0` evidence contract requires PR author identity and account type; approval evidence status; normalized review and permission records; qualifying and disqualified reviewer lists; stable disqualification reasons; PR head branch; check link; workflow identity; event; run head branch; bounded jobs; and numbered step status/conclusion evidence. The generator and both generated schemas use `1.2.0`; every fixture uses `fixture_version: 1.2.0`.
+The version `1.2.0` evidence contract requires PR author identity and account type; approval evidence status; normalized review and permission records; qualifying and disqualified reviewer lists; stable disqualification reasons; PR head branch; check link; workflow identity; event; run head branch; bounded jobs; and numbered step status/conclusion evidence. The generator and both generated schemas use `1.2.0`; every fixture uses `fixture_version: 1.2.0`. This is scope-bound approval evidence only.
 
 ## Read-Only Command Security
 

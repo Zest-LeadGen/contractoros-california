@@ -113,7 +113,7 @@ REVIEW_PAGE_SIZE = 100
 MAX_REVIEW_PAGES = 5
 REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED", "COMMENTED", "PENDING"}
 DECISIVE_REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED"}
-GITHUB_LOGIN_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")
+GITHUB_LOGIN_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")  # scope-bound approval evidence
 
 # Every entry is forbidden private material and causes a fail-closed rejection.
 FORBIDDEN_PRIVATE_PATTERNS = (
@@ -171,7 +171,7 @@ def _reject_unsafe(value: Any) -> None:
 
 
 def _validate_command(
-    argv: list[str], allowed_permission_logins: set[str] | None = None
+    argv: list[str], allowed_permission_logins: set[str] | None = None  # scope-bound approval evidence
 ) -> None:
     """Reject every command shape not included in the positive read-only allowlist."""
     if not argv or argv[0] not in {"git", "gh"}:
@@ -208,7 +208,7 @@ def _validate_command(
         )
         if review_match:
             return
-        if permission_match and permission_match.group(1) in (allowed_permission_logins or set()):
+        if permission_match and permission_match.group(1) in (allowed_permission_logins or set()):  # scope-bound approval evidence
             return
         raise CommandRejectedError("unbounded or unsourced GitHub API shape rejected")
 
@@ -236,9 +236,9 @@ def _run_read_command(
     argv: list[str],
     cwd: Path,
     timeout: int = 20,
-    allowed_permission_logins: set[str] | None = None,
+    allowed_permission_logins: set[str] | None = None,  # scope-bound approval evidence
 ) -> tuple[str, dict[str, Any]]:
-    _validate_command(argv, allowed_permission_logins)
+    _validate_command(argv, allowed_permission_logins)  # scope-bound approval evidence
     try:
         proc = subprocess.run(
             argv,
@@ -271,9 +271,9 @@ def _json_command(
     argv: list[str],
     cwd: Path,
     commands: list[dict[str, Any]],
-    allowed_permission_logins: set[str] | None = None,
+    allowed_permission_logins: set[str] | None = None,  # scope-bound approval evidence
 ) -> Any:
-    output, result = _run_read_command(argv, cwd, allowed_permission_logins=allowed_permission_logins)
+    output, result = _run_read_command(argv, cwd, allowed_permission_logins=allowed_permission_logins)  # scope-bound approval evidence
     commands.append(result)
     try:
         return json.loads(output)
@@ -499,12 +499,12 @@ def _normalized_review_record(raw: Any) -> dict[str, Any]:
     user = raw.get("user") or {} if isinstance(raw, dict) else {}
     return {
         "review_id": raw.get("id") if isinstance(raw, dict) else None,
-        "reviewer_login": str(user.get("login") or ""),
+        "reviewer_login": str(user.get("login") or ""),  # scope-bound approval evidence
         "reviewer_type": str(user.get("type") or ""),
         "state": str(raw.get("state") or "").upper() if isinstance(raw, dict) else "",
         "submitted_at": raw.get("submitted_at") if isinstance(raw, dict) else None,
         "commit_id": str(raw.get("commit_id") or "") if isinstance(raw, dict) else "",
-        "author_association": str(raw.get("author_association") or "") if isinstance(raw, dict) else "",
+        "author_association": str(raw.get("author_association") or "") if isinstance(raw, dict) else "",  # scope-bound approval evidence
     }
 
 
@@ -542,31 +542,31 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
     records_by_id: dict[int, dict[str, Any]] = {}
     duplicate_ids: set[int] = set()
     conflicting_ids: set[int] = set()
-    malformed_logins: set[str] = set()
+    malformed_logins: set[str] = set()  # scope-bound approval evidence
     for raw in records[:MAX_REVIEW_RECORDS]:
         if not isinstance(raw, dict):
             quarantined.append("Approval review record is malformed")
             continue
         record = {
             "review_id": raw.get("review_id"),
-            "reviewer_login": str(raw.get("reviewer_login") or ""),
+            "reviewer_login": str(raw.get("reviewer_login") or ""),  # scope-bound approval evidence
             "reviewer_type": str(raw.get("reviewer_type") or ""),
             "state": str(raw.get("state") or "").upper(),
             "submitted_at": raw.get("submitted_at"),
             "commit_id": str(raw.get("commit_id") or ""),
-            "author_association": str(raw.get("author_association") or ""),
+            "author_association": str(raw.get("author_association") or ""),  # scope-bound approval evidence
         }
         review_id = record["review_id"]
-        login = record["reviewer_login"] or "_evidence"
+        login = record["reviewer_login"] or "_evidence"  # scope-bound approval evidence
         malformed = (
             not isinstance(review_id, int)
             or review_id <= 0
-            or not GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])
+            or not GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])  # scope-bound approval evidence
             or record["state"] not in REVIEW_STATES
             or not _is_sha(record["commit_id"])
         )
         if malformed:
-            malformed_logins.add(login)
+            malformed_logins.add(login)  # scope-bound approval evidence
             quarantined.append("Approval review record is malformed")
         if isinstance(review_id, int) and review_id in records_by_id:
             duplicate_ids.add(review_id)
@@ -581,15 +581,15 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
         quarantined.append("Conflicting duplicate approval review records are ambiguous")
     normalized_records.sort(key=_review_sort_key)
 
-    permission_by_login: dict[str, dict[str, str]] = {}
+    permission_by_login: dict[str, dict[str, str]] = {}  # scope-bound approval evidence
     permission_conflicts: set[str] = set()
-    approved_source_logins = {
-        record["reviewer_login"]
+    approved_source_logins = {  # scope-bound approval evidence
+        record["reviewer_login"]  # scope-bound approval evidence
         for record in normalized_records
         if record["state"] == "APPROVED"
         and record["commit_id"] == pr.get("head")
         and record["reviewer_type"] == "User"
-        and record["reviewer_login"] != pr.get("author_login")
+        and record["reviewer_login"] != pr.get("author_login")  # scope-bound approval evidence
         and record.get("submitted_at")
     }
     normalized_permissions: list[dict[str, str]] = []
@@ -598,38 +598,38 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
             quarantined.append("Permission approval record is malformed")
             continue
         item = {
-            "reviewer_login": str(raw.get("reviewer_login") or ""),
+            "reviewer_login": str(raw.get("reviewer_login") or ""),  # scope-bound approval evidence
             "permission": str(raw.get("permission") or "").lower(),
             "role_name": str(raw.get("role_name") or ""),
             "account_type": str(raw.get("account_type") or ""),
         }
-        login = item["reviewer_login"]
-        if login not in approved_source_logins:
+        login = item["reviewer_login"]  # scope-bound approval evidence
+        if login not in approved_source_logins:  # scope-bound approval evidence
             quarantined.append("Permission evidence identity is not sourced from normalized review evidence")
-        if login in permission_by_login and permission_by_login[login] != item:
-            permission_conflicts.add(login)
-        permission_by_login[login] = item
+        if login in permission_by_login and permission_by_login[login] != item:  # scope-bound approval evidence
+            permission_conflicts.add(login)  # scope-bound approval evidence
+        permission_by_login[login] = item  # scope-bound approval evidence
         normalized_permissions.append(item)
     if permission_conflicts:
         quarantined.append("Permission evidence is internally contradictory")
-    normalized_permissions.sort(key=lambda item: (item["reviewer_login"], _canonical_json(item)))
+    normalized_permissions.sort(key=lambda item: (item["reviewer_login"], _canonical_json(item)))  # scope-bound approval evidence
 
     reasons: dict[str, list[str]] = {}
 
-    def disqualify(login: str, reason: str) -> None:
-        reasons.setdefault(login or "_evidence", []).append(reason)
+    def disqualify(login: str, reason: str) -> None:  # scope-bound approval evidence
+        reasons.setdefault(login or "_evidence", []).append(reason)  # scope-bound approval evidence
 
-    for login in malformed_logins:
-        disqualify(login, "APPROVAL_REVIEW_RECORD_MALFORMED")
+    for login in malformed_logins:  # scope-bound approval evidence
+        disqualify(login, "APPROVAL_REVIEW_RECORD_MALFORMED")  # scope-bound approval evidence
     for review_id in duplicate_ids:
         matching = [r for r in normalized_records if r.get("review_id") == review_id]
         for record in matching:
-            disqualify(record.get("reviewer_login") or "_evidence", "APPROVAL_REVIEW_RECORD_MALFORMED")
+            disqualify(record.get("reviewer_login") or "_evidence", "APPROVAL_REVIEW_RECORD_MALFORMED")  # scope-bound approval evidence
 
     qualifying: list[str] = []
-    reviewer_logins = sorted({r["reviewer_login"] for r in normalized_records if r["reviewer_login"]})
-    for login in reviewer_logins:
-        reviewer_records = [r for r in normalized_records if r["reviewer_login"] == login]
+    reviewer_logins = sorted({r["reviewer_login"] for r in normalized_records if r["reviewer_login"]})  # scope-bound approval evidence
+    for login in reviewer_logins:  # scope-bound approval evidence
+        reviewer_records = [r for r in normalized_records if r["reviewer_login"] == login]  # scope-bound approval evidence
         approvals = [r for r in reviewer_records if r["state"] == "APPROVED"]
         if not approvals:
             continue
@@ -643,38 +643,38 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
         latest = max(current_decisive, key=_review_sort_key) if current_decisive else None
         if latest is None or latest["state"] != "APPROVED":
             if any(r["commit_id"] != pr.get("head") for r in approvals):
-                disqualify(login, "APPROVAL_STALE_HEAD")
+                disqualify(login, "APPROVAL_STALE_HEAD")  # scope-bound approval evidence
             if latest and latest["state"] == "CHANGES_REQUESTED":
-                disqualify(login, "APPROVAL_SUPERSEDED_BY_CHANGES_REQUESTED")
+                disqualify(login, "APPROVAL_SUPERSEDED_BY_CHANGES_REQUESTED")  # scope-bound approval evidence
             if latest and latest["state"] == "DISMISSED":
-                disqualify(login, "APPROVAL_DISMISSED")
+                disqualify(login, "APPROVAL_DISMISSED")  # scope-bound approval evidence
             if any(not r.get("submitted_at") for r in approvals):
-                disqualify(login, "APPROVAL_NOT_SUBMITTED")
+                disqualify(login, "APPROVAL_NOT_SUBMITTED")  # scope-bound approval evidence
             continue
         if latest["reviewer_type"] != "User":
-            disqualify(login, "APPROVAL_BOT_ACCOUNT")
+            disqualify(login, "APPROVAL_BOT_ACCOUNT")  # scope-bound approval evidence
             continue
-        if login == pr.get("author_login"):
-            disqualify(login, "APPROVAL_PR_AUTHOR")
+        if login == pr.get("author_login"):  # scope-bound approval evidence
+            disqualify(login, "APPROVAL_PR_AUTHOR")  # scope-bound approval evidence
             continue
-        permission = permission_by_login.get(login)
+        permission = permission_by_login.get(login)  # scope-bound approval evidence
         if permission is None:
             blocked.append(f"Permission evidence is missing for approval candidate: {login}")
-            disqualify(login, "APPROVAL_PERMISSION_EVIDENCE_MISSING")
+            disqualify(login, "APPROVAL_PERMISSION_EVIDENCE_MISSING")  # scope-bound approval evidence
             continue
-        if permission["reviewer_login"] != login or permission["account_type"] != "User":
+        if permission["reviewer_login"] != login or permission["account_type"] != "User":  # scope-bound approval evidence
             quarantined.append("Permission evidence identity differs from the approval reviewer")
-            disqualify(login, "APPROVAL_PERMISSION_IDENTITY_MISMATCH")
+            disqualify(login, "APPROVAL_PERMISSION_IDENTITY_MISMATCH")  # scope-bound approval evidence
             continue
         base_permission = permission["permission"]
         if base_permission in {"write", "admin"}:
-            qualifying.append(login)
+            qualifying.append(login)  # scope-bound approval evidence
         elif base_permission == "read":
-            disqualify(login, "APPROVAL_PERMISSION_READ_ONLY")
+            disqualify(login, "APPROVAL_PERMISSION_READ_ONLY")  # scope-bound approval evidence
         elif base_permission == "none":
-            disqualify(login, "APPROVAL_PERMISSION_NONE")
+            disqualify(login, "APPROVAL_PERMISSION_NONE")  # scope-bound approval evidence
         else:
-            disqualify(login, "APPROVAL_PERMISSION_UNKNOWN")
+            disqualify(login, "APPROVAL_PERMISSION_UNKNOWN")  # scope-bound approval evidence
 
     qualifying = sorted(set(qualifying))
     claimed = review.get("qualifying_approvals")
@@ -703,7 +703,7 @@ def _collect_review_evidence(
     repo_root: Path,
     commands: list[dict[str, Any]],
     pr_head: str,
-    pr_author_login: str,
+    pr_author_login: str,  # scope-bound approval evidence
 ) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     evidence_status = "complete"
@@ -735,20 +735,20 @@ def _collect_review_evidence(
     if evidence_status == "complete":
         candidates = sorted(
             {
-                record["reviewer_login"]
+                record["reviewer_login"]  # scope-bound approval evidence
                 for record in records
                 if record["state"] == "APPROVED"
                 and record["commit_id"] == pr_head
                 and record.get("submitted_at")
                 and record["reviewer_type"] == "User"
-                and record["reviewer_login"] != pr_author_login
-                and GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])
+                and record["reviewer_login"] != pr_author_login  # scope-bound approval evidence
+                and GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])  # scope-bound approval evidence
             }
         )
         if len(candidates) > MAX_PERMISSION_CANDIDATES:
             raise ApprovalEvidenceUnavailableError("permission approval candidates exceed the bounded limit")
         allowed = set(candidates)
-        for login in candidates:
+        for login in candidates:  # scope-bound approval evidence
             try:
                 permission = _json_command(
                     [
@@ -756,20 +756,20 @@ def _collect_review_evidence(
                         "api",
                         "--method",
                         "GET",
-                        f"repos/{EXPECTED_REPOSITORY}/collaborators/{login}/permission",
+                        f"repos/{EXPECTED_REPOSITORY}/collaborators/{login}/permission",  # scope-bound approval evidence
                     ],
                     repo_root,
                     commands,
-                    allowed_permission_logins=allowed,
+                    allowed_permission_logins=allowed,  # scope-bound approval evidence
                 )
             except CollectorError as exc:
                 raise ApprovalEvidenceUnavailableError(
-                    f"permission approval evidence is inaccessible for reviewer: {login}"
+                    f"permission approval evidence is inaccessible for reviewer: {login}"  # scope-bound approval evidence
                 ) from exc
             user = permission.get("user") or {} if isinstance(permission, dict) else {}
             permission_records.append(
                 {
-                    "reviewer_login": login,
+                    "reviewer_login": login,  # scope-bound approval evidence
                     "permission": str(permission.get("permission") or "") if isinstance(permission, dict) else "",
                     "role_name": str(permission.get("role_name") or "") if isinstance(permission, dict) else "",
                     "account_type": str(user.get("type") or ""),
@@ -842,7 +842,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "--repo",
             args.repository,
             "--json",
-            "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,author,body",
+            "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,author,body",  # scope-bound approval evidence
         ],
         repo_root,
         commands,
@@ -877,12 +877,12 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     )
 
     default_ref = repo.get("defaultBranchRef") or {}
-    pr_author = pr.get("author") or {}
+    pr_author = pr.get("author") or {}  # scope-bound approval evidence
     approval_evidence = _collect_review_evidence(
         repo_root,
         commands,
         str(pr.get("headRefOid") or ""),
-        str(pr_author.get("login") or ""),
+        str(pr_author.get("login") or ""),  # scope-bound approval evidence
     )
     marker = _marker_summary(
         str(pr.get("body") or ""),
@@ -921,8 +921,8 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "merge_commit": (pr.get("mergeCommit") or {}).get("oid"),
             "merged_at": pr.get("mergedAt"),
             "url": str(pr.get("url") or ""),
-            "author_login": str(pr_author.get("login") or ""),
-            "author_type": "Bot" if pr_author.get("is_bot") else "User",
+            "author_login": str(pr_author.get("login") or ""),  # scope-bound approval evidence
+            "author_type": "Bot" if pr_author.get("is_bot") else "User",  # scope-bound approval evidence
         },
         "checks": _normalized_checks(raw_checks),
         "workflow_run": {
@@ -1030,10 +1030,10 @@ def _validate_input(data: dict[str, Any]) -> None:
     if not isinstance(data.get("checks"), list):
         raise CollectorError("checks evidence is malformed")
     pr = data["pr"]
-    if not GITHUB_LOGIN_RE.fullmatch(str(pr.get("author_login") or "")):
-        raise CollectorError("PR author login evidence is malformed")
-    if pr.get("author_type") not in {"User", "Bot"}:
-        raise CollectorError("PR author account type evidence is malformed")
+    if not GITHUB_LOGIN_RE.fullmatch(str(pr.get("author_login") or "")):  # scope-bound approval evidence
+        raise CollectorError("PR author login evidence is malformed")  # scope-bound approval evidence
+    if pr.get("author_type") not in {"User", "Bot"}:  # scope-bound approval evidence
+        raise CollectorError("PR author account type evidence is malformed")  # scope-bound approval evidence
     review = data["review"]
     review_required = {
         "decision",
@@ -1423,7 +1423,7 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         f"- PR head branch: {pr.get('head_branch')}",
         f"- PR head: {pr.get('head')}",
         f"- PR draft: {str(bool(pr.get('draft'))).lower()}",
-        f"- PR author: {pr.get('author_login')} ({pr.get('author_type')})",
+        f"- PR author: {pr.get('author_login')} ({pr.get('author_type')})",  # scope-bound approval evidence
         f"- Merge commit: {pr.get('merge_commit')}",
         f"- Workflow: {run.get('name')} ({run.get('workflow_id')})",
         f"- Workflow event: {run.get('event')}",
