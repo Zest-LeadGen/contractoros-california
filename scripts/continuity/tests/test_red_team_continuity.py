@@ -454,6 +454,202 @@ class MarkerSemanticsTests(unittest.TestCase):
         self.assertEqual(self.evaluations(body)["owner"]["status"], "missing")
 
 
+class ApprovalEvidenceTests(unittest.TestCase):
+    def data(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def record(self, review_id=10, login="reviewer", state="APPROVED", **overrides):
+        value = {
+            "review_id": review_id,
+            "reviewer_login": login,
+            "reviewer_type": "User",
+            "state": state,
+            "submitted_at": "2026-07-12T22:00:00Z",
+            "commit_id": ACTIVE_HEAD,
+            "author_association": "MEMBER",
+        }
+        value.update(overrides)
+        return value
+
+    def permission(self, login="reviewer", permission="write", **overrides):
+        value = {
+            "reviewer_login": login,
+            "permission": permission,
+            "role_name": permission,
+            "account_type": "User",
+        }
+        value.update(overrides)
+        return value
+
+    def set_review(self, data, records, permissions=(), decision=None, claimed=()):
+        data["review"] = {
+            "decision": decision,
+            "evidence_status": "complete",
+            "review_records": list(records),
+            "permission_records": list(permissions),
+            "qualifying_approvals": list(claimed),
+            "disqualified_approvals": [],
+            "disqualification_reasons": {},
+        }
+        return data
+
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def evaluation(self, data):
+        return rtc._approval_evaluation(data["pr"], data["review"])
+
+    def test_current_head_approved_write_user_qualifies(self):
+        data = self.set_review(self.data(), [self.record()], [self.permission()], claimed=["reviewer"])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual(code, 0)
+        self.assertEqual(evidence["live_state"]["review"]["qualifying_approvals"], ["reviewer"])
+
+    def test_current_head_approved_admin_user_qualifies(self):
+        data = self.set_review(self.data(), [self.record()], [self.permission(permission="admin")], claimed=["reviewer"])
+        self.assertEqual(self.evaluation(data)["review"]["qualifying_approvals"], ["reviewer"])
+
+    def test_write_permission_mapping_accepts_maintain_base_permission(self):
+        data = self.set_review(
+            self.data(), [self.record()], [self.permission(permission="write", role_name="maintain")], claimed=["reviewer"]
+        )
+        self.assertEqual(self.evaluation(data)["review"]["qualifying_approvals"], ["reviewer"])
+
+    def test_read_permission_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record()], [self.permission(permission="read")])
+        result = self.evaluation(data)["review"]
+        self.assertEqual(result["qualifying_approvals"], [])
+        self.assertIn("APPROVAL_PERMISSION_READ_ONLY", result["disqualification_reasons"]["reviewer"])
+
+    def test_none_permission_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record()], [self.permission(permission="none")])
+        self.assertIn("APPROVAL_PERMISSION_NONE", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_unknown_permission_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record()], [self.permission(permission="triage")])
+        self.assertIn("APPROVAL_PERMISSION_UNKNOWN", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_stale_head_approval_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record(commit_id="d" * 40)])
+        self.assertIn("APPROVAL_STALE_HEAD", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_pr_author_approval_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record(login="pr-author")])
+        self.assertIn("APPROVAL_PR_AUTHOR", self.evaluation(data)["review"]["disqualification_reasons"]["pr-author"])
+
+    def test_bot_approval_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record(reviewer_type="Bot")])
+        self.assertIn("APPROVAL_BOT_ACCOUNT", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_unsubmitted_review_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record(submitted_at=None)])
+        self.assertIn("APPROVAL_NOT_SUBMITTED", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_dismissed_review_does_not_qualify(self):
+        records = [self.record(), self.record(11, state="DISMISSED", submitted_at="2026-07-12T23:00:00Z")]
+        data = self.set_review(self.data(), records, [self.permission()])
+        self.assertIn("APPROVAL_DISMISSED", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_later_changes_requested_supersedes_approval(self):
+        records = [self.record(), self.record(11, state="CHANGES_REQUESTED", submitted_at="2026-07-12T23:00:00Z")]
+        data = self.set_review(self.data(), records, [self.permission()])
+        self.assertIn("APPROVAL_SUPERSEDED_BY_CHANGES_REQUESTED", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+
+    def test_later_comment_does_not_erase_approval(self):
+        records = [self.record(), self.record(11, state="COMMENTED", submitted_at="2026-07-12T23:00:00Z")]
+        data = self.set_review(self.data(), records, [self.permission()], claimed=["reviewer"])
+        self.assertEqual(self.evaluation(data)["review"]["qualifying_approvals"], ["reviewer"])
+
+    def test_author_association_alone_does_not_qualify(self):
+        data = self.set_review(self.data(), [self.record(author_association="OWNER")])
+        result = self.evaluation(data)
+        self.assertEqual(result["review"]["qualifying_approvals"], [])
+        self.assertTrue(result["blocked"])
+
+    def test_duplicate_review_id_is_quarantined(self):
+        record = self.record()
+        data = self.set_review(self.data(), [record, copy.deepcopy(record)], [self.permission()])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_conflicting_duplicate_review_is_quarantined(self):
+        data = self.set_review(self.data(), [self.record(), self.record(state="CHANGES_REQUESTED")], [self.permission()])
+        self.assertTrue(self.evaluation(data)["quarantined"])
+
+    def test_permission_login_mismatch_is_quarantined(self):
+        data = self.set_review(self.data(), [self.record()], [self.permission(login="other")])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_missing_permission_evidence_is_blocked(self):
+        data = self.set_review(self.data(), [self.record()])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (3, "blocked"))
+
+    def test_review_evidence_truncation_is_blocked(self):
+        data = self.set_review(self.data(), [])
+        data["review"]["evidence_status"] = "truncated"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (3, "blocked"))
+
+    def test_review_decision_approved_without_qualified_approval_is_quarantined(self):
+        data = self.set_review(self.data(), [], decision="APPROVED")
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_active_pr_without_approval_remains_pending(self):
+        code, evidence, _ = self.classify(self.data())
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+        self.assertIn("Human/write-access approval is pending", evidence["blockers"])
+
+    def test_externally_approved_claim_requires_qualified_approval(self):
+        data = self.data()
+        data["lifecycle_claim"] = "externally_approved"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_merge_ready_claim_requires_qualified_approval(self):
+        data = self.data()
+        data["lifecycle_claim"] = "merge_ready"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_qualifying_approvals_are_unique_and_sorted(self):
+        records = [self.record(20, "zeta"), self.record(10, "alpha")]
+        permissions = [self.permission("zeta"), self.permission("alpha")]
+        data = self.set_review(self.data(), records, permissions, claimed=["zeta", "alpha"])
+        self.assertEqual(self.evaluation(data)["review"]["qualifying_approvals"], ["alpha", "zeta"])
+
+    def test_review_records_are_deterministically_sorted(self):
+        records = [self.record(20, submitted_at="2026-07-12T23:00:00Z"), self.record(10)]
+        data = self.set_review(self.data(), records, [self.permission()], claimed=["reviewer"])
+        self.assertEqual([r["review_id"] for r in self.evaluation(data)["review"]["review_records"]], [10, 20])
+
+    def test_review_body_is_not_persisted(self):
+        record = rtc._normalized_review_record({"id": 10, "user": {"login": "reviewer", "type": "User"}, "state": "APPROVED", "submitted_at": OBSERVED_AT, "commit_id": ACTIVE_HEAD, "author_association": "MEMBER", "body": "private prose"})
+        self.assertNotIn("body", record)
+        self.assertNotIn("private prose", json.dumps(record))
+
+    def test_unrestricted_gh_api_is_rejected(self):
+        with self.assertRaises(rtc.CommandRejectedError):
+            rtc._validate_command(["gh", "api", "--method", "GET", "repos/Zest-LeadGen/contractoros-california/issues"])
+
+    def test_mutating_gh_api_shape_is_rejected(self):
+        with self.assertRaises(rtc.CommandRejectedError):
+            rtc._validate_command(["gh", "api", "--method", "POST", "repos/Zest-LeadGen/contractoros-california/pulls/50/reviews"])
+
+    def test_api_pagination_above_bound_is_rejected(self):
+        with self.assertRaises(rtc.CommandRejectedError):
+            rtc._validate_command(["gh", "api", "--method", "GET", "repos/Zest-LeadGen/contractoros-california/pulls/50/reviews?per_page=100&page=6"])
+
+    def test_permission_endpoint_for_unsourced_login_is_rejected(self):
+        command = ["gh", "api", "--method", "GET", "repos/Zest-LeadGen/contractoros-california/collaborators/reviewer/permission"]
+        with self.assertRaises(rtc.CommandRejectedError):
+            rtc._validate_command(command, {"another-reviewer"})
+
+
 class WorkflowProvenanceTests(unittest.TestCase):
     def data(self):
         return fixture("active_pr_requires_live_verification.json")

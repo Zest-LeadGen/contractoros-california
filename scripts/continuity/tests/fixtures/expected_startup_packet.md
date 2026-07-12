@@ -7,8 +7,8 @@ It provides no write authorization and cannot approve, merge, release or close a
 
 ## Generator
 
-- Generator version: 1.1.0
-- Packet schema version: 1.1.0
+- Generator version: 1.2.0
+- Packet schema version: 1.2.0
 - Observation timestamp: 2026-07-13T00:00:00Z
 - Repository: Zest-LeadGen/contractoros-california
 - Canonical schema version: 1.0.1
@@ -30,6 +30,7 @@ It provides no write authorization and cannot approve, merge, release or close a
 - PR head branch: collector-branch
 - PR head: cccccccccccccccccccccccccccccccccccccccc
 - PR draft: false
+- PR author: pr-author (User)
 - Merge commit: None
 - Workflow: ContractorOS Control Gates (309083557)
 - Workflow event: pull_request
@@ -42,7 +43,11 @@ It provides no write authorization and cannot approve, merge, release or close a
 - Red-team marker: missing
 - Red-team bound SHA: None
 - Review decision: None
+- Approval evidence status: complete
+- Normalized review records: 0
+- Permission records: 0
 - Qualifying human approvals: 0
+- Disqualified approval candidates: 0
 - Auto-merge active: false
 
 ## Required Checks
@@ -87,4 +92,4 @@ External exact-SHA review must rerun this collector against the current PR head.
 
 ## Packet Hash
 
-`67cccfa4d91d69930418d2a460576fb45d9fa2083ec6030fe1a1f6b18f8b58b1`
+`ed66e107d66699b0c768f31d86a5ff15d3fbb91f5c584d8eacd3fe22cc3cee1f`

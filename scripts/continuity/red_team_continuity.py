@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.1.0"
-EVIDENCE_SCHEMA_VERSION = "1.1.0"
-PACKET_SCHEMA_VERSION = "1.1.0"
-FIXTURE_VERSION = "1.1.0"
+GENERATOR_VERSION = "1.2.0"
+EVIDENCE_SCHEMA_VERSION = "1.2.0"
+PACKET_SCHEMA_VERSION = "1.2.0"
+FIXTURE_VERSION = "1.2.0"
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_PATH = "docs/project-control/state/contractoros-state.yaml"
 OUTPUT_NAMES = ("continuity-evidence.json", "RED_TEAM_STARTUP_PACKET.md")
@@ -106,6 +106,14 @@ POST_MARKER_STEPS = (
 )
 REQUIRED_STEPS = PRE_MARKER_STEPS + (MARKER_STEP,) + POST_MARKER_STEPS
 IGNORED_RUNNER_STEPS = {"Set up job", "Post Checkout repository", "Complete job"}
+MAX_COMMAND_OUTPUT_BYTES = 2_000_000
+MAX_REVIEW_RECORDS = 500
+MAX_PERMISSION_CANDIDATES = 100
+REVIEW_PAGE_SIZE = 100
+MAX_REVIEW_PAGES = 5
+REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED", "COMMENTED", "PENDING"}
+DECISIVE_REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED"}
+GITHUB_LOGIN_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")
 
 # Every entry is forbidden private material and causes a fail-closed rejection.
 FORBIDDEN_PRIVATE_PATTERNS = (
@@ -133,6 +141,10 @@ class CommandRejectedError(CollectorError):
     exit_code = 5
 
 
+class ApprovalEvidenceUnavailableError(CollectorError):
+    exit_code = 3
+
+
 def _is_sha(value: Any) -> bool:
     return isinstance(value, str) and bool(SHA_RE.fullmatch(value))
 
@@ -158,7 +170,9 @@ def _reject_unsafe(value: Any) -> None:
             raise UnsafeEvidenceError("unsafe or private-looking evidence rejected")
 
 
-def _validate_command(argv: list[str]) -> None:
+def _validate_command(
+    argv: list[str], allowed_permission_logins: set[str] | None = None
+) -> None:
     """Reject every command shape not included in the positive read-only allowlist."""
     if not argv or argv[0] not in {"git", "gh"}:
         raise CommandRejectedError("unknown executable rejected by command allowlist")
@@ -182,7 +196,23 @@ def _validate_command(argv: list[str]) -> None:
             raise CommandRejectedError("forbidden or unknown git command rejected by command allowlist")
         return
 
-    # gh api and every GitHub mutation are forbidden and rejected by exact shapes below.
+    if len(argv) == 5 and argv[:4] == ["gh", "api", "--method", "GET"]:
+        endpoint = argv[4]
+        review_match = re.fullmatch(
+            r"repos/Zest-LeadGen/contractoros-california/pulls/50/reviews\?per_page=100&page=([1-5])",
+            endpoint,
+        )
+        permission_match = re.fullmatch(
+            r"repos/Zest-LeadGen/contractoros-california/collaborators/([A-Za-z0-9][A-Za-z0-9-]{0,38})/permission",
+            endpoint,
+        )
+        if review_match:
+            return
+        if permission_match and permission_match.group(1) in (allowed_permission_logins or set()):
+            return
+        raise CommandRejectedError("unbounded or unsourced GitHub API shape rejected")
+
+    # Every other gh api shape and every GitHub mutation are forbidden.
     allowed_prefixes = {
         ("gh", "repo", "view"),
         ("gh", "issue", "view"),
@@ -202,8 +232,13 @@ def _validate_command(argv: list[str]) -> None:
         raise CommandRejectedError("GitHub command shape rejected by command allowlist")
 
 
-def _run_read_command(argv: list[str], cwd: Path, timeout: int = 20) -> tuple[str, dict[str, Any]]:
-    _validate_command(argv)
+def _run_read_command(
+    argv: list[str],
+    cwd: Path,
+    timeout: int = 20,
+    allowed_permission_logins: set[str] | None = None,
+) -> tuple[str, dict[str, Any]]:
+    _validate_command(argv, allowed_permission_logins)
     try:
         proc = subprocess.run(
             argv,
@@ -217,6 +252,10 @@ def _run_read_command(argv: list[str], cwd: Path, timeout: int = 20) -> tuple[st
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise CollectorError(f"required read command inaccessible: {argv[:3]}") from exc
+    if len(proc.stdout.encode("utf-8")) > MAX_COMMAND_OUTPUT_BYTES:
+        raise CollectorError("required read command output exceeds the bounded size limit")
+    if len(proc.stderr.encode("utf-8")) > MAX_COMMAND_OUTPUT_BYTES:
+        raise CollectorError("required read command error output exceeds the bounded size limit")
     result = {
         "argv": argv,
         "return_code": int(proc.returncode),
@@ -228,8 +267,13 @@ def _run_read_command(argv: list[str], cwd: Path, timeout: int = 20) -> tuple[st
     return proc.stdout, result
 
 
-def _json_command(argv: list[str], cwd: Path, commands: list[dict[str, Any]]) -> Any:
-    output, result = _run_read_command(argv, cwd)
+def _json_command(
+    argv: list[str],
+    cwd: Path,
+    commands: list[dict[str, Any]],
+    allowed_permission_logins: set[str] | None = None,
+) -> Any:
+    output, result = _run_read_command(argv, cwd, allowed_permission_logins=allowed_permission_logins)
     commands.append(result)
     try:
         return json.loads(output)
@@ -451,12 +495,305 @@ def _normalized_jobs(raw: Any) -> list[dict[str, Any]]:
     return sorted(jobs, key=lambda item: (item["name"], _canonical_json(item)))
 
 
+def _normalized_review_record(raw: Any) -> dict[str, Any]:
+    user = raw.get("user") or {} if isinstance(raw, dict) else {}
+    return {
+        "review_id": raw.get("id") if isinstance(raw, dict) else None,
+        "reviewer_login": str(user.get("login") or ""),
+        "reviewer_type": str(user.get("type") or ""),
+        "state": str(raw.get("state") or "").upper() if isinstance(raw, dict) else "",
+        "submitted_at": raw.get("submitted_at") if isinstance(raw, dict) else None,
+        "commit_id": str(raw.get("commit_id") or "") if isinstance(raw, dict) else "",
+        "author_association": str(raw.get("author_association") or "") if isinstance(raw, dict) else "",
+    }
+
+
+def _review_sort_key(record: dict[str, Any]) -> tuple[str, int, str]:
+    return (
+        str(record.get("submitted_at") or ""),
+        int(record.get("review_id") or 0) if isinstance(record.get("review_id"), int) else 0,
+        _canonical_json(record),
+    )
+
+
+def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
+    """Recompute qualifying approvals from normalized, public-safe evidence."""
+    blocked: list[str] = []
+    quarantined: list[str] = []
+    status = str(review.get("evidence_status") or "")
+    records = review.get("review_records")
+    permissions = review.get("permission_records")
+    if status not in {"complete", "truncated", "unavailable"}:
+        quarantined.append("Approval evidence status is malformed")
+    if status == "truncated":
+        blocked.append("Review approval evidence is truncated")
+    if status == "unavailable":
+        blocked.append("Review or permission approval evidence is unavailable")
+    if not isinstance(records, list) or not isinstance(permissions, list):
+        blocked.append("Required normalized approval evidence is missing")
+        records = records if isinstance(records, list) else []
+        permissions = permissions if isinstance(permissions, list) else []
+    if len(records) > MAX_REVIEW_RECORDS:
+        blocked.append("Review approval evidence exceeds the bounded record limit")
+    if len(permissions) > MAX_PERMISSION_CANDIDATES:
+        blocked.append("Permission approval evidence exceeds the bounded candidate limit")
+
+    normalized_records: list[dict[str, Any]] = []
+    records_by_id: dict[int, dict[str, Any]] = {}
+    duplicate_ids: set[int] = set()
+    conflicting_ids: set[int] = set()
+    malformed_logins: set[str] = set()
+    for raw in records[:MAX_REVIEW_RECORDS]:
+        if not isinstance(raw, dict):
+            quarantined.append("Approval review record is malformed")
+            continue
+        record = {
+            "review_id": raw.get("review_id"),
+            "reviewer_login": str(raw.get("reviewer_login") or ""),
+            "reviewer_type": str(raw.get("reviewer_type") or ""),
+            "state": str(raw.get("state") or "").upper(),
+            "submitted_at": raw.get("submitted_at"),
+            "commit_id": str(raw.get("commit_id") or ""),
+            "author_association": str(raw.get("author_association") or ""),
+        }
+        review_id = record["review_id"]
+        login = record["reviewer_login"] or "_evidence"
+        malformed = (
+            not isinstance(review_id, int)
+            or review_id <= 0
+            or not GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])
+            or record["state"] not in REVIEW_STATES
+            or not _is_sha(record["commit_id"])
+        )
+        if malformed:
+            malformed_logins.add(login)
+            quarantined.append("Approval review record is malformed")
+        if isinstance(review_id, int) and review_id in records_by_id:
+            duplicate_ids.add(review_id)
+            if records_by_id[review_id] != record:
+                conflicting_ids.add(review_id)
+        elif isinstance(review_id, int):
+            records_by_id[review_id] = record
+        normalized_records.append(record)
+    if duplicate_ids:
+        quarantined.append("Duplicate approval review IDs are ambiguous")
+    if conflicting_ids:
+        quarantined.append("Conflicting duplicate approval review records are ambiguous")
+    normalized_records.sort(key=_review_sort_key)
+
+    permission_by_login: dict[str, dict[str, str]] = {}
+    permission_conflicts: set[str] = set()
+    approved_source_logins = {
+        record["reviewer_login"]
+        for record in normalized_records
+        if record["state"] == "APPROVED"
+        and record["commit_id"] == pr.get("head")
+        and record["reviewer_type"] == "User"
+        and record["reviewer_login"] != pr.get("author_login")
+        and record.get("submitted_at")
+    }
+    normalized_permissions: list[dict[str, str]] = []
+    for raw in permissions[:MAX_PERMISSION_CANDIDATES]:
+        if not isinstance(raw, dict):
+            quarantined.append("Permission approval record is malformed")
+            continue
+        item = {
+            "reviewer_login": str(raw.get("reviewer_login") or ""),
+            "permission": str(raw.get("permission") or "").lower(),
+            "role_name": str(raw.get("role_name") or ""),
+            "account_type": str(raw.get("account_type") or ""),
+        }
+        login = item["reviewer_login"]
+        if login not in approved_source_logins:
+            quarantined.append("Permission evidence identity is not sourced from normalized review evidence")
+        if login in permission_by_login and permission_by_login[login] != item:
+            permission_conflicts.add(login)
+        permission_by_login[login] = item
+        normalized_permissions.append(item)
+    if permission_conflicts:
+        quarantined.append("Permission evidence is internally contradictory")
+    normalized_permissions.sort(key=lambda item: (item["reviewer_login"], _canonical_json(item)))
+
+    reasons: dict[str, list[str]] = {}
+
+    def disqualify(login: str, reason: str) -> None:
+        reasons.setdefault(login or "_evidence", []).append(reason)
+
+    for login in malformed_logins:
+        disqualify(login, "APPROVAL_REVIEW_RECORD_MALFORMED")
+    for review_id in duplicate_ids:
+        matching = [r for r in normalized_records if r.get("review_id") == review_id]
+        for record in matching:
+            disqualify(record.get("reviewer_login") or "_evidence", "APPROVAL_REVIEW_RECORD_MALFORMED")
+
+    qualifying: list[str] = []
+    reviewer_logins = sorted({r["reviewer_login"] for r in normalized_records if r["reviewer_login"]})
+    for login in reviewer_logins:
+        reviewer_records = [r for r in normalized_records if r["reviewer_login"] == login]
+        approvals = [r for r in reviewer_records if r["state"] == "APPROVED"]
+        if not approvals:
+            continue
+        current_decisive = [
+            r
+            for r in reviewer_records
+            if r["commit_id"] == pr.get("head")
+            and r["state"] in DECISIVE_REVIEW_STATES
+            and r.get("submitted_at")
+        ]
+        latest = max(current_decisive, key=_review_sort_key) if current_decisive else None
+        if latest is None or latest["state"] != "APPROVED":
+            if any(r["commit_id"] != pr.get("head") for r in approvals):
+                disqualify(login, "APPROVAL_STALE_HEAD")
+            if latest and latest["state"] == "CHANGES_REQUESTED":
+                disqualify(login, "APPROVAL_SUPERSEDED_BY_CHANGES_REQUESTED")
+            if latest and latest["state"] == "DISMISSED":
+                disqualify(login, "APPROVAL_DISMISSED")
+            if any(not r.get("submitted_at") for r in approvals):
+                disqualify(login, "APPROVAL_NOT_SUBMITTED")
+            continue
+        if latest["reviewer_type"] != "User":
+            disqualify(login, "APPROVAL_BOT_ACCOUNT")
+            continue
+        if login == pr.get("author_login"):
+            disqualify(login, "APPROVAL_PR_AUTHOR")
+            continue
+        permission = permission_by_login.get(login)
+        if permission is None:
+            blocked.append(f"Permission evidence is missing for approval candidate: {login}")
+            disqualify(login, "APPROVAL_PERMISSION_EVIDENCE_MISSING")
+            continue
+        if permission["reviewer_login"] != login or permission["account_type"] != "User":
+            quarantined.append("Permission evidence identity differs from the approval reviewer")
+            disqualify(login, "APPROVAL_PERMISSION_IDENTITY_MISMATCH")
+            continue
+        base_permission = permission["permission"]
+        if base_permission in {"write", "admin"}:
+            qualifying.append(login)
+        elif base_permission == "read":
+            disqualify(login, "APPROVAL_PERMISSION_READ_ONLY")
+        elif base_permission == "none":
+            disqualify(login, "APPROVAL_PERMISSION_NONE")
+        else:
+            disqualify(login, "APPROVAL_PERMISSION_UNKNOWN")
+
+    qualifying = sorted(set(qualifying))
+    claimed = review.get("qualifying_approvals")
+    if claimed is not None and sorted(set(claimed)) != qualifying:
+        quarantined.append("Claimed qualifying approvals contradict computed approval evidence")
+    if str(review.get("decision") or "").upper() == "APPROVED" and not qualifying:
+        quarantined.append("Review decision claims approval without a qualifying current-head approver")
+    normalized_reasons = {key: sorted(set(value)) for key, value in sorted(reasons.items())}
+    result = {
+        "decision": str(review.get("decision") or "") or None,
+        "evidence_status": status,
+        "review_records": normalized_records,
+        "permission_records": normalized_permissions,
+        "qualifying_approvals": qualifying,
+        "disqualified_approvals": sorted(normalized_reasons),
+        "disqualification_reasons": normalized_reasons,
+    }
+    return {
+        "review": result,
+        "blocked": sorted(set(blocked)),
+        "quarantined": sorted(set(quarantined)),
+    }
+
+
+def _collect_review_evidence(
+    repo_root: Path,
+    commands: list[dict[str, Any]],
+    pr_head: str,
+    pr_author_login: str,
+) -> dict[str, Any]:
+    records: list[dict[str, Any]] = []
+    evidence_status = "complete"
+    for page in range(1, MAX_REVIEW_PAGES + 1):
+        raw_page = _json_command(
+            [
+                "gh",
+                "api",
+                "--method",
+                "GET",
+                f"repos/{EXPECTED_REPOSITORY}/pulls/50/reviews?per_page={REVIEW_PAGE_SIZE}&page={page}",
+            ],
+            repo_root,
+            commands,
+        )
+        if not isinstance(raw_page, list):
+            raise ApprovalEvidenceUnavailableError("review approval evidence is not a JSON array")
+        if len(raw_page) > REVIEW_PAGE_SIZE:
+            raise ApprovalEvidenceUnavailableError("review approval page exceeds the bounded page size")
+        records.extend(_normalized_review_record(item) for item in raw_page)
+        if len(records) > MAX_REVIEW_RECORDS:
+            raise ApprovalEvidenceUnavailableError("review approval evidence exceeds the bounded record limit")
+        if len(raw_page) < REVIEW_PAGE_SIZE:
+            break
+        if page == MAX_REVIEW_PAGES:
+            evidence_status = "truncated"
+
+    permission_records: list[dict[str, str]] = []
+    if evidence_status == "complete":
+        candidates = sorted(
+            {
+                record["reviewer_login"]
+                for record in records
+                if record["state"] == "APPROVED"
+                and record["commit_id"] == pr_head
+                and record.get("submitted_at")
+                and record["reviewer_type"] == "User"
+                and record["reviewer_login"] != pr_author_login
+                and GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])
+            }
+        )
+        if len(candidates) > MAX_PERMISSION_CANDIDATES:
+            raise ApprovalEvidenceUnavailableError("permission approval candidates exceed the bounded limit")
+        allowed = set(candidates)
+        for login in candidates:
+            try:
+                permission = _json_command(
+                    [
+                        "gh",
+                        "api",
+                        "--method",
+                        "GET",
+                        f"repos/{EXPECTED_REPOSITORY}/collaborators/{login}/permission",
+                    ],
+                    repo_root,
+                    commands,
+                    allowed_permission_logins=allowed,
+                )
+            except CollectorError as exc:
+                raise ApprovalEvidenceUnavailableError(
+                    f"permission approval evidence is inaccessible for reviewer: {login}"
+                ) from exc
+            user = permission.get("user") or {} if isinstance(permission, dict) else {}
+            permission_records.append(
+                {
+                    "reviewer_login": login,
+                    "permission": str(permission.get("permission") or "") if isinstance(permission, dict) else "",
+                    "role_name": str(permission.get("role_name") or "") if isinstance(permission, dict) else "",
+                    "account_type": str(user.get("type") or ""),
+                }
+            )
+    return {
+        "evidence_status": evidence_status,
+        "review_records": records,
+        "permission_records": permission_records,
+    }
+
+
 def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     repo_root = Path(args.repo_root).resolve(strict=True)
     if not (repo_root / ".git").exists():
         raise CollectorError("repo root is not a Git repository")
     if not _is_sha(args.canonical_ref):
         raise CollectorError("canonical ref must be an exact 40-character lowercase SHA")
+    if (
+        args.repository != EXPECTED_REPOSITORY
+        or args.issue_number != 49
+        or args.pr_number != 50
+    ):
+        raise CollectorError("live approval collection is bounded to Issue #49 and PR #50")
 
     commands: list[dict[str, Any]] = []
 
@@ -505,7 +842,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "--repo",
             args.repository,
             "--json",
-            "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,reviews,body",
+            "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,author,body",
         ],
         repo_root,
         commands,
@@ -540,13 +877,12 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     )
 
     default_ref = repo.get("defaultBranchRef") or {}
-    reviews = pr.get("reviews") or []
-    approvals = sorted(
-        {
-            str((review.get("author") or {}).get("login") or "")  # no authority is inferred
-            for review in reviews
-            if review.get("state") == "APPROVED" and (review.get("author") or {}).get("login")  # no authority is inferred
-        }
+    pr_author = pr.get("author") or {}
+    approval_evidence = _collect_review_evidence(
+        repo_root,
+        commands,
+        str(pr.get("headRefOid") or ""),
+        str(pr_author.get("login") or ""),
     )
     marker = _marker_summary(
         str(pr.get("body") or ""),
@@ -585,6 +921,8 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "merge_commit": (pr.get("mergeCommit") or {}).get("oid"),
             "merged_at": pr.get("mergedAt"),
             "url": str(pr.get("url") or ""),
+            "author_login": str(pr_author.get("login") or ""),
+            "author_type": "Bot" if pr_author.get("is_bot") else "User",
         },
         "checks": _normalized_checks(raw_checks),
         "workflow_run": {
@@ -602,13 +940,14 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         "markers": marker,
         "review": {
             "decision": str(pr.get("reviewDecision") or "") or None,
-            "qualifying_approvals": approvals,
+            **approval_evidence,
         },
         "auto_merge": {"active": bool(pr.get("autoMergeRequest"))},
         "lifecycle_claim": "active_pr" if str(pr.get("state") or "").upper() == "OPEN" else "closed_gate",
         "raw_chat_status": "no authority",
         "source_commands": commands,
     }
+    evidence["review"] = _approval_evaluation(evidence["pr"], evidence["review"])["review"]
     _reject_unsafe(evidence)
     return evidence
 
@@ -690,6 +1029,23 @@ def _validate_input(data: dict[str, Any]) -> None:
             raise CollectorError(f"{key} evidence is malformed")
     if not isinstance(data.get("checks"), list):
         raise CollectorError("checks evidence is malformed")
+    pr = data["pr"]
+    if not GITHUB_LOGIN_RE.fullmatch(str(pr.get("author_login") or "")):
+        raise CollectorError("PR author login evidence is malformed")
+    if pr.get("author_type") not in {"User", "Bot"}:
+        raise CollectorError("PR author account type evidence is malformed")
+    review = data["review"]
+    review_required = {
+        "decision",
+        "evidence_status",
+        "review_records",
+        "permission_records",
+        "qualifying_approvals",
+        "disqualified_approvals",
+        "disqualification_reasons",
+    }
+    if not review_required.issubset(review):
+        raise CollectorError("normalized approval evidence is missing required fields")
 
 
 def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:
@@ -840,7 +1196,9 @@ def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:
     return {"blocked": sorted(set(blocked)), "quarantined": sorted(set(quarantined))}
 
 
-def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
+def _compare(
+    data: dict[str, Any], approval: dict[str, Any] | None = None
+) -> tuple[str, list[str], list[str], bool]:
     source = data["source_shas"]
     canonical = data["canonical_state"]
     issue = data["issue"]
@@ -926,6 +1284,14 @@ def _compare(data: dict[str, Any]) -> tuple[str, list[str], list[str], bool]:
     if workflow["quarantined"]:
         findings.extend(workflow["quarantined"])
         return "quarantined", sorted(set(findings)), sorted(blockers), True
+
+    approval = approval or _approval_evaluation(pr, review)
+    if approval["quarantined"]:
+        findings.extend(approval["quarantined"])
+        return "quarantined", sorted(set(findings)), sorted(blockers), True
+    if approval["blocked"]:
+        blockers.extend(approval["blocked"])
+        return "blocked", sorted(findings), sorted(set(blockers)), False
 
     claim = data["lifecycle_claim"]
     pr_state = str(pr.get("state") or "").lower()
@@ -1057,6 +1423,7 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         f"- PR head branch: {pr.get('head_branch')}",
         f"- PR head: {pr.get('head')}",
         f"- PR draft: {str(bool(pr.get('draft'))).lower()}",
+        f"- PR author: {pr.get('author_login')} ({pr.get('author_type')})",
         f"- Merge commit: {pr.get('merge_commit')}",
         f"- Workflow: {run.get('name')} ({run.get('workflow_id')})",
         f"- Workflow event: {run.get('event')}",
@@ -1069,7 +1436,11 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         f"- Red-team marker: {markers.get('red_team_status')}",
         f"- Red-team bound SHA: {markers.get('red_team_bound_sha')}",
         f"- Review decision: {review.get('decision')}",
+        f"- Approval evidence status: {review.get('evidence_status')}",
+        f"- Normalized review records: {len(review.get('review_records') or [])}",
+        f"- Permission records: {len(review.get('permission_records') or [])}",
         f"- Qualifying human approvals: {len(review.get('qualifying_approvals') or [])}",
+        f"- Disqualified approval candidates: {len(review.get('disqualified_approvals') or [])}",
         f"- Auto-merge active: {str(bool(packet['auto_merge'].get('active'))).lower()}",
         "",
         "## Required Checks",
@@ -1168,8 +1539,11 @@ def generate(data: dict[str, Any], observed_at: str, output_dir: Path, repo_root
     _parse_rfc3339(observed_at)
     _reject_unsafe(data)
     _validate_input(data)
+    approval = _approval_evaluation(data["pr"], data["review"])
+    data = dict(data)
+    data["review"] = approval["review"]
     destination = _validate_output_dir(output_dir, repo_root)
-    classification, findings, blockers, quarantine = _compare(data)
+    classification, findings, blockers, quarantine = _compare(data, approval)
     packet = _packet_data(data, observed_at, classification, findings, blockers, quarantine)
     markdown, packet_hash = _render_packet(packet)
     if recompute_packet_hash(markdown) != packet_hash:

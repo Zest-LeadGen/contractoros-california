@@ -1,5 +1,5 @@
 {
-  "fixture_version": "1.1.0",
+  "fixture_version": "1.2.0",
   "repository": {"name": "Zest-LeadGen/contractoros-california", "default_branch": "main"},
   "source_shas": {
     "local_head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -18,7 +18,7 @@
     "consistency_status": "consistent"
   },
   "issue": {"number": 49, "state": "closed", "state_reason": "completed", "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/49", "closeout_state": "closed"},
-  "pr": {"number": 50, "state": "merged", "base": "main", "head_branch": "collector-branch", "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "draft": false, "merge_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "merged_at": "2026-07-13T00:00:00Z", "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50"},
+  "pr": {"number": 50, "state": "merged", "base": "main", "head_branch": "collector-branch", "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "draft": false, "merge_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "merged_at": "2026-07-13T00:00:00Z", "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50", "author_login": "pr-author", "author_type": "User"},
   "checks": [{"name": "contractoros-control-gates", "state": "SUCCESS", "bucket": "pass", "link": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000000/job/40000000000"}],
   "workflow_run": {"id": 30000000000, "name": "ContractorOS Control Gates", "workflow_id": 309083557, "event": "pull_request", "status": "completed", "conclusion": "success", "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "head_branch": "collector-branch", "url": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000000", "jobs": [{"name": "contractoros-control-gates", "status": "completed", "conclusion": "success", "steps": [
     {"name": "Checkout repository", "number": 2, "status": "completed", "conclusion": "success"},
@@ -34,7 +34,7 @@
     {"name": "Claim-language check", "number": 12, "status": "completed", "conclusion": "success"}
   ]}]},
   "markers": {"owner_trigger_status": "valid", "red_team_status": "valid", "red_team_bound_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
-  "review": {"decision": "APPROVED", "qualifying_approvals": ["human-reviewer"]},
+  "review": {"decision": "APPROVED", "evidence_status": "complete", "review_records": [{"review_id": 1, "reviewer_login": "human-reviewer", "reviewer_type": "User", "state": "APPROVED", "submitted_at": "2026-07-12T23:00:00Z", "commit_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "author_association": "MEMBER"}], "permission_records": [{"reviewer_login": "human-reviewer", "permission": "write", "role_name": "write", "account_type": "User"}], "qualifying_approvals": ["human-reviewer"], "disqualified_approvals": [], "disqualification_reasons": {}},
   "auto_merge": {"active": false},
   "lifecycle_claim": "closed_gate",
   "raw_chat_status": "no authority"

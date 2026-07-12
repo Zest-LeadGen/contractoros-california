@@ -10,15 +10,23 @@ The packet supplements versioned public-safe state with live read-only evidence.
 
 Fixture mode consumes a bounded JSON fixture plus an explicit observation timestamp. Live mode consumes an explicit repository root, repository identity, issue number, pull request number, workflow-run ID, exact canonical Git ref, observation timestamp, and external output directory.
 
-Live provenance includes bounded local Git metadata; canonical state read from the exact ref; issue, pull request, checks, workflow run and step evidence; owner-trigger and red-team marker status; review decision and qualifying approvals; auto-merge state; comparison findings; blockers; and gaps. Raw credentials, headers, environment contents, unrelated comment bodies, and unrestricted command output are not persisted.
+Live provenance includes bounded local Git metadata; canonical state read from the exact ref; issue, pull request, checks, workflow run and step evidence; owner-trigger and red-team marker status; normalized pull-request reviews; calculated repository-permission evidence for sourced candidates; deterministic qualifying and disqualified approvals; auto-merge state; comparison findings; blockers; and gaps. Raw credentials, headers, environment contents, review bodies, unrelated comment bodies, and unrestricted command output are not persisted.
 
-The version `1.1.0` evidence contract requires PR head branch, check link, workflow name and database ID, event, run head branch, bounded jobs, and numbered step status/conclusion evidence. The generator and both generated schemas use `1.1.0`; every fixture uses `fixture_version: 1.1.0`.
+The version `1.2.0` evidence contract requires PR author identity and account type; approval evidence status; normalized review and permission records; qualifying and disqualified reviewer lists; stable disqualification reasons; PR head branch; check link; workflow identity; event; run head branch; bounded jobs; and numbered step status/conclusion evidence. The generator and both generated schemas use `1.2.0`; every fixture uses `fixture_version: 1.2.0`.
 
 ## Read-Only Command Security
 
-Every subprocess uses an argument array, `shell=False`, a finite timeout, captured standard output and error, and a normalized return code. A positive allowlist admits only the exact Git reads and narrowly shaped GitHub CLI reads documented in `scripts/continuity/README.md`.
+Every subprocess uses an argument array, `shell=False`, a finite timeout, size-bounded captured standard output and error, and a normalized return code. A positive allowlist admits only the exact Git reads and narrowly shaped GitHub CLI reads documented in `scripts/continuity/README.md`.
 
-Unrestricted shells are forbidden. `gh api` is forbidden. Git remote-ref, branch, index, worktree, and remote mutations are forbidden. GitHub issue, pull-request, review, approval, merge and closeout mutations are forbidden. Unknown executables, subcommands, flags, and command shapes are rejected.
+Unrestricted shells are forbidden. The only permitted REST calls are sequential review pages 1 through 5 for PR #50 and calculated permission reads for logins originating in normalized exact-head review evidence. Both routes use GET. Review pages use 100 records, stop on the first short page, and block when page 5 is full. Review and permission-candidate counts are bounded. Every other `gh api` shape, Git remote-ref, branch, index, worktree, remote mutation, and GitHub issue, pull-request, review, approval, merge or closeout mutation is forbidden. Unknown executables, subcommands, flags, and command shapes are rejected.
+
+## Qualifying Human Approval
+
+Review records are sorted deterministically by submission timestamp and numeric review ID. Per reviewer, the latest submitted current-head decisive state among `APPROVED`, `CHANGES_REQUESTED`, and `DISMISSED` governs. A later comment is non-decisive. Duplicate review IDs, contradictory duplicates, malformed exact-commit binding, permission identity mismatch, stale-as-current representation, bot/author qualification, or a coarse approved decision without a computed qualifying approver is quarantined.
+
+Qualification requires a submitted `APPROVED` record bound to the exact current PR head, a non-empty reviewer login, reviewer account type `User`, separation from the PR author, permission evidence for the same repository and login, and calculated base permission `write` or `admin`. Maintain access qualifies through GitHub's base-permission mapping to `write`; triage maps to `read` and does not qualify. Author association, login text, an earlier head, bot identity, pending/dismissed/superseded state, read/none/unknown permission, or inaccessible evidence does not qualify.
+
+The collector persists only bounded public-safe review identity/state/binding fields and bounded permission identity/role fields. Missing or inaccessible review or permission evidence is blocked. A full fifth review page is truncated and blocked. External exact-SHA red-team evidence and qualifying human approval remain separate categories; neither substitutes for the other.
 
 ## Canonical And Live Comparison
 

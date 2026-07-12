@@ -19,15 +19,15 @@ python3 scripts/continuity/red_team_continuity.py fixture \
 python3 scripts/continuity/red_team_continuity.py live \
   --repo-root <repository-root> \
   --repository Zest-LeadGen/contractoros-california \
-  --issue-number <issue-number> \
-  --pr-number <pull-request-number> \
+  --issue-number 49 \
+  --pr-number 50 \
   --run-id <actions-run-id> \
   --canonical-ref <exact-40-character-git-sha> \
   --observed-at <rfc3339-timestamp> \
   --output-dir <outside-repository-directory>
 ```
 
-Every option is explicit. `--canonical-ref` must be an exact lowercase SHA. `--observed-at` must be RFC3339. `--output-dir` must resolve outside the repository.
+Every option is explicit. This correction packet bounds live collection to repository `Zest-LeadGen/contractoros-california`, Issue #49, and PR #50. `--canonical-ref` must be an exact lowercase SHA. `--observed-at` must be RFC3339. `--output-dir` must resolve outside the repository.
 
 ## Generated files
 
@@ -52,8 +52,10 @@ Commands use argument arrays, `shell=False`, finite timeouts, captured output, a
 - `git status --porcelain=v1 --branch`
 - `git show <exact-sha>:docs/project-control/state/contractoros-state.yaml`
 - narrowly shaped `gh repo view`, `gh issue view`, `gh pr view`, `gh pr checks`, and `gh run view` JSON reads
+- `gh api --method GET repos/Zest-LeadGen/contractoros-california/pulls/50/reviews?per_page=100&page=<1-5>`
+- `gh api --method GET repos/Zest-LeadGen/contractoros-california/collaborators/<sourced-reviewer>/permission`
 
-The runtime rejects unknown executables, subcommands, flags, and shapes. `git fetch`, `git pull`, `git push`, `git commit`, `git merge`, `git reset`, `git clean`, `git checkout`, and `git switch` are forbidden runtime commands. `gh api` and all issue, pull-request, review, approval, merge, or closeout mutations are forbidden runtime commands.
+The runtime rejects unknown executables, subcommands, flags, and shapes. Review pages are sequential, fixed at 100 records, stop on the first short page, and are limited to five pages. A full fifth page marks review evidence truncated and blocked. Permission reads are limited to normalized exact-head submitted human approval candidates, with at most 100 candidates. Command output is size-bounded. `git fetch`, `git pull`, `git push`, `git commit`, `git merge`, `git reset`, `git clean`, `git checkout`, and `git switch` are forbidden runtime commands. Every other `gh api` shape and all issue, pull-request, review, approval, merge, or closeout mutations are forbidden runtime commands.
 
 ## Classification and exit contract
 
@@ -75,9 +77,17 @@ Unsafe/private-looking input is rejected. Forbidden categories include token for
 
 Raw chat input cannot become decision power. The collector reads canonical state as a versioned observed snapshot and requires live evidence for changing lifecycle facts.
 
+## Approval evidence contract
+
+Only normalized public-safe review fields are retained: review ID, reviewer login and account type, state, submission time, exact commit ID, and author association. Review bodies are never persisted. Permission evidence retains only reviewer login, calculated base permission, role name, and account type.
+
+For each reviewer, decisive current-head records are sorted by submission timestamp and numeric review ID. The latest `APPROVED`, `CHANGES_REQUESTED`, or `DISMISSED` state governs; a later `COMMENTED` record does not erase approval. Duplicate IDs, conflicting duplicates, malformed commit IDs, identity mismatches, or a coarse approved decision without a qualifying reviewer are quarantined. Missing or truncated approval evidence is blocked.
+
+A reviewer qualifies only with a submitted exact-current-head approval, account type `User`, separation from the PR author, and calculated base permission `write` or `admin`. GitHub maps maintain access to base permission `write`. Read, none, unknown, bot, PR-author, stale, dismissed, superseded, unsubmitted, inaccessible, or association-only evidence does not qualify. External red-team evidence and human approval remain separate requirements.
+
 ## Workflow provenance contract
 
-Fixture, evidence, startup-packet, and generator versions are `1.1.0`. Required provenance is not optional: the collector binds the supplied run to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run.
+Fixture, evidence, startup-packet, and generator versions are `1.2.0`. Required provenance is not optional: the collector binds the supplied run to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run.
 
 The governed job must contain one ordered copy of every step declared by `.github/workflows/control-gates.yml`. Before external review, only the exact completed matrix of successful pre-marker steps, a failed marker step with missing marker evidence, skipped post-marker steps, failed run/job, and failed linked PR check is valid pending evidence. After a valid exact-head marker, all governed steps, the job, run, and linked check must succeed. Missing jobs or steps are blocked; identity mismatches, duplicates, impossible ordering, and contradictory run/check/step states are quarantined. Pending or in-progress evidence cannot support approval or completed-gate claims.
 
@@ -89,4 +99,4 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ```
 
-Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, and the exact two-file output boundary.
+Tests cover determinism, packet hashing, lifecycle classifications, missing evidence, malformed input, command rejection, shell avoidance, output and symlink escape, sensitive-data rejection, moved-head handling, contradictory lifecycle evidence, active auto-merge, raw chat rejection, exact workflow provenance, the required step matrix, linked-check contradictions, bounded REST pagination, reviewer-state reduction, author/bot rejection, calculated permission qualification, approval contradictions, review-body exclusion, and the exact two-file output boundary.

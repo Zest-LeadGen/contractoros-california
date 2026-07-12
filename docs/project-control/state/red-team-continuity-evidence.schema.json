@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schema_version", "generator_version", "observed_at", "repository", "source_shas", "source_commands", "canonical_state", "live_state", "comparison_findings", "blockers", "missing_evidence", "consistency_classification", "quarantine", "public_private_classification", "packet_hash", "packet_hash_rule", "startup_packet"],
   "properties": {
-    "schema_version": {"const": "1.1.0"},
+    "schema_version": {"const": "1.2.0"},
     "generator_version": {"type": "string", "minLength": 1},
     "observed_at": {"type": "string", "format": "date-time"},
     "repository": {"$ref": "#/$defs/repository"},
@@ -74,7 +74,7 @@
     },
     "pr": {
       "type": "object",
-      "required": ["number", "state", "base", "head_branch", "head", "draft", "merge_commit", "merged_at", "url"],
+      "required": ["number", "state", "base", "head_branch", "head", "draft", "merge_commit", "merged_at", "url", "author_login", "author_type"],
       "properties": {
         "number": {"type": "integer", "minimum": 1},
         "state": {"enum": ["open", "closed", "merged"]},
@@ -84,7 +84,9 @@
         "draft": {"type": "boolean"},
         "merge_commit": {"$ref": "#/$defs/sha"},
         "merged_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
-        "url": {"type": "string", "format": "uri"}
+        "url": {"type": "string", "format": "uri"},
+        "author_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"},
+        "author_type": {"enum": ["User", "Bot"]}
       },
       "additionalProperties": false
     },
@@ -148,12 +150,42 @@
       },
       "additionalProperties": false
     },
+    "reviewRecord": {
+      "type": "object",
+      "required": ["review_id", "reviewer_login", "reviewer_type", "state", "submitted_at", "commit_id", "author_association"],
+      "properties": {
+        "review_id": {"type": "integer", "minimum": 1},
+        "reviewer_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"},
+        "reviewer_type": {"type": "string", "minLength": 1},
+        "state": {"enum": ["APPROVED", "CHANGES_REQUESTED", "DISMISSED", "COMMENTED", "PENDING"]},
+        "submitted_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
+        "commit_id": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "author_association": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "permissionRecord": {
+      "type": "object",
+      "required": ["reviewer_login", "permission", "role_name", "account_type"],
+      "properties": {
+        "reviewer_login": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"},
+        "permission": {"type": "string"},
+        "role_name": {"type": "string"},
+        "account_type": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
     "review": {
       "type": "object",
-      "required": ["decision", "qualifying_approvals"],
+      "required": ["decision", "evidence_status", "review_records", "permission_records", "qualifying_approvals", "disqualified_approvals", "disqualification_reasons"],
       "properties": {
         "decision": {"anyOf": [{"type": "null"}, {"type": "string"}]},
-        "qualifying_approvals": {"$ref": "#/$defs/uniqueStrings"}
+        "evidence_status": {"enum": ["complete", "truncated", "unavailable"]},
+        "review_records": {"type": "array", "maxItems": 500, "items": {"$ref": "#/$defs/reviewRecord"}},
+        "permission_records": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/permissionRecord"}},
+        "qualifying_approvals": {"$ref": "#/$defs/uniqueStrings"},
+        "disqualified_approvals": {"$ref": "#/$defs/uniqueStrings"},
+        "disqualification_reasons": {"type": "object", "additionalProperties": {"$ref": "#/$defs/uniqueStrings"}}
       },
       "additionalProperties": false
     },
