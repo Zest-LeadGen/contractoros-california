@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.2"
-EVIDENCE_SCHEMA_VERSION = "1.3.2"
-PACKET_SCHEMA_VERSION = "1.3.2"
-FIXTURE_VERSION = "1.3.2"
+GENERATOR_VERSION = "1.3.3"
+EVIDENCE_SCHEMA_VERSION = "1.3.3"
+PACKET_SCHEMA_VERSION = "1.3.3"
+FIXTURE_VERSION = "1.3.3"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -170,6 +170,29 @@ def _parse_rfc3339(value: str) -> str:
     except ValueError as exc:
         raise CollectorError("observation timestamp is invalid") from exc
     return value
+
+
+def _is_rfc3339(value: Any) -> bool:
+    if not isinstance(value, str) or not RFC3339_RE.fullmatch(value):
+        return False
+    try:
+        dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return True
+
+
+def _require_review_timestamp(value: Any, state: str, error: type[CollectorError]) -> None:
+    if value is not None and not _is_rfc3339(value):
+        raise error("review submission timestamp is malformed")
+    if state in DECISIVE_REVIEW_STATES and value is None:
+        raise error("decisive review submission timestamp is missing")
+
+
+def _valid_conclusion(value: Any, status: Any) -> bool:
+    if value is None:
+        return isinstance(status, str) and status.lower() != "completed"
+    return _nonempty_string(value)
 
 
 def _canonical_json(value: Any) -> str:
@@ -567,7 +590,8 @@ def _normalized_jobs(raw: Any) -> list[dict[str, Any]]:
                 or type(step.get("number")) is not int
                 or step["number"] < 1
                 or not isinstance(step.get("status"), str)
-                or (step.get("conclusion") is not None and not isinstance(step.get("conclusion"), str))
+                or "conclusion" not in step
+                or not _valid_conclusion(step["conclusion"], step["status"])
             ):
                 raise EvidenceUnavailableError("required workflow step fields are malformed")
             steps.append(
@@ -581,7 +605,8 @@ def _normalized_jobs(raw: Any) -> list[dict[str, Any]]:
         if (
             not isinstance(job.get("name"), str)
             or not isinstance(job.get("status"), str)
-            or (job.get("conclusion") is not None and not isinstance(job.get("conclusion"), str))
+            or "conclusion" not in job
+            or not _valid_conclusion(job["conclusion"], job["status"])
         ):
             raise EvidenceUnavailableError("required workflow job fields are malformed")
         jobs.append(
@@ -596,15 +621,22 @@ def _normalized_jobs(raw: Any) -> list[dict[str, Any]]:
 
 
 def _normalized_review_record(raw: Any) -> dict[str, Any]:
-    user = raw.get("user") or {} if isinstance(raw, dict) else {}
+    if not isinstance(raw, dict):
+        raise ApprovalEvidenceUnavailableError("review approval evidence record is malformed")
+    user = raw.get("user") or {}
+    if not isinstance(user, dict):
+        raise ApprovalEvidenceUnavailableError("review approval user evidence is malformed")
+    state = str(raw.get("state") or "").upper()
+    submitted_at = raw.get("submitted_at")
+    _require_review_timestamp(submitted_at, state, ApprovalEvidenceUnavailableError)
     return {
-        "review_id": raw.get("id") if isinstance(raw, dict) else None,
+        "review_id": raw.get("id"),
         "reviewer_login": str(user.get("login") or ""),  # scope-bound approval evidence
         "reviewer_type": str(user.get("type") or ""),
-        "state": str(raw.get("state") or "").upper() if isinstance(raw, dict) else "",
-        "submitted_at": raw.get("submitted_at") if isinstance(raw, dict) else None,
-        "commit_id": str(raw.get("commit_id") or "") if isinstance(raw, dict) else "",
-        "author_association": str(raw.get("author_association") or "") if isinstance(raw, dict) else "",  # scope-bound approval evidence
+        "state": state,
+        "submitted_at": submitted_at,
+        "commit_id": str(raw.get("commit_id") or ""),
+        "author_association": str(raw.get("author_association") or ""),  # scope-bound approval evidence
     }
 
 
@@ -656,6 +688,7 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
             "commit_id": str(raw.get("commit_id") or ""),
             "author_association": str(raw.get("author_association") or ""),  # scope-bound approval evidence
         }
+        _require_review_timestamp(record["submitted_at"], record["state"], CollectorError)
         review_id = record["review_id"]
         login = record["reviewer_login"] or "_evidence"  # scope-bound approval evidence
         malformed = (
@@ -959,8 +992,9 @@ def _validate_live_pr(pr: Any) -> None:
         or not isinstance(author, dict)  # scope-bound approval evidence
         or not GITHUB_LOGIN_RE.fullmatch(author.get("login") if isinstance(author.get("login"), str) else "")  # scope-bound approval evidence
         or type(author.get("is_bot")) is not bool  # scope-bound approval evidence
-        or (pr.get("mergedAt") is not None and not _nonempty_string(pr.get("mergedAt")))
+        or (pr.get("mergedAt") is not None and not _is_rfc3339(pr.get("mergedAt")))
         or (pr.get("reviewDecision") is not None and not isinstance(pr.get("reviewDecision"), str))
+        or (pr.get("autoMergeRequest") is not None and not isinstance(pr.get("autoMergeRequest"), dict))
         or (
             merge_commit is not None
             and (
@@ -982,7 +1016,8 @@ def _validate_live_run(run: Any) -> None:
             for key in ("name", "event", "status", "headSha", "headBranch", "url")
         )
         or not _is_sha(run.get("headSha"))
-        or (run.get("conclusion") is not None and not isinstance(run.get("conclusion"), str))
+        or "conclusion" not in run
+        or not _valid_conclusion(run["conclusion"], run.get("status"))
     ):
         raise EvidenceUnavailableError("required live workflow-run evidence is malformed")
 
@@ -1092,12 +1127,12 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     issue = _require_live_fields(issue, ("number", "state", "stateReason", "url", "closedAt"), "issue")
     pr = _require_live_fields(
         pr,
-        ("number", "state", "baseRefName", "headRefName", "headRefOid", "isDraft", "url", "author", "body"),  # scope-bound approval evidence
+        ("number", "state", "baseRefName", "headRefName", "headRefOid", "isDraft", "mergeCommit", "mergedAt", "autoMergeRequest", "reviewDecision", "url", "author", "body"),  # scope-bound approval evidence
         "pull-request",
     )
     run = _require_live_fields(
         run,
-        ("databaseId", "name", "workflowDatabaseId", "event", "status", "headSha", "headBranch", "jobs", "url"),
+        ("databaseId", "name", "workflowDatabaseId", "event", "status", "conclusion", "headSha", "headBranch", "jobs", "url"),
         "workflow-run",
     )
     if not isinstance(raw_checks, list):
@@ -1178,7 +1213,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "decision": str(pr.get("reviewDecision") or "") or None,
             **approval_evidence,
         },
-        "auto_merge": {"active": bool(pr.get("autoMergeRequest"))},
+        "auto_merge": {"active": pr["autoMergeRequest"] is not None},
         "lifecycle_claim": "active_pr" if str(pr.get("state") or "").upper() == "OPEN" else "closed_gate",
         "raw_chat_status": "no authority",
         "source_commands": commands,
@@ -1300,7 +1335,7 @@ def _validate_workflow_evidence(value: Any) -> None:
         raise CollectorError("workflow-run identifier evidence is malformed")
     if any(not _nonempty_string(run[key]) for key in ("name", "event", "status", "head_branch", "url")):
         raise CollectorError("workflow-run string evidence is malformed")
-    if run["conclusion"] is not None and not isinstance(run["conclusion"], str):
+    if not _valid_conclusion(run["conclusion"], run["status"]):
         raise CollectorError("workflow-run conclusion evidence is malformed")
     if run["head_sha"] is not None and not _is_sha(run["head_sha"]):
         raise CollectorError("workflow-run head evidence is malformed")
@@ -1310,7 +1345,7 @@ def _validate_workflow_evidence(value: Any) -> None:
         job = _exact_mapping(item, {"name", "status", "conclusion", "steps"}, "workflow job item")
         if not _nonempty_string(job["name"]) or not _nonempty_string(job["status"]):
             raise CollectorError("workflow job field is malformed")
-        if job["conclusion"] is not None and not isinstance(job["conclusion"], str):
+        if not _valid_conclusion(job["conclusion"], job["status"]):
             raise CollectorError("workflow job conclusion is malformed")
         if not isinstance(job["steps"], list) or len(job["steps"]) > MAX_WORKFLOW_STEPS:
             raise CollectorError("workflow steps evidence is malformed or exceeds its bound")
@@ -1320,7 +1355,7 @@ def _validate_workflow_evidence(value: Any) -> None:
                 raise CollectorError("workflow step identity evidence is malformed")
             if not _nonempty_string(step["status"]):
                 raise CollectorError("workflow step status evidence is malformed")
-            if step["conclusion"] is not None and not isinstance(step["conclusion"], str):
+            if not _valid_conclusion(step["conclusion"], step["status"]):
                 raise CollectorError("workflow step conclusion evidence is malformed")
 
 
@@ -1416,6 +1451,10 @@ def _validate_input(data: dict[str, Any]) -> None:
         raise CollectorError("canonical state is missing required fields")
     if canonical.get("snapshot_semantics") != "observed_snapshot_requires_live_verification":
         raise CollectorError("canonical snapshot semantics are invalid")
+    if not _nonempty_string(canonical.get("schema_version")):
+        raise CollectorError("canonical schema version is malformed")
+    if not _nonempty_string(canonical.get("lifecycle_state")):
+        raise CollectorError("canonical lifecycle state is malformed")
     if not _is_sha(canonical.get("current_main_sha")):
         raise CollectorError("canonical main SHA is malformed")
     if canonical.get("consistency_status") not in CLASSIFICATIONS:
@@ -1633,6 +1672,7 @@ def _compare(
     blockers: list[str] = []
 
     required_values = {
+        "local head SHA": source.get("local_head"),
         "local main SHA": source.get("local_main"),
         "live default-branch SHA": source.get("live_default_branch"),
         "issue number": issue.get("number"),
@@ -1663,6 +1703,27 @@ def _compare(
     if findings:
         return "quarantined", sorted(set(findings)), sorted(blockers), True
 
+    claim = data["lifecycle_claim"]
+    if claim in {"active_pr", "externally_approved", "merge_ready"}:
+        active_bindings = (
+            ("Local HEAD differs from the active PR head", source["local_head"], pr.get("head")),
+            ("Live repository default branch is not main", data["repository"].get("default_branch"), "main"),
+            ("Active PR base branch is not main", pr.get("base"), "main"),
+            ("Workflow run head differs from the active PR head", run.get("head_sha"), pr.get("head")),
+            ("Workflow run branch differs from the active PR branch", run.get("head_branch"), pr.get("head_branch")),
+        )
+        findings.extend(label for label, actual, expected in active_bindings if actual != expected)
+    else:
+        closed_bindings = (
+            ("Closed-gate local HEAD differs from the live default branch", source["local_head"], source["live_default_branch"]),
+            ("Closed-gate local main differs from the live default branch", source["local_main"], source["live_default_branch"]),
+            ("Closed-gate merge commit differs from the live default branch", pr.get("merge_commit"), source["live_default_branch"]),
+            ("Live repository default branch is not main", data["repository"].get("default_branch"), "main"),
+        )
+        findings.extend(label for label, actual, expected in closed_bindings if actual != expected)
+    if findings:
+        return "quarantined", sorted(set(findings)), sorted(blockers), True
+
     canonical_issue = canonical["linked_issue"]
     canonical_pr = canonical["linked_pr"]
     if source["local_main"] != source["live_default_branch"]:
@@ -1686,8 +1747,16 @@ def _compare(
     live_pr_state = str(pr.get("state") or "").lower()
     if canonical_pr_state and canonical_pr_state != live_pr_state:
         findings.append("Canonical PR lifecycle differs from live PR lifecycle")
-    if data["lifecycle_claim"] == "closed_gate" and canonical.get("lifecycle_state") != "phase_closed_ready_for_next_phase":
-        findings.append("Canonical lifecycle state differs from the closed gate")
+    if claim in {"active_pr", "externally_approved", "merge_ready"}:
+        if canonical["lifecycle_state"] != "developer_implementation_in_review":
+            findings.append("Canonical lifecycle state differs from the active PR family")
+        if canonical["consistency_status"] != "requires_live_verification":
+            findings.append("Canonical consistency status differs from the active PR family")
+    else:
+        if canonical["lifecycle_state"] != "phase_closed_ready_for_next_phase":
+            findings.append("Canonical lifecycle state differs from the closed gate")
+        if canonical["consistency_status"] != "consistent":
+            findings.append("Canonical consistency status differs from the closed gate")
     observed_head = canonical_pr.get("observed_head_sha")
     if observed_head and observed_head != pr.get("head"):
         findings.append("Canonical observed PR head moved")
@@ -1726,7 +1795,6 @@ def _compare(
         blockers.extend(approval["blocked"])
         return "blocked", sorted(findings), sorted(set(blockers)), False
 
-    claim = data["lifecycle_claim"]
     pr_state = str(pr.get("state") or "").lower()
     issue_state = str(issue.get("state") or "").lower()
     approvals = review.get("qualifying_approvals") or []

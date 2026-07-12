@@ -1,5 +1,5 @@
 {
-  "fixture_version": "1.3.2",
+  "fixture_version": "1.3.3",
   "repository": {"requested_name": "Zest-LeadGen/contractoros-california", "name": "Zest-LeadGen/contractoros-california", "default_branch": "main", "remote_name": "Zest-LeadGen/contractoros-california", "remote_transport": "https", "root_verified": true, "remote_verified": true, "remote_identifier": "Zest-LeadGen/contractoros-california"},
   "source_shas": {
     "local_head": "cccccccccccccccccccccccccccccccccccccccc",
@@ -20,7 +20,7 @@
   "issue": {"number": 49, "state": "open", "state_reason": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/49", "closeout_state": "open"},
   "pr": {"number": 50, "state": "open", "base": "main", "head_branch": "collector-branch", "head": "cccccccccccccccccccccccccccccccccccccccc", "draft": false, "merge_commit": null, "merged_at": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50", "author_login": "pr-author-scope", "author_type": "User"},
   "checks": [],
-  "workflow_run": {"id": 30000000004, "name": "ContractorOS Control Gates", "workflow_id": 309083557, "event": "pull_request", "status": "completed", "conclusion": null, "head_sha": null, "head_branch": "collector-branch", "url": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000004", "jobs": []},
+  "workflow_run": {"id": 30000000004, "name": "ContractorOS Control Gates", "workflow_id": 309083557, "event": "pull_request", "status": "in_progress", "conclusion": null, "head_sha": null, "head_branch": "collector-branch", "url": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000004", "jobs": []},
   "markers": {"owner_trigger_status": "valid", "red_team_status": "missing", "red_team_bound_sha": null},
   "review": {"decision": null, "evidence_status": "complete", "review_records": [], "permission_records": [], "qualifying_approvals": [], "disqualified_approvals": [], "disqualification_reasons": {}},
   "auto_merge": {"active": false},

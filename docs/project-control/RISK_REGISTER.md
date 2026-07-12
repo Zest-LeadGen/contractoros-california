@@ -619,3 +619,14 @@ Owner: ContractorOS development lead / external red-team gate
 Resolution condition: Offline contradictory-repository behavior, live current-repository behavior, complete controls, and fresh exact-SHA review all pass on the C3.2 head.
 Last reviewed: 2026-07-12
 ```
+
+### scope-bound authority fields are present but not classification-bound
+
+```text
+Risk: Collected local-head, default-branch, nullable live-field, review-timestamp, or canonical lifecycle evidence is structurally present but does not constrain classification, allowing stale or malformed authority evidence to appear safe.
+Status: Active / controlled in C3.3 developer review
+Evidence: The 1.3.3 collector scope-binds active and closed source identities, requires nullable authoritative live field presence, treats only null auto-merge requests as inactive, validates decisive RFC3339 review timestamps before approval selection, and compares validated canonical lifecycle and consistency values.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.3 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```

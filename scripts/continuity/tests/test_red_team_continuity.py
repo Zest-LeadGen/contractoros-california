@@ -546,9 +546,10 @@ class ApprovalEvidenceTests(unittest.TestCase):
         data = self.set_review(self.data(), [self.record(reviewer_type="Bot")])
         self.assertIn("APPROVAL_BOT_ACCOUNT", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
 
-    def test_unsubmitted_review_does_not_qualify(self):
+    def test_decisive_review_without_timestamp_is_malformed(self):
         data = self.set_review(self.data(), [self.record(submitted_at=None)])
-        self.assertIn("APPROVAL_NOT_SUBMITTED", self.evaluation(data)["review"]["disqualification_reasons"]["reviewer"])
+        with self.assertRaises(rtc.CollectorError):
+            self.evaluation(data)
 
     def test_dismissed_review_does_not_qualify(self):
         records = [self.record(), self.record(11, state="DISMISSED", submitted_at="2026-07-12T23:00:00Z")]
@@ -1643,6 +1644,162 @@ class FinalStructuralValidationCorrectionTests(unittest.TestCase):
         data = self.active()
         evaluation = rtc._control_workflow_evaluation(data)
         self.assertEqual(evaluation, {"blocked": [], "quarantined": []})
+
+
+class FinalAuthorityBindingScopeC33Tests(unittest.TestCase):
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def assert_quarantined(self, data):
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+        return evidence
+
+    def live_pr(self):
+        return {
+            "number": 50, "state": "OPEN", "baseRefName": "main", "headRefName": "collector-branch",
+            "headRefOid": ACTIVE_HEAD, "isDraft": False, "mergeCommit": None, "mergedAt": None,
+            "autoMergeRequest": None, "reviewDecision": None, "url": "https://example.test/pr/50",
+            "author": {"login": "pr-author-scope", "is_bot": False}, "body": "",
+        }
+
+    def live_run(self, status="completed", conclusion="failure"):
+        return {
+            "databaseId": 1, "name": "ContractorOS Control Gates", "workflowDatabaseId": 1,
+            "event": "pull_request", "status": status, "conclusion": conclusion,
+            "headSha": ACTIVE_HEAD, "headBranch": "collector-branch", "url": "https://example.test/run/1",
+        }
+
+    def test_active_local_head_must_equal_pr_head(self):
+        data = self.active()
+        data["source_shas"]["local_head"] = "d" * 40
+        self.assertIn("Local HEAD differs", " ".join(self.assert_quarantined(data)["comparison_findings"]))
+
+    def test_externally_approved_local_head_must_equal_pr_head(self):
+        data = self.active()
+        data["lifecycle_claim"] = "externally_approved"
+        data["source_shas"]["local_head"] = "d" * 40
+        self.assert_quarantined(data)
+
+    def test_merge_ready_local_head_must_equal_pr_head(self):
+        data = self.active()
+        data["lifecycle_claim"] = "merge_ready"
+        data["source_shas"]["local_head"] = "d" * 40
+        self.assert_quarantined(data)
+
+    def test_changed_default_branch_is_quarantined(self):
+        data = self.active()
+        data["repository"]["default_branch"] = "trunk"
+        self.assert_quarantined(data)
+
+    def test_missing_local_head_is_blocked(self):
+        data = self.active()
+        data["source_shas"]["local_head"] = None
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (3, "blocked"))
+
+    def test_closed_gate_local_head_must_equal_verified_main(self):
+        data = fixture("consistent_closed_gate.json")
+        data["source_shas"]["local_head"] = "a" * 40
+        self.assert_quarantined(data)
+
+    def test_closed_gate_pr_head_remains_pre_merge_head(self):
+        data = fixture("consistent_closed_gate.json")
+        self.assertNotEqual(data["pr"]["head"], data["source_shas"]["local_main"])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "consistent"))
+
+    def test_live_pr_nullable_fields_must_be_present(self):
+        fields = ("mergeCommit", "mergedAt", "autoMergeRequest", "reviewDecision")
+        for field in fields:
+            with self.subTest(field=field):
+                value = self.live_pr()
+                value.pop(field)
+                with self.assertRaises(rtc.EvidenceUnavailableError):
+                    rtc._require_live_fields(value, fields, "pull-request")
+
+    def test_empty_auto_merge_request_is_active(self):
+        value = self.live_pr()
+        value["autoMergeRequest"] = {}
+        rtc._validate_live_pr(value)
+        self.assertTrue(value["autoMergeRequest"] is not None)
+
+    def test_null_auto_merge_request_is_inactive(self):
+        value = self.live_pr()
+        rtc._validate_live_pr(value)
+        self.assertFalse(value["autoMergeRequest"] is not None)
+
+    def test_malformed_auto_merge_request_is_blocked(self):
+        value = self.live_pr()
+        value["autoMergeRequest"] = []
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_pr(value)
+
+    def test_completed_workflow_conclusions_must_be_present(self):
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._validate_live_run(self.live_run(conclusion=None))
+        jobs = [{"name": "job", "status": "completed", "conclusion": None, "steps": []}]
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._normalized_jobs(jobs)
+        jobs = [{"name": "job", "status": "completed", "conclusion": "failure", "steps": [{"name": "step", "number": 1, "status": "completed", "conclusion": None}]}]
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._normalized_jobs(jobs)
+
+    def test_pending_workflow_conclusions_allow_null(self):
+        rtc._validate_live_run(self.live_run(status="in_progress", conclusion=None))
+        jobs = [{"name": "job", "status": "queued", "conclusion": None, "steps": [{"name": "step", "number": 1, "status": "pending", "conclusion": None}]}]
+        self.assertEqual(rtc._normalized_jobs(jobs)[0]["conclusion"], None)
+
+    def test_live_decisive_review_timestamp_is_required_and_valid(self):
+        base = {"id": 1, "user": {"login": "reviewer", "type": "User"}, "state": "APPROVED", "commit_id": ACTIVE_HEAD, "author_association": "MEMBER"}  # scope-bound review timestamp evidence
+        for timestamp in (None, "not-a-timestamp", 3):
+            with self.subTest(timestamp=timestamp):
+                value = dict(base, submitted_at=timestamp)
+                with self.assertRaises(rtc.ApprovalEvidenceUnavailableError):
+                    rtc._normalized_review_record(value)
+
+    def test_live_pending_review_allows_null_timestamp(self):
+        value = {"id": 1, "user": {"login": "reviewer", "type": "User"}, "state": "PENDING", "submitted_at": None, "commit_id": ACTIVE_HEAD, "author_association": "MEMBER"}  # scope-bound review timestamp evidence
+        self.assertIsNone(rtc._normalized_review_record(value)["submitted_at"])
+
+    def test_fixture_invalid_review_timestamp_returns_exit_five_without_traceback(self):
+        data = self.active()
+        data["review"]["review_records"] = [{"review_id": 1, "reviewer_login": "reviewer", "reviewer_type": "User", "state": "APPROVED", "submitted_at": "invalid", "commit_id": ACTIVE_HEAD, "author_association": "MEMBER"}]  # scope-bound malformed fixture evidence
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture_path = Path(temporary) / "invalid.json"
+            fixture_path.write_text(json.dumps(data), encoding="utf-8")
+            stderr = io.StringIO()
+            with mock.patch("sys.stderr", stderr):
+                code = rtc.main(["fixture", "--fixture", str(fixture_path), "--observed-at", OBSERVED_AT, "--output-dir", str(Path(temporary) / "output")])
+        self.assertEqual(code, 5)
+        self.assertNotIn("Traceback", stderr.getvalue())
+
+    def test_active_canonical_lifecycle_and_consistency_mismatches_are_visible(self):
+        data = self.active()
+        data["canonical_state"].update({"lifecycle_state": "other", "consistency_status": "consistent"})
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "stale"))
+        self.assertIn("lifecycle", " ".join(evidence["comparison_findings"]).lower())
+        self.assertIn("consistency", " ".join(evidence["comparison_findings"]).lower())
+
+    def test_closed_gate_requires_closed_canonical_values(self):
+        data = fixture("consistent_closed_gate.json")
+        data["canonical_state"].update({"lifecycle_state": "developer_implementation_in_review", "consistency_status": "requires_live_verification"})
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "stale"))
+
+    def test_malformed_canonical_scalars_return_exit_five(self):
+        for key, value in (("schema_version", 1), ("schema_version", ""), ("lifecycle_state", 1), ("lifecycle_state", "")):
+            with self.subTest(key=key, value=value):
+                data = self.active()
+                data["canonical_state"][key] = value
+                with self.assertRaises(rtc.CollectorError):
+                    self.classify(data)
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schema_version", "generator_version", "observed_at", "repository", "canonical_schema_version", "source_shas", "issue", "pr", "checks", "workflow_run", "markers", "review", "auto_merge", "classification", "quarantine", "findings", "blockers", "missing_evidence", "next_action", "stop_conditions", "prohibited_actions", "evidence_classification", "derived_status"],
   "properties": {
-    "schema_version": {"const": "1.3.2"},
+    "schema_version": {"const": "1.3.3"},
     "generator_version": {"type": "string", "minLength": 1},
     "observed_at": {"type": "string", "format": "date-time"},
     "repository": {"$ref": "#/$defs/repository"},
