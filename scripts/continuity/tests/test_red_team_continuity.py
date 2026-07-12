@@ -150,7 +150,9 @@ class ContinuityCollectorTests(unittest.TestCase):
         data = fixture("active_pr_requires_live_verification.json")
         _, first, _, _ = self.generate("active_pr_requires_live_verification.json", data)
         changed = copy.deepcopy(data)
-        changed["checks"].append({"name": "scope", "state": "SUCCESS", "bucket": "pass"})
+        changed["checks"].append(
+            {"name": "scope", "state": "SUCCESS", "bucket": "pass", "link": "https://example.test/check"}
+        )
         _, second, _, _ = self.generate("active_pr_requires_live_verification.json", changed)
         self.assertNotEqual(first["packet_hash"], second["packet_hash"])
 
@@ -1496,6 +1498,151 @@ class CollectorCorrectionCluster3Tests(unittest.TestCase):
         text = RED_TEAM_PROTOCOL.read_text(encoding="utf-8")
         self.assertIn("exactly one compact bottom fallback table", text)
         self.assertIn("INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE", text)
+
+
+class FinalStructuralValidationCorrectionTests(unittest.TestCase):
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def assert_invalid(self, mutate):
+        data = self.active()
+        mutate(data)
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaises(rtc.CollectorError) as caught:
+                rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def assert_cli_invalid(self, mutate):
+        data = self.active()
+        mutate(data)
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture_path = Path(temporary) / "fixture.json"
+            fixture_path.write_text(json.dumps(data), encoding="utf-8")
+            stderr = io.StringIO()
+            with mock.patch("sys.stderr", stderr):
+                code = rtc.main(
+                    [
+                        "fixture", "--fixture", str(fixture_path), "--observed-at", OBSERVED_AT,
+                        "--output-dir", str(Path(temporary) / "output"),
+                    ]
+                )
+        self.assertEqual(code, 5)
+        self.assertNotIn("Traceback", stderr.getvalue())
+
+    def test_missing_live_repository_name_is_blocked_exit_3(self):
+        repo = {"defaultBranchRef": {"name": "main", "target": {"oid": "a" * 40}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError) as caught:
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+        self.assertEqual(caught.exception.exit_code, 3)
+
+    def test_malformed_live_repository_name_is_blocked_exit_3(self):
+        repo = {"nameWithOwner": "malformed", "defaultBranchRef": {"name": "main", "target": {"oid": "a" * 40}}}
+        with self.assertRaises(rtc.EvidenceUnavailableError) as caught:
+            rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+        self.assertEqual(caught.exception.exit_code, 3)
+
+    def test_valid_wrong_live_repository_name_is_not_unavailable(self):
+        repo = {"nameWithOwner": "Other/repository", "defaultBranchRef": {"name": "main", "target": {"oid": "a" * 40}}}
+        self.assertEqual(rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)[0], "Other/repository")
+
+    def test_valid_wrong_live_repository_name_is_quarantined_exit_2(self):
+        data = self.active()
+        data["repository"]["name"] = "Other/repository"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"], evidence["quarantine"]), (2, "quarantined", True))
+
+    def test_valid_wrong_live_repository_reaches_compare_identity_check(self):
+        data = self.active()
+        data["repository"]["name"] = "Other/repository"
+        with mock.patch.object(rtc, "_compare", wraps=rtc._compare) as compared:
+            self.classify(data)
+        compared.assert_called_once()
+
+    def test_live_repository_identity_never_falls_back_to_requested_name(self):
+        repo = {"nameWithOwner": "Other/repository", "defaultBranchRef": {"name": "main", "target": {"oid": "a" * 40}}}
+        observed, _, _ = rtc._validate_live_repository(repo, rtc.EXPECTED_REPOSITORY)
+        self.assertNotEqual(observed, rtc.EXPECTED_REPOSITORY)
+
+    def test_checks_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data.__setitem__("checks", {}))
+
+    def test_check_item_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data.__setitem__("checks", ["bad"]))
+
+    def test_check_item_missing_name_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["checks"][0].pop("name"))
+
+    def test_check_item_unknown_field_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["checks"][0].__setitem__("unknown", "bad"))
+
+    def test_workflow_jobs_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"].__setitem__("jobs", {}))
+
+    def test_workflow_job_item_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"].__setitem__("jobs", ["bad"]))
+
+    def test_workflow_job_missing_name_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"]["jobs"][0].pop("name"))
+
+    def test_workflow_steps_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"]["jobs"][0].__setitem__("steps", {}))
+
+    def test_workflow_step_item_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"]["jobs"][0].__setitem__("steps", ["bad"]))
+
+    def test_workflow_step_missing_number_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"]["jobs"][0]["steps"][0].pop("number"))
+
+    def test_workflow_step_invalid_number_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"]["jobs"][0]["steps"][0].__setitem__("number", 0))
+
+    def test_workflow_step_unknown_field_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["workflow_run"]["jobs"][0]["steps"][0].__setitem__("unknown", "bad"))
+
+    def test_repository_nested_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["repository"].__setitem__("remote_verified", "true"))
+
+    def test_issue_nested_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["issue"].__setitem__("number", "49"))
+
+    def test_pr_nested_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["pr"].__setitem__("draft", 0))
+
+    def test_markers_nested_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data.__setitem__("markers", []))
+
+    def test_auto_merge_active_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data["auto_merge"].__setitem__("active", "false"))
+
+    def test_source_command_item_wrong_type_returns_exit_5(self):
+        self.assert_invalid(lambda data: data.__setitem__("source_commands", ["bad"]))
+
+    def test_malformed_check_cli_returns_exit_5_without_traceback(self):
+        self.assert_cli_invalid(lambda data: data.__setitem__("checks", ["bad"]))
+
+    def test_malformed_job_cli_returns_exit_5_without_traceback(self):
+        self.assert_cli_invalid(lambda data: data["workflow_run"].__setitem__("jobs", ["bad"]))
+
+    def test_malformed_step_cli_returns_exit_5_without_traceback(self):
+        self.assert_cli_invalid(lambda data: data["workflow_run"]["jobs"][0].__setitem__("steps", ["bad"]))
+
+    def test_valid_active_fixture_still_requires_live_verification(self):
+        code, evidence, _ = self.classify(self.active())
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+
+    def test_valid_closed_fixture_still_consistent(self):
+        code, evidence, _ = self.classify(fixture("consistent_closed_gate.json"))
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "consistent"))
+
+    def test_valid_current_workflow_matrix_is_unchanged(self):
+        data = self.active()
+        evaluation = rtc._control_workflow_evaluation(data)
+        self.assertEqual(evaluation, {"blocked": [], "quarantined": []})
 
 
 if __name__ == "__main__":

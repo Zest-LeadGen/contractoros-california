@@ -597,3 +597,25 @@ Owner: ContractorOS development lead / red-team gate / human approver
 Resolution condition: Owner-trigger marker validation remains required in protected PR control gates, and future automation phases refuse to treat legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED, dependency/security risk acceptance, or architecture-threshold PRs as future-low-risk candidates.
 Last reviewed: 2026-07-09
 ```
+
+### malformed nested continuity evidence bypasses the documented exit contract
+
+```text
+Risk: Malformed nested continuity evidence reaches comparison, rendering, or output code and raises an unbounded runtime error instead of a deterministic fail-closed result.
+Status: Active / controlled in C3.2 developer review
+Evidence: The 1.3.2 collector validates exact repository, issue, PR, check, workflow-run, job, step, marker, auto-merge, and optional source-command shapes with bounded list sizes before use. Behavior and CLI tests cover wrong types, missing fields, unknown properties, invalid identifiers, exit 5, and absence of tracebacks.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: The C3.2 exact head passes the full suite, deterministic/schema checks, all local and PR-context controls, live collection, contradictory-repository classification, and a fresh external whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### live repository contradiction is mistaken for unavailable evidence
+
+```text
+Risk: A readable, structurally valid different repository name is reported as unavailable evidence and bypasses the intended identity-quarantine path.
+Status: Active / controlled in C3.2 developer review
+Evidence: Structural validation now accepts syntactically valid owner/repository names without substituting the requested name; comparison classifies a different observed identity as quarantined with exit 2. Missing or malformed names remain unavailable with exit 3.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: Offline contradictory-repository behavior, live current-repository behavior, complete controls, and fresh exact-SHA review all pass on the C3.2 head.
+Last reviewed: 2026-07-12
+```

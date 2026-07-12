@@ -7,8 +7,8 @@ It provides no write authorization and cannot approve, merge, release or close a
 
 ## Generator
 
-- Generator version: 1.3.1
-- Packet schema version: 1.3.1
+- Generator version: 1.3.2
+- Packet schema version: 1.3.2
 - Observation timestamp: 2026-07-13T00:00:00Z
 - Repository: Zest-LeadGen/contractoros-california
 - Canonical schema version: 1.0.1
@@ -92,4 +92,4 @@ External exact-SHA review must rerun this collector against the current PR head.
 
 ## Packet Hash
 
-`c9e165033688c87e802078232beba2886321d09815e6b608c767208026b45a44`
+`0badc33dfca6b879d74e0171ebfc898678f40fca63ecb050fa295939c67400a6`

@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.1"
-EVIDENCE_SCHEMA_VERSION = "1.3.1"
-PACKET_SCHEMA_VERSION = "1.3.1"
-FIXTURE_VERSION = "1.3.1"
+GENERATOR_VERSION = "1.3.2"
+EVIDENCE_SCHEMA_VERSION = "1.3.2"
+PACKET_SCHEMA_VERSION = "1.3.2"
+FIXTURE_VERSION = "1.3.2"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -115,6 +115,11 @@ MAX_REVIEW_RECORDS = 500
 MAX_PERMISSION_CANDIDATES = 100
 REVIEW_PAGE_SIZE = 100
 MAX_REVIEW_PAGES = 5
+MAX_CHECKS = 100
+MAX_WORKFLOW_JOBS = 25
+MAX_WORKFLOW_STEPS = 100
+MAX_SOURCE_COMMANDS = 100
+MAX_COMMAND_ARGV = 32
 REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED", "COMMENTED", "PENDING"}
 DECISIVE_REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED"}
 GITHUB_LOGIN_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")  # scope-bound approval evidence
@@ -521,8 +526,14 @@ def _marker_summary(body: str, pr_head: str, pr_number: int | str = "") -> dict[
 
 
 def _normalized_checks(raw: Any) -> list[dict[str, str]]:
+    if not isinstance(raw, list) or len(raw) > MAX_CHECKS:
+        raise EvidenceUnavailableError("required pull-request check evidence is malformed or exceeds its bound")
     checks = []
-    for item in raw if isinstance(raw, list) else []:
+    for item in raw:
+        if not isinstance(item, dict):
+            raise EvidenceUnavailableError("required pull-request check item is malformed")
+        if any(not isinstance(item.get(key), str) for key in ("name", "state", "bucket", "link")):
+            raise EvidenceUnavailableError("required pull-request check fields are malformed")
         checks.append(
             {
                 "name": str(item.get("name") or ""),
@@ -538,22 +549,46 @@ def _normalized_checks(raw: Any) -> list[dict[str, str]]:
 
 
 def _normalized_jobs(raw: Any) -> list[dict[str, Any]]:
+    if not isinstance(raw, list) or len(raw) > MAX_WORKFLOW_JOBS:
+        raise EvidenceUnavailableError("required workflow job evidence is malformed or exceeds its bound")
     jobs = []
-    for job in raw if isinstance(raw, list) else []:
-        steps = [
-            {
-                "name": str(step.get("name") or ""),
-                "number": int(step.get("number") or 0),
-                "status": str(step.get("status") or ""),
-                "conclusion": str(step.get("conclusion") or "") or None,
-            }
-            for step in (job.get("steps") or [])
-        ]
+    for job in raw:
+        if not isinstance(job, dict):
+            raise EvidenceUnavailableError("required workflow job item is malformed")
+        raw_steps = job.get("steps")
+        if not isinstance(raw_steps, list) or len(raw_steps) > MAX_WORKFLOW_STEPS:
+            raise EvidenceUnavailableError("required workflow step evidence is malformed or exceeds its bound")
+        steps = []
+        for step in raw_steps:
+            if not isinstance(step, dict):
+                raise EvidenceUnavailableError("required workflow step item is malformed")
+            if (
+                not isinstance(step.get("name"), str)
+                or type(step.get("number")) is not int
+                or step["number"] < 1
+                or not isinstance(step.get("status"), str)
+                or (step.get("conclusion") is not None and not isinstance(step.get("conclusion"), str))
+            ):
+                raise EvidenceUnavailableError("required workflow step fields are malformed")
+            steps.append(
+                {
+                    "name": step["name"],
+                    "number": step["number"],
+                    "status": step["status"],
+                    "conclusion": step.get("conclusion"),
+                }
+            )
+        if (
+            not isinstance(job.get("name"), str)
+            or not isinstance(job.get("status"), str)
+            or (job.get("conclusion") is not None and not isinstance(job.get("conclusion"), str))
+        ):
+            raise EvidenceUnavailableError("required workflow job fields are malformed")
         jobs.append(
             {
-                "name": str(job.get("name") or ""),
-                "status": str(job.get("status") or ""),
-                "conclusion": str(job.get("conclusion") or "") or None,
+                "name": job["name"],
+                "status": job["status"],
+                "conclusion": job.get("conclusion"),
                 "steps": sorted(steps, key=lambda item: (item["number"], item["name"])),
             }
         )
@@ -878,7 +913,7 @@ def _validate_live_repository(repo: Any, permitted_repository: str) -> tuple[str
     if not isinstance(repo, dict):
         raise EvidenceUnavailableError("required repository fields are unavailable")
     name = repo.get("nameWithOwner")
-    if not isinstance(name, str) or not name.strip() or name != permitted_repository:
+    if not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", name):
         raise EvidenceUnavailableError("primary live GitHub repository name is unavailable or invalid")
     default_ref = repo.get("defaultBranchRef")
     if not isinstance(default_ref, dict):
@@ -893,6 +928,63 @@ def _validate_live_repository(repo: Any, permitted_repository: str) -> tuple[str
     if not _is_sha(target_oid):
         raise EvidenceUnavailableError("primary live GitHub default branch target OID is unavailable or invalid")
     return name, default_name, target_oid
+
+
+def _validate_live_issue(issue: Any) -> None:
+    if (
+        not isinstance(issue, dict)
+        or not _positive_integer(issue.get("number"))
+        or not _nonempty_string(issue.get("state"))
+        or (issue.get("stateReason") is not None and not isinstance(issue.get("stateReason"), str))
+        or not _nonempty_string(issue.get("url"))
+        or (issue.get("closedAt") is not None and not _nonempty_string(issue.get("closedAt")))
+    ):
+        raise EvidenceUnavailableError("required live issue evidence is malformed")
+
+
+def _validate_live_pr(pr: Any) -> None:
+    if not isinstance(pr, dict):
+        raise EvidenceUnavailableError("required live pull-request evidence is malformed")
+    author = pr.get("author")  # scope-bound approval evidence
+    merge_commit = pr.get("mergeCommit")
+    if (
+        not _positive_integer(pr.get("number"))
+        or any(
+            not _nonempty_string(pr.get(key))
+            for key in ("state", "baseRefName", "headRefName", "headRefOid", "url")
+        )
+        or not _is_sha(pr.get("headRefOid"))
+        or type(pr.get("isDraft")) is not bool
+        or not isinstance(pr.get("body"), str)
+        or not isinstance(author, dict)  # scope-bound approval evidence
+        or not GITHUB_LOGIN_RE.fullmatch(author.get("login") if isinstance(author.get("login"), str) else "")  # scope-bound approval evidence
+        or type(author.get("is_bot")) is not bool  # scope-bound approval evidence
+        or (pr.get("mergedAt") is not None and not _nonempty_string(pr.get("mergedAt")))
+        or (pr.get("reviewDecision") is not None and not isinstance(pr.get("reviewDecision"), str))
+        or (
+            merge_commit is not None
+            and (
+                not isinstance(merge_commit, dict)
+                or not _is_sha(merge_commit.get("oid"))
+            )
+        )
+    ):
+        raise EvidenceUnavailableError("required live pull-request evidence is malformed")
+
+
+def _validate_live_run(run: Any) -> None:
+    if (
+        not isinstance(run, dict)
+        or not _positive_integer(run.get("databaseId"))
+        or not _positive_integer(run.get("workflowDatabaseId"))
+        or any(
+            not _nonempty_string(run.get(key))
+            for key in ("name", "event", "status", "headSha", "headBranch", "url")
+        )
+        or not _is_sha(run.get("headSha"))
+        or (run.get("conclusion") is not None and not isinstance(run.get("conclusion"), str))
+    ):
+        raise EvidenceUnavailableError("required live workflow-run evidence is malformed")
 
 
 def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
@@ -1014,6 +1106,11 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     repository_name, default_branch_name, default_branch_oid = _validate_live_repository(
         repo, args.repository
     )
+    _validate_live_issue(issue)
+    _validate_live_pr(pr)
+    _validate_live_run(run)
+    normalized_checks = _normalized_checks(raw_checks)
+    normalized_jobs = _normalized_jobs(run.get("jobs"))
     pr_author = pr.get("author") or {}  # scope-bound approval evidence
     approval_evidence = _collect_review_evidence(
         repo_root,
@@ -1063,7 +1160,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "author_login": str(pr_author.get("login") or ""),  # scope-bound approval evidence
             "author_type": "Bot" if pr_author.get("is_bot") else "User",  # scope-bound approval evidence
         },
-        "checks": _normalized_checks(raw_checks),
+        "checks": normalized_checks,
         "workflow_run": {
             "id": int(run.get("databaseId")),
             "name": str(run.get("name") or ""),
@@ -1074,7 +1171,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "head_sha": str(run.get("headSha") or ""),
             "head_branch": str(run.get("headBranch") or ""),
             "url": str(run.get("url") or ""),
-            "jobs": _normalized_jobs(run.get("jobs")),
+            "jobs": normalized_jobs,
         },
         "markers": marker,
         "review": {
@@ -1104,6 +1201,166 @@ def _load_fixture(path: Path) -> dict[str, Any]:
         raise CollectorError("fixture input must be an object")
     _reject_unsafe(value)
     return value
+
+
+def _exact_mapping(value: Any, keys: set[str], label: str) -> dict[str, Any]:
+    if not isinstance(value, dict) or set(value) != keys:
+        raise CollectorError(f"{label} evidence is malformed")
+    return value
+
+
+def _positive_integer(value: Any) -> bool:
+    return type(value) is int and value > 0
+
+
+def _nonempty_string(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _validate_repository_evidence(value: Any) -> None:
+    keys = {
+        "requested_name", "name", "default_branch", "remote_name", "remote_transport",
+        "root_verified", "remote_verified", "remote_identifier",
+    }
+    repository = _exact_mapping(value, keys, "repository identity")
+    if repository["requested_name"] != EXPECTED_REPOSITORY:
+        raise CollectorError("repository argument is outside the permitted repository")
+    if not isinstance(repository["name"], str) or not re.fullmatch(
+        r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository["name"]
+    ):
+        raise CollectorError("repository name evidence is malformed")
+    if any(
+        not _nonempty_string(repository[key])
+        for key in ("default_branch", "remote_name", "remote_identifier")
+    ):
+        raise CollectorError("repository string evidence is malformed")
+    if repository["remote_transport"] not in {"https", "ssh", "unsupported"}:
+        raise CollectorError("repository transport evidence is malformed")
+    if type(repository["root_verified"]) is not bool or type(repository["remote_verified"]) is not bool:
+        raise CollectorError("repository verification status is malformed")
+
+
+def _validate_issue_evidence(value: Any) -> None:
+    issue = _exact_mapping(value, {"number", "state", "state_reason", "url", "closeout_state"}, "issue")
+    if not _positive_integer(issue["number"]):
+        raise CollectorError("issue number evidence is malformed")
+    if issue["state"] not in {"open", "active", "closed"}:
+        raise CollectorError("issue state evidence is malformed")
+    if issue["state_reason"] is not None and not isinstance(issue["state_reason"], str):
+        raise CollectorError("issue state-reason evidence is malformed")
+    if not _nonempty_string(issue["url"]):
+        raise CollectorError("issue URL evidence is malformed")
+    if issue["closeout_state"] not in {"open", "closed"}:
+        raise CollectorError("issue closeout evidence is malformed")
+
+
+def _validate_pr_evidence(value: Any) -> None:
+    keys = {
+        "number", "state", "base", "head_branch", "head", "draft", "merge_commit",
+        "merged_at", "url", "author_login", "author_type",  # scope-bound approval evidence
+    }
+    pr = _exact_mapping(value, keys, "pr")
+    if not _positive_integer(pr["number"]):
+        raise CollectorError("PR number evidence is malformed")
+    if pr["state"] not in {"open", "closed", "merged"}:
+        raise CollectorError("PR state evidence is malformed")
+    if any(not _nonempty_string(pr[key]) for key in ("base", "head_branch", "url")):
+        raise CollectorError("PR string evidence is malformed")
+    if not _is_sha(pr["head"]):
+        raise CollectorError("PR head evidence is malformed")
+    if type(pr["draft"]) is not bool:
+        raise CollectorError("PR draft evidence is malformed")
+    if pr["merge_commit"] is not None and not _is_sha(pr["merge_commit"]):
+        raise CollectorError("PR merge-commit evidence is malformed")
+    if pr["merged_at"] is not None and not _nonempty_string(pr["merged_at"]):
+        raise CollectorError("PR merged-at evidence is malformed")
+    if not GITHUB_LOGIN_RE.fullmatch(pr["author_login"] if isinstance(pr["author_login"], str) else ""):  # scope-bound approval evidence
+        raise CollectorError("PR author login evidence is malformed")  # scope-bound approval evidence
+    if pr["author_type"] not in {"User", "Bot"}:  # scope-bound approval evidence
+        raise CollectorError("PR author account type evidence is malformed")  # scope-bound approval evidence
+
+
+def _validate_checks_evidence(value: Any) -> None:
+    if not isinstance(value, list) or len(value) > MAX_CHECKS:
+        raise CollectorError("checks evidence is malformed or exceeds its bound")
+    keys = {"name", "state", "bucket", "link"}
+    for item in value:
+        check = _exact_mapping(item, keys, "check item")
+        if any(not isinstance(check[key], str) for key in keys):
+            raise CollectorError("check item field is malformed")
+
+
+def _validate_workflow_evidence(value: Any) -> None:
+    keys = {
+        "id", "name", "workflow_id", "event", "status", "conclusion", "head_sha",
+        "head_branch", "url", "jobs",
+    }
+    run = _exact_mapping(value, keys, "workflow-run")
+    if not _positive_integer(run["id"]) or not _positive_integer(run["workflow_id"]):
+        raise CollectorError("workflow-run identifier evidence is malformed")
+    if any(not _nonempty_string(run[key]) for key in ("name", "event", "status", "head_branch", "url")):
+        raise CollectorError("workflow-run string evidence is malformed")
+    if run["conclusion"] is not None and not isinstance(run["conclusion"], str):
+        raise CollectorError("workflow-run conclusion evidence is malformed")
+    if run["head_sha"] is not None and not _is_sha(run["head_sha"]):
+        raise CollectorError("workflow-run head evidence is malformed")
+    if not isinstance(run["jobs"], list) or len(run["jobs"]) > MAX_WORKFLOW_JOBS:
+        raise CollectorError("workflow jobs evidence is malformed or exceeds its bound")
+    for item in run["jobs"]:
+        job = _exact_mapping(item, {"name", "status", "conclusion", "steps"}, "workflow job item")
+        if not _nonempty_string(job["name"]) or not _nonempty_string(job["status"]):
+            raise CollectorError("workflow job field is malformed")
+        if job["conclusion"] is not None and not isinstance(job["conclusion"], str):
+            raise CollectorError("workflow job conclusion is malformed")
+        if not isinstance(job["steps"], list) or len(job["steps"]) > MAX_WORKFLOW_STEPS:
+            raise CollectorError("workflow steps evidence is malformed or exceeds its bound")
+        for nested in job["steps"]:
+            step = _exact_mapping(nested, {"name", "number", "status", "conclusion"}, "workflow step item")
+            if not _nonempty_string(step["name"]) or not _positive_integer(step["number"]):
+                raise CollectorError("workflow step identity evidence is malformed")
+            if not _nonempty_string(step["status"]):
+                raise CollectorError("workflow step status evidence is malformed")
+            if step["conclusion"] is not None and not isinstance(step["conclusion"], str):
+                raise CollectorError("workflow step conclusion evidence is malformed")
+
+
+def _validate_marker_evidence(value: Any) -> None:
+    markers = _exact_mapping(
+        value, {"owner_trigger_status", "red_team_status", "red_team_bound_sha"}, "markers"
+    )
+    if markers["owner_trigger_status"] not in {"valid", "missing_or_invalid"}:
+        raise CollectorError("owner-trigger marker evidence is malformed")
+    if markers["red_team_status"] not in {"valid", "missing", "stale"}:
+        raise CollectorError("red-team marker evidence is malformed")
+    if markers["red_team_bound_sha"] is not None and not _is_sha(markers["red_team_bound_sha"]):
+        raise CollectorError("red-team bound SHA evidence is malformed")
+
+
+def _validate_auto_merge_evidence(value: Any) -> None:
+    auto_merge = _exact_mapping(value, {"active"}, "auto-merge")
+    if type(auto_merge["active"]) is not bool:
+        raise CollectorError("auto-merge active evidence is malformed")
+
+
+def _validate_source_commands(value: Any) -> None:
+    if not isinstance(value, list) or len(value) > MAX_SOURCE_COMMANDS:
+        raise CollectorError("source-command evidence is malformed or exceeds its bound")
+    keys = {"argv", "return_code", "stdout_sha256", "stderr_present"}
+    for item in value:
+        command = _exact_mapping(item, keys, "source-command item")
+        argv = command["argv"]
+        if (
+            not isinstance(argv, list)
+            or not 2 <= len(argv) <= MAX_COMMAND_ARGV
+            or any(not _nonempty_string(argument) for argument in argv)
+        ):
+            raise CollectorError("source-command argv evidence is malformed")
+        if type(command["return_code"]) is not int or command["return_code"] < 0:
+            raise CollectorError("source-command return code evidence is malformed")
+        if not isinstance(command["stdout_sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", command["stdout_sha256"]):
+            raise CollectorError("source-command stdout hash evidence is malformed")
+        if type(command["stderr_present"]) is not bool:
+            raise CollectorError("source-command stderr evidence is malformed")
 
 
 def _validate_input(data: dict[str, Any]) -> None:
@@ -1189,28 +1446,18 @@ def _validate_input(data: dict[str, Any]) -> None:
         raise CollectorError("canonical linked PR URL is malformed")
     if "head_sha_source" in linked_pr and linked_pr["head_sha_source"] != "live_github_required":
         raise CollectorError("canonical linked PR head SHA source is malformed")
-    for key in ("repository", "issue", "pr", "workflow_run", "markers", "review", "auto_merge"):
-        if not isinstance(data.get(key), dict):
-            raise CollectorError(f"{key} evidence is malformed")
-    if not isinstance(data.get("checks"), list):
-        raise CollectorError("checks evidence is malformed")
-    repository = data["repository"]
-    repository_required = {
-        "requested_name", "name", "default_branch", "remote_name", "remote_transport",
-        "root_verified", "remote_verified", "remote_identifier",
-    }
-    if set(repository) != repository_required:
-        raise CollectorError("repository identity evidence is malformed")
-    if repository.get("requested_name") != EXPECTED_REPOSITORY:
-        raise CollectorError("repository argument is outside the permitted repository")
-    if not isinstance(repository.get("root_verified"), bool) or not isinstance(repository.get("remote_verified"), bool):
-        raise CollectorError("repository verification status is malformed")
-    pr = data["pr"]
-    if not GITHUB_LOGIN_RE.fullmatch(str(pr.get("author_login") or "")):  # scope-bound approval evidence
-        raise CollectorError("PR author login evidence is malformed")  # scope-bound approval evidence
-    if pr.get("author_type") not in {"User", "Bot"}:  # scope-bound approval evidence
-        raise CollectorError("PR author account type evidence is malformed")  # scope-bound approval evidence
+    _validate_repository_evidence(data["repository"])
+    _validate_issue_evidence(data["issue"])
+    _validate_pr_evidence(data["pr"])
+    _validate_checks_evidence(data["checks"])
+    _validate_workflow_evidence(data["workflow_run"])
+    _validate_marker_evidence(data["markers"])
+    _validate_auto_merge_evidence(data["auto_merge"])
+    if "source_commands" in data:
+        _validate_source_commands(data["source_commands"])
     review = data["review"]
+    if not isinstance(review, dict):
+        raise CollectorError("review evidence is malformed")
     review_required = {
         "decision",
         "evidence_status",

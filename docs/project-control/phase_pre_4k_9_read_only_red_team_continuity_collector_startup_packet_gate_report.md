@@ -399,6 +399,8 @@ Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. 
 
 C3.1 adds 22 fail-closed cases to the existing C3 class, for 73 focused C3 tests and 218 total tests. Both `1.3.1` schemas parse. Two fixed-time consistent-fixture generations are byte-identical and the independent packet-hash recomputation matches `c84d8905a14c998f085adb2fc3c9f3b3555e039e94056de7afe9d5b985418f76`. The eleven local controls and three pull-request-context reproductions pass. At `2026-07-12T21:44:03Z`, the required live collector used run `29209108826` and canonical ref `4b92dae569f07bbb4eedd117e9666e5bb340b9c4`; it returned exit `0`, `requires_live_verification`, complete primary GitHub repository/default-branch evidence without fallback, verified root/remote identity, missing marker, zero qualifying approvals, inactive auto-merge and packet hash `278816f9f995ac665a700ac647ed7b6ee5caca9ad2c77917247b4026ab53aa31`. No workflow or existing control validator is modified.
 
+C3.2 is the final structural-validation correction required by external whole-PR review `4680854353` at exact head `29883ec704e16a9cc158b860603c0e7093260fc8`. It separates repository structural availability from identity consistency: missing or malformed primary identity remains unavailable with exit `3`, while a readable syntactically valid different name is preserved for comparison and quarantines with exit `2`. Before comparison, rendering or filesystem output, the `1.3.2` contract validates exact keys, documented types, supported values and bounded counts for repository, issue, pull request, checks, workflow run, jobs, steps, markers, auto-merge and optional source-command evidence. Malformed committed fixture/evidence records return exit `5` without traceback; malformed authoritative live records remain exit `3`. C3.2 adds 30 behavior tests and passes all 248 tests, retaining the prior 218. Both schemas parse; two fixed-time consistent-fixture generations are byte-identical; the independently recomputed hash matches `87ec5d64a0c2ffba24e83aad47b29ae1d5c36c902f52e5f0cf652a46b6e34905`. An offline valid `Other/repository` fixture returned exit `2`, `quarantined=true`, and both repository identity findings without fallback. All eleven local controls and three pull-request-context reproductions pass without workflow or control-script edits. The required live collector returned exit `0`, `requires_live_verification`, verified root/remote identity, missing marker, zero qualifying approvals, pending human approval, inactive auto-merge and packet hash `0fe9d76fbece29cc439785e8f34b7a6548dac12cf18d7141cfb31398df4fe8a3`. New-head workflow evidence remains required after push.
+
 ## Risk Register Impact
 
 The risk register records stale-state false negatives, command allowlist bypass, shell execution, output-path/symlink escape, private-evidence leakage, moved-head approval reuse, misleading derived packet authority, inaccessible GitHub evidence, deterministic drift, contradictory lifecycle, active auto-merge, hidden-metadata fabrication, quota/context loss, and governance-progress inflation, with controls and validation tasks.
@@ -413,7 +415,7 @@ The artifact index records source, specification, schemas, fixtures, and tests. 
 
 ## Red-Team Status
 
-The C1A, C1B and C2 bounded subreviews passed for their exact reviewed heads. The exact C2 reviewed head is `053ac81a63dc44f448bfbf2ae58166eed8d927a3`, PR review `4680746563`. External whole-PR review `4680818177` requested changes at exact C3 head `4b92dae569f07bbb4eedd117e9666e5bb340b9c4`. C3.1 creates a new head that requires a fresh external whole-PR exact-SHA review, and no current-head red-team marker exists.
+The C1A, C1B and C2 bounded subreviews passed for their exact reviewed heads. External whole-PR review `4680818177` requested changes at exact C3 head `4b92dae569f07bbb4eedd117e9666e5bb340b9c4`; C3.1 corrected those findings. External whole-PR review `4680854353` then requested the bounded C3.2 corrections at exact head `29883ec704e16a9cc158b860603c0e7093260fc8`. C3.2 creates a new head that requires a fresh external whole-PR exact-SHA review, and no current-head red-team marker exists.
 
 ## Human Approval Status
 
@@ -451,6 +453,7 @@ Read-only local/CLI continuity evidence collection and deterministic derived sta
 - Official model choices, Plus usage ranges, Fast support, and speed/consumption multipliers are dated 2026-07-12 and require revalidation before future recommendation.
 - C2 implements human/write-access approval qualification in review; merged capability is not proven.
 - C3 changes are implemented in developer review; fresh whole-PR exact-SHA external review, human approval, merge, main verification and Issue #49 closeout remain pending.
+- C3.2 changes remain developer implementation in review until the full validation sequence passes, the correction is pushed, the exact-new-head workflow is inspected, and a fresh whole-PR exact-SHA external review occurs.
 
 ## Next Phase Status
 
