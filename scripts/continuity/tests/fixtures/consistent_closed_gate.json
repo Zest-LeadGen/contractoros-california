@@ -1,0 +1,29 @@
+{
+  "fixture_version": "1.0.0",
+  "repository": {"name": "Zest-LeadGen/contractoros-california", "default_branch": "main"},
+  "source_shas": {
+    "local_head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "local_main": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "local_origin_main": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "live_default_branch": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "canonical_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "canonical_state": {
+    "schema_version": "1.0.1",
+    "snapshot_semantics": "observed_snapshot_requires_live_verification",
+    "current_main_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "linked_issue": {"number": 49, "state": "closed_completed"},
+    "linked_pr": {"number": 50, "state": "merged", "observed_head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    "lifecycle_state": "phase_closed_ready_for_next_phase",
+    "consistency_status": "consistent"
+  },
+  "issue": {"number": 49, "state": "closed", "state_reason": "completed", "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/49", "closeout_state": "closed"},
+  "pr": {"number": 50, "state": "merged", "base": "main", "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "draft": false, "merge_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "merged_at": "2026-07-13T00:00:00Z", "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50"},
+  "checks": [{"name": "contractoros-control-gates", "state": "SUCCESS", "bucket": "pass"}],
+  "workflow_run": {"id": 30000000000, "status": "completed", "conclusion": "success", "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "url": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000000", "steps": []},
+  "markers": {"owner_trigger_status": "valid", "red_team_status": "valid", "red_team_bound_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "review": {"decision": "APPROVED", "qualifying_approvals": ["human-reviewer"]},
+  "auto_merge": {"active": false},
+  "lifecycle_claim": "closed_gate",
+  "raw_chat_status": "no authority"
+}

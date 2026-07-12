@@ -420,3 +420,15 @@ Verified main controls phase advancement.
 | Continuity collector | Not implemented |
 
 The next recommended gate after Issue #47 closeout is the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.
+
+## Current Issue #49 Snapshot
+
+| Item | Evidence-based status |
+|---|---|
+| Issue #47 | Closed/completed |
+| PR #48 | Merged at `01b90ab8b12416101b4be067794bf543a3488779` |
+| Issue #49 | Active |
+| PR #50 | Open; implementation in review |
+| Phase 4K-9 | Not started |
+| Phase 4I | Paused |
+| Continuity collector | Implementation in review; merged capability not yet proven |

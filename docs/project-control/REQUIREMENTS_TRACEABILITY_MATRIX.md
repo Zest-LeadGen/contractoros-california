@@ -204,3 +204,17 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-PRE4K9-006 | Define AI Levels A–D and tool controls. | `AI_AUTHORITY_MODEL_AND_TOOL_SECURITY.md`, ADR-002, ADR-006 | Prohibited-action and control review in documentation scope. |
 | RTM-PRE4K9-007 | Reconcile provider policy and paid pilots. | `MODEL_PROVIDER_COST_GOVERNANCE.md`, ADR-007 | Official-evidence and bounded-spend review. |
 | RTM-PRE4K9-008 | Keep Phase 4K-9 unstarted and Phase 4I paused. | Canonical state, roadmap, tracker, report | Deterministic state check. |
+
+## Issue #49 Read-Only Continuity Collector
+
+| Requirement ID | Issue #49 requirement | Source path | Verification |
+|---|---|---|---|
+| RTM-I49-001 | Fixture and live read-only collection with explicit inputs. | `scripts/continuity/red_team_continuity.py`, `scripts/continuity/README.md` | CLI and live-mode tests plus baseline/live runs. |
+| RTM-I49-002 | Positive command allowlist, argument arrays, no shell, finite timeout. | `scripts/continuity/red_team_continuity.py` | Command rejection and subprocess mock tests. |
+| RTM-I49-003 | Canonical/live comparison and exact five-state classification. | Collector source and `RED_TEAM_STARTUP_PACKET_SPEC.md` | Consistent, active, stale, moved-head, missing, contradiction, approval-claim and auto-merge tests. |
+| RTM-I49-004 | External-only two-file output with symlink protections. | Collector source | Repository-path, directory-symlink, file-symlink and exact-output-count tests. |
+| RTM-I49-005 | Sensitive/private evidence fails closed. | Collector source and specification | Unsafe fixture and absolute-home-path tests. |
+| RTM-I49-006 | Deterministic packet and independently recomputed hash. | Collector source and expected packet fixture | Byte comparison, changed-evidence and recomputation tests. |
+| RTM-I49-007 | Draft 2020-12 bounded evidence and packet schemas. | `red-team-continuity-evidence.schema.json`, `red-team-startup-packet.schema.json` | JSON parse and standard-library runtime structural tests. |
+| RTM-I49-008 | Raw chat grants no authority and output grants no write permission. | Collector source, specification and packet fixture | Raw-chat rejection and packet-content tests. |
+| RTM-I49-009 | Phase 4K-9 not started; Phase 4I paused. | Canonical state, roadmaps, tracker and report | Changed-file and report review. |

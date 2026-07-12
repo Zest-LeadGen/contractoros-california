@@ -245,3 +245,18 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-PRE4K9-004 | Scan public-safe files. | Git path and secret-pattern review. | No private artifact, credential, secret, raw PDF, DOCX, or ZIP. | Passed locally. |
 | VAL-PRE4K9-005 | Run existing controls. | Required eleven-command control sequence. | All local controls pass before commit. | First and final full sequences passed. |
 | VAL-PRE4K9-006 | Verify pre-marker PR behavior. | GitHub Actions after PR creation and after every correction head. | Pre-marker checks pass; mandatory exact-SHA marker fails; later checks may skip. | Initial run `29172467406` observed: steps before the marker passed, marker failed as expected, and later steps skipped. A fresh run is required for the correction head. |
+
+## Issue #49 Validation Tasks
+
+| Task ID | Task | Command or check | Expected result | Status |
+|---|---|---|---|---|
+| VAL-I49-001 | Run the standard-library unit suite. | `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'` | All fixture, security, determinism and lifecycle tests pass. | 30 tests passed before documentation reconciliation; final rerun required. |
+| VAL-I49-002 | Prove deterministic JSON and Markdown. | Two identical fixture runs and byte comparisons. | Both comparisons match byte for byte. | Pending final validation sequence. |
+| VAL-I49-003 | Verify exit contract fixtures. | Run consistent, active, stale, moved-head, missing, unsafe and malformed cases. | Exit `0`, `0`, `2`, `2`, `3`, `4`, and `5`. | Covered by unit suite; explicit CLI capture pending. |
+| VAL-I49-004 | Verify command and shell security. | Unit command rejection and subprocess mock tests. | Unknown/write-capable shapes fail; subprocess uses argument array and `shell=False`. | Passed in unit suite. |
+| VAL-I49-005 | Verify output boundary. | Repository path, directory symlink, file symlink and exact file-count tests. | Escape attempts return unsafe failure; safe output contains exactly two files. | Passed in unit suite. |
+| VAL-I49-006 | Verify private-data boundary. | Unsafe fixture and absolute-home-path tests. | Unsafe/private-looking evidence returns exit `4` or is rejected before output. | Passed in unit suite. |
+| VAL-I49-007 | Run starting-main stale baseline. | Live Issue #47, PR #48, run `29176103821`, canonical ref `01b90ab8b12416101b4be067794bf543a3488779`. | Exit `2`; stale canonical main, issue, PR and lifecycle differences are visible; status unchanged. | Passed with exit `2`; final post-comparison-enhancement rerun required. |
+| VAL-I49-008 | Validate active PR live evidence. | Live Issue #49, PR #50, current run and exact implementation ref. | Exit `0`, `requires_live_verification`, missing external review and human approval pending, auto-merge inactive. | Pending implementation commit and workflow run. |
+| VAL-I49-009 | Validate both JSON schemas and runtime structure. | JSON parse plus unit malformed-object tests. | Schemas parse and malformed structures return exit `5`. | Schema parse and unit structure tests passed; final rerun required. |
+| VAL-I49-010 | Run all current control validators. | Required Issue #49 local control sequence. | Every local validator passes; red-team marker remains absent. | Pending full final sequence. |

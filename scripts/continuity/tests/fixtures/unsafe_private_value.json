@@ -1,0 +1,16 @@
+{
+  "fixture_version": "1.0.0",
+  "repository": {"name": "Zest-LeadGen/contractoros-california", "default_branch": "main"},
+  "source_shas": {},
+  "canonical_state": {},
+  "issue": {},
+  "pr": {},
+  "checks": [],
+  "workflow_run": {},
+  "markers": {},
+  "review": {},
+  "auto_merge": {},
+  "lifecycle_claim": "active_pr",
+  "raw_chat_status": "no authority",
+  "private_customer": "PRIVATE_CUSTOMER=customer-123"
+}

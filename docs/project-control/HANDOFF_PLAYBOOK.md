@@ -143,3 +143,21 @@ Only then may red-team prepare next-phase issue guidance or implementation promp
 ## Future Generated Startup Packet
 
 After Issue #47 closeout, a dedicated read-only gate may implement a deterministic `RED_TEAM_STARTUP_PACKET.md` generator from canonical state and live GitHub reads. The packet is derived, never authoritative by itself, and must disclose source SHAs, timestamps, stale checks, and missing evidence. Until that gate passes, use this playbook and live evidence; do not manually maintain a packet and call it canonical.
+
+## Issue #49 Collector Handoff Procedure
+
+Issue #49 implements the collector in review. After the gate is merged, main-verified and closed, a future red-team window may create an external temporary directory and invoke:
+
+```text
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/continuity/red_team_continuity.py live \
+  --repo-root <verified-repository-root> \
+  --repository Zest-LeadGen/contractoros-california \
+  --issue-number <active-issue> \
+  --pr-number <active-pull-request> \
+  --run-id <current-control-run> \
+  --canonical-ref <exact-current-ref> \
+  --observed-at <explicit-rfc3339-time> \
+  --output-dir <external-temporary-directory>
+```
+
+Expected safe active-PR output is exit `0` with `requires_live_verification`, a packet bound to the current head, pending external review and human approval disclosed, auto-merge inactive, and no merge permission. Exit `2`, `3`, `4`, or `5` is a stop condition. The operator must compare the live head and run evidence again before any next action. Generated output remains external and derived; it has no authority by itself.

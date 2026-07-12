@@ -89,3 +89,15 @@ Phase 4J-5 preserves the same behavior using the explicit labels in this file:
 Canonical state is a public-safe snapshot, not a substitute for lifecycle classification. If canonical state and live GitHub evidence differ, classify the state as blocked, mark the snapshot stale or quarantined, and stop consequential guidance. A future generated startup packet must derive from both versioned state and live read-only evidence.
 
 Issue #47 itself remains a documentation implementation gate until its PR is externally reviewed, human-approved, merged, main-verified, and closed. Phase 4K-9 remains not started.
+
+## Collector Consistency Statuses
+
+| Collector status | Meaning | Allowed next action |
+|---|---|---|
+| `consistent` | Required closed-gate evidence agrees at the observation time. | Revalidate live evidence before later planning. |
+| `requires_live_verification` | A valid active-PR snapshot discloses pending external review, human approval, merge and closeout. | External exact-SHA review reruns the collector against the current head. |
+| `stale` | Canonical or local state differs from required live state. | Stop and reconcile evidence. |
+| `blocked` | Required evidence is missing or inaccessible. | Stop and retrieve only the narrow missing evidence. |
+| `quarantined` | Evidence is contradictory, moved, unsafe for the claimed lifecycle, or violates a protected boundary. | Stop; do not reuse the packet. |
+
+Stale, blocked, or quarantined packets grant no authority for repository or GitHub writes. A valid active-PR packet with missing external review or human approval remains pending and cannot permit merge.

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Zest-LeadGen/contractoros-california/blob/main/docs/project-control/state/red-team-startup-packet.schema.json",
+  "title": "ContractorOS structured red-team startup packet",
+  "type": "object",
+  "required": ["schema_version", "generator_version", "observed_at", "repository", "canonical_schema_version", "source_shas", "issue", "pr", "checks", "workflow_run", "markers", "review", "auto_merge", "classification", "quarantine", "findings", "blockers", "missing_evidence", "next_action", "stop_conditions", "prohibited_actions", "evidence_classification", "derived_status"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "generator_version": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+    "canonical_schema_version": {"type": "string", "minLength": 1},
+    "source_shas": {"$ref": "#/$defs/sourceShas"},
+    "issue": {"$ref": "#/$defs/issue"},
+    "pr": {"$ref": "#/$defs/pr"},
+    "checks": {"type": "array", "items": {"$ref": "#/$defs/check"}},
+    "workflow_run": {"$ref": "#/$defs/workflowRun"},
+    "markers": {"$ref": "#/$defs/markers"},
+    "review": {"$ref": "#/$defs/review"},
+    "auto_merge": {"$ref": "#/$defs/autoMerge"},
+    "classification": {"enum": ["consistent", "requires_live_verification", "stale", "blocked", "quarantined"]},
+    "quarantine": {"type": "boolean"},
+    "findings": {"$ref": "#/$defs/uniqueStrings"},
+    "blockers": {"$ref": "#/$defs/uniqueStrings"},
+    "missing_evidence": {"$ref": "#/$defs/uniqueStrings"},
+    "next_action": {"type": "string", "minLength": 1},
+    "stop_conditions": {"$ref": "#/$defs/uniqueStrings"},
+    "prohibited_actions": {"$ref": "#/$defs/uniqueStrings"},
+    "evidence_classification": {"const": "public_safe"},
+    "derived_status": {"const": "no authority"}
+  },
+  "$defs": {
+    "sha": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[0-9a-f]{40}$"}]},
+    "uniqueStrings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "sourceShas": {
+      "type": "object",
+      "required": ["local_head", "local_main", "local_origin_main", "live_default_branch", "canonical_ref"],
+      "properties": {
+        "local_head": {"$ref": "#/$defs/sha"}, "local_main": {"$ref": "#/$defs/sha"},
+        "local_origin_main": {"$ref": "#/$defs/sha"}, "live_default_branch": {"$ref": "#/$defs/sha"},
+        "canonical_ref": {"$ref": "#/$defs/sha"}
+      },
+      "additionalProperties": false
+    },
+    "issue": {
+      "type": "object", "required": ["number", "state", "state_reason", "url", "closeout_state"],
+      "properties": {"number": {"type": "integer", "minimum": 1}, "state": {"enum": ["open", "active", "closed"]}, "state_reason": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "url": {"type": "string", "format": "uri"}, "closeout_state": {"enum": ["open", "closed"]}},
+      "additionalProperties": false
+    },
+    "pr": {
+      "type": "object", "required": ["number", "state", "base", "head", "draft", "merge_commit", "merged_at", "url"],
+      "properties": {"number": {"type": "integer", "minimum": 1}, "state": {"enum": ["open", "closed", "merged"]}, "base": {"type": "string", "minLength": 1}, "head": {"$ref": "#/$defs/sha"}, "draft": {"type": "boolean"}, "merge_commit": {"$ref": "#/$defs/sha"}, "merged_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]}, "url": {"type": "string", "format": "uri"}},
+      "additionalProperties": false
+    },
+    "check": {"type": "object", "required": ["name", "state", "bucket"], "properties": {"name": {"type": "string"}, "state": {"type": "string"}, "bucket": {"type": "string"}}, "additionalProperties": false},
+    "step": {"type": "object", "required": ["name", "conclusion"], "properties": {"name": {"type": "string"}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}}, "additionalProperties": false},
+    "workflowRun": {"type": "object", "required": ["id", "status", "conclusion", "head_sha", "url", "steps"], "properties": {"id": {"type": "integer", "minimum": 1}, "status": {"type": "string", "minLength": 1}, "conclusion": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "head_sha": {"$ref": "#/$defs/sha"}, "url": {"type": "string", "format": "uri"}, "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}}}, "additionalProperties": false},
+    "markers": {"type": "object", "required": ["owner_trigger_status", "red_team_status", "red_team_bound_sha"], "properties": {"owner_trigger_status": {"enum": ["valid", "missing_or_invalid"]}, "red_team_status": {"enum": ["valid", "missing", "stale"]}, "red_team_bound_sha": {"$ref": "#/$defs/sha"}}, "additionalProperties": false},
+    "review": {"type": "object", "required": ["decision", "qualifying_approvals"], "properties": {"decision": {"anyOf": [{"type": "null"}, {"type": "string"}]}, "qualifying_approvals": {"$ref": "#/$defs/uniqueStrings"}}, "additionalProperties": false},
+    "autoMerge": {"type": "object", "required": ["active"], "properties": {"active": {"type": "boolean"}}, "additionalProperties": false}
+  },
+  "additionalProperties": false
+}

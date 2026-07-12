@@ -1,0 +1,29 @@
+{
+  "fixture_version": "1.0.0",
+  "repository": {"name": "Zest-LeadGen/contractoros-california", "default_branch": "main"},
+  "source_shas": {
+    "local_head": "cccccccccccccccccccccccccccccccccccccccc",
+    "local_main": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "local_origin_main": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "live_default_branch": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "canonical_ref": "cccccccccccccccccccccccccccccccccccccccc"
+  },
+  "canonical_state": {
+    "schema_version": "1.0.1",
+    "snapshot_semantics": "observed_snapshot_requires_live_verification",
+    "current_main_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "linked_issue": {"number": 49, "state": "active"},
+    "linked_pr": {"number": 50, "state": "open", "observed_head_sha": null},
+    "lifecycle_state": "developer_implementation_in_review",
+    "consistency_status": "requires_live_verification"
+  },
+  "issue": {"number": 49, "state": "open", "state_reason": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/49", "closeout_state": "open"},
+  "pr": {"number": 50, "state": "open", "base": "main", "head": null, "draft": false, "merge_commit": null, "merged_at": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50"},
+  "checks": [],
+  "workflow_run": {"id": 30000000004, "status": "completed", "conclusion": null, "head_sha": null, "url": "https://github.com/Zest-LeadGen/contractoros-california/actions/runs/30000000004", "steps": []},
+  "markers": {"owner_trigger_status": "valid", "red_team_status": "missing", "red_team_bound_sha": null},
+  "review": {"decision": null, "qualifying_approvals": []},
+  "auto_merge": {"active": false},
+  "lifecycle_claim": "active_pr",
+  "raw_chat_status": "no authority"
+}

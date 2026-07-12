@@ -100,3 +100,9 @@ Phase 4K-8 may prove command-pack and operator-runbook documentation only after 
 Phase 4K-8 is completed through merged PR #46 and closed/completed Issue #45 at main `b99fc7d1fe0882380fc53041be42bb0aad35c02e`. Issue #47 is the active documentation gate for the Program Constitution, D1–D26 decision reconciliation, red-team continuity architecture, public/private policy, and current-state records. Phase 4K-9 remains not started and Phase 4I remains paused.
 
 After Issue #47 is merged, main-verified, and closed, the next gate is the **Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate**. It must precede Phase 4K-9 and begin with read-only evidence access only.
+
+## Issue #49 Read-Only Continuity Gate
+
+Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 is active through PR #50 for the read-only continuity collector and deterministic derived startup packet implementation in review.
+
+Phase 4K-9 is not started. Phase 4I remains paused. This gate must pass external exact-SHA review, human approval, protected merge, main verification and Issue #49 closeout before Phase 4K-9 may be evaluated.

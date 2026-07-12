@@ -13,6 +13,21 @@ Resolution condition:
 Last reviewed:
 ```
 
+## Issue #49 Continuity Collector Risks
+
+| Risk ID | Risk | Control | Validation task | Status |
+|---|---|---|---|---|
+| R-I49-01 | Stale-state false negative | Compare canonical, local and live main plus issue/PR lifecycle evidence; fail closed. | Stale-main and starting-main baseline runs. | Controlled in implementation review. |
+| R-I49-02 | Command allowlist bypass | Positive executable, subcommand, flag and shape validation. | Unknown executable/subcommand and prohibited Git/GitHub command tests. | Controlled in implementation review. |
+| R-I49-03 | Shell execution | Argument arrays with `shell=False` and finite timeout. | Mocked subprocess call inspection. | Controlled in implementation review. |
+| R-I49-04 | Output path or symlink escape | Resolve directory and output targets before atomic writes. | Repository-path, directory-symlink and file-symlink tests. | Controlled in implementation review. |
+| R-I49-05 | Secret or private evidence leakage | Avoid broad collection and reject private-looking patterns. | Unsafe fixture and absolute-home-path tests. | Controlled in implementation review. |
+| R-I49-06 | Moved-head approval reuse | Compare observed and marker-bound SHA with current PR head; quarantine mismatch. | Moved-head and stale-marker tests. | Controlled in implementation review. |
+| R-I49-07 | Misleading derived packet authority | Derived notice, prohibited-action section and no write permission. | Packet-content and raw-chat rejection tests. | Controlled in implementation review. |
+| R-I49-08 | Inaccessible GitHub evidence | Required read failure becomes blocked or invalid input; no safe classification is inferred. | Missing-evidence and malformed-input tests. | Controlled in implementation review. |
+| R-I49-09 | Deterministic-output drift | Stable ordering, normalized line endings and explicit packet-hash rule. | Identical-run comparison, expected packet and hash recomputation. | Controlled in implementation review. |
+| R-I49-10 | Contradictory lifecycle or active auto-merge | Quarantine protected-boundary contradictions. | Contradictory lifecycle and auto-merge tests. | Controlled in implementation review. |
+
 ## Active Risks
 
 ### low-risk lane misclassification

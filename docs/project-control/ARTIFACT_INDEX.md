@@ -41,3 +41,11 @@ No new Google Drive artifact was created in this phase.
 - Pre-4K-9 Issue #47 creates public-safe Markdown and JSON-compatible YAML source records only.
 - No raw PDF, DOCX, ZIP, binary, build output, private archive, hosted artifact, credential, service, or release artifact is added.
 - The canonical state and schemas are governance source files, not operational collector output.
+
+## Issue #49 Source And Test Artifacts
+
+- `scripts/continuity/red_team_continuity.py` is the bounded standard-library source implementation in review.
+- `scripts/continuity/README.md` and `docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md` define the interface and security boundary.
+- `docs/project-control/state/red-team-continuity-evidence.schema.json` and `docs/project-control/state/red-team-startup-packet.schema.json` define public-safe structured output.
+- The listed fixture JSON files and `expected_startup_packet.md` are deterministic test artifacts.
+- A generated live packet or live evidence manifest is not a repository artifact and must remain outside the repository.

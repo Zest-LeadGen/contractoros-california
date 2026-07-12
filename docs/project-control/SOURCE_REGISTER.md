@@ -95,3 +95,13 @@ The UI label "Extra High" is recorded only as UI-observed terminology unless an 
 | SRC-PRE4K9-004 | GitHub Issue #45 closeout comment `4948981071` and merged PR #46 | GitHub evidence | Phase 4K-8 completion and main SHA | Verified 2026-07-11 | Merge/current main is `b99fc7d1fe0882380fc53041be42bb0aad35c02e`. |
 | SRC-PRE4K9-005 | Current committed project-control files | Repository evidence | Precedence, lifecycle, risks, decisions, validators | Inspected 2026-07-11 | Updated only where consistency required. |
 | SRC-PRE4K9-006 | UI-observed GPT-5.6 Sol label | UI-observed evidence | Execution attestation only | Not official model taxonomy | No permanent provider fact derived. |
+
+## Issue #49 Public-Safe Sources
+
+| Source ID | Source | Type | Used for | Verification status | Notes |
+|---|---|---|---|---|---|
+| SRC-I49-001 | GitHub Issue #49 | GitHub issue source | Durable scope, allowlist, security and validation contract | Verified open at startup | https://github.com/Zest-LeadGen/contractoros-california/issues/49 |
+| SRC-I49-002 | GitHub Issue #47 closeout | GitHub issue source | Prior phase closeout prerequisite | Verified closed/completed at startup | https://github.com/Zest-LeadGen/contractoros-california/issues/47 |
+| SRC-I49-003 | GitHub PR #48 | GitHub PR source | Prior reviewed head and merge evidence | Verified merged at startup | https://github.com/Zest-LeadGen/contractoros-california/pull/48 |
+| SRC-I49-004 | ContractorOS Control Gates run `29176103821` | GitHub Actions source | Prior exact-head successful control evidence | Verified completed/success at startup | Head `8a81d429a93a342527e0efe7962f9bfef22d22d4`. |
+| SRC-I49-005 | Main `01b90ab8b12416101b4be067794bf543a3488779` | Repository/GitHub source | Starting main and prior merge anchor | Verified local and remote at startup | No later main state is assumed. |

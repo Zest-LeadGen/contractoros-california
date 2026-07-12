@@ -107,3 +107,12 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Zero spend is the default before revenue; only a separately owner-approved bounded paid pilot may be considered.
 - Provider policy is evidence-driven and provider-agnostic. UI labels are not official taxonomy without current official evidence.
 - Phase 4K-9 remains not started. The read-only continuity collector/startup-packet gate must come first.
+
+## Issue #49 Implementation Decision
+
+- Implement the continuity collector as a Python standard-library-only CLI with fixture and live modes.
+- Require an explicit positive command allowlist, argument arrays, `shell=False`, finite timeouts, and bounded parsed evidence.
+- Write exactly two derived outputs only to an explicit directory outside the repository.
+- Treat every generated packet as derived evidence with no authority by itself.
+- Fail closed with `consistent`, `requires_live_verification`, `stale`, `blocked`, or `quarantined` classification and the documented exit contract.
+- Do not update canonical state automatically and grant no write, review, approval, merge, release, spending, credential, or policy decision power.

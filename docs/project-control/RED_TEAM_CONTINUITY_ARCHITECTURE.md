@@ -42,3 +42,9 @@ Issue #24 remains audit history. Its source-of-truth, role-separation, lifecycle
 ## Required Next Gate
 
 After Issue #47 is merged, main-verified, and closed, the next gate is exactly: **Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate**. It precedes ordinary Phase 4K-9 and begins with read-only evidence access only. It has no write, approval, merge, release, budget, credential-management, or policy-amendment authority.
+
+## Issue #49 Implementation In Review
+
+Issue #49 and PR #50 move the read-only collector and deterministic derived startup-packet generator from architecture-only status to implementation in review. The collector uses standard-library validation, a positive read-command allowlist, canonical-versus-live comparison, fail-closed classification, external-only output, sensitive-data rejection, and deterministic hashing.
+
+The implementation has no authority to mutate Git, GitHub, canonical state, approvals, merges, releases, budgets, credentials, policy, Phase 4K-9, or Phase 4I. A generated packet remains derived, public-safe, point-in-time evidence. Merged capability is not yet proven while PR #50 is open.
