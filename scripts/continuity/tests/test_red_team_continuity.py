@@ -1064,5 +1064,295 @@ class GovernanceHardeningTests(unittest.TestCase):
         self.assertIn("created no review, approval, merge, or release decision power", text)
 
 
+class CollectorCorrectionCluster3Tests(unittest.TestCase):
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def approved_workflow(self, data):
+        data["markers"] = {
+            "owner_trigger_status": "valid",
+            "red_team_status": "valid",
+            "red_team_bound_sha": data["pr"]["head"],
+        }
+        data["workflow_run"]["conclusion"] = "success"
+        data["workflow_run"]["jobs"][0]["conclusion"] = "success"
+        for step in data["workflow_run"]["jobs"][0]["steps"]:
+            step["conclusion"] = "success"
+        data["checks"][0].update({"state": "SUCCESS", "bucket": "pass"})
+        return data
+
+    def add_approval(self, data):
+        source = fixture("consistent_closed_gate.json")["review"]
+        data["review"] = copy.deepcopy(source)
+        for record in data["review"]["review_records"]:
+            record["commit_id"] = data["pr"]["head"]
+        return data
+
+    def test_exact_https_origin_is_verified(self):
+        self.assertTrue(rtc._normalize_origin("https://github.com/Zest-LeadGen/contractoros-california")["remote_verified"])
+
+    def test_https_dot_git_origin_is_verified(self):
+        self.assertTrue(rtc._normalize_origin("https://github.com/Zest-LeadGen/contractoros-california.git")["remote_verified"])
+
+    def test_scp_ssh_origin_is_verified(self):
+        result = rtc._normalize_origin("git@github.com:Zest-LeadGen/contractoros-california.git")
+        self.assertEqual((result["remote_verified"], result["remote_transport"]), (True, "ssh"))
+
+    def test_ssh_url_origin_is_verified(self):
+        self.assertTrue(rtc._normalize_origin("ssh://git@github.com/Zest-LeadGen/contractoros-california.git")["remote_verified"])
+
+    def test_wrong_repository_origin_is_quarantined(self):
+        self.assertFalse(rtc._normalize_origin("https://github.com/Zest-LeadGen/other.git")["remote_verified"])
+
+    def test_wrong_github_owner_is_quarantined(self):
+        self.assertFalse(rtc._normalize_origin("https://github.com/Other/contractoros-california.git")["remote_verified"])
+
+    def test_non_github_host_is_quarantined(self):
+        self.assertFalse(rtc._normalize_origin("https://example.com/Zest-LeadGen/contractoros-california.git")["remote_verified"])
+
+    def test_local_path_remote_is_quarantined(self):
+        self.assertFalse(rtc._normalize_origin("../contractoros-california")["remote_verified"])
+
+    def test_embedded_remote_credentials_are_rejected(self):
+        with self.assertRaises(rtc.UnsafeEvidenceError):
+            rtc._normalize_origin("https://user:secret@github.com/Zest-LeadGen/contractoros-california.git")
+
+    def test_git_top_level_mismatch_is_quarantined(self):
+        data = self.active()
+        data["repository"]["root_verified"] = False
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_verified_root_absolute_path_is_not_persisted(self):
+        _, evidence, _ = self.classify(self.active())
+        self.assertNotIn(str(ROOT), json.dumps(evidence))
+
+    def test_repository_argument_cannot_select_another_repository(self):
+        data = self.active()
+        data["repository"]["requested_name"] = "Other/repository"
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+
+    def test_missing_git_executable_returns_exit_3(self):
+        with mock.patch.object(rtc.subprocess, "run", side_effect=FileNotFoundError()):
+            with self.assertRaises(rtc.EvidenceUnavailableError) as caught:
+                rtc._run_read_command(["git", "rev-parse", "HEAD"], ROOT)
+        self.assertEqual(caught.exception.exit_code, 3)
+
+    def test_allowed_git_timeout_returns_exit_3(self):
+        with mock.patch.object(rtc.subprocess, "run", side_effect=subprocess.TimeoutExpired("git", 1)):
+            with self.assertRaises(rtc.EvidenceUnavailableError) as caught:
+                rtc._run_read_command(["git", "rev-parse", "HEAD"], ROOT)
+        self.assertEqual(caught.exception.exit_code, 3)
+
+    def test_allowed_gh_nonzero_returns_exit_3(self):
+        completed = subprocess.CompletedProcess([], 1, "", "unavailable")
+        with mock.patch.object(rtc.subprocess, "run", return_value=completed):
+            with self.assertRaises(rtc.EvidenceUnavailableError):
+                rtc._run_read_command(["gh", "issue", "view", "49", "--repo", rtc.EXPECTED_REPOSITORY, "--json", "number"], ROOT)
+
+    def test_allowed_live_json_malformed_returns_exit_3(self):
+        with mock.patch.object(rtc, "_run_read_command", return_value=("{", {})):
+            with self.assertRaises(rtc.EvidenceUnavailableError):
+                rtc._json_command(["git", "rev-parse", "HEAD"], ROOT, [])
+
+    def test_live_output_bound_exceeded_returns_exit_3(self):
+        completed = subprocess.CompletedProcess([], 0, "x" * (rtc.MAX_COMMAND_OUTPUT_BYTES + 1), "")
+        with mock.patch.object(rtc.subprocess, "run", return_value=completed):
+            with self.assertRaises(rtc.EvidenceUnavailableError):
+                rtc._run_read_command(["git", "rev-parse", "HEAD"], ROOT)
+
+    def test_command_allowlist_rejection_remains_exit_5(self):
+        with self.assertRaises(rtc.CommandRejectedError) as caught:
+            rtc._run_read_command(["git", "push"], ROOT)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_malformed_fixture_json_remains_exit_5(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "bad.json"
+            path.write_text("{", encoding="utf-8")
+            with self.assertRaises(rtc.CollectorError) as caught:
+                rtc._load_fixture(path)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_approval_unavailable_remains_exit_3(self):
+        self.assertEqual(rtc.ApprovalEvidenceUnavailableError.exit_code, 3)
+
+    def test_nonexistent_repo_descendant_is_rejected_before_creation(self):
+        candidate = ROOT / ".c3-test-output" / "a" / "b"
+        self.assertFalse(candidate.parent.parent.exists())
+        with self.assertRaises(rtc.UnsafeEvidenceError):
+            rtc._validate_output_dir(candidate, ROOT)
+        self.assertFalse(candidate.parent.parent.exists())
+
+    def test_nested_repo_descendant_creates_no_parent(self):
+        candidate = ROOT / ".c3-test-output-two" / "nested"
+        with self.assertRaises(rtc.UnsafeEvidenceError):
+            rtc._validate_output_dir(candidate, ROOT)
+        self.assertFalse(ROOT.joinpath(".c3-test-output-two").exists())
+
+    def test_existing_repo_output_dir_is_rejected(self):
+        with self.assertRaises(rtc.UnsafeEvidenceError):
+            rtc._validate_output_dir(ROOT, ROOT)
+
+    def test_symlink_output_dir_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            real = base / "real"
+            real.mkdir()
+            link = base / "link"
+            link.symlink_to(real, target_is_directory=True)
+            with self.assertRaises(rtc.UnsafeEvidenceError):
+                rtc._validate_output_dir(link, ROOT)
+
+    def test_symlink_ancestor_into_repo_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            link = Path(temporary) / "repo"
+            link.symlink_to(ROOT, target_is_directory=True)
+            with self.assertRaises(rtc.UnsafeEvidenceError):
+                rtc._validate_output_dir(link / ".c3-child", ROOT)
+            self.assertFalse((ROOT / ".c3-child").exists())
+
+    def test_external_nonexistent_output_dir_is_created_after_preflight(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            candidate = Path(temporary) / "new" / "nested"
+            self.assertEqual(rtc._validate_output_dir(candidate, ROOT), candidate.resolve())
+            self.assertTrue(candidate.is_dir())
+
+    def test_existing_target_symlink_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / rtc.OUTPUT_NAMES[0]
+            target.symlink_to(Path(temporary) / "elsewhere")
+            with self.assertRaises(rtc.UnsafeEvidenceError):
+                rtc._validate_output_dir(Path(temporary), ROOT)
+
+    def test_existing_non_regular_target_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / rtc.OUTPUT_NAMES[0]
+            target.mkdir()
+            with self.assertRaises(rtc.UnsafeEvidenceError):
+                rtc._validate_output_dir(Path(temporary), ROOT)
+
+    def test_rejected_output_creates_no_temporary_file(self):
+        candidate = ROOT / ".c3-test-output-three"
+        with self.assertRaises(rtc.UnsafeEvidenceError):
+            rtc._validate_output_dir(candidate, ROOT)
+        self.assertFalse(candidate.exists())
+
+    def test_atomic_write_cleans_temporary_file_on_failure(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "result"
+            with mock.patch.object(rtc.os, "replace", side_effect=OSError("failure")):
+                with self.assertRaises(OSError):
+                    rtc._atomic_write(path, "content")
+            self.assertEqual(list(Path(temporary).iterdir()), [])
+
+    def test_active_missing_marker_matrix_remains_pending(self):
+        code, evidence, _ = self.classify(self.active())
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+
+    def test_active_approved_workflow_without_human_approval_remains_pending(self):
+        data = self.approved_workflow(self.active())
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+
+    def test_externally_approved_does_not_require_human_approval(self):
+        data = self.approved_workflow(self.active())
+        data["lifecycle_claim"] = "externally_approved"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+        self.assertIn("Human/write-access approval is pending", evidence["blockers"])
+
+    def test_merge_ready_requires_qualified_human_approval(self):
+        data = self.approved_workflow(self.active())
+        data["lifecycle_claim"] = "merge_ready"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_merge_ready_accepts_complete_separated_evidence(self):
+        data = self.add_approval(self.approved_workflow(self.active()))
+        data["lifecycle_claim"] = "merge_ready"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+
+    def test_draft_pr_cannot_be_merge_ready(self):
+        data = self.add_approval(self.approved_workflow(self.active()))
+        data["lifecycle_claim"] = "merge_ready"
+        data["pr"]["draft"] = True
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_auto_merge_active_is_quarantined(self):
+        data = self.active()
+        data["auto_merge"]["active"] = True
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_closed_gate_requires_merged_at(self):
+        data = fixture("consistent_closed_gate.json")
+        data["pr"]["merged_at"] = None
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_closed_gate_requires_completed_issue_reason(self):
+        data = fixture("consistent_closed_gate.json")
+        data["issue"]["state_reason"] = "not_planned"
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_closed_gate_requires_merge_commit_at_verified_main(self):
+        data = fixture("consistent_closed_gate.json")
+        data["pr"]["merge_commit"] = "d" * 40
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_closed_issue_before_merge_is_quarantined(self):
+        data = self.active()
+        data["issue"].update({"state": "closed", "state_reason": "completed", "closeout_state": "closed"})
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_merged_pr_with_incomplete_closeout_is_quarantined(self):
+        data = fixture("consistent_closed_gate.json")
+        data["issue"].update({"state": "open", "state_reason": None, "closeout_state": "open"})
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_complete_closed_gate_is_consistent(self):
+        code, evidence, _ = self.classify(fixture("consistent_closed_gate.json"))
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "consistent"))
+
+    def test_lifecycle_findings_are_deterministically_sorted(self):
+        data = self.active()
+        data["repository"].update({"root_verified": False, "remote_verified": False})
+        _, evidence, _ = self.classify(data)
+        self.assertEqual(evidence["comparison_findings"], sorted(evidence["comparison_findings"]))
+
+    def test_response_layout_keeps_product_stage(self):
+        self.assertIn("`Product development stage`", RED_TEAM_PROTOCOL.read_text(encoding="utf-8"))
+
+    def test_response_layout_keeps_current_lifecycle_table(self):
+        text = RED_TEAM_PROTOCOL.read_text(encoding="utf-8")
+        self.assertIn("`Current lifecycle`", text)
+        self.assertIn("one compact Markdown table", text)
+
+    def test_separate_current_readiness_section_is_prohibited(self):  # scope-bound reporting evidence
+        self.assertIn("A separate `Current readiness` section or table is prohibited", RED_TEAM_PROTOCOL.read_text(encoding="utf-8"))  # scope-bound reporting evidence
+
+    def test_bottom_chart_requires_delivery_evidence_and_readiness(self):  # scope-bound reporting evidence
+        text = RED_TEAM_PROTOCOL.read_text(encoding="utf-8")
+        for value in ("`Delivery progress`", "`Evidence confidence`", "`Operational readiness`"):  # scope-bound reporting evidence
+            self.assertIn(value, text)
+
+    def test_operational_readiness_cannot_inherit_governance_progress(self):  # scope-bound reporting evidence
+        self.assertIn("Operational readiness must not inherit governance-only", RED_TEAM_PROTOCOL.read_text(encoding="utf-8"))  # scope-bound reporting evidence
+
+    def test_nothing_may_follow_the_chart(self):
+        self.assertIn("Nothing may appear after the chart or fallback table", RED_TEAM_PROTOCOL.read_text(encoding="utf-8"))
+
+    def test_unsupported_chart_uses_one_combined_bottom_fallback(self):
+        text = RED_TEAM_PROTOCOL.read_text(encoding="utf-8")
+        self.assertIn("exactly one compact bottom fallback table", text)
+        self.assertIn("INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE", text)
+
+
 if __name__ == "__main__":
     unittest.main()

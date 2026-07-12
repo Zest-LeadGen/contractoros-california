@@ -12,7 +12,7 @@ Fixture mode consumes a bounded JSON fixture plus an explicit observation timest
 
 Live provenance includes bounded local Git metadata; canonical state read from the exact ref; issue, pull request, checks, workflow run and step evidence; owner-trigger and red-team marker status; normalized pull-request reviews; calculated repository-permission evidence for sourced candidates; deterministic qualifying and disqualified approvals; auto-merge state; comparison findings; blockers; and gaps. Raw credentials, headers, environment contents, review bodies, unrelated comment bodies, and unrestricted command output are not persisted.
 
-The version `1.2.0` evidence contract requires PR author identity and account type; approval evidence status; normalized review and permission records; qualifying and disqualified reviewer lists; stable disqualification reasons; PR head branch; check link; workflow identity; event; run head branch; bounded jobs; and numbered step status/conclusion evidence. The generator and both generated schemas use `1.2.0`; every fixture uses `fixture_version: 1.2.0`. This is scope-bound approval evidence only.
+The version `1.3.0` scope-bound evidence contract requires public-safe requested repository name, normalized remote name and transport, root/remote verification status, normalized remote identifier, PR author identity and account type, approval evidence status, normalized review and permission records, qualifying and disqualified reviewer lists, stable disqualification reasons, PR head branch, check link, workflow identity, event, run head branch, bounded jobs, and numbered step status/conclusion evidence. The generator and both generated schemas use `1.3.0`; every fixture uses `fixture_version: 1.3.0`. Absolute repository paths and raw remote URLs are never persisted.
 
 ## Read-Only Command Security
 
@@ -42,9 +42,11 @@ Supported classifications are exactly:
 
 For an active developer pull request, absent external red-team evidence and absent human approval are expected pending blockers. A valid active snapshot may return `requires_live_verification` and exit `0`, but it cannot permit merge or downstream writes.
 
-For a pull request claiming external approval or merge eligibility, a missing or stale marker is quarantined, a marker bound to another SHA is quarantined, missing required human approval is blocked or quarantined, and active auto-merge is quarantined.
+An active PR requires an open issue, open non-draft PR based on `main`, no merge commit or merge timestamp, inactive auto-merge, exact provenance, and a valid owner-trigger marker. It permits either the expected missing-marker workflow failure or a valid current-head marker with a fully successful workflow.
 
-For a merged/closed gate, merge SHA, main evidence, required control evidence, exact-SHA review, human approval, workflow evidence, and linked-issue closeout must agree. Contradiction is quarantined; inaccessible required evidence is blocked.
+`externally_approved` additionally requires the valid exact-current-head red-team marker and fully successful workflow. Human/write approval is not required to prove external approval; when absent, it remains pending and merge readiness is not claimed. `merge_ready` additionally requires at least one qualifying exact-current-head human/write approval while the PR remains open, non-draft, unmerged, and auto-merge inactive. The collector grants no merge power.
+
+For a merged/closed gate, `merged_at`, merge SHA equal to verified live main, required control evidence, exact-SHA review bound to the pre-merge PR head, human approval, successful head-bound workflow evidence, Issue state `closed` with reason `completed`, canonical linkage, and closeout state must agree. Contradiction is quarantined; inaccessible required evidence is blocked.
 
 ## Workflow And Required-Check Binding
 
@@ -72,7 +74,7 @@ Fixture runs with identical inputs, timestamp, and arguments must produce byte-f
 
 ## Output Boundary
 
-The caller must supply an output directory outside the repository. The collector resolves paths and rejects the repository root, repository descendants, a directory symlink resolving into the repository, and an output-file symlink. It writes exactly `continuity-evidence.json` and `RED_TEAM_STARTUP_PACKET.md` using safe atomic replacement within the approved external directory.
+The caller must supply an output directory outside the repository. Before creation, the collector resolves the nearest existing ancestor, projects nonexistent suffixes, and rejects the repository root, prospective repository descendants, symlink redirection into the repository, an output-directory symlink, output-file symlinks, and non-regular targets. It creates only a passing external directory, strictly resolves and rechecks it, then writes exactly `continuity-evidence.json` and `RED_TEAM_STARTUP_PACKET.md` through atomic replacement with cleanup.
 
 The caller's absolute home path must not enter generated evidence. A live generated packet or evidence manifest must not be committed.
 

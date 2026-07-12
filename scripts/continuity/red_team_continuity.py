@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.2.0"
-EVIDENCE_SCHEMA_VERSION = "1.2.0"
-PACKET_SCHEMA_VERSION = "1.2.0"
-FIXTURE_VERSION = "1.2.0"
+GENERATOR_VERSION = "1.3.0"
+EVIDENCE_SCHEMA_VERSION = "1.3.0"
+PACKET_SCHEMA_VERSION = "1.3.0"
+FIXTURE_VERSION = "1.3.0"
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_PATH = "docs/project-control/state/contractoros-state.yaml"
 OUTPUT_NAMES = ("continuity-evidence.json", "RED_TEAM_STARTUP_PACKET.md")
@@ -141,7 +141,11 @@ class CommandRejectedError(CollectorError):
     exit_code = 5
 
 
-class ApprovalEvidenceUnavailableError(CollectorError):
+class EvidenceUnavailableError(CollectorError):
+    exit_code = 3
+
+
+class ApprovalEvidenceUnavailableError(EvidenceUnavailableError):
     exit_code = 3
 
 
@@ -251,11 +255,11 @@ def _run_read_command(
             check=False,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
-        raise CollectorError(f"required read command inaccessible: {argv[:3]}") from exc
+        raise EvidenceUnavailableError(f"required read command inaccessible: {argv[:3]}") from exc
     if len(proc.stdout.encode("utf-8")) > MAX_COMMAND_OUTPUT_BYTES:
-        raise CollectorError("required read command output exceeds the bounded size limit")
+        raise EvidenceUnavailableError("required read command output exceeds the bounded size limit")
     if len(proc.stderr.encode("utf-8")) > MAX_COMMAND_OUTPUT_BYTES:
-        raise CollectorError("required read command error output exceeds the bounded size limit")
+        raise EvidenceUnavailableError("required read command error output exceeds the bounded size limit")
     result = {
         "argv": argv,
         "return_code": int(proc.returncode),
@@ -263,7 +267,7 @@ def _run_read_command(
         "stderr_present": bool(proc.stderr.strip()),
     }
     if proc.returncode != 0:
-        raise CollectorError(f"required read command failed: {argv[:3]}")
+        raise EvidenceUnavailableError(f"required read command failed: {argv[:3]}")
     return proc.stdout, result
 
 
@@ -278,7 +282,61 @@ def _json_command(
     try:
         return json.loads(output)
     except json.JSONDecodeError as exc:
-        raise CollectorError("read command returned malformed JSON") from exc
+        raise EvidenceUnavailableError("read command returned malformed JSON") from exc
+
+
+def _normalize_origin(remote: str) -> dict[str, Any]:
+    """Return only public-safe normalized GitHub identity evidence."""
+    value = str(remote or "").strip()
+    if not value:
+        raise EvidenceUnavailableError("origin remote evidence is empty")
+    if re.search(r"(?i)^https?://[^/@:]+:[^/@]+@", value):
+        raise UnsafeEvidenceError("origin remote contains embedded credentials")
+
+    transport = "unsupported"
+    owner_repo: str | None = None
+    if re.fullmatch(r"https://github\.com/[^/?#]+/[^/?#]+(?:\.git)?", value, re.I):
+        transport = "https"
+        owner_repo = re.sub(r"^https://github\.com/", "", value, flags=re.I)
+    elif re.fullmatch(r"git@github\.com:[^/:?#]+/[^/:?#]+\.git", value, re.I):
+        transport = "ssh"
+        owner_repo = re.sub(r"^git@github\.com:", "", value, flags=re.I)
+    elif re.fullmatch(r"ssh://git@github\.com/[^/?#]+/[^/?#]+\.git", value, re.I):
+        transport = "ssh"
+        owner_repo = re.sub(r"^ssh://git@github\.com/", "", value, flags=re.I)
+    if owner_repo:
+        owner_repo = re.sub(r"\.git$", "", owner_repo, flags=re.I)
+    verified = bool(owner_repo and owner_repo.casefold() == EXPECTED_REPOSITORY.casefold())
+    return {
+        "remote_name": EXPECTED_REPOSITORY if verified else "unverified",
+        "remote_transport": transport,
+        "remote_verified": verified,
+        "remote_identifier": EXPECTED_REPOSITORY if verified else "unverified",
+    }
+
+
+def _git_control_present(repo_root: Path) -> bool:
+    control = repo_root / ".git"
+    if control.is_dir():
+        return True
+    if not control.is_file() or control.is_symlink():
+        return False
+    try:
+        line = control.read_text(encoding="utf-8").strip()
+        if not line.startswith("gitdir: "):
+            return False
+        target = Path(line[8:])
+        if not target.is_absolute():
+            target = repo_root / target
+        return target.resolve(strict=True).is_dir()
+    except (OSError, UnicodeError):
+        return False
+
+
+def _require_live_fields(value: Any, fields: tuple[str, ...], label: str) -> dict[str, Any]:
+    if not isinstance(value, dict) or any(field not in value for field in fields):
+        raise EvidenceUnavailableError(f"required {label} live fields are unavailable")
+    return value
 
 
 def _extract_marker_blocks(body: str) -> dict[str, list[dict[str, Any]]]:
@@ -784,8 +842,6 @@ def _collect_review_evidence(
 
 def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     repo_root = Path(args.repo_root).resolve(strict=True)
-    if not (repo_root / ".git").exists():
-        raise CollectorError("repo root is not a Git repository")
     if not _is_sha(args.canonical_ref):
         raise CollectorError("canonical ref must be an exact 40-character lowercase SHA")
     if (
@@ -803,10 +859,16 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         return output.strip()
 
     remote = read(["git", "remote", "get-url", "origin"])
+    remote_identity = _normalize_origin(remote)
     local_head = read(["git", "rev-parse", "HEAD"])
     local_main = read(["git", "rev-parse", "main"])
     local_origin = read(["git", "rev-parse", "origin/main"])
-    read(["git", "rev-parse", "--show-toplevel"])
+    git_top_raw = read(["git", "rev-parse", "--show-toplevel"])
+    try:
+        git_top = Path(git_top_raw).resolve(strict=True)
+    except OSError as exc:
+        raise EvidenceUnavailableError("Git top-level evidence is inaccessible") from exc
+    root_verified = git_top == repo_root and _git_control_present(repo_root)
     read(["git", "status", "--porcelain=v1", "--branch"])
     canonical_raw = read(["git", "show", f"{args.canonical_ref}:{CANONICAL_PATH}"])
     try:
@@ -876,6 +938,21 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         commands,
     )
 
+    repo = _require_live_fields(repo, ("nameWithOwner", "defaultBranchRef"), "repository")
+    issue = _require_live_fields(issue, ("number", "state", "stateReason", "url", "closedAt"), "issue")
+    pr = _require_live_fields(
+        pr,
+        ("number", "state", "baseRefName", "headRefName", "headRefOid", "isDraft", "url", "author", "body"),  # scope-bound approval evidence
+        "pull-request",
+    )
+    run = _require_live_fields(
+        run,
+        ("databaseId", "name", "workflowDatabaseId", "event", "status", "headSha", "headBranch", "jobs", "url"),
+        "workflow-run",
+    )
+    if not isinstance(raw_checks, list):
+        raise EvidenceUnavailableError("required pull-request check fields are unavailable")
+
     default_ref = repo.get("defaultBranchRef") or {}
     pr_author = pr.get("author") or {}  # scope-bound approval evidence
     approval_evidence = _collect_review_evidence(
@@ -892,9 +969,11 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     evidence = {
         "fixture_version": FIXTURE_VERSION,
         "repository": {
+            "requested_name": args.repository,
             "name": str(repo.get("nameWithOwner") or args.repository),
             "default_branch": str(default_ref.get("name") or "main"),
-            "remote_identifier": hashlib.sha256(remote.encode("utf-8")).hexdigest(),
+            "root_verified": root_verified,
+            **remote_identity,
         },
         "source_shas": {
             "local_head": local_head,
@@ -1029,6 +1108,17 @@ def _validate_input(data: dict[str, Any]) -> None:
             raise CollectorError(f"{key} evidence is malformed")
     if not isinstance(data.get("checks"), list):
         raise CollectorError("checks evidence is malformed")
+    repository = data["repository"]
+    repository_required = {
+        "requested_name", "name", "default_branch", "remote_name", "remote_transport",
+        "root_verified", "remote_verified", "remote_identifier",
+    }
+    if set(repository) != repository_required:
+        raise CollectorError("repository identity evidence is malformed")
+    if repository.get("requested_name") != EXPECTED_REPOSITORY:
+        raise CollectorError("repository argument is outside the permitted repository")
+    if not isinstance(repository.get("root_verified"), bool) or not isinstance(repository.get("remote_verified"), bool):
+        raise CollectorError("repository verification status is malformed")
     pr = data["pr"]
     if not GITHUB_LOGIN_RE.fullmatch(str(pr.get("author_login") or "")):  # scope-bound approval evidence
         raise CollectorError("PR author login evidence is malformed")  # scope-bound approval evidence
@@ -1230,6 +1320,16 @@ def _compare(
         blockers.extend(f"Missing required evidence: {label}" for label in missing)
         return "blocked", sorted(findings), sorted(blockers), False
 
+    if not data["repository"].get("root_verified"):
+        findings.append("Requested repository root contradicts the Git top-level identity")
+    if not data["repository"].get("remote_verified"):
+        findings.append("Origin remote contradicts the permitted repository identity")
+    if data["repository"].get("name", "").casefold() != EXPECTED_REPOSITORY.casefold():
+        findings.append("Live repository identity contradicts the permitted repository")
+        findings.append("Workflow provenance mismatch: repository")
+    if findings:
+        return "quarantined", sorted(set(findings)), sorted(blockers), True
+
     canonical_issue = canonical.get("linked_issue") or {}
     canonical_pr = canonical.get("linked_pr") or {}
     if source["local_main"] != source["live_default_branch"]:
@@ -1299,8 +1399,16 @@ def _compare(
     approvals = review.get("qualifying_approvals") or []
     red_status = markers.get("red_team_status")
 
+    active_identity = (
+        pr_state == "open"
+        and issue_state in {"open", "active"}
+        and pr.get("base") == "main"
+        and not pr.get("draft")
+        and not pr.get("merge_commit")
+        and not pr.get("merged_at")
+    )
     if claim == "active_pr":
-        if pr_state != "open" or issue_state not in {"open", "active"} or pr.get("merge_commit"):
+        if not active_identity:
             findings.append("Active-PR lifecycle evidence is contradictory")
             return "quarantined", sorted(findings), sorted(blockers), True
         if red_status == "missing":
@@ -1311,16 +1419,30 @@ def _compare(
         findings.append("Active developer PR requires live verification and external review")
         return "requires_live_verification", sorted(findings), sorted(set(blockers)), False
 
-    if claim in {"externally_approved", "merge_ready"}:
-        if red_status != "valid" or not approvals:
-            findings.append("Approval or merge-readiness claim lacks current required evidence")
+    if claim == "externally_approved":
+        if not active_identity or red_status != "valid":
+            findings.append("Externally-approved claim lacks current marker or workflow evidence")
             return "quarantined", sorted(findings), sorted(blockers), True
+        if not approvals:
+            blockers.append("Human/write-access approval is pending")
+        blockers.append("Merge, main verification and linked-issue closeout are pending")
+        findings.append("External exact-SHA approval is proven; merge decision power is not")
+        return "requires_live_verification", sorted(findings), sorted(set(blockers)), False
+
+    if claim == "merge_ready":
+        if not active_identity or red_status != "valid" or not approvals:
+            findings.append("Merge-readiness claim lacks current required evidence")
+            return "quarantined", sorted(findings), sorted(blockers), True
+        blockers.append("Protected human merge, main verification and linked-issue closeout are pending")
+        findings.append("Separated external review and human/write approval evidence support merge readiness")  # scope-bound lifecycle evidence
         return "requires_live_verification", sorted(findings), sorted(blockers), False
 
     closed_consistent = (
         pr_state == "merged"
         and issue_state == "closed"
+        and str(issue.get("state_reason") or "").lower() == "completed"
         and issue.get("closeout_state") == "closed"
+        and bool(pr.get("merged_at"))
         and pr.get("merge_commit") == source["live_default_branch"]
         and markers.get("red_team_status") == "valid"
         and markers.get("red_team_bound_sha") == pr.get("head")
@@ -1348,7 +1470,7 @@ def _packet_data(data: dict[str, Any], observed_at: str, classification: str, fi
         "schema_version": PACKET_SCHEMA_VERSION,
         "generator_version": GENERATOR_VERSION,
         "observed_at": observed_at,
-        "repository": data["repository"]["name"],
+        "repository": data["repository"],
         "canonical_schema_version": str(data["canonical_state"].get("schema_version")),
         "source_shas": data["source_shas"],
         "issue": data["issue"],
@@ -1403,7 +1525,7 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         f"- Generator version: {packet['generator_version']}",
         f"- Packet schema version: {packet['schema_version']}",
         f"- Observation timestamp: {packet['observed_at']}",
-        f"- Repository: {packet['repository']}",
+        f"- Repository: {packet['repository']['name']}",
         f"- Canonical schema version: {packet['canonical_schema_version']}",
         "",
         "## Source SHAs",
@@ -1501,9 +1623,33 @@ def _render_packet(packet: dict[str, Any]) -> tuple[str, str]:
 
 def _validate_output_dir(output_dir: Path, repo_root: Path) -> Path:
     repo = repo_root.resolve(strict=True)
+    candidate = Path(os.path.abspath(output_dir))
+    if candidate.is_symlink():
+        raise UnsafeEvidenceError("prohibited symlink output directory rejected")
+
+    ancestor = candidate
+    suffix: list[str] = []
+    while not ancestor.exists() and not ancestor.is_symlink():
+        suffix.insert(0, ancestor.name)
+        parent = ancestor.parent
+        if parent == ancestor:
+            raise UnsafeEvidenceError("prohibited output path has no existing ancestor")
+        ancestor = parent
     try:
-        output_dir.mkdir(parents=True, exist_ok=True)
-        resolved = output_dir.resolve(strict=True)
+        resolved_ancestor = ancestor.resolve(strict=True)
+    except OSError as exc:
+        raise UnsafeEvidenceError("prohibited output path is inaccessible") from exc
+    prospective = resolved_ancestor.joinpath(*suffix)
+    if prospective == repo or repo in prospective.parents:
+        raise UnsafeEvidenceError("prohibited output path resolves inside the repository")
+    if ancestor.is_symlink() and (resolved_ancestor == repo or repo in resolved_ancestor.parents):
+        raise UnsafeEvidenceError("prohibited output symlink ancestor resolves inside repository")
+
+    if candidate.exists() and not candidate.is_dir():
+        raise UnsafeEvidenceError("prohibited output destination is not a directory")
+    try:
+        candidate.mkdir(parents=True, exist_ok=True)
+        resolved = candidate.resolve(strict=True)
     except OSError as exc:
         raise UnsafeEvidenceError("prohibited output path is inaccessible") from exc
     if resolved == repo or repo in resolved.parents:
@@ -1513,6 +1659,8 @@ def _validate_output_dir(output_dir: Path, repo_root: Path) -> Path:
         if target.is_symlink():
             raise UnsafeEvidenceError("prohibited output-file symlink rejected")
         if target.exists():
+            if not target.is_file():
+                raise UnsafeEvidenceError("prohibited output target is not a regular file")
             try:
                 target_resolved = target.resolve(strict=True)
             except OSError as exc:

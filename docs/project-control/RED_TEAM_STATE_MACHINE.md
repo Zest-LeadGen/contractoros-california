@@ -109,3 +109,14 @@ Issue #47 itself remains a documentation implementation gate until its PR is ext
 | `quarantined` | Evidence is contradictory, moved, unsafe for the claimed lifecycle, or violates a protected boundary. | Stop; do not reuse the packet. |
 
 Stale, blocked, or quarantined packets grant no authority for repository or GitHub writes. A valid active-PR packet with missing external review or human approval remains pending and cannot permit merge.
+
+## Collector Lifecycle Matrices
+
+| Claim | Required separated evidence | Classification |
+|---|---|---|
+| `active_pr` | Issue open; PR open, non-draft, based on `main`, unmerged; auto-merge inactive; owner marker valid; exact provenance; expected missing-marker workflow failure or valid-marker full success | `requires_live_verification` |
+| `externally_approved` | All active identity conditions plus exact-current-head `RED_TEAM_DECISION=APPROVED` and fully successful required workflow | `requires_live_verification`; human/write approval may remain pending |
+| `merge_ready` | Externally approved plus qualifying exact-current-head human/write approval; PR remains open and unmerged | `requires_live_verification`; no collector merge power |
+| `closed_gate` | PR merged with `merged_at`; merge commit equals verified main; issue closed/completed; canonical linkage and closeout agree; exact-head external approval, human/write approval, and successful head-bound workflow | `consistent` |
+
+Within the collector lifecycle scope, closed-before-merge, incomplete closeout, draft or auto-merge-active readiness, stale marker/approval, mismatched workflow head, missing merge time, non-completed issue reason, or merge commit not at verified main is contradictory and quarantined. Inaccessible evidence blocks instead of quarantining.

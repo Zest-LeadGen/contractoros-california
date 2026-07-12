@@ -218,19 +218,18 @@ Generated prompts must define a quota-aware atomic packet, exact permitted scope
 
 ## Compact Progress And Chart Protocol
 
-Every substantive Codex or red-team response must present, in order near the end:
+Every substantive Codex or red-team response must end with only this permanent layout:
 
-1. Product development stage: one concise evidence-based statement.
-2. Current lifecycle state: a short line or compact state table naming the active issue/PR and next gate.
-3. Current phase: a compact Markdown table with one row per durable intake/scope, implementation, tests/validation, documentation reconciliation, external exact-SHA review, human approval, merge/main verification, issue closeout, and current-phase overall.
-4. Phase progression: compact grouped rows; completed historical phase ranges and zero-value future phase ranges may be grouped.
-5. Program capability: a compact Markdown table with governance/control, workflow automation, product implementation, content governance/production, dependency/runtime, backend/data platform, build/distribution, business/market validation, and overall program.
-6. Evidence and confidence note.
+1. `Product development stage`: one concise evidence-based statement.
+2. `Current lifecycle`: one compact Markdown table naming the active lifecycle state, packet, issue, PR, exact current or reviewed head when material, and next gate.
+3. Exactly one actual interactive chart at the absolute bottom.
 
-Tables must use short labels and concise evidence notes. They must not be flattened into delimiter-separated or compressed paragraph strings. Duplicate large tables or multiple charts are not required.
+A separate `Current readiness` section or table is prohibited by this reporting scope. Separate current-phase, phase-progression, program-capability, or percentage tables are also omitted unless the owner explicitly requests them for a particular response. Lifecycle information must remain structured and must not be flattened into delimiter-separated or compressed paragraph strings.
+
+The detailed chart taxonomy materially includes durable intake/scope, implementation, tests/validation, documentation reconciliation, external exact-SHA review, human approval, merge/main verification, issue closeout, governance/control, workflow automation, product implementation, content governance/production, dependency/runtime, backend/data platform, build/distribution, business/market validation, and overall program. When the owner explicitly requests supplemental structured detail, use compact Markdown tables; a compact Markdown table must not become a separate standard readiness section.
 
 Percentages are evidence-based estimates, not proof. Use `NOT_PROVEN` when support is insufficient, avoid false precision, identify supporting evidence, and explain material changes. Documentation-only work must not increase product progress. Governance progress must not inflate workflow, product, content, runtime, backend, build, business, or overall-program capability. No gated phase is 100% until its required review, approval, merge, main verification, and closeout are proven.
 
-When the response surface supports interactive charts, render exactly one actual detailed interactive chart at the absolute bottom. It must use grouped categories and include current-phase subsections, grouped phase progression, and all program-capability categories with delivery progress, evidence confidence, operational readiness as an estimate rather than a readiness claim, and short context. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability. Nothing may appear after the chart.
+When the response surface supports interactive charts, render exactly one actual detailed interactive chart at the absolute bottom. It must use current verified details and grouped categories that materially cover the active correction, lifecycle gates, roadmap gates, and actual program capabilities. It must contain three separately calculated series: `Delivery progress`, `Evidence confidence`, and `Operational readiness`. Operational readiness must not inherit governance-only or documentation-only gains. Blocked, unauthorized, unimplemented, or unproven capabilities remain at zero readiness or `NOT_PROVEN`. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability. Nothing may appear after the chart.
 
-Raw chart JSON, widget arguments, terminal representations, and implementation specifications must never be presented as the chart. If the surface cannot render an interactive chart, use compact Markdown tables, state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`, and do not expose raw chart configuration.
+Raw chart JSON, widget arguments, terminal representations, and documentation specifications must never be presented as the chart. Within this reporting scope, if the surface cannot render an interactive chart, use compact Markdown tables only for the single fallback: state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE` and provide exactly one compact bottom fallback table containing `Delivery progress`, `Evidence confidence`, and `Operational readiness`. The fallback is not a separate readiness section. Nothing may appear after the chart or fallback table.

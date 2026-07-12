@@ -27,7 +27,7 @@ python3 scripts/continuity/red_team_continuity.py live \
   --output-dir <outside-repository-directory>
 ```
 
-Every option is explicit. This correction packet bounds live collection to repository `Zest-LeadGen/contractoros-california`, Issue #49, and PR #50. `--canonical-ref` must be an exact lowercase SHA. `--observed-at` must be RFC3339. `--output-dir` must resolve outside the repository.
+Every option is explicit. This correction packet bounds live collection to repository `Zest-LeadGen/contractoros-california`, Issue #49, and PR #50. The requested root must strictly equal Git's top level and contain a valid `.git` directory or worktree control file. Origin is accepted only in the four permitted HTTPS/SSH GitHub forms and is stored only as public-safe normalized identity evidence. `--canonical-ref` must be an exact lowercase SHA. `--observed-at` must be RFC3339. `--output-dir` must resolve outside the repository.
 
 ## Generated files
 
@@ -65,13 +65,13 @@ The runtime rejects unknown executables, subcommands, flags, and shapes. Review 
 - `quarantined`: exit `2`
 - `blocked`: exit `3`
 - unsafe/private evidence or a prohibited output path: exit `4`
-- invalid arguments, malformed input, malformed canonical state, or schema failure: exit `5`
+- invalid arguments, forbidden command shapes, malformed fixture input, malformed canonical state, or schema failure: exit `5`
 
 Missing external red-team evidence and human approval are pending blockers for a valid active developer PR. They do not cause false approval and do not grant merge permission. A moved head, stale approval marker, contradictory lifecycle, active auto-merge, or unsupported approval/readiness claim is quarantined. Inaccessible required evidence is blocked.
 
 ## Output and sensitive-data boundary
 
-The collector rejects the repository root, repository descendants, symlinks into the repository, and output-file symlinks. It performs safe atomic replacement inside the approved external directory.
+Before creating anything, the collector strictly resolves the nearest existing output ancestor, projects any nonexistent suffix, and rejects the repository root, prospective repository descendants, symlinks into the repository, an output-directory symlink, output-file symlinks, and non-regular targets. Only a passing external destination is created. It repeats the boundary check after creation and performs safe atomic replacement with temporary-file cleanup.
 
 Unsafe/private-looking input is rejected. Forbidden categories include token forms, bearer values, API-key or secret assignments, cloud credential identifiers, passwords, private keys, authorization headers, local absolute home paths, private customer information, and confidential owner, legal, vendor, or budget material. Sanitization never converts unsafe material into decision power. A public-safe opaque identifier or content hash may be used only when the governed source permits it.
 
@@ -87,7 +87,7 @@ A reviewer qualifies only with a submitted exact-current-head approval, account 
 
 ## Workflow provenance contract
 
-Fixture, evidence, startup-packet, and generator versions are `1.2.0`. Required provenance is not optional: the collector binds the supplied run to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run.
+Fixture, evidence, startup-packet, and generator versions are `1.3.0`. Required provenance includes public-safe root and normalized origin identity plus binding of the supplied run to repository `Zest-LeadGen/contractoros-california`, workflow `ContractorOS Control Gates` with database ID `309083557`, the `pull_request` event, the exact PR head SHA and branch, the `contractoros-control-gates` job, and the PR check link for that exact run.
 
 The governed job must contain one ordered copy of every step declared by `.github/workflows/control-gates.yml`. Before external review, only the exact completed matrix of successful pre-marker steps, a failed marker step with missing marker evidence, skipped post-marker steps, failed run/job, and failed linked PR check is valid pending evidence. After a valid exact-head marker, all governed steps, the job, run, and linked check must succeed. Missing jobs or steps are blocked; identity mismatches, duplicates, impossible ordering, and contradictory run/check/step states are quarantined. Pending or in-progress evidence cannot support approval or completed-gate claims.
 

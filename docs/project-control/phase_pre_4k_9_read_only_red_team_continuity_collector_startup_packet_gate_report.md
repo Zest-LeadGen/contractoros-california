@@ -36,7 +36,7 @@ This report records implementation in review. Merged capability is not yet prove
 - PR #48: https://github.com/Zest-LeadGen/contractoros-california/pull/48
 - Prior successful run: https://github.com/Zest-LeadGen/contractoros-california/actions/runs/29176103821
 - Starting main: `01b90ab8b12416101b4be067794bf543a3488779`
-- Issue #49 owner amendments: comments `4950672136`, `4950911091`, `4950952134`, `4950969409`, and `4950978131`.
+- Issue #49 owner amendments: comments `4950672136`, `4950911091`, `4950952134`, `4950969409`, `4950978131`, `4952599609`, and `4952612646`.
 - OpenAI Codex Models: https://developers.openai.com/codex/models/ — verified 2026-07-12.
 - OpenAI Codex Pricing: https://developers.openai.com/codex/pricing/ — verified 2026-07-12.
 - ChatGPT Learn Speed: https://learn.chatgpt.com/docs/agent-configuration/speed — verified 2026-07-12.
@@ -357,17 +357,43 @@ C1B makes required-check and exact workflow/run/PR/event/job/step evidence class
 
 C2 makes qualifying human approval a computed evidence result rather than a coarse review summary and performs the explicit `1.2.0` schema/fixture migration. It adds only the two bounded read-only REST GET shapes and the approval-evidence-unavailable exit-`3` exception. Remote/root normalization, generalized inaccessible-evidence mapping, output-directory safety corrections, final lifecycle reconciliation, merge logic and closeout remain C3 scope.
 
+C3 completes the remaining trust boundaries and performs the explicit `1.3.0` schema/fixture migration. It binds the strictly resolved requested root to Git's top level and valid control identity, normalizes only the four permitted public GitHub origin forms, stores no absolute root or raw remote URL, maps required live-read unavailability to exit `3`, validates output destinations before creation, and separates active, externally approved, merge-ready and closed-gate lifecycle matrices. It reconciles reporting amendments `4952599609` and `4952612646`: Product development stage, one Current lifecycle table, and exactly one final three-series interactive chart or combined fallback, with no separate Current readiness section.
+
+C3 changes exactly these nineteen existing paths:
+
+1. `scripts/continuity/red_team_continuity.py`
+2. `scripts/continuity/README.md`
+3. `scripts/continuity/tests/test_red_team_continuity.py`
+4. `scripts/continuity/tests/fixtures/consistent_closed_gate.json`
+5. `scripts/continuity/tests/fixtures/active_pr_requires_live_verification.json`
+6. `scripts/continuity/tests/fixtures/stale_main.json`
+7. `scripts/continuity/tests/fixtures/moved_pr_head.json`
+8. `scripts/continuity/tests/fixtures/missing_evidence.json`
+9. `scripts/continuity/tests/fixtures/unsafe_private_value.json`
+10. `scripts/continuity/tests/fixtures/expected_startup_packet.md`
+11. `docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md`
+12. `docs/project-control/RED_TEAM_CONTINUITY_ARCHITECTURE.md`
+13. `docs/project-control/RED_TEAM_STATE_MACHINE.md`
+14. `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
+15. `docs/project-control/state/red-team-continuity-evidence.schema.json`
+16. `docs/project-control/state/red-team-startup-packet.schema.json`
+17. `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+18. `docs/project-control/RISK_REGISTER.md`
+19. `docs/project-control/VALIDATION_TASKS.md`
+
+This phase report is the twentieth C3 path after this reconciliation record is included. No path outside the C3 allowlist changed.
+
 No existing workflow or control script changed.
 
 docs/project-control/DECISION_LOG.md: reviewed, no update required
 
 docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required
 
-docs/project-control/RISK_REGISTER.md: reviewed, no update required
+docs/project-control/RISK_REGISTER.md: updated for C3 repository identity, live-evidence availability, pre-mutation output safety, lifecycle separation, and reporting-readiness risks
 
 ## Validation Evidence
 
-Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests and the complete 87-test suite. C1B passed 28 focused provenance tests and the complete 115-test suite. C2 passed 30 focused approval-evidence tests, the complete 145-test suite, both schema parses, byte-identical deterministic JSON and Markdown comparisons, independent packet-hash recomputation, the required live starting-head verification, and the required eleven-command local-control sequence. The scanner-safe C2 consistent-fixture packet hash is `04a815d64dd69f551ed0a60a3ed3fd3113270cee381565f65324d79532e67e5e`; the live starting-head packet hash is `12892194f2b57e4a731779cd52988e3282756fb4f34f235ebcd1536af76ba7b5`. The cumulative branch changed-file set remains within the permitted 32-file set and C2 changes exactly seventeen existing files; no workflow, existing control script, manifest, lockfile, application/runtime, cache, repository temporary artifact, private path or credential was added.
+Fixture, schema, forbidden-scope, baseline and unit evidence is recorded above. C1A passed 32 focused marker tests and the complete 87-test suite. C1B passed 28 focused provenance tests and the complete 115-test suite. C2 passed 30 focused approval-evidence tests and the complete 145-test suite. C3 adds 51 focused cases and passes 196 total tests. Both `1.3.0` schemas parse; two fixed-time consistent-fixture generations are byte-identical; independent hash recomputation matches `ca5f2da6a3c2531c9f4a4985edd45a0de1d6e9b44841d21fbbee5a1b9fc0aa1b`. The mandatory prohibited-output probe returned exit `4`, created no repository path or temporary output, and left status unchanged. The C3 live starting-head run returned exit `0`, `requires_live_verification`, verified root and remote identity, missing marker, zero qualifying approvals, inactive auto-merge, and packet hash `bd4bd6079922c85d4b81eaeafc38781f1bcae88c165195073114525ba4e04078`. Final local and PR-context controls remain required immediately before commit.
 
 ## Risk Register Impact
 
@@ -383,7 +409,7 @@ The artifact index records source, specification, schemas, fixtures, and tests. 
 
 ## Red-Team Status
 
-The C1B bounded subreview passed for `eb655a245466220970fde97070f6d40c426d0051`. PR #50 remains changes-requested. C2 creates a new head that requires fresh external exact-SHA review, and no C2 red-team marker exists.
+The C1A, C1B and C2 bounded subreviews passed for their exact reviewed heads. The exact C2 reviewed head is `053ac81a63dc44f448bfbf2ae58166eed8d927a3`, PR review `4680746563`. PR #50 as a whole remains changes-requested. C3 creates a new head that requires fresh external whole-PR exact-SHA review, and no current-head red-team marker exists.
 
 ## Human Approval Status
 
@@ -420,7 +446,7 @@ Read-only local/CLI continuity evidence collection and deterministic derived sta
 - Intermediate live evidence will be bound to the implementation commit; the later reconciliation commit makes that head stale and requires a fresh external run and review.
 - Official model choices, Plus usage ranges, Fast support, and speed/consumption multipliers are dated 2026-07-12 and require revalidation before future recommendation.
 - C2 implements human/write-access approval qualification in review; merged capability is not proven.
-- C3 still must address remote normalization, inaccessible-evidence handling, output-path safety and lifecycle reconciliation.
+- C3 changes are implemented in developer review; fresh whole-PR exact-SHA external review, human approval, merge, main verification and Issue #49 closeout remain pending.
 
 ## Next Phase Status
 
