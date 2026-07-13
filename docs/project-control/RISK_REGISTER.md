@@ -625,8 +625,19 @@ Last reviewed: 2026-07-12
 ```text
 Risk: Collected local-head, default-branch, nullable live-field, review-timestamp, or canonical lifecycle evidence is structurally present but does not constrain classification, allowing stale or malformed authority evidence to appear safe.
 Status: Active / controlled in C3.3 developer review
-Evidence: The 1.3.3 collector scope-binds active and closed source identities, requires nullable authoritative live field presence, treats only null auto-merge requests as inactive, validates decisive RFC3339 review timestamps before approval selection, and compares validated canonical lifecycle and consistency values.
+Evidence: The historical 1.3.3 collector scope-binds active and closed source identities, requires nullable authoritative live field presence, treats only null auto-merge requests as inactive, validates decisive RFC3339 review timestamps before approval selection, and compares validated canonical lifecycle and consistency values.
 Owner: ContractorOS development lead / external red-team gate
 Resolution condition: C3.3 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### C3.4 evidence identity and provenance binding
+
+```text
+Risk: Permission response identity, executable worktree provenance, normalized review structure, timestamp ordering, closeout timestamp, or closed-gate base evidence could be misattributed or malformed while appearing authoritative.
+Status: Active / controlled in C3.4 developer validation
+Evidence: Case-folded response/candidate identity binding, before/after clean worktree hashes, exact bounded review schema, UTC ordering, RFC3339 `closedAt`, and verified-default-branch closed-gate base binding are implemented and covered by focused adversarial tests.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.4 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
 Last reviewed: 2026-07-12
 ```

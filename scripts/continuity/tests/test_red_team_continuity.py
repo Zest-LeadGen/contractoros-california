@@ -1802,5 +1802,112 @@ class FinalAuthorityBindingScopeC33Tests(unittest.TestCase):
                     self.classify(data)
 
 
+class C34EvidenceHardeningTests(unittest.TestCase):
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def assert_fixture_invalid(self, mutate):
+        data = self.active()
+        mutate(data)
+        with self.assertRaises(rtc.CollectorError) as caught:
+            self.classify(data)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def permission_response(self, login="reviewer", account_type="User"):  # scope-bound approval evidence
+        return {"permission": "write", "role_name": "write", "user": {"login": login, "type": account_type}}  # scope-bound approval evidence
+
+    def test_permission_response_exact_identity_succeeds(self):
+        self.assertEqual(
+            rtc._validate_permission_response(self.permission_response(), "reviewer"),
+            ("reviewer", "write", "write", "User"),
+        )
+
+    def test_permission_response_case_only_identity_is_canonicalized(self):
+        self.assertEqual(
+            rtc._validate_permission_response(self.permission_response("ReViEwEr"), "reviewer")[0],
+            "reviewer",
+        )
+
+    def test_permission_response_different_or_missing_identity_blocks(self):
+        for response in (self.permission_response("other"), {"permission": "write", "role_name": "write", "user": {"type": "User"}}):
+            with self.subTest(response=response):
+                with self.assertRaises(rtc.ApprovalEvidenceUnavailableError) as caught:
+                    rtc._validate_permission_response(response, "reviewer")
+                self.assertEqual(caught.exception.exit_code, 3)
+
+    def test_permission_response_malformed_login_and_unsupported_type_block(self):  # scope-bound approval evidence
+        for response in (self.permission_response("bad login"), self.permission_response(account_type="Organization")):  # scope-bound approval evidence
+            with self.subTest(response=response):
+                with self.assertRaises(rtc.ApprovalEvidenceUnavailableError):
+                    rtc._validate_permission_response(response, "reviewer")
+
+    def test_permission_identity_mismatch_never_qualifies(self):
+        raw = {"id": 1, "user": {"login": "reviewer", "type": "User"}, "state": "APPROVED", "submitted_at": OBSERVED_AT, "commit_id": ACTIVE_HEAD, "author_association": "MEMBER"}  # scope-bound approval evidence
+        with mock.patch.object(rtc, "_json_command", side_effect=[[raw], self.permission_response("other")]):
+            with self.assertRaises(rtc.ApprovalEvidenceUnavailableError):
+                rtc._collect_review_evidence(ROOT, [], ACTIVE_HEAD, "author")  # scope-bound approval evidence
+
+    def test_worktree_clean_header_is_not_a_dirty_entry_and_hash_is_deterministic(self):
+        first = rtc._normalized_worktree_status("## collector...origin/collector\n")
+        second = rtc._normalized_worktree_status("## collector...origin/collector\n")
+        self.assertEqual(first, second)
+        self.assertEqual(first["clean"], True)
+
+    def test_worktree_tracked_staged_and_untracked_entries_block(self):
+        for status in ("## branch\n M file\n", "## branch\nM  file\n", "## branch\n?? file\n"):
+            with self.subTest(status=status):
+                before = rtc._normalized_worktree_status(status)
+                with self.assertRaises(rtc.EvidenceUnavailableError):
+                    rtc._require_clean_unchanged_worktree(before)
+
+    def test_worktree_changed_status_blocks_without_persisting_raw_listing(self):
+        before = rtc._normalized_worktree_status("## branch\n")
+        after = rtc._normalized_worktree_status("## branch...origin/branch\n")
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._require_clean_unchanged_worktree(before, after)
+        data = self.active()
+        self.assertNotIn("file", json.dumps(data["source_shas"]))
+
+    def test_review_structure_rejects_exact_key_enum_and_record_failures(self):
+        self.assert_fixture_invalid(lambda data: data["review"].__setitem__("extra", True))
+        self.assert_fixture_invalid(lambda data: data["review"].__setitem__("decision", "COMMENTED"))
+        self.assert_fixture_invalid(lambda data: data["review"].__setitem__("review_records", [{"review_id": 1}]))
+
+    def test_review_structure_rejects_permission_and_claim_failures(self):
+        self.assert_fixture_invalid(lambda data: data["review"].__setitem__("permission_records", [{"reviewer_login": "reviewer", "permission": "owner", "role_name": "owner", "account_type": "User"}]))  # scope-bound approval evidence
+        self.assert_fixture_invalid(lambda data: data["review"].__setitem__("qualifying_approvals", ["Reviewer", "reviewer"]))
+        self.assert_fixture_invalid(lambda data: data["review"].__setitem__("disqualification_reasons", {"reviewer": ["UNSUPPORTED"]}))
+
+    def test_review_ordering_uses_utc_instant_then_review_id(self):
+        earlier_offset = {"submitted_at": "2026-07-13T00:30:00+01:00", "review_id": 2}
+        later_zulu = {"submitted_at": "2026-07-13T00:00:00Z", "review_id": 1}
+        self.assertLess(rtc._review_sort_key(earlier_offset), rtc._review_sort_key(later_zulu))
+        same_instant_low_id = {"submitted_at": "2026-07-13T00:00:00Z", "review_id": 1}
+        same_instant_high_id = {"submitted_at": "2026-07-12T19:00:00-05:00", "review_id": 2}
+        self.assertLess(rtc._review_sort_key(same_instant_low_id), rtc._review_sort_key(same_instant_high_id))
+
+    def test_live_closed_at_requires_valid_rfc3339(self):
+        base = {"number": 49, "state": "OPEN", "stateReason": None, "url": "https://example.test/49", "closedAt": None}
+        rtc._validate_live_issue(base)
+        for value in ("2026-07-13T00:00:00Z", "2026-07-12T19:00:00-05:00"):
+            issue = dict(base, state="CLOSED", closedAt=value)
+            rtc._validate_live_issue(issue)
+        for value in ("", "not-a-date", "2026-02-30T00:00:00Z", 1):
+            with self.subTest(value=value):
+                with self.assertRaises(rtc.EvidenceUnavailableError):
+                    rtc._validate_live_issue(dict(base, state="CLOSED", closedAt=value))
+
+    def test_closed_gate_base_must_bind_to_verified_default_branch(self):
+        data = fixture("consistent_closed_gate.json")
+        data["pr"]["base"] = "release"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+
 if __name__ == "__main__":
     unittest.main()

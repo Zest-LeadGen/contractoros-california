@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schema_version", "generator_version", "observed_at", "repository", "source_shas", "source_commands", "canonical_state", "live_state", "comparison_findings", "blockers", "missing_evidence", "consistency_classification", "quarantine", "public_private_classification", "packet_hash", "packet_hash_rule", "startup_packet"],
   "properties": {
-    "schema_version": {"const": "1.3.3"},
+    "schema_version": {"const": "1.3.4"},
     "generator_version": {"type": "string", "minLength": 1},
     "observed_at": {"type": "string", "format": "date-time"},
     "repository": {"$ref": "#/$defs/repository"},
@@ -79,13 +79,18 @@
     },
     "sourceShas": {
       "type": "object",
-      "required": ["local_head", "local_main", "local_origin_main", "live_default_branch", "canonical_ref"],
+      "required": ["local_head", "local_main", "local_origin_main", "live_default_branch", "canonical_ref", "worktree_clean_before", "worktree_clean_after", "worktree_status_unchanged", "worktree_status_before_sha256", "worktree_status_after_sha256"],
       "properties": {
         "local_head": {"$ref": "#/$defs/sha"},
         "local_main": {"$ref": "#/$defs/sha"},
         "local_origin_main": {"$ref": "#/$defs/sha"},
         "live_default_branch": {"$ref": "#/$defs/sha"},
-        "canonical_ref": {"$ref": "#/$defs/sha"}
+        "canonical_ref": {"$ref": "#/$defs/sha"},
+        "worktree_clean_before": {"const": true},
+        "worktree_clean_after": {"const": true},
+        "worktree_status_unchanged": {"const": true},
+        "worktree_status_before_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "worktree_status_after_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       },
       "additionalProperties": false
     },
