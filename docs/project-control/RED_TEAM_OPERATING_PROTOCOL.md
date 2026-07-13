@@ -183,3 +183,53 @@ If it is not recorded in durable evidence, it is not durable.
 Issue #47 defines a future five-layer continuity model: sanitized canonical state, append-only decisions/events, a derived startup packet, an unsynced-decision inbox, and separated private planes. This documentation does not implement the collector or replace current live GitHub verification. Issue #24 remains audit history; its original append-only marker example is historical and the Phase 4K-8 replacement-body procedure remains controlling.
 
 The first implementation gate must be read-only and cannot possess write, approval, merge, release, budget, credential-management, or policy-amendment decision power.
+
+## Generated Prompt Profile Inheritance
+
+Every red-team-generated implementation prompt, correction prompt, continuation prompt, review-remediation prompt, new-window handoff, and automation prompt must begin with this exact ordered ten-field profile:
+
+```text
+Recommended Codex model:
+Recommended reasoning effort:
+Why this model/effort:
+Do not change model/effort unless:
+Recommended speed mode:
+Agent strategy:
+Plan/quota mode:
+Context-window strategy:
+Checkpoint cadence:
+Maximum scope:
+```
+
+Each field must have a non-empty value. Model, reasoning effort, and speed must be explicit. Red-team must preserve a visible selector choice and must not silently change or downgrade it.
+
+When selectors are hidden, generated prompts must permit execution with the available compatible session and require these exact final attestations instead of fabricated values:
+
+```text
+ACTUAL_CODEX_MODEL=GPT-5 family; exact identifier not exposed
+ACTUAL_REASONING_EFFORT=NOT_EXPOSED
+SPEED_MODE=NOT_EXPOSED
+AGENT_STRATEGY=ONE_LEAD_AGENT
+```
+
+Medium reasoning, Standard speed, and one lead agent are the normal Plus defaults. Escalation must be proportional to one identified difficult problem. Max and Ultra are bounded owner-approved exceptions; Ultra subagents do not constitute independent red-team review.
+
+Generated prompts must define a quota-aware atomic packet, exact permitted scope, focused validation, checkpoint cadence, stop conditions, next packet, and the context-rotation behavior in `PROMPT_CONVENTION.md`. Hidden model, effort, speed, or context metadata alone must not stop a valid packet and must never be guessed.
+
+## Compact Progress And Chart Protocol
+
+Every substantive Codex or red-team response must end with only this permanent layout:
+
+1. `Product development stage`: one concise evidence-based statement.
+2. `Current lifecycle`: one compact Markdown table naming the active lifecycle state, packet, issue, PR, exact current or reviewed head when material, and next gate.
+3. Exactly one actual interactive chart at the absolute bottom.
+
+A separate `Current readiness` section or table is prohibited by this reporting scope. Separate current-phase, phase-progression, program-capability, or percentage tables are also omitted unless the owner explicitly requests them for a particular response. Lifecycle information must remain structured and must not be flattened into delimiter-separated or compressed paragraph strings.
+
+The detailed chart taxonomy materially includes durable intake/scope, implementation, tests/validation, documentation reconciliation, external exact-SHA review, human approval, merge/main verification, issue closeout, governance/control, workflow automation, product implementation, content governance/production, dependency/runtime, backend/data platform, build/distribution, business/market validation, and overall program. When the owner explicitly requests supplemental structured detail, use compact Markdown tables; a compact Markdown table must not become a separate standard readiness section.
+
+Percentages are evidence-based estimates, not proof. Use `NOT_PROVEN` when support is insufficient, avoid false precision, identify supporting evidence, and explain material changes. Documentation-only work must not increase product progress. Governance progress must not inflate workflow, product, content, runtime, backend, build, business, or overall-program capability. No gated phase is 100% until its required review, approval, merge, main verification, and closeout are proven.
+
+When the response surface supports interactive charts, render exactly one actual detailed interactive chart at the absolute bottom. It must use current verified details and grouped categories that materially cover the active correction, lifecycle gates, roadmap gates, and actual program capabilities. It must contain three separately calculated series: `Delivery progress`, `Evidence confidence`, and `Operational readiness`. Operational readiness must not inherit governance-only or documentation-only gains. Blocked, unauthorized, unimplemented, or unproven capabilities remain at zero readiness or `NOT_PROVEN`. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability. Nothing may appear after the chart.
+
+Raw chart JSON, widget arguments, terminal representations, and documentation specifications must never be presented as the chart. Within this reporting scope, if the surface cannot render an interactive chart, use compact Markdown tables only for the single fallback: state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE` and provide exactly one compact bottom fallback table containing `Delivery progress`, `Evidence confidence`, and `Operational readiness`. The fallback is not a separate readiness section. Nothing may appear after the chart or fallback table.

@@ -8,13 +8,21 @@ GitHub code, GitHub PRs, and versioned project-control files are the source of t
 
 ## Prompt Convention
 
-Every future ContractorOS prompt must include the model/effort header defined in `docs/project-control/PROMPT_CONVENTION.md`.
+Every substantive ContractorOS implementation, correction, review, red-team, continuation, handoff, or automation prompt must begin with the exact ordered ten-field model, effort, speed, agent, quota, context, checkpoint, and scope profile defined in `docs/project-control/PROMPT_CONVENTION.md`.
 
-Agents must stop if the model/effort header is missing.
+Agents must stop if that prompt profile is missing, incomplete, empty, or out of order. Agents must not silently choose, change, or downgrade a visible model, effort, or speed selection.
 
-Agents must not silently choose model/effort for ContractorOS work.
+Hidden model, effort, or speed metadata is not a stop condition. Agents must proceed with the available compatible session and use the exact honest-fallback values defined in `PROMPT_CONVENTION.md`; hidden values must not be guessed.
+
+Standard speed, Medium effort, and one lead agent are the normal Plus-plan defaults. Fast, Extra High, Max, Ultra, or parallel fan-out require the bounded justification and owner approval defined in the prompt convention.
 
 Phase 4J-0 documents this convention only and does not activate auto-merge.
+
+## Context, Checkpoint, And Progress Discipline
+
+Substantial work must use quota-aware atomic packets and durable checkpoints. At 60-74% context, do not expand scope; at 75-84%, finish only the smallest safe unit and prepare a new-window handoff; at 85-100%, perform handoff only. A reported 79% requires a new window before another broad workstream.
+
+Every substantive response must use compact structured progress tables that separate current-phase gates from program capabilities. Governance progress must not inflate product, runtime, backend, build, content, business-validation, or overall-program progress. Where supported, render exactly one detailed interactive chart at the absolute bottom without exposing raw chart configuration; otherwise record that interactive charts are unsupported and retain structured tables.
 
 ## Phase Issue Requirement
 

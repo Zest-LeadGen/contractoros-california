@@ -42,3 +42,13 @@ Issue #24 remains audit history. Its source-of-truth, role-separation, lifecycle
 ## Required Next Gate
 
 After Issue #47 is merged, main-verified, and closed, the next gate is exactly: **Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate**. It precedes ordinary Phase 4K-9 and begins with read-only evidence access only. It has no write, approval, merge, release, budget, credential-management, or policy-amendment authority.
+
+## Issue #49 Implementation In Review
+
+Issue #49 and PR #50 move the read-only collector and deterministic derived startup-packet generator from architecture-only status to implementation in review. The collector uses standard-library validation, a positive read-command allowlist, canonical-versus-live comparison, fail-closed classification, external-only output, sensitive-data rejection, and deterministic hashing.
+
+Version `1.3.0` binds the strictly resolved requested root to Git's strictly resolved top level and a valid `.git` directory or worktree control file. It normalizes only the four authorized GitHub HTTPS/SSH origin forms to `Zest-LeadGen/contractoros-california`. Generated evidence stores public-safe verification status, normalized transport and repository identity only; it never stores an absolute private root or raw credential-bearing remote. A readable contradiction is quarantined; unavailable required evidence is blocked.
+
+Output validation is pre-mutation. The nearest existing ancestor is strictly resolved, nonexistent suffixes are projected, repository descendants and symlink redirection are rejected, and target object types are checked before directory creation. The boundary is rechecked after creation and atomic-write temporary files are cleaned on failure.
+
+The implementation has no authority to mutate Git, GitHub, canonical state, approvals, merges, releases, budgets, credentials, policy, Phase 4K-9, or Phase 4I. A generated packet remains derived, public-safe, point-in-time evidence. Merged capability is not yet proven while PR #50 is open.

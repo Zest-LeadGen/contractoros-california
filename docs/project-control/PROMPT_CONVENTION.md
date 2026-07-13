@@ -2,111 +2,142 @@
 
 ## Purpose
 
-Define the required prompt header and model/effort selection policy for prompts given to Codex, developer agents, red-team agents, and future automation agents.
+Define the mandatory capability-discovery, model, effort, speed, quota, context, agent, checkpoint, and scope profile for ContractorOS prompts. This convention applies to every substantive implementation, correction, review, red-team, continuation, handoff, and automation prompt.
 
-## Required Prompt Header
+## Stable Policy
 
-Every future implementation, correction, review, or automation prompt must begin with:
+The rules in this section are durable ContractorOS policy. They do not depend on a current model catalog, message allowance, or speed multiplier.
+
+### Required Ordered Prompt Profile
+
+Every covered prompt must begin with these exact ordered, non-empty fields:
 
 ```text
 Recommended Codex model:
 Recommended reasoning effort:
 Why this model/effort:
 Do not change model/effort unless:
+Recommended speed mode:
+Agent strategy:
+Plan/quota mode:
+Context-window strategy:
+Checkpoint cadence:
+Maximum scope:
 ```
 
-## Official Source Basis
+All ten fields must be present, occur in this order, and have explicit values. The profile must state the recommended model, effort, and speed. A visible selection must not be silently changed or downgraded.
 
-Official OpenAI Codex Models docs record these model-selection facts:
+A missing field, empty value, or out-of-order field is a stop condition. Hidden capability metadata is not a missing prompt field and is not a stop condition.
 
-- Recommended Codex models include `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`, and `gpt-5.3-codex-spark`.
-- For most Codex tasks, start with `gpt-5.5`.
-- `gpt-5.5` is strongest for complex coding, computer use, knowledge work, and research workflows.
-- `gpt-5.4-mini` is faster/lower-cost for lighter coding tasks or subagents.
-- `gpt-5.3-codex-spark` is a text-only research preview optimized for near-instant, real-time coding iteration and available to ChatGPT Pro users.
-- `gpt-5.2` and `gpt-5.3-codex` are deprecated in Codex when signing in with ChatGPT.
+### Capability Discovery And Honest Fallback
 
-Official OpenAI Codex Config Reference records these `model_reasoning_effort` values:
+Use an explicitly exposed selector when available. Do not guess a hidden model, effort, or speed value. When exact metadata is not exposed, proceed in the available compatible session and record:
 
-- `minimal`
-- `low`
-- `medium`
-- `high`
-- `xhigh`
+```text
+ACTUAL_CODEX_MODEL=GPT-5 family; exact identifier not exposed
+ACTUAL_REASONING_EFFORT=NOT_EXPOSED
+SPEED_MODE=NOT_EXPOSED
+```
 
-`xhigh` is model-dependent.
+An explicit visible selection cannot be silently downgraded. If the recommended selection is unavailable, record the actual available selection and the bounded reason for the substitution.
 
-Official OpenAI GPT-5.5 guidance records these effort-selection facts:
+Terra, Sol, and Luna are the stable ContractorOS routing labels when explicitly selectable. Their current availability and provider descriptions are time-sensitive facts recorded separately below.
 
-- GPT-5.5 default reasoning effort is `medium`.
-- Use `low` for efficient reasoning.
-- Use `medium` as the balanced starting point.
-- Use `high` for complex agentic tasks requiring hard reasoning where latency matters less.
-- Use `xhigh` for the hardest asynchronous agentic tasks or evals.
-- Higher reasoning effort is not automatically better; increase effort only when task risk/complexity or eval evidence justifies latency/cost.
+### Model Routing
 
-Do not overclaim.
+When selectors are explicitly available:
 
-Do not claim that the UI label "Extra High" is officially verified unless an official source is added later.
+- Terra is the default for bounded implementation and routine repository work.
+- Sol is for complex security, architecture, deep integration, or final high-stakes review.
+- Luna is for low-risk mechanical or high-volume lightweight work.
+- The lowest-capability route that can reliably complete the bounded task should be used.
 
-## ContractorOS Model Selection Policy
+When selectors are not exposed, use the honest fallback above. Hidden metadata alone must never stop permitted work.
 
-Use:
+### Reasoning Effort Policy
 
-- Governance / architecture / red-team / phase-control:
-  `gpt-5.5`, `high`
+| Effort | Permitted use |
+|---|---|
+| Low | Mechanical, trivial, low-risk edits |
+| Medium | Default for inspection, recovery, bounded implementation, fixtures, tests, and documentation |
+| High | Complex security, lifecycle, architecture, integration, or difficult debugging |
+| Extra High | One narrowly bounded difficult problem with explicit justification |
+| Max | Owner-approved exception with a quota and checkpoint plan |
+| Ultra | Owner-approved parallelizable exception; never the default |
 
-- Red-team-critical architecture, repo-wide control design, or eval-like governance tasks:
-  `gpt-5.5`, `xhigh` only when the task risk justifies it
+Higher effort is not automatically better. Use the lowest effort that can reliably complete the task. Escalation must identify the unresolved problem and applies only to that bounded problem, not automatically to the full phase. Ultra subagents do not constitute independent red-team review.
 
-- Major implementation touching product behavior:
-  `gpt-5.5`, `high`
+### Speed Policy
 
-- Small correction commit, documentation cleanup, evidence formatting:
-  `gpt-5.5`, `medium`
-  or `gpt-5.4-mini`, `medium` only when risk is low and speed/cost matters
+`STANDARD` is the default for ContractorOS Plus-plan work. `FAST` is off by default.
 
-- Fast mechanical typo/style fix:
-  `gpt-5.4-mini`, `low` or `medium`
+Fast may be used only when the selected model supports it, latency is materially important, the task is narrowly bounded, increased quota or credit consumption is disclosed, the owner approves it or durable policy already permits the exact use, and a durable checkpoint exists. Speed is not intelligence or reasoning quality.
 
-- Near-real-time low-risk text-only coding iteration:
-  `gpt-5.3-codex-spark` only if available and appropriate
+Every final handoff must record `SPEED_MODE=<STANDARD/FAST/NOT_EXPOSED>`. If speed is hidden, record `NOT_EXPOSED`; do not fabricate `STANDARD` or `FAST` as an observed setting.
 
-- Deprecated / not recommended:
-  `gpt-5.2`
-  `gpt-5.3-codex`
+### Agent And Plus Quota Defaults
 
-## Effort Selection Policy
+One lead agent is the default. Subagents and parallel fan-out require task-specific justification and owner approval. Max and Ultra are owner-approved exceptions, never defaults.
 
-Use:
+Every substantial Plus-plan task must be divided into atomic packets. Each packet declares:
 
-- `low` for efficient reasoning on low-risk tasks;
-- `medium` as the balanced default;
-- `high` for complex agentic tasks requiring hard reasoning;
-- `xhigh` only for hardest asynchronous agentic tasks, red-team-critical architecture, repo-wide control design, or eval-like work.
+```text
+Primary objective:
+Permitted files/functions:
+Model:
+Reasoning effort:
+Speed:
+Agent count:
+Focused validation:
+Checkpoint:
+Stop conditions:
+Next packet:
+```
 
-Higher effort is not automatically better. Increase effort only when task risk, complexity, or eval evidence justifies additional latency/cost.
+Do not combine recovery, full architecture review, all correction clusters, all adversarial testing, all documentation reconciliation, CI investigation, and final exact-SHA review handoff in one packet. Prefer focused file reads and durable issue, comment, and SHA references over replaying entire governance documents.
 
-## UI Label Rule
+### Context-Window Policy
 
-If the Codex UI shows "Extra High," record it as the UI-observed label for the official config value `xhigh` unless official UI documentation later proves otherwise.
+| Context used | Required behavior |
+|---|---|
+| 0-59% | Normal bounded work |
+| 60-74% | No scope expansion; prepare a checkpoint |
+| 75-84% | Finish only the smallest safe unit; validate and prepare a new-window handoff |
+| 85-100% | Handoff-only mode; no new implementation |
 
-## Prompt Convention Enforcement
+A reported level of 79% requires a new window before another broad implementation workstream. When the percentage is unavailable, do not invent it; use visible compaction warnings, context-loss symptoms, platform notices, or repeated instruction loss as risk indicators.
 
-Every future prompt must include model and effort recommendation.
+### Output Contract
 
-If the model/effort header is missing, the agent must stop and ask for the header before implementation.
+Every substantive response follows the compact, structured progress requirements in `RED_TEAM_OPERATING_PROTOCOL.md`. Current-phase and program-capability values remain separate. Governance work must not inflate product, runtime, backend, build, content, business-validation, or overall-program progress.
 
-Agents must not choose their own model/effort silently for ContractorOS work.
+Where interactive charts are supported, render exactly one detailed chart at the absolute bottom and place nothing after it. Never expose raw chart JSON, widget arguments, terminal representations, or implementation configuration as the chart. Where unsupported, use compact Markdown tables and record `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`; do not flatten structured progress into a delimiter-separated paragraph.
 
-## Phase 4J-0 Scope Note
+### Scope Note
 
-This file documents the convention only.
+This convention does not authorize product, dependency, build, backend, mobile, web, release, credential, paid-service, merge, auto-merge, self-review, branch-protection bypass, next-phase, or paused-phase work.
 
-It does not activate auto-merge.
+## Dated Current Guidance
 
-It does not change app/product/dependency/build/backend/mobile/web files.
+Current official-source review date: 2026-07-12
 
-It does not start Phase 4J-1.
+This section is a dated snapshot, not permanent policy. Reverify it before relying on current model availability, usage ranges, speed support, or multipliers.
 
-It does not resume Phase 4I.
+Official pages reviewed:
+
+- OpenAI Codex Models: https://developers.openai.com/codex/models/
+- OpenAI Codex Pricing: https://developers.openai.com/codex/pricing/
+- ChatGPT Learn Speed: https://learn.chatgpt.com/docs/agent-configuration/speed
+
+Current documented guidance as of the review date:
+
+- The default Power setting uses GPT-5.6 Sol with Medium reasoning. Medium balances speed and depth for work needing more planning.
+- Higher reasoning effort can improve complex results, but takes longer and uses more tokens.
+- Ultra uses subagents for separable parallel work; most tasks do not need Max or Ultra.
+- Sol, Terra, and Luna are documented GPT-5.6 choices. Sol targets complex open-ended work, Terra is the pragmatic everyday all-rounder, and Luna targets clear repeatable or high-volume work.
+- Terra is the balanced everyday route for strong capability with a better performance/price balance.
+- Plus usage varies with model, task size and complexity, local versus cloud execution, context, reasoning, tool use, retrieval, and caching.
+- Local messages and cloud tasks share a five-hour window; additional weekly limits may apply.
+- Current indicative Plus local-message ranges per five hours are Sol 15-90, Terra 20-110, and Luna 50-280.
+- Fast mode increases supported-model speed and consumes credits or included limits more quickly than Standard mode.
+- Fast-mode model support, speed factors, and consumption multipliers are time-sensitive and must be reverified before recommendation.

@@ -138,3 +138,27 @@ Stop instead of proceeding when:
 ## Program Constitution Alignment
 
 The Program Constitution and Owner Decision Register govern public-safe program direction. The four-level AI decision-power model, least-privilege tools, separate read/write identities, and read-only-first continuity collector are architecture direction only. This documentation does not grant credentials, approval, merge, release, budget, policy-amendment, or production decision power.
+
+## Capability, Effort, Speed, And Agent Routing
+
+`PROMPT_CONVENTION.md` is the canonical execution profile. Capability discovery must use visible selectors when available and must never fabricate hidden metadata. Hidden model, effort, or speed metadata alone does not stop authorized work; the exact fallback attestations are used instead.
+
+Terra is the routine bounded-work route, Sol is reserved for complex security, architecture, integration, or final high-stakes review, and Luna is the low-risk mechanical or lightweight-volume route when those selectors are visible. Medium is the normal effort default. Higher effort is not automatically better: Low, High, Extra High, Max, and Ultra are proportional routes with bounded justifications and the owner-authorization rules in the prompt convention.
+
+Standard speed is the Plus default and Fast is off by default. Fast requires material latency need, narrow scope, quota disclosure, authorization, model support, and a durable checkpoint. Speed is not a proxy for intelligence or reasoning quality.
+
+One lead agent is the default. Ultra and parallel fan-out are never defaults, and Ultra subagents are not independent red-team review.
+
+## Plus Atomic Packets And Context Rotation
+
+Substantial work is split into quota-aware atomic packets declaring objective, permitted files/functions, model, effort, speed, agent count, focused validation, checkpoint, stop conditions, and next packet. Recovery, architecture review, correction clusters, adversarial testing, documentation reconciliation, CI investigation, and final exact-SHA handoff should not be collapsed into one Plus packet.
+
+Context behavior is fail-closed by band: normal bounded work at 0-59%; no scope expansion and checkpoint preparation at 60-74%; smallest-safe-unit completion plus new-window handoff at 75-84%; and handoff-only with no implementation at 85-100%. A visible 79% requires a new window before broad implementation. An unavailable percentage must not be invented.
+
+## Evidence-Based Progress Presentation
+
+Substantive responses must provide a concise product-development-stage statement, current lifecycle state, a compact current-phase table, and a compact program-capability table. Current-phase rows cover durable intake/scope, implementation, tests/validation, documentation reconciliation, external exact-SHA review, human approval, merge/main verification, issue closeout, and overall. Program rows cover governance/control, workflow automation, product implementation, content governance/production, dependency/runtime, backend/data platform, build/distribution, business/market validation, and overall program.
+
+Percentages are estimates, not completion evidence. Unsupported values are `NOT_PROVEN`; material changes require evidence; gated work cannot reach 100% before applicable review, approval, merge, main verification, and closeout. Governance documentation cannot increase actual product or operational capability.
+
+Where supported, exactly one detailed interactive chart is rendered at the absolute bottom with nothing after it. Raw chart configuration is never presented to the owner. Where unsupported, compact tables remain structured rather than becoming compressed paragraph strings, and the response records `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`.

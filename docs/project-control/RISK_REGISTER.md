@@ -13,6 +13,28 @@ Resolution condition:
 Last reviewed:
 ```
 
+## Issue #49 Continuity Collector Risks
+
+| Risk ID | Risk | Control | Validation task | Status |
+|---|---|---|---|---|
+| R-I49-01 | Stale-state false negative | Compare canonical, local and live main plus issue/PR lifecycle evidence; fail closed. | Stale-main and starting-main baseline runs. | Controlled in implementation review. |
+| R-I49-02 | Command allowlist bypass | Positive executable, subcommand, flag and shape validation. | Unknown executable/subcommand and prohibited Git/GitHub command tests. | Controlled in implementation review. |
+| R-I49-03 | Shell execution | Argument arrays with `shell=False` and finite timeout. | Mocked subprocess call inspection. | Controlled in implementation review. |
+| R-I49-04 | Output path or symlink escape | Resolve the nearest existing ancestor and prospective suffix before creation; recheck after creation and before atomic writes. | Nonexistent/nested repository descendants, output/ancestor/target symlinks, non-regular targets, valid external creation and cleanup tests. | Controlled in C3 implementation review. |
+| R-I49-05 | Secret or private evidence leakage | Avoid broad collection and reject private-looking patterns. | Unsafe fixture and absolute-home-path tests. | Controlled in implementation review. |
+| R-I49-06 | Moved-head approval reuse | Compare observed and marker-bound SHA with current PR head; quarantine mismatch. | Moved-head and stale-marker tests. | Controlled in implementation review. |
+| R-I49-07 | Misleading derived packet authority | Derived notice, prohibited-action section and no write permission. | Packet-content and raw-chat rejection tests. | Controlled in implementation review. |
+| R-I49-08 | Inaccessible required live evidence | Executable, timeout, nonzero, output-bound, malformed-live-JSON and missing-field failures use `EvidenceUnavailableError` and exit `3`; no safe classification is inferred. | C3 inaccessible-evidence exit tests. | Controlled in C3 implementation review. |
+| R-I49-09 | Deterministic-output drift | Stable ordering, normalized line endings and explicit packet-hash rule. | Identical-run comparison, expected packet and hash recomputation. | Controlled in implementation review. |
+| R-I49-10 | Contradictory lifecycle or active auto-merge | Quarantine protected-boundary contradictions. | Contradictory lifecycle and auto-merge tests. | Controlled in implementation review. |
+| R-I49-11 | Hidden metadata fabrication, quota/context loss, or governance-progress inflation | Exact honest fallbacks, proportional routing, atomic packets, context bands, compact structured tables, capability separation, and chart-output prohibitions. | Governance profile, routing, context, progress, chart, and non-inflation tests. | Controlled in governance-hardening review; exact-SHA external review pending. |
+| R-I49-12 | Wrong local root or contradictory origin accepted as the requested repository | Strict root/top-level/control-file binding and four-form normalized GitHub origin verification; persist no raw path or URL. | C3 repository identity and private-path exclusion tests plus live collector. | Controlled in C3 implementation review. |
+| R-I49-13 | Lifecycle categories collapse external review, human approval, merge and closeout into a false readiness claim | Separate active, externally approved, merge-ready and closed-gate matrices; contradictions quarantine and inaccessible evidence blocks. | C3 lifecycle matrix tests. | Controlled in C3 implementation review. |
+| R-I49-14 | Operational readiness inherits documentation or governance progress | Permanent three-series chart contract and explicit non-inheritance rule; blocked capabilities stay zero or not proven. | C3 reporting-layout tests. | Controlled in C3 governance reconciliation review. |
+| R-I49-15 | Missing authoritative GitHub repository/default-branch values are represented by local or requested fallback evidence | Require exact live repository identity, default-branch object/name/target and lowercase target SHA before evidence construction; permit no substitution. | Eight C3.1 authoritative-live-field tests plus live collector. | Controlled in C3.1 implementation review. |
+| R-I49-16 | Permission read rejection or unsafe evidence is misclassified as unavailable, or malformed permission data creates an empty normalized record | Catch only unavailable-evidence exceptions and structurally validate the response before normalization. | Six C3.1 exception-boundary and permission-response tests. | Controlled in C3.1 implementation review. |
+| R-I49-17 | Malformed nested canonical state escapes the documented CLI exit contract or loses linked-PR identity | Validate bounded linked objects, required identity, supported state and exact observed-head SHA before comparison. | Eight C3.1 canonical and CLI tests. | Controlled in C3.1 implementation review. |
+
 ## Active Risks
 
 ### low-risk lane misclassification
@@ -574,4 +596,90 @@ Evidence: Phase 4J-4 defines the `OWNER_TRIGGER_REVIEW` marker and validates own
 Owner: ContractorOS development lead / red-team gate / human approver
 Resolution condition: Owner-trigger marker validation remains required in protected PR control gates, and future automation phases refuse to treat legal, financial, paid-service, public-release, production/readiness, app-store/build/distribution, scope expansion, unresolved red-team BLOCKED, dependency/security risk acceptance, or architecture-threshold PRs as future-low-risk candidates.
 Last reviewed: 2026-07-09
+```
+
+### malformed nested continuity evidence bypasses the documented exit contract
+
+```text
+Risk: Malformed nested continuity evidence reaches comparison, rendering, or output code and raises an unbounded runtime error instead of a deterministic fail-closed result.
+Status: Active / controlled in C3.2 developer review
+Evidence: The 1.3.2 collector validates exact repository, issue, PR, check, workflow-run, job, step, marker, auto-merge, and optional source-command shapes with bounded list sizes before use. Behavior and CLI tests cover wrong types, missing fields, unknown properties, invalid identifiers, exit 5, and absence of tracebacks.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: The C3.2 exact head passes the full suite, deterministic/schema checks, all local and PR-context controls, live collection, contradictory-repository classification, and a fresh external whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### C3.5 staged evidence, provenance, and lifecycle binding
+
+```text
+Risk: A four-field live review structure, implicit untracked-file status, moving worktree head, contradictory approval claims, or inconsistent issue closeout timestamp could appear authoritative without fail-closed reduction.
+Status: Active / controlled in C3.5 developer validation
+Evidence: Collected and evaluated review contracts are distinct; all-untracked status hashes and exact heads are paired before/after collection; final claims are recomputed and compared; `closedAt` and normalized closeout state are lifecycle-bound.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.5 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### C3.6 command, reason-map, schema, and accounting equivalence
+
+```text
+Risk: A broad GitHub command, canonical reviewer-key collision, schema/runtime reason mismatch, or understated source-command bound could make malformed or expanded evidence appear authoritative.
+Status: Active / controlled in C3.6 developer validation
+Evidence: The collector accepts only current-invocation exact command vectors, preserves original reason keys until one-to-one canonical validation succeeds, separates `_evidence` from reviewer-key reason schemas, and derives the 119-command limit from named bounds.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.6 exact head passes focused and complete tests, determinism and schema-contract checks, all controls, live collection, new-head workflow inspection, and fresh whole-PR exact-SHA review.
+
+### C3.7 adverse-review or source-command semantic false positive
+
+Risk: A qualifying approval can mask another reviewer's unresolved exact-current-head change request, or structurally valid command metadata can claim prohibited, unrelated, mismatched, unsourced, or unsuccessful reads and still appear authoritative.
+Status: Active / controlled in C3.7 developer validation
+Evidence: Reviewer-wide latest-decisive reduction makes unresolved current-head changes requested adverse without storing review bodies; claim-sensitive aggregate checks forbid merge-ready and closed-gate success. Nonempty source-command histories are checked against the exact evidence-derived live firewall and require zero return codes.
+Validation: Approval-plus-adverse, no-prior-approval, comment/approval/dismissal, stale-head, aggregate-decision, merge-ready, closed-gate, private-content, mutation, identity, page, permission-source, argument-order, return-code and no-output tests.
+Resolution condition: C3.7 exact head passes focused and complete tests, deterministic/schema checks, all local and PR-context controls, exact-head workflow inspection, outside-repository live collection, PR reconciliation, and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### C3.8 pre-validation dereference or provenance/schema mismatch
+
+```text
+Risk: Malformed review evidence can be dereferenced by semantic command validation before structural validation, canonical source provenance can be absent, or a nonzero command result can satisfy the evidence schema despite runtime rejection.
+Status: Active / controlled in C3.8 developer validation
+Evidence: Review validation now precedes semantic firewall derivation; canonical_ref uses a dedicated required exact-SHA contract in runtime and both schemas; command results require runtime integer zero and schema const zero.
+Validation: Direct-generation and CLI malformed-review matrices, null/missing/abbreviated/uppercase/malformed canonical refs, active/closed output generation, firewall non-construction, return-code type/value cases, and standard-library schema assertions.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.8 exact head passes focused and complete tests, determinism and schema checks, all local and PR-context controls, exact-head workflow inspection, outside-repository live collection, PR reconciliation, and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### live repository contradiction is mistaken for unavailable evidence
+
+```text
+Risk: A readable, structurally valid different repository name is reported as unavailable evidence and bypasses the intended identity-quarantine path.
+Status: Active / controlled in C3.2 developer review
+Evidence: Structural validation now accepts syntactically valid owner/repository names without substituting the requested name; comparison classifies a different observed identity as quarantined with exit 2. Missing or malformed names remain unavailable with exit 3.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: Offline contradictory-repository behavior, live current-repository behavior, complete controls, and fresh exact-SHA review all pass on the C3.2 head.
+Last reviewed: 2026-07-12
+```
+
+### scope-bound authority fields are present but not classification-bound
+
+```text
+Risk: Collected local-head, default-branch, nullable live-field, review-timestamp, or canonical lifecycle evidence is structurally present but does not constrain classification, allowing stale or malformed authority evidence to appear safe.
+Status: Active / controlled in C3.3 developer review
+Evidence: The historical 1.3.3 collector scope-binds active and closed source identities, requires nullable authoritative live field presence, treats only null auto-merge requests as inactive, validates decisive RFC3339 review timestamps before approval selection, and compares validated canonical lifecycle and consistency values.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.3 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
+### C3.4 evidence identity and provenance binding
+
+```text
+Risk: Permission response identity, executable worktree provenance, normalized review structure, timestamp ordering, closeout timestamp, or closed-gate base evidence could be misattributed or malformed while appearing authoritative.
+Status: Active / controlled in C3.4 developer validation
+Evidence: Case-folded response/candidate identity binding, before/after clean worktree hashes, exact bounded review schema, UTC ordering, RFC3339 `closedAt`, and verified-default-branch closed-gate base binding are implemented and covered by focused adversarial tests.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.4 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
 ```

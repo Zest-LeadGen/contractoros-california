@@ -43,6 +43,14 @@ If the pull request head SHA changes after red-team review:
 
 If the current head SHA is unknown, the state is `RED_TEAM_BLOCKED`.
 
+## Context And Presentation Guards
+
+Context pressure does not advance lifecycle state or authorize broader work. At 60-74% context, scope cannot expand and a checkpoint is prepared. At 75-84%, only the smallest safe unit may finish before validation and a new-window handoff. At 85-100%, the only permitted state transition is to a truthful handoff; new implementation is prohibited. A visible 79% therefore requires a new window before a broad implementation packet.
+
+Hidden model, effort, speed, or context metadata is not lifecycle evidence and must not be fabricated. Hidden execution metadata alone is not a blocker when the prompt profile is valid and an available compatible session can proceed.
+
+Progress estimates do not change lifecycle state. Current-phase gates and program capabilities remain separately reported in compact tables, governance progress cannot inflate product or operational capability, and no chart or percentage substitutes for exact-SHA review, checks, human approval, merge, main verification, or issue closeout.
+
 ## Failed Check Handling
 
 If checks fail because the required red-team marker is missing before red-team has approved, remain in `CODEX_RESPONSE_RECEIVED_NEEDS_REVIEW`, `RED_TEAM_REVIEW_IN_PROGRESS`, or `RED_TEAM_BLOCKED` depending on review status.
@@ -89,3 +97,26 @@ Phase 4J-5 preserves the same behavior using the explicit labels in this file:
 Canonical state is a public-safe snapshot, not a substitute for lifecycle classification. If canonical state and live GitHub evidence differ, classify the state as blocked, mark the snapshot stale or quarantined, and stop consequential guidance. A future generated startup packet must derive from both versioned state and live read-only evidence.
 
 Issue #47 itself remains a documentation implementation gate until its PR is externally reviewed, human-approved, merged, main-verified, and closed. Phase 4K-9 remains not started.
+
+## Collector Consistency Statuses
+
+| Collector status | Meaning | Allowed next action |
+|---|---|---|
+| `consistent` | Required closed-gate evidence agrees at the observation time. | Revalidate live evidence before later planning. |
+| `requires_live_verification` | A valid active-PR snapshot discloses pending external review, human approval, merge and closeout. | External exact-SHA review reruns the collector against the current head. |
+| `stale` | Canonical or local state differs from required live state. | Stop and reconcile evidence. |
+| `blocked` | Required evidence is missing or inaccessible. | Stop and retrieve only the narrow missing evidence. |
+| `quarantined` | Evidence is contradictory, moved, unsafe for the claimed lifecycle, or violates a protected boundary. | Stop; do not reuse the packet. |
+
+Stale, blocked, or quarantined packets grant no authority for repository or GitHub writes. A valid active-PR packet with missing external review or human approval remains pending and cannot permit merge.
+
+## Collector Lifecycle Matrices
+
+| Claim | Required separated evidence | Classification |
+|---|---|---|
+| `active_pr` | Issue open; PR open, non-draft, based on `main`, unmerged; auto-merge inactive; owner marker valid; exact provenance; expected missing-marker workflow failure or valid-marker full success | `requires_live_verification` |
+| `externally_approved` | All active identity conditions plus exact-current-head `RED_TEAM_DECISION=APPROVED` and fully successful required workflow | `requires_live_verification`; human/write approval may remain pending |
+| `merge_ready` | Externally approved plus qualifying exact-current-head human/write approval; PR remains open and unmerged | `requires_live_verification`; no collector merge power |
+| `closed_gate` | PR merged with `merged_at`; merge commit equals verified main; issue closed/completed; canonical linkage and closeout agree; exact-head external approval, human/write approval, and successful head-bound workflow | `consistent` |
+
+Within the collector lifecycle scope, closed-before-merge, incomplete closeout, draft or auto-merge-active readiness, stale marker/approval, mismatched workflow head, missing merge time, non-completed issue reason, or merge commit not at verified main is contradictory and quarantined. Inaccessible evidence blocks instead of quarantining.

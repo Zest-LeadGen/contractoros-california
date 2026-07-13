@@ -420,3 +420,45 @@ Verified main controls phase advancement.
 | Continuity collector | Not implemented |
 
 The next recommended gate after Issue #47 closeout is the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.
+
+## Current Issue #49 Snapshot
+
+| Item | Evidence-based status |
+|---|---|
+| Issue #47 | Closed/completed |
+| PR #48 | Merged at `01b90ab8b12416101b4be067794bf543a3488779` |
+| Issue #49 | Active |
+| PR #50 | Open; implementation in review |
+| Phase 4K-9 | Not started |
+| Phase 4I | Paused |
+| Continuity collector | Implementation in review; merged capability not yet proven |
+
+## Issue #49 Governance Hardening Progress Contract
+
+Current-phase reporting must remain separate from program-capability reporting.
+
+| Current-phase workstream | Evidence boundary |
+|---|---|
+| Durable intake/scope | Issue, amendments, allowlist, and stop conditions |
+| Implementation | Permitted changed files only |
+| Tests/validation | Exact commands and observed results |
+| Documentation reconciliation | Required governance records only |
+| External exact-SHA review | Current-head external evidence only |
+| Human approval | Separate write-access approval evidence |
+| Merge/main verification | Merge metadata and verified main |
+| Issue closeout | Closed issue plus closeout evidence |
+| Current-phase overall | Cannot reach 100% before all applicable gates above are proven |
+
+| Program capability | Non-inflation boundary |
+|---|---|
+| Governance/control | May increase only from governance/control evidence |
+| Workflow automation | Requires implemented and validated workflow capability |
+| Product implementation | Requires actual product behavior evidence |
+| Content governance/production | Requires content-system or production evidence |
+| Dependency/runtime | Requires installed and validated runtime evidence |
+| Backend/data platform | Requires implemented and validated backend/data evidence |
+| Build/distribution | Requires build and distribution evidence |
+| Business/market validation | Requires measured market evidence |
+| Overall program | Must not inherit governance-only gains as product delivery |
+
+Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and documentation-only Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress. Phase 4K-9 remains not started and Phase 4I remains paused.

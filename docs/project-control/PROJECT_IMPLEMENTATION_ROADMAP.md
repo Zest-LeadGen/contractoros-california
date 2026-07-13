@@ -210,3 +210,9 @@ Verified GitHub evidence controls the claim level.
 Phase 4K-8 is completed. Issue #47 is active at starting main `b99fc7d1fe0882380fc53041be42bb0aad35c02e` for documentation, schema, ADR, and source-of-truth reconciliation only. Phase 4K-9 remains not started, Phase 4I remains paused, and the toolchain path remains deferred.
 
 The next permissible implementation gate after Issue #47 closeout is the read-only continuity evidence collector/startup-packet gate. Product modules, source ingestion, database construction, public content, private infrastructure, and paid services require separate later gates.
+
+## 22. Issue #49 Read-Only Continuity Collector Gate
+
+Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 and PR #50 contain the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation in review.
+
+This gate precedes Phase 4K-9. Phase 4K-9 is not started, Phase 4I remains paused, and no later product, source-ingestion, database, private-infrastructure, paid-service, release, or production work is included.
