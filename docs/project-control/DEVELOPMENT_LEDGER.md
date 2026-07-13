@@ -16,13 +16,14 @@ Branch: stage-a-red-team-role-isolation
 Implementation issue: #55
 Parent planning issue: #53
 Starting main: 7d00343c233e45185e6c4d77e50eb870f408c01f
-PR: Pending developer validation and creation
-Head SHA: Pending validated commit
+PR: #56, open and unmerged
+Rejected reviewed head: 18ddffae1c2781ccb560bad7a8a468d4e8822f57; formal review 4687524310 returned CHANGES_REQUESTED with two blocking findings
+Correction head SHA: Exact current PR #56 head after the correction commit; live GitHub verification required because a commit cannot contain its own final SHA
 Merge SHA: Pending; no merge authority scope is granted to Codex
 Changed files: Exact Issue #55 allowlist only; final list recorded in the Stage A report
-Commands run: Identity and exact-SHA preflight, baseline tests, role self-test, focused role and integration tests, full continuity suite, deterministic comparisons, schema parsing, privacy scan, all required local controls, full staged inspection, and both diff checks; exact-head GitHub inspection follows after push
+Commands run: Formal-review and exact-SHA preflight, defect reproduction, role self-test, focused role and integration tests, Issue #49/#55 authority-scope regressions, lifecycle-routing matrix, full continuity suite, deterministic comparisons, schema parsing, privacy scan, all required local controls, full staged inspection, and both diff checks; exact-correction-head GitHub inspection follows after push
 Claim level: ACTOR_BOUND_ROLE_CONTRACT=IMPLEMENTED_IN_REVIEW; FULL_RUNTIME_ISOLATION=NOT_PROVEN; STAGE_B_REQUIRED=YES
-Next actor after PR handoff: external exact-SHA red-team; human approval, merge, verified main, and closeout remain separate
+Next actor after correction handoff: fresh external exact-SHA red-team for the new head; the old CHANGES_REQUESTED decision cannot approve it, and human approval, merge, verified main, and closeout remain separate
 Phase 4K-9: not started
 Phase 4I: paused
 ```

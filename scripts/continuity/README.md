@@ -19,15 +19,15 @@ python3 scripts/continuity/red_team_continuity.py fixture \
 python3 scripts/continuity/red_team_continuity.py live \
   --repo-root <repository-root> \
   --repository Zest-LeadGen/contractoros-california \
-  --issue-number 49 \
-  --pr-number 50 \
+  --issue-number <49-or-55> \
+  --pr-number <50-or-56> \
   --run-id <actions-run-id> \
   --canonical-ref <exact-40-character-git-sha> \
   --observed-at <rfc3339-timestamp> \
   --output-dir <outside-repository-directory>
 ```
 
-Every option is explicit. This correction packet bounds live collection to repository `Zest-LeadGen/contractoros-california`, Issue #49, and PR #50. The requested root must strictly equal Git's top level and contain a valid `.git` directory or worktree control file. Origin is accepted only in the four permitted HTTPS/SSH GitHub forms and is stored only as public-safe normalized identity evidence. `--canonical-ref` must be an exact lowercase SHA. `--observed-at` must be RFC3339. `--output-dir` must resolve outside the repository.
+Every option is explicit. Live collection is scope-bounded to repository `Zest-LeadGen/contractoros-california` and exactly two authorized pairs: Issue #49 / PR #50 or Issue #55 / PR #56. Crossed, missing, or unsupported pairs fail closed. The requested root must strictly equal Git's top level and contain a valid `.git` directory or worktree control file. Origin is accepted only in the four permitted HTTPS/SSH GitHub forms and is stored only as public-safe normalized identity evidence. `--canonical-ref` must be an exact lowercase SHA. `--observed-at` must be RFC3339. `--output-dir` must resolve outside the repository.
 
 ## Generated files
 
@@ -53,10 +53,10 @@ Commands use argument arrays, `shell=False`, finite timeouts, captured output, a
 - `git show <exact-sha>:docs/project-control/state/contractoros-state.yaml`
 - one exact repository GraphQL query for `nameWithOwner` and `defaultBranchRef { name target { oid } }`
 - narrowly shaped `gh issue view`, `gh pr view`, `gh pr checks`, and `gh run view` JSON reads
-- `gh api --method GET repos/Zest-LeadGen/contractoros-california/pulls/50/reviews?per_page=100&page=<1-5>`
+- `gh api --method GET repos/Zest-LeadGen/contractoros-california/pulls/<50-or-56>/reviews?per_page=100&page=<1-5>`
 - `gh api --method GET repos/Zest-LeadGen/contractoros-california/collaborators/<sourced-reviewer>/permission`
 
-For each live invocation, every command is matched as one exact ordered argument vector: repository, Issue #49, PR #50, caller-supplied run ID, and fixed JSON-field order cannot vary; unused `gh repo view` is not authorized. The GraphQL allowlist admits only the fixed repository query above and no mutation or caller-supplied field. Review pages are sequential, fixed at 100 records, stop on the first short page, and are limited to five pages. A full fifth page marks review evidence truncated and blocked. Permission reads are limited to normalized exact-head submitted human approval candidates, with at most 100 candidates. The derived source-command bound is `14 + 5 + 100 = 119`; 119 is accepted and 120 fails closed. Command output is size-bounded. `git fetch`, `git pull`, `git push`, `git commit`, `git merge`, `git reset`, `git clean`, `git checkout`, and `git switch` are forbidden runtime commands. Every other `gh api` shape and all issue, pull-request, review, approval, merge, or closeout mutations are forbidden runtime commands.
+For each live invocation, every command is matched as one exact ordered argument vector derived from the selected supported Issue/PR pair, caller-supplied run ID, and fixed JSON-field order; unused `gh repo view` is not authorized. The GraphQL allowlist admits only the fixed repository query above and no mutation or caller-supplied field. Review pages are sequential, fixed at 100 records, stop on the first short page, and are limited to five pages. A full fifth page marks review evidence truncated and blocked. Permission reads are limited to normalized exact-head submitted human approval candidates, with at most 100 candidates. The derived source-command bound is `14 + 5 + 100 = 119`; 119 is accepted and 120 fails closed. Command output is size-bounded. `git fetch`, `git pull`, `git push`, `git commit`, `git merge`, `git reset`, `git clean`, `git checkout`, and `git switch` are forbidden runtime commands. Every other `gh api` shape and all issue, pull-request, review, approval, merge, or closeout mutations are forbidden runtime commands.
 
 ## Classification and exit contract
 
@@ -73,6 +73,8 @@ Missing external red-team evidence and human approval are pending blockers for a
 ## Stage A actor-role contract
 
 Version `1.4.0` requires an exact actor contract in every fixture and newly generated live packet. The contract binds `ACTOR_ROLE`, repository, issue, pull request, branch, exact SHA, lifecycle state, authority source scope, observation timestamp, descriptive program direction, one bounded next-action value for each lifecycle actor, the single next authorized actor, and the authority profile. `PROGRAM_NEXT_ACTION` is descriptive only and never grants actor authority.
+
+Construction and expected-context validation call the same canonical authority-source derivation. Live routing evaluates exact-head marker, required workflow, separate approval, merge, verified-main, and issue state evidence. Actionable states contain exactly one actor-specific non-`NONE` action; merged verification, verified-main/open-issue, blocked, and quarantined states contain none.
 
 For `ROLE=RED_TEAM`, repository write, GitHub write, terminal mutation, implementation, human approval, merge, and issue closeout authority scope are fixed to none or no. Prompt authoring and separately authorized exact-SHA review remain allowed. Missing, unknown, stale, duplicate, malformed, or contradictory governing evidence fails closed. A red-team mutation request is denied, classified as a role conflict, and represented only by a bounded public-safe incident record. Role repair may restore only the read-only red-team profile and preserves the incident and denial reasons.
 
@@ -126,4 +128,4 @@ Version `1.3.7` evaluates the latest submitted exact-current-head decisive state
 
 Version `1.3.8` preserves the C3.7 scope-bound reduction and firewall while closing three contract gaps. Complete review structure is validated before nonempty command histories can derive permission reads; canonical provenance is a required non-null exact SHA in runtime, fixtures, both schemas, and packet rendering; and every persisted command result has runtime and evidence-schema semantics of exactly `return_code: 0`. Malformed local input returns exit `5` before output, while malformed authoritative live evidence retains exit `3`.
 
-When nonempty `source_commands` evidence is supplied, every successful command record must belong to the exact read-only firewall reconstructed from the same repository, Issue #49, PR #50, workflow-run ID, canonical ref, fixed JSON-field order, and review pages 1–5. Permission reads are admitted only for normalized submitted exact-current-head human approval candidates. Mutations, unrelated or reordered arguments, extra flags, wrong identities or pages, unsourced permission reads, and nonzero results are malformed input at exit `5`. An intentionally empty synthetic fixture history remains valid.
+When nonempty `source_commands` evidence is supplied, every successful command record must belong to the exact read-only firewall reconstructed from the same repository, the supported Issue #49/PR #50 or Issue #55/PR #56 pair, workflow-run ID, canonical ref, fixed JSON-field order, and review pages 1–5. Permission reads are admitted only for normalized submitted exact-current-head human approval candidates. Mutations, unrelated or reordered arguments, extra flags, wrong identities or pages, unsourced permission reads, and nonzero results are malformed input at exit `5`. An intentionally empty synthetic fixture history remains valid.

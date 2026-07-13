@@ -28,6 +28,7 @@ LIFECYCLE_STATES = {
     "HUMAN_APPROVAL_PENDING",
     "MERGE_PENDING",
     "MERGED_MAIN_VERIFICATION_PENDING",
+    "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING",
     "PHASE_CLOSED_READY_FOR_NEXT_PHASE",
     "BLOCKED",
     "QUARANTINED",
@@ -527,7 +528,11 @@ def red_team_contract(
     authority_source: str,  # scope
     observation_timestamp: str,
     program_next_action: str,
+    next_authorized_actor: str,  # scope
+    developer_next_action: str,
     red_team_next_action: str,
+    human_approver_next_action: str,
+    merge_operator_next_action: str,
     requested_action_class: str,
 ) -> dict[str, Any]:
     """Build the exact read-only red-team profile; validation still remains required."""
@@ -543,11 +548,11 @@ def red_team_contract(
         "AUTHORITY_SOURCE": authority_source,  # scope
         "OBSERVATION_TIMESTAMP": observation_timestamp,
         "PROGRAM_NEXT_ACTION": program_next_action,
-        "NEXT_AUTHORIZED_ACTOR": "RED_TEAM" if red_team_next_action != "NONE" else "NONE",  # scope
-        "DEVELOPER_NEXT_ACTION": "NONE",
+        "NEXT_AUTHORIZED_ACTOR": next_authorized_actor,  # scope
+        "DEVELOPER_NEXT_ACTION": developer_next_action,
         "RED_TEAM_NEXT_ACTION": red_team_next_action,
-        "HUMAN_APPROVER_NEXT_ACTION": "NONE",
-        "MERGE_OPERATOR_NEXT_ACTION": "NONE",
+        "HUMAN_APPROVER_NEXT_ACTION": human_approver_next_action,
+        "MERGE_OPERATOR_NEXT_ACTION": merge_operator_next_action,
         "REQUESTED_ACTION_CLASS": requested_action_class,
     }
     contract.update(AUTHORITY_PROFILES["RED_TEAM"])  # scope
@@ -566,7 +571,11 @@ def _self_test() -> dict[str, Any]:
         authority_source="GITHUB_ISSUE_55",  # scope
         observation_timestamp=now,
         program_next_action="External exact-SHA review is next.",
+        next_authorized_actor="RED_TEAM",  # scope
+        developer_next_action="NONE",
         red_team_next_action="REVIEW_EXACT_SHA",
+        human_approver_next_action="NONE",
+        merge_operator_next_action="NONE",
         requested_action_class="EXACT_SHA_REVIEW",
     )
     expected = {

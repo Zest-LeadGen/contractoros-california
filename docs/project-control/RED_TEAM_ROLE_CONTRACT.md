@@ -39,6 +39,20 @@ Ordered-pair input rejects duplicate governing fields before mapping. JSON objec
 
 Observation evidence older than 3,600 seconds or more than 300 seconds in the future relative to the explicit validation time is stale. Repository, issue, pull request, branch, SHA, lifecycle, and authority-source scope must match the independently supplied expected context.
 
+Authority source is derived once from an exact supported Issue/PR pair and reused for construction and expected-context validation. The only current live bindings are Issue #49 / PR #50 to `GITHUB_ISSUE_49` and Issue #55 / PR #56 to `GITHUB_ISSUE_55`. Missing, unsupported, or crossed pairs fail closed; they do not fall back permissively.
+
+## Lifecycle Routing
+
+Validated live evidence selects one route:
+
+- open PR with the expected missing-marker workflow matrix: `RED_TEAM` / `REVIEW_EXACT_SHA`;
+- valid exact-head red-team evidence and successful checks without separate human approval: `HUMAN_APPROVER` / `REVIEW_FOR_HUMAN_APPROVAL`;
+- valid exact-head red-team evidence, successful checks, and qualifying separate human approval: `MERGE_OPERATOR` / `MERGE_AFTER_ALL_GATES`;
+- merged but not verified-main: `MERGED_MAIN_VERIFICATION_PENDING` with every actor action `NONE`;
+- verified main with the implementation issue open: `VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING` with every actor action `NONE`.
+
+Stale or malformed markers, contradictory lifecycle facts, missing or pending required evidence, self-approval, incomplete merge evidence, and multiple active actions fail closed within this scope. Merge never implies verified main, and verified main never grants issue-closeout authority.
+
 ## Red-Team Declaration Scope
 
 Every generated red-team startup contract requires:

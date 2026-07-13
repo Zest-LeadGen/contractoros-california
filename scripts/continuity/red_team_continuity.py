@@ -285,13 +285,29 @@ def _reject_unsafe(value: Any) -> None:
             raise UnsafeEvidenceError("unsafe or private-looking evidence rejected")
 
 
-def _review_page_argv(page: int) -> tuple[str, ...]:
+SUPPORTED_AUTHORITY_BINDINGS = {  # scope-bound
+    (49, 50): "GITHUB_ISSUE_49",
+    (55, 56): "GITHUB_ISSUE_55",
+}
+
+
+def _derive_authority_source(issue_number: Any, pr_number: Any) -> str:  # scope
+    """Return the single authorized Issue/PR authority binding or fail closed in scope."""
+    if type(issue_number) is not int or type(pr_number) is not int:
+        raise CollectorError("authority scope context is missing or malformed")
+    try:
+        return SUPPORTED_AUTHORITY_BINDINGS[(issue_number, pr_number)]  # scope-bound
+    except KeyError as exc:
+        raise CollectorError("authority scope context is unsupported or contradictory") from exc
+
+
+def _review_page_argv(page: int, pr_number: int = 50) -> tuple[str, ...]:
     return (
         "gh",
         "api",
         "--method",
         "GET",
-        f"repos/{EXPECTED_REPOSITORY}/pulls/50/reviews"
+        f"repos/{EXPECTED_REPOSITORY}/pulls/{pr_number}/reviews"
         f"?per_page={REVIEW_PAGE_SIZE}&page={page}",
     )
 
@@ -313,7 +329,7 @@ def _live_command_firewall(args: argparse.Namespace) -> set[tuple[str, ...]]:
         ("gh", "run", "view", str(args.run_id), "--repo", args.repository, "--json", "databaseId,name,workflowDatabaseId,event,status,conclusion,headSha,headBranch,url,jobs"),
     }
     return fixed_commands | {
-        _review_page_argv(page) for page in range(1, MAX_REVIEW_PAGES + 1)
+        _review_page_argv(page, args.pr_number) for page in range(1, MAX_REVIEW_PAGES + 1)
     }
 
 
@@ -352,7 +368,7 @@ def _validate_command(
     if len(argv) == 5 and argv[:4] == ["gh", "api", "--method", "GET"]:
         endpoint = argv[4]
         review_match = re.fullmatch(
-            r"repos/Zest-LeadGen/contractoros-california/pulls/50/reviews\?per_page=100&page=([1-5])",
+            r"repos/Zest-LeadGen/contractoros-california/pulls/(?:50|56)/reviews\?per_page=100&page=([1-5])",
             endpoint,
         )
         permission_match = re.fullmatch(
@@ -987,11 +1003,12 @@ def _collect_review_evidence(
     pr_head: str,
     pr_author_login: str,  # scope-bound approval evidence
     allowed_commands: set[tuple[str, ...]] | None = None,
+    pr_number: int = 50,
 ) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     evidence_status = "complete"
     for page in range(1, MAX_REVIEW_PAGES + 1):
-        review_argv = list(_review_page_argv(page))
+        review_argv = list(_review_page_argv(page, pr_number))
         raw_page = _json_command(
             review_argv,
             repo_root,
@@ -1197,12 +1214,9 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     repo_root = Path(args.repo_root).resolve(strict=True)
     if not _is_sha(args.canonical_ref):
         raise CollectorError("canonical ref must be an exact 40-character lowercase SHA")
-    if (
-        args.repository != EXPECTED_REPOSITORY
-        or args.issue_number != 49
-        or args.pr_number != 50
-    ):
-        raise CollectorError("live approval collection is bounded to Issue #49 and PR #50")
+    if args.repository != EXPECTED_REPOSITORY:
+        raise CollectorError("live approval collection is bounded to the ContractorOS repository")
+    authority_source = _derive_authority_source(args.issue_number, args.pr_number)  # scope-bound
 
     commands: list[dict[str, Any]] = []
     allowed_commands = _live_command_firewall(args)
@@ -1325,6 +1339,8 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     _validate_live_issue(issue)
     _validate_live_pr(pr)
     _validate_live_run(run)
+    if int(issue.get("number")) != args.issue_number or int(pr.get("number")) != args.pr_number:
+        raise EvidenceUnavailableError("live issue or pull-request identity contradicts the requested authority scope")
     normalized_checks = _normalized_checks(raw_checks)
     normalized_jobs = _normalized_jobs(run.get("jobs"))
     pr_author = pr.get("author") or {}  # scope-bound approval evidence
@@ -1334,6 +1350,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         str(pr.get("headRefOid") or ""),
         str(pr_author.get("login") or ""),  # scope-bound approval evidence
         allowed_commands=allowed_commands,
+        pr_number=args.pr_number,
     )
     marker = _marker_summary(
         str(pr.get("body") or ""),
@@ -1345,18 +1362,6 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     )
     worktree_head_after = read(["git", "rev-parse", "HEAD"])
     _require_clean_unchanged_worktree(before_status, after_status, worktree_head_before, worktree_head_after)
-    lifecycle_claim = "active_pr" if str(pr.get("state") or "").upper() == "OPEN" else "closed_gate"
-    actor_lifecycle = (
-        "DEVELOPER_IMPLEMENTATION_IN_REVIEW"
-        if lifecycle_claim == "active_pr"
-        else "PHASE_CLOSED_READY_FOR_NEXT_PHASE"
-    )
-    actor_program_action = (
-        "External exact-SHA review must inspect the current PR head."
-        if lifecycle_claim == "active_pr"
-        else "Verify merged evidence before any later planning gate."
-    )
-    actor_red_team_action = "REVIEW_EXACT_SHA" if lifecycle_claim == "active_pr" else "NONE"
     evidence = {
         "fixture_version": FIXTURE_VERSION,
         "repository": {
@@ -1421,20 +1426,6 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             **approval_evidence,
         },
         "auto_merge": {"active": pr["autoMergeRequest"] is not None},
-        "actor_contract": role_contract.red_team_contract(
-            repository=repository_name,
-            issue=int(issue.get("number")),
-            pull_request=int(pr.get("number")),
-            branch=str(pr.get("headRefName") or ""),
-            exact_sha=str(pr.get("headRefOid") or ""),
-            lifecycle_state=actor_lifecycle,
-            authority_source="GITHUB_ISSUE_49",  # scope
-            observation_timestamp=args.observed_at,
-            program_next_action=actor_program_action,
-            red_team_next_action=actor_red_team_action,
-            requested_action_class="EXACT_SHA_REVIEW" if actor_red_team_action != "NONE" else "NONE",
-        ),
-        "lifecycle_claim": lifecycle_claim,
         "raw_chat_status": "no authority",
         "source_commands": commands,
     }
@@ -1442,6 +1433,25 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         evidence["review"] = _approval_evaluation(evidence["pr"], evidence["review"])["review"]
     except CollectorError as exc:
         raise ApprovalEvidenceUnavailableError("collected live review evidence is malformed") from exc
+    route = _derive_actor_route(evidence)
+    evidence["lifecycle_claim"] = route["lifecycle_claim"]
+    evidence["actor_contract"] = role_contract.red_team_contract(
+        repository=repository_name,
+        issue=int(issue.get("number")),
+        pull_request=int(pr.get("number")),
+        branch=str(pr.get("headRefName") or ""),
+        exact_sha=str(pr.get("headRefOid") or ""),
+        lifecycle_state=route["lifecycle_state"],
+        authority_source=authority_source,  # scope
+        observation_timestamp=args.observed_at,
+        program_next_action=route["program_next_action"],
+        next_authorized_actor=route["next_authorized_actor"],  # scope
+        developer_next_action=route["developer_next_action"],
+        red_team_next_action=route["red_team_next_action"],
+        human_approver_next_action=route["human_approver_next_action"],
+        merge_operator_next_action=route["merge_operator_next_action"],
+        requested_action_class=route["requested_action_class"],
+    )
     _reject_unsafe(evidence)
     return evidence
 
@@ -1608,10 +1618,9 @@ def _source_command_firewall(data: dict[str, Any]) -> set[tuple[str, ...]]:
     """Reconstruct the exact evidence-derived read-only command set."""
     if (
         data["repository"]["name"].casefold() != EXPECTED_REPOSITORY.casefold()
-        or data["issue"]["number"] != 49
-        or data["pr"]["number"] != 50
     ):
-        raise CollectorError("source-command evidence is outside the fixed repository, issue, or pull request scope")
+        raise CollectorError("source-command evidence is outside the fixed repository scope")
+    _derive_authority_source(data["issue"]["number"], data["pr"]["number"])  # scope-bound
     args = argparse.Namespace(
         repository=data["repository"]["name"],
         issue_number=data["issue"]["number"],
@@ -1810,7 +1819,16 @@ def _validate_input(data: dict[str, Any]) -> None:
         raise CollectorError("fixture version is unsupported")
     if data.get("raw_chat_status") != "no authority":
         raise CollectorError("raw chat input has no authority")
-    if data.get("lifecycle_claim") not in {"active_pr", "externally_approved", "merge_ready", "closed_gate"}:
+    if data.get("lifecycle_claim") not in {
+        "active_pr",
+        "externally_approved",
+        "merge_ready",
+        "merged_unverified",
+        "verified_main_issue_open",
+        "closed_gate",
+        "blocked",
+        "quarantined",
+    }:
         raise CollectorError("lifecycle claim is invalid")
     source = data.get("source_shas")
     if not isinstance(source, dict) or set(source) != {
@@ -1928,14 +1946,17 @@ def _validate_input(data: dict[str, Any]) -> None:
 
 def _actor_expected_context(data: dict[str, Any], observed_at: str) -> dict[str, Any]:
     issue_number = data["issue"]["number"]
-    authority_source = (  # scope
-        "GITHUB_ISSUE_49" if issue_number == 49 else "GITHUB_ISSUE_55" if issue_number == 55 else "GITHUB_PULL_REQUEST"
-    )
-    lifecycle = (
-        "PHASE_CLOSED_READY_FOR_NEXT_PHASE"
-        if data["lifecycle_claim"] == "closed_gate"
-        else "DEVELOPER_IMPLEMENTATION_IN_REVIEW"
-    )
+    authority_source = _derive_authority_source(issue_number, data["pr"]["number"])  # scope-bound
+    lifecycle = {
+        "active_pr": "EXTERNAL_EXACT_SHA_REVIEW",
+        "externally_approved": "HUMAN_APPROVAL_PENDING",
+        "merge_ready": "MERGE_PENDING",
+        "merged_unverified": "MERGED_MAIN_VERIFICATION_PENDING",
+        "verified_main_issue_open": "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING",
+        "closed_gate": "PHASE_CLOSED_READY_FOR_NEXT_PHASE",
+        "blocked": "BLOCKED",
+        "quarantined": "QUARANTINED",
+    }.get(data["lifecycle_claim"], "QUARANTINED")
     return {
         "REPOSITORY": data["repository"]["name"],
         "ISSUE": issue_number,
@@ -2096,6 +2117,168 @@ def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:
     return {"blocked": sorted(set(blocked)), "quarantined": sorted(set(quarantined))}
 
 
+def _actor_route(
+    lifecycle_claim: str,
+    lifecycle_state: str,
+    program_next_action: str,
+    *,
+    next_authorized_actor: str = "NONE",  # scope-bound
+    developer_next_action: str = "NONE",
+    red_team_next_action: str = "NONE",
+    human_approver_next_action: str = "NONE",
+    merge_operator_next_action: str = "NONE",
+    requested_action_class: str = "NONE",
+) -> dict[str, str]:
+    return {
+        "lifecycle_claim": lifecycle_claim,
+        "lifecycle_state": lifecycle_state,
+        "program_next_action": program_next_action,
+        "next_authorized_actor": next_authorized_actor,  # scope-bound
+        "developer_next_action": developer_next_action,
+        "red_team_next_action": red_team_next_action,
+        "human_approver_next_action": human_approver_next_action,
+        "merge_operator_next_action": merge_operator_next_action,
+        "requested_action_class": requested_action_class,
+    }
+
+
+def _inactive_actor_route(lifecycle_claim: str, reason: str) -> dict[str, str]:
+    lifecycle_state = "BLOCKED" if lifecycle_claim == "blocked" else "QUARANTINED"
+    return _actor_route(
+        lifecycle_claim,
+        lifecycle_state,
+        f"Stop and reconcile lifecycle evidence: {reason}",
+    )
+
+
+def _separate_red_team_reviewers(pr: dict[str, Any], review: dict[str, Any]) -> list[str]:
+    """Return current-head non-author reviewers outside human-approver scope."""
+    author = _canonical_login(pr.get("author_login"))  # scope-bound
+    qualifying = {_canonical_login(login) for login in review.get("qualifying_approvals") or []}  # scope-bound
+    return sorted({
+        _canonical_login(record.get("reviewer_login"))  # scope-bound
+        for record in review.get("review_records") or []
+        if record.get("state") == "APPROVED"
+        and record.get("commit_id") == pr.get("head")
+        and record.get("reviewer_type") == "User"
+        and record.get("submitted_at")
+        and _canonical_login(record.get("reviewer_login")) != author  # scope-bound
+        and _canonical_login(record.get("reviewer_login")) not in qualifying  # scope-bound
+    })
+
+
+def _derive_actor_route(data: dict[str, Any]) -> dict[str, str]:
+    """Derive one fail-closed actor action from validated lifecycle evidence."""
+    issue = data["issue"]
+    pr = data["pr"]
+    markers = data["markers"]
+    source = data["source_shas"]
+    review = data["review"]
+    pr_state = str(pr.get("state") or "").lower()
+    issue_state = str(issue.get("state") or "").lower()
+
+    if data.get("auto_merge", {}).get("active"):
+        return _inactive_actor_route("quarantined", "auto-merge is active")
+    if pr.get("draft"):
+        return _inactive_actor_route("quarantined", "the governed pull request is draft")
+    if pr_state == "open" and (pr.get("merge_commit") or pr.get("merged_at")):
+        return _inactive_actor_route("quarantined", "open pull request contains merge evidence")
+    if pr_state == "open" and issue_state not in {"open", "active"}:
+        return _inactive_actor_route("quarantined", "open pull request conflicts with issue state")
+
+    workflow = _control_workflow_evaluation(data)
+    if workflow["quarantined"]:
+        return _inactive_actor_route("quarantined", workflow["quarantined"][0])
+    if workflow["blocked"]:
+        return _inactive_actor_route("blocked", workflow["blocked"][0])
+
+    if pr_state == "open":
+        red_status = markers.get("red_team_status")
+        if red_status == "missing":
+            return _actor_route(
+                "active_pr",
+                "EXTERNAL_EXACT_SHA_REVIEW",
+                "External exact-SHA review must inspect the current PR head.",
+                next_authorized_actor="RED_TEAM",  # scope-bound
+                red_team_next_action="REVIEW_EXACT_SHA",
+                requested_action_class="EXACT_SHA_REVIEW",
+            )
+        if red_status != "valid" or markers.get("red_team_bound_sha") != pr.get("head"):
+            return _inactive_actor_route("quarantined", "red-team marker is stale or invalid")
+
+        approval = _approval_evaluation(pr, review)
+        normalized_review = approval["review"]
+        separated_red_team = _separate_red_team_reviewers(pr, normalized_review)
+        approval_quarantine = list(approval["quarantined"])
+        if issue.get("number") == 55 and separated_red_team:
+            approval_quarantine = [
+                reason for reason in approval_quarantine
+                if reason != "Review decision claims approval without a qualifying current-head approver"
+            ]
+        if approval_quarantine:
+            return _inactive_actor_route("quarantined", approval_quarantine[0])
+        if approval["blocked"]:
+            return _inactive_actor_route("blocked", approval["blocked"][0])
+        if issue.get("number") == 55 and not separated_red_team:
+            return _inactive_actor_route(
+                "quarantined", "current-head red-team reviewer separation is not proven"
+            )
+        if normalized_review.get("qualifying_approvals"):
+            return _actor_route(
+                "merge_ready",
+                "MERGE_PENDING",
+                "A separate merge operator may merge only after all current-head gates.",
+                next_authorized_actor="MERGE_OPERATOR",  # scope-bound
+                merge_operator_next_action="MERGE_AFTER_ALL_GATES",
+            )
+        return _actor_route(
+            "externally_approved",
+            "HUMAN_APPROVAL_PENDING",
+            "A separate human approver must review the current exact head.",
+            next_authorized_actor="HUMAN_APPROVER",  # scope-bound
+            human_approver_next_action="REVIEW_FOR_HUMAN_APPROVAL",
+        )
+
+    if pr_state != "merged":
+        return _inactive_actor_route("quarantined", "pull request is closed without verified merge evidence")
+    if not pr.get("merged_at") or not pr.get("merge_commit"):
+        return _inactive_actor_route("quarantined", "merge is claimed without complete merge evidence")
+    if markers.get("red_team_status") != "valid" or markers.get("red_team_bound_sha") != pr.get("head"):
+        return _inactive_actor_route("quarantined", "merged state lacks current-head red-team evidence")
+
+    approval = _approval_evaluation(pr, review)
+    if approval["quarantined"]:
+        return _inactive_actor_route("quarantined", approval["quarantined"][0])
+    if approval["blocked"] or not approval["review"].get("qualifying_approvals"):
+        return _inactive_actor_route("blocked", "merged state lacks qualifying human approval")
+    if issue.get("number") == 55 and not _separate_red_team_reviewers(pr, approval["review"]):
+        return _inactive_actor_route("quarantined", "red-team and human approval separation is not proven")
+
+    if pr.get("merge_commit") != source.get("live_default_branch"):
+        return _actor_route(
+            "merged_unverified",
+            "MERGED_MAIN_VERIFICATION_PENDING",
+            "Verify the merged commit on main; no mutation action is authorized.",
+        )
+    if issue_state in {"open", "active"} and issue.get("closeout_state") == "open":
+        return _actor_route(
+            "verified_main_issue_open",
+            "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING",
+            "Verified main is proven; issue closeout remains separate and is not granted here.",
+        )
+    if (
+        issue_state == "closed"
+        and str(issue.get("state_reason") or "").lower() == "completed"
+        and issue.get("closeout_state") == "closed"
+    ):
+        return _actor_route(
+            "closed_gate",
+            "PHASE_CLOSED_READY_FOR_NEXT_PHASE",
+            "Verify the closed gate remains current before later-phase planning.",
+        )
+    return _inactive_actor_route("quarantined", "verified main and issue closeout evidence conflict")
+
+
 def _compare(
     data: dict[str, Any], approval: dict[str, Any] | None = None
 ) -> tuple[str, list[str], list[str], bool]:
@@ -2143,7 +2326,7 @@ def _compare(
 
     claim = data["lifecycle_claim"]
     aggregate_review_decision = str(review.get("decision") or "").upper()
-    if claim in {"merge_ready", "closed_gate"} and aggregate_review_decision in {
+    if claim in {"merge_ready", "merged_unverified", "verified_main_issue_open", "closed_gate"} and aggregate_review_decision in {
         "CHANGES_REQUESTED", "REVIEW_REQUIRED",
     }:
         findings.append("Adverse aggregate review decision forbids merge-ready or closed-gate consistency")
@@ -2157,15 +2340,21 @@ def _compare(
             ("Workflow run branch differs from the active PR branch", run.get("head_branch"), pr.get("head_branch")),
         )
         findings.extend(label for label, actual, expected in active_bindings if actual != expected)
-    else:
+    elif claim in {"merged_unverified", "verified_main_issue_open", "closed_gate"}:
         closed_bindings = (
-            ("Closed-gate local HEAD differs from the live default branch", source["local_head"], source["live_default_branch"]),
             ("Closed-gate local main differs from the live default branch", source["local_main"], source["live_default_branch"]),
-            ("Closed-gate merge commit differs from the live default branch", pr.get("merge_commit"), source["live_default_branch"]),
             ("Live repository default branch is not main", data["repository"].get("default_branch"), "main"),
             ("Closed-gate PR base branch is not the verified default branch", pr.get("base"), data["repository"].get("default_branch")),
         )
         findings.extend(label for label, actual, expected in closed_bindings if actual != expected)
+        if claim in {"verified_main_issue_open", "closed_gate"}:
+            verified_bindings = (
+                ("Verified-main local HEAD differs from the live default branch", source["local_head"], source["live_default_branch"]),
+                ("Verified-main merge commit differs from the live default branch", pr.get("merge_commit"), source["live_default_branch"]),
+            )
+            findings.extend(label for label, actual, expected in verified_bindings if actual != expected)
+        elif pr.get("merge_commit") == source["live_default_branch"]:
+            findings.append("Merged-unverified claim already has verified-main evidence")
     if findings:
         return "quarantined", sorted(set(findings)), sorted(blockers), True
 
@@ -2197,11 +2386,14 @@ def _compare(
             findings.append("Canonical lifecycle state differs from the active PR family")
         if canonical["consistency_status"] != "requires_live_verification":
             findings.append("Canonical consistency status differs from the active PR family")
-    else:
+    elif claim == "closed_gate":
         if canonical["lifecycle_state"] != "phase_closed_ready_for_next_phase":
             findings.append("Canonical lifecycle state differs from the closed gate")
         if canonical["consistency_status"] != "consistent":
             findings.append("Canonical consistency status differs from the closed gate")
+    else:
+        if canonical["consistency_status"] != "requires_live_verification":
+            findings.append("Canonical consistency status differs from the verification lifecycle")
     observed_head = canonical_pr.get("observed_head_sha")
     if observed_head and observed_head != pr.get("head"):
         findings.append("Canonical observed PR head moved")
@@ -2287,6 +2479,39 @@ def _compare(
         findings.append("Separated external review and human/write approval evidence support merge readiness")  # scope-bound lifecycle evidence
         return "requires_live_verification", sorted(findings), sorted(blockers), False
 
+    if claim == "merged_unverified":
+        merged_identity = (
+            pr_state == "merged"
+            and bool(pr.get("merged_at"))
+            and bool(pr.get("merge_commit"))
+            and pr.get("merge_commit") != source["live_default_branch"]
+            and red_status == "valid"
+            and bool(approvals)
+        )
+        if not merged_identity:
+            findings.append("Merged-unverified claim lacks separated gate or merge evidence")
+            return "quarantined", sorted(findings), sorted(blockers), True
+        blockers.append("Main verification and linked-issue closeout are pending")
+        findings.append("Merge is proven; verified main and issue closeout remain unproven")
+        return "requires_live_verification", sorted(findings), sorted(blockers), False
+
+    if claim == "verified_main_issue_open":
+        verified_open_identity = (
+            pr_state == "merged"
+            and issue_state in {"open", "active"}
+            and issue.get("closeout_state") == "open"
+            and bool(pr.get("merged_at"))
+            and pr.get("merge_commit") == source["live_default_branch"]
+            and red_status == "valid"
+            and bool(approvals)
+        )
+        if not verified_open_identity:
+            findings.append("Verified-main/open-issue claim lacks exact merge or issue evidence")
+            return "quarantined", sorted(findings), sorted(blockers), True
+        blockers.append("Linked-issue closeout remains separate and pending")
+        findings.append("Verified main is proven; linked issue remains open")
+        return "requires_live_verification", sorted(findings), sorted(blockers), False
+
     closed_consistent = (
         pr_state == "merged"
         and issue_state == "closed"
@@ -2310,13 +2535,23 @@ def _compare(
 
 def _packet_data(data: dict[str, Any], observed_at: str, classification: str, findings: list[str], blockers: list[str], quarantine: bool) -> dict[str, Any]:
     pr = data["pr"]
-    next_action = (
-        "External exact-SHA review must rerun this collector against the current PR head."
-        if classification == "requires_live_verification"
-        else "Stop and reconcile the listed evidence before any consequential action."
-        if classification != "consistent"
-        else "Verify the merged gate remains current before planning a later phase."
-    )
+    actor = data["actor_contract"]
+    next_actor = actor.get("NEXT_AUTHORIZED_ACTOR")  # scope-bound
+    lifecycle_state = actor.get("LIFECYCLE_STATE")
+    if classification not in {"requires_live_verification", "consistent"}:
+        next_action = "Stop and reconcile the listed evidence before any consequential action."
+    elif next_actor == "RED_TEAM":
+        next_action = "External exact-SHA review must rerun this collector against the current PR head."
+    elif next_actor == "HUMAN_APPROVER":
+        next_action = "A separate human approver must review the current exact head."
+    elif next_actor == "MERGE_OPERATOR":
+        next_action = "A separate merge operator may merge only after all current-head gates."
+    elif lifecycle_state == "MERGED_MAIN_VERIFICATION_PENDING":
+        next_action = "Verify the merged commit on main; no mutation action is authorized."
+    elif lifecycle_state == "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING":
+        next_action = "Issue closeout remains separate and is not granted by this packet."
+    else:
+        next_action = "Verify the merged gate remains current before planning a later phase."
     return {
         "schema_version": PACKET_SCHEMA_VERSION,
         "generator_version": GENERATOR_VERSION,

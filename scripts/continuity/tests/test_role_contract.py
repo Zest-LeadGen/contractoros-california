@@ -30,7 +30,11 @@ def valid_contract():
         authority_source="GITHUB_ISSUE_55",  # scope
         observation_timestamp=NOW,
         program_next_action="External exact-SHA review is next.",
+        next_authorized_actor="RED_TEAM",  # scope
+        developer_next_action="NONE",
         red_team_next_action="REVIEW_EXACT_SHA",
+        human_approver_next_action="NONE",
+        merge_operator_next_action="NONE",
         requested_action_class="EXACT_SHA_REVIEW",
     )
 

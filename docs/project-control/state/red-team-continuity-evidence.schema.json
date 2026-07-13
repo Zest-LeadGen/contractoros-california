@@ -57,7 +57,7 @@
         "ISSUE": {"type": "integer", "minimum": 1}, "PULL_REQUEST": {"type": "integer", "minimum": 1},
         "BRANCH": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"},
         "EXACT_SHA": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-        "LIFECYCLE_STATE": {"enum": ["DEVELOPER_IMPLEMENTATION_IN_REVIEW", "EXTERNAL_EXACT_SHA_REVIEW", "HUMAN_APPROVAL_PENDING", "MERGE_PENDING", "MERGED_MAIN_VERIFICATION_PENDING", "PHASE_CLOSED_READY_FOR_NEXT_PHASE", "BLOCKED", "QUARANTINED"]},
+        "LIFECYCLE_STATE": {"enum": ["DEVELOPER_IMPLEMENTATION_IN_REVIEW", "EXTERNAL_EXACT_SHA_REVIEW", "HUMAN_APPROVAL_PENDING", "MERGE_PENDING", "MERGED_MAIN_VERIFICATION_PENDING", "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING", "PHASE_CLOSED_READY_FOR_NEXT_PHASE", "BLOCKED", "QUARANTINED"]},
         "AUTHORITY_SOURCE": {"$comment": "scope", "enum": ["GITHUB_ISSUE_49", "GITHUB_ISSUE_55", "GITHUB_PULL_REQUEST", "OWNER_APPROVED_GITHUB_ISSUE", "VERSIONED_PROJECT_CONTROL"]},
         "OBSERVATION_TIMESTAMP": {"type": "string", "format": "date-time"},
         "PROGRAM_NEXT_ACTION": {"type": "string", "minLength": 1, "maxLength": 240},

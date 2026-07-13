@@ -1622,6 +1622,21 @@ class CollectorCorrectionCluster3Tests(unittest.TestCase):
             record["commit_id"] = data["pr"]["head"]
         return data
 
+    def apply_actor_route(self, data):
+        route = rtc._derive_actor_route(data)
+        data["lifecycle_claim"] = route["lifecycle_claim"]
+        data["actor_contract"].update({
+            "LIFECYCLE_STATE": route["lifecycle_state"],
+            "PROGRAM_NEXT_ACTION": route["program_next_action"],
+            "NEXT_AUTHORIZED_ACTOR": route["next_authorized_actor"],  # scope-bound
+            "DEVELOPER_NEXT_ACTION": route["developer_next_action"],
+            "RED_TEAM_NEXT_ACTION": route["red_team_next_action"],
+            "HUMAN_APPROVER_NEXT_ACTION": route["human_approver_next_action"],
+            "MERGE_OPERATOR_NEXT_ACTION": route["merge_operator_next_action"],
+            "REQUESTED_ACTION_CLASS": route["requested_action_class"],
+        })
+        return data
+
     def raw_approval(self):
         return {
             "id": 1,
@@ -1934,21 +1949,19 @@ class CollectorCorrectionCluster3Tests(unittest.TestCase):
         self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
 
     def test_externally_approved_does_not_require_human_approval(self):
-        data = self.approved_workflow(self.active())
-        data["lifecycle_claim"] = "externally_approved"
+        data = self.apply_actor_route(self.approved_workflow(self.active()))
         code, evidence, _ = self.classify(data)
         self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
         self.assertIn("Human/write-access approval is pending", evidence["blockers"])
 
     def test_merge_ready_requires_qualified_human_approval(self):
-        data = self.approved_workflow(self.active())
+        data = self.apply_actor_route(self.approved_workflow(self.active()))
         data["lifecycle_claim"] = "merge_ready"
         code, evidence, _ = self.classify(data)
         self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
 
     def test_merge_ready_accepts_complete_separated_evidence(self):
-        data = self.add_approval(self.approved_workflow(self.active()))
-        data["lifecycle_claim"] = "merge_ready"
+        data = self.apply_actor_route(self.add_approval(self.approved_workflow(self.active())))
         code, evidence, _ = self.classify(data)
         self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
 
@@ -2520,6 +2533,7 @@ class C35StagedEvidenceTests(unittest.TestCase):
         with mock.patch.object(rtc, "_run_read_command", side_effect=read_command), mock.patch.object(rtc, "_collect_review_evidence", return_value=self.collected()):
             result = rtc._collect_live(args)
         self.assertEqual(result["review"]["qualifying_approvals"], [])
+        self.assertEqual(result["actor_contract"]["AUTHORITY_SOURCE"], "GITHUB_ISSUE_49")  # scope-bound
 
     def test_valid_current_head_approval_recomputes_final_result(self):
         result = self.evaluate(self.collected([self.review_record()], [self.permission()]))
@@ -2598,6 +2612,331 @@ class C35StagedEvidenceTests(unittest.TestCase):
         data["issue"]["closeout_state"] = "open"
         with self.assertRaises(rtc.CollectorError):
             self.classify(data)
+
+
+class C39Issue55AuthorityAndLifecycleRoutingTests(unittest.TestCase):  # scope-bound
+    def issue55(self):
+        data = fixture("active_pr_requires_live_verification.json")
+        data["canonical_state"]["linked_issue"]["number"] = 55
+        data["canonical_state"]["linked_pr"]["number"] = 56
+        data["issue"].update({
+            "number": 55,
+            "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/55",
+        })
+        data["pr"].update({
+            "number": 56,
+            "head_branch": "stage-a-red-team-role-isolation",
+            "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/56",
+        })
+        data["workflow_run"]["head_branch"] = data["pr"]["head_branch"]
+        data["actor_contract"].update({
+            "ISSUE": 55,
+            "PULL_REQUEST": 56,
+            "BRANCH": data["pr"]["head_branch"],
+            "AUTHORITY_SOURCE": "GITHUB_ISSUE_55",  # scope-bound
+        })
+        return data
+
+    def approved_workflow(self, data):
+        data["markers"] = {
+            "owner_trigger_status": "valid",
+            "red_team_status": "valid",
+            "red_team_bound_sha": data["pr"]["head"],
+        }
+        data["checks"][0].update({"state": "SUCCESS", "bucket": "pass"})
+        data["workflow_run"].update({"status": "completed", "conclusion": "success"})
+        job = data["workflow_run"]["jobs"][0]
+        job.update({"status": "completed", "conclusion": "success"})
+        for step in job["steps"]:
+            step.update({"status": "completed", "conclusion": "success"})
+        return data
+
+    def review_record(self, data, login, review_id):  # scope-bound
+        return {
+            "review_id": review_id,
+            "reviewer_login": login,  # scope-bound
+            "reviewer_type": "User",
+            "state": "APPROVED",
+            "submitted_at": OBSERVED_AT,
+            "commit_id": data["pr"]["head"],
+            "author_association": "MEMBER",  # scope-bound
+        }
+
+    def add_red_team_review(self, data, login="external-red-team"):  # scope-bound
+        data["review"] = {
+            "decision": "APPROVED",
+            "evidence_status": "complete",
+            "review_records": [self.review_record(data, login, 1)],  # scope-bound
+            "permission_records": [{
+                "reviewer_login": login,  # scope-bound
+                "permission": "read",
+                "role_name": "read",
+                "account_type": "User",
+            }],
+        }
+        return data
+
+    def add_human_approval(self, data, login="human-approver"):  # scope-bound
+        data["review"]["review_records"].append(self.review_record(data, login, 2))  # scope-bound
+        data["review"]["permission_records"].append({
+            "reviewer_login": login,  # scope-bound
+            "permission": "write",
+            "role_name": "write",
+            "account_type": "User",
+        })
+        return data
+
+    def assert_only_action(self, route, actor, action_field, action):
+        self.assertEqual(route["next_authorized_actor"], actor)  # scope-bound
+        fields = {
+            "CODEX_DEVELOPER": "developer_next_action",
+            "RED_TEAM": "red_team_next_action",
+            "HUMAN_APPROVER": "human_approver_next_action",
+            "MERGE_OPERATOR": "merge_operator_next_action",
+        }
+        for candidate, field in fields.items():
+            self.assertEqual(route[field], action if candidate == actor and field == action_field else "NONE")
+
+    def test_canonical_authority_source_mapping_preserves_issue49_and_adds_issue55(self):  # scope-bound
+        self.assertEqual(rtc._derive_authority_source(49, 50), "GITHUB_ISSUE_49")  # scope-bound
+        self.assertEqual(rtc._derive_authority_source(55, 56), "GITHUB_ISSUE_55")  # scope-bound
+
+    def test_missing_unsupported_and_contradictory_authority_context_fails_closed(self):  # scope-bound
+        for issue, pr in ((None, 56), (55, None), (55, 50), (49, 56), (99, 100)):
+            with self.subTest(issue=issue, pr=pr), self.assertRaises(rtc.CollectorError):
+                rtc._derive_authority_source(issue, pr)  # scope-bound
+
+    def test_issue55_expected_context_accepts_canonical_authority_source(self):  # scope-bound
+        data = self.issue55()
+        result = rtc.role_contract.validate_role_contract(
+            data["actor_contract"], rtc._actor_expected_context(data, OBSERVED_AT)
+        )
+        self.assertTrue(result["valid"])
+
+    def test_state1_open_missing_marker_routes_only_to_red_team(self):
+        route = rtc._derive_actor_route(self.issue55())
+        self.assertEqual(route["lifecycle_claim"], "active_pr")
+        self.assert_only_action(route, "RED_TEAM", "red_team_next_action", "REVIEW_EXACT_SHA")
+
+    def test_state2_valid_marker_checks_without_human_routes_only_to_human(self):
+        data = self.add_red_team_review(self.approved_workflow(self.issue55()))
+        route = rtc._derive_actor_route(data)
+        self.assertEqual(route["lifecycle_claim"], "externally_approved")
+        self.assert_only_action(
+            route, "HUMAN_APPROVER", "human_approver_next_action", "REVIEW_FOR_HUMAN_APPROVAL"
+        )
+
+    def test_state3_valid_marker_checks_and_separate_human_routes_only_to_merge(self):
+        data = self.add_human_approval(
+            self.add_red_team_review(self.approved_workflow(self.issue55()))
+        )
+        route = rtc._derive_actor_route(data)
+        self.assertEqual(route["lifecycle_claim"], "merge_ready")
+        self.assert_only_action(
+            route, "MERGE_OPERATOR", "merge_operator_next_action", "MERGE_AFTER_ALL_GATES"
+        )
+
+    def test_state4_merged_without_verified_main_has_no_active_action(self):
+        data = self.add_human_approval(
+            self.add_red_team_review(self.approved_workflow(self.issue55()))
+        )
+        data["pr"].update({
+            "state": "merged",
+            "merged_at": OBSERVED_AT,
+            "merge_commit": "d" * 40,
+        })
+        route = rtc._derive_actor_route(data)
+        self.assertEqual(route["lifecycle_claim"], "merged_unverified")
+        self.assertEqual(route["lifecycle_state"], "MERGED_MAIN_VERIFICATION_PENDING")
+        self.assertEqual(route["next_authorized_actor"], "NONE")  # scope-bound
+        self.assertTrue(all(route[field] == "NONE" for field in (
+            "developer_next_action", "red_team_next_action",
+            "human_approver_next_action", "merge_operator_next_action",
+        )))
+
+    def test_state5_verified_main_open_issue_has_no_closeout_authority(self):  # scope-bound
+        data = self.add_human_approval(
+            self.add_red_team_review(self.approved_workflow(self.issue55()))
+        )
+        merge_commit = "d" * 40
+        data["pr"].update({
+            "state": "merged",
+            "merged_at": OBSERVED_AT,
+            "merge_commit": merge_commit,
+        })
+        data["source_shas"]["live_default_branch"] = merge_commit
+        route = rtc._derive_actor_route(data)
+        self.assertEqual(route["lifecycle_claim"], "verified_main_issue_open")
+        self.assertEqual(route["lifecycle_state"], "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING")
+        self.assertEqual(route["next_authorized_actor"], "NONE")  # scope-bound
+        self.assertEqual(data["issue"]["closeout_state"], "open")
+
+    def test_stale_or_moved_marker_quarantines_with_no_action(self):
+        data = self.issue55()
+        data["markers"].update({"red_team_status": "stale", "red_team_bound_sha": None})
+        route = rtc._derive_actor_route(data)
+        self.assertEqual((route["lifecycle_claim"], route["next_authorized_actor"]), ("quarantined", "NONE"))
+
+    def test_missing_pending_and_failed_required_checks_fail_closed(self):
+        missing = self.approved_workflow(self.issue55())
+        missing["checks"] = []
+        self.assertEqual(rtc._derive_actor_route(missing)["lifecycle_claim"], "blocked")
+
+        pending = self.approved_workflow(self.issue55())
+        pending["workflow_run"].update({"status": "in_progress", "conclusion": None})
+        self.assertEqual(rtc._derive_actor_route(pending)["lifecycle_claim"], "blocked")
+
+        failed = self.approved_workflow(self.issue55())
+        failed["checks"][0].update({"state": "FAILURE", "bucket": "fail"})
+        self.assertEqual(rtc._derive_actor_route(failed)["lifecycle_claim"], "quarantined")
+
+    def test_developer_self_approval_cannot_advance_to_merge(self):
+        data = self.approved_workflow(self.issue55())
+        login = data["pr"]["author_login"]  # scope-bound
+        data["review"] = {
+            "decision": "APPROVED",
+            "evidence_status": "complete",
+            "review_records": [self.review_record(data, login, 1)],  # scope-bound
+            "permission_records": [{
+                "reviewer_login": login,  # scope-bound
+                "permission": "write",
+                "role_name": "write",
+                "account_type": "User",
+            }],
+        }
+        route = rtc._derive_actor_route(data)
+        self.assertEqual((route["lifecycle_claim"], route["next_authorized_actor"]), ("quarantined", "NONE"))
+
+    def test_marker_for_other_pr_malformed_and_changes_requested_never_pass(self):
+        other_pr = rtc._marker_evaluations(
+            red_team_marker(**{"PR number": "57"}), "c" * 40, 56
+        )["red_team"]
+        malformed = rtc._marker_evaluations(
+            red_team_marker(**{"Review date": "bad"}), "c" * 40, 56
+        )["red_team"]
+        adverse = rtc._marker_evaluations(
+            red_team_marker(**{"Decision": "CHANGES_REQUESTED"}), "c" * 40, 56
+        )["red_team"]
+        self.assertNotEqual(other_pr["status"], "valid")
+        self.assertEqual(malformed["status"], "malformed")
+        self.assertEqual(adverse["status"], "adverse")
+
+    def test_contradictory_multiple_and_mismatched_actor_actions_are_denied(self):
+        data = self.issue55()
+        contract = data["actor_contract"]
+        contract.update({
+            "NEXT_AUTHORIZED_ACTOR": "HUMAN_APPROVER",  # scope-bound
+            "RED_TEAM_NEXT_ACTION": "REVIEW_EXACT_SHA",
+            "HUMAN_APPROVER_NEXT_ACTION": "REVIEW_FOR_HUMAN_APPROVAL",
+            "REQUESTED_ACTION_CLASS": "NONE",
+        })
+        result = rtc.role_contract.validate_role_contract(
+            contract, rtc._actor_expected_context(data, OBSERVED_AT)
+        )
+        self.assertFalse(result["valid"])
+        self.assertIn("AMBIGUOUS_ACTOR_NEXT_ACTION", result["reasons"])
+
+    def test_merge_claim_without_merge_evidence_quarantines(self):
+        data = self.add_human_approval(
+            self.add_red_team_review(self.approved_workflow(self.issue55()))
+        )
+        data["pr"]["state"] = "merged"
+        route = rtc._derive_actor_route(data)
+        self.assertEqual((route["lifecycle_claim"], route["next_authorized_actor"]), ("quarantined", "NONE"))
+
+    def test_schema_accepts_verified_main_open_issue_lifecycle_and_issue55_authority(self):  # scope-bound
+        evidence = json.loads((
+            ROOT / "docs/project-control/state/red-team-continuity-evidence.schema.json"
+        ).read_text(encoding="utf-8"))
+        actor = evidence["$defs"]["actorContract"]["properties"]
+        self.assertIn(
+            "VERIFIED_MAIN_ISSUE_CLOSEOUT_PENDING", actor["LIFECYCLE_STATE"]["enum"]
+        )
+        self.assertIn("GITHUB_ISSUE_55", actor["AUTHORITY_SOURCE"]["enum"])  # scope-bound
+        packet = json.loads((
+            ROOT / "docs/project-control/state/red-team-startup-packet.schema.json"
+        ).read_text(encoding="utf-8"))
+        self.assertEqual(
+            packet["properties"]["actor_contract"]["$ref"],
+            "red-team-continuity-evidence.schema.json#/$defs/actorContract",
+        )
+
+    def test_mocked_issue55_live_collection_constructs_and_accepts_issue55_authority(self):  # scope-bound
+        data = self.issue55()
+        run = data["workflow_run"]
+        live_pr = {
+            "number": 56, "state": "OPEN", "baseRefName": "main",
+            "headRefName": data["pr"]["head_branch"], "headRefOid": data["pr"]["head"],
+            "isDraft": False, "mergeCommit": None, "mergedAt": None,
+            "url": data["pr"]["url"], "autoMergeRequest": None, "reviewDecision": None,
+            "author": {"login": data["pr"]["author_login"], "is_bot": False},  # scope-bound
+            "body": owner_trigger_marker(),
+        }
+        responses = {
+            ("git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"):
+                f"## {data['pr']['head_branch']}...origin/{data['pr']['head_branch']}\n",
+            ("git", "remote", "get-url", "origin"):
+                "https://github.com/Zest-LeadGen/contractoros-california.git\n",
+            ("git", "rev-parse", "HEAD"): f"{data['pr']['head']}\n",
+            ("git", "rev-parse", "main"): f"{data['source_shas']['local_main']}\n",
+            ("git", "rev-parse", "origin/main"): f"{data['source_shas']['local_origin_main']}\n",
+            ("git", "rev-parse", "--show-toplevel"): f"{ROOT}\n",
+            ("git", "show", f"{data['pr']['head']}:{rtc.CANONICAL_PATH}"):
+                json.dumps(data["canonical_state"]),
+        }
+
+        def read_command(argv, cwd, timeout=20, allowed_permission_logins=None, allowed_commands=None):  # scope-bound
+            rtc._validate_command(argv, allowed_commands=allowed_commands)
+            key = tuple(argv)
+            if key in responses:
+                output = responses[key]
+            elif argv[:3] == ["gh", "api", "graphql"]:
+                output = json.dumps({"data": {"repository": {
+                    "nameWithOwner": rtc.EXPECTED_REPOSITORY,
+                    "defaultBranchRef": {"name": "main", "target": {"oid": data["source_shas"]["live_default_branch"]}},
+                }}})
+            elif argv[:3] == ["gh", "issue", "view"]:
+                output = json.dumps({
+                    "number": 55, "state": "OPEN", "stateReason": None,
+                    "url": data["issue"]["url"], "closedAt": None,
+                })
+            elif argv[:3] == ["gh", "pr", "view"]:
+                output = json.dumps(live_pr)
+            elif argv[:3] == ["gh", "pr", "checks"]:
+                output = json.dumps(data["checks"])
+            elif argv[:3] == ["gh", "run", "view"]:
+                output = json.dumps({
+                    "databaseId": run["id"], "name": run["name"],
+                    "workflowDatabaseId": run["workflow_id"], "event": run["event"],
+                    "status": run["status"], "conclusion": run["conclusion"],
+                    "headSha": run["head_sha"], "headBranch": run["head_branch"],
+                    "url": run["url"], "jobs": run["jobs"],
+                })
+            else:
+                self.fail(f"unexpected live command: {argv}")
+            return output, {
+                "argv": argv, "return_code": 0,
+                "stdout_sha256": "0" * 64, "stderr_present": False,
+            }
+
+        args = type("Args", (), {
+            "repo_root": str(ROOT), "canonical_ref": data["pr"]["head"],
+            "repository": rtc.EXPECTED_REPOSITORY, "issue_number": 55,
+            "pr_number": 56, "run_id": run["id"], "observed_at": OBSERVED_AT,
+        })()
+        collected = {
+            "decision": None, "evidence_status": "complete",
+            "review_records": [], "permission_records": [],
+        }
+        with mock.patch.object(rtc, "_run_read_command", side_effect=read_command), mock.patch.object(
+            rtc, "_collect_review_evidence", return_value=collected
+        ):
+            result = rtc._collect_live(args)
+        self.assertEqual(result["actor_contract"]["AUTHORITY_SOURCE"], "GITHUB_ISSUE_55")  # scope-bound
+        validation = rtc.role_contract.validate_role_contract(
+            result["actor_contract"], rtc._actor_expected_context(result, OBSERVED_AT)
+        )
+        self.assertTrue(validation["valid"])
 
 
 class C36ContractHardeningTests(unittest.TestCase):

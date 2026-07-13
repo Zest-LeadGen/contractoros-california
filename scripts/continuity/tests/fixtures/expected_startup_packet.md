@@ -59,7 +59,7 @@ It provides no write authorization and cannot approve, merge, release or close a
 - Pull-request binding: #50
 - Branch binding: collector-branch
 - Exact-SHA binding: cccccccccccccccccccccccccccccccccccccccc
-- Lifecycle binding: DEVELOPER_IMPLEMENTATION_IN_REVIEW
+- Lifecycle binding: EXTERNAL_EXACT_SHA_REVIEW
 - Authority source scope: GITHUB_ISSUE_49
 - Observation timestamp: 2026-07-13T00:00:00Z
 - Program next action: External exact-SHA review must inspect the current PR head.
@@ -119,4 +119,4 @@ External exact-SHA review must rerun this collector against the current PR head.
 
 ## Packet Hash
 
-`e633d7d9afcf0f91f1061fe8619e89831b0c3a40e7a3a7e615ff16eec9bff13b`
+`7e4cce1fc290ba74a2795373b7c6c41f3008e507e8372f4aea34b7035b77aada`

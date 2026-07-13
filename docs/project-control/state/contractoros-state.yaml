@@ -4,8 +4,8 @@
   "current_main_sha": "7d00343c233e45185e6c4d77e50eb870f408c01f",
   "active_gate": "Pre-4K-9 Stage A — Actor-Bound Red-Team Role Contract and Anti-Drift Validator",
   "linked_issue": {"number":55,"state":"active"},
-  "linked_pr": null,
-  "lifecycle_state":"developer_implementation_branch_before_pr",
+  "linked_pr": {"number":56,"state":"open","head_sha_source":"live_github_required","observed_head_sha":"18ddffae1c2781ccb560bad7a8a468d4e8822f57","url":"https://github.com/Zest-LeadGen/contractoros-california/pull/56"},
+  "lifecycle_state":"developer_correction_in_review",
   "paused_phases":["Phase 4I"],
   "completed_prior_phase": {
     "phase":"Pre-4K-9 Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate",
@@ -16,22 +16,26 @@
     "merge_sha":"7d00343c233e45185e6c4d77e50eb870f408c01f"
   },
   "blockers": [
-    "Validated Issue #55 commit and branch push remain pending",
-    "A non-draft Issue #55 pull request must be created before external review",
-    "External exact-SHA red-team review is required for the future current PR head",
-    "Human/write-access approval remains required after external review",
+    "PR #56 head 18ddffae1c2781ccb560bad7a8a468d4e8822f57 received CHANGES_REQUESTED in formal review 4687524310",
+    "The correction commit creates a new PR head whose exact SHA requires live GitHub verification",
+    "Fresh external exact-SHA red-team review is required for the correction head",
+    "Human/write-access approval remains not granted for the correction head",
     "Protected merge, main verification and Issue #55 closeout remain pending",
     "Stage B, Issue #54, Phase 4K-9 and Phase 4I remain outside authorized scope or paused"
   ],
-  "next_authorized_planning_target":"No planning expansion; Issue #55 developer validation, PR creation and external exact-SHA handoff only",
+  "next_authorized_planning_target":"No planning expansion; finish the bounded PR #56 correction and hand the new exact head to external red-team",
   "documentation_scope":"public_safe",
-  "evidence_timestamps":{"github_verified_at":"2026-07-13T08:44:39Z","state_recorded_on":"2026-07-13"},
+  "evidence_timestamps":{"github_verified_at":"2026-07-13T18:16:23Z","state_recorded_on":"2026-07-13"},
   "evidence_identifiers": [
     "issue:49:closed_completed",
     "pr:50:merged",
     "merge:7d00343c233e45185e6c4d77e50eb870f408c01f",
     "issue:53:open_planning_only",
     "issue:55:open_assigned:danidon-wq",
+    "pr:56:open_unmerged",
+    "pr:56:review:4687524310:changes_requested",
+    "pr:56:rejected_head:18ddffae1c2781ccb560bad7a8a468d4e8822f57",
+    "pr:56:correction_head:live_github_required",
     "branch:stage-a-red-team-role-isolation",
     "stage-a:actor-bound-role-contract:implemented_in_review",
     "stage-b:full-runtime-isolation:not_proven"
