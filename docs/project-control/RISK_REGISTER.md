@@ -628,6 +628,14 @@ Status: Active / controlled in C3.6 developer validation
 Evidence: The collector accepts only current-invocation exact command vectors, preserves original reason keys until one-to-one canonical validation succeeds, separates `_evidence` from reviewer-key reason schemas, and derives the 119-command limit from named bounds.
 Owner: ContractorOS development lead / external red-team gate
 Resolution condition: C3.6 exact head passes focused and complete tests, determinism and schema-contract checks, all controls, live collection, new-head workflow inspection, and fresh whole-PR exact-SHA review.
+
+### C3.7 adverse-review or source-command semantic false positive
+
+Risk: A qualifying approval can mask another reviewer's unresolved exact-current-head change request, or structurally valid command metadata can claim prohibited, unrelated, mismatched, unsourced, or unsuccessful reads and still appear authoritative.
+Status: Active / controlled in C3.7 developer validation
+Evidence: Reviewer-wide latest-decisive reduction makes unresolved current-head changes requested adverse without storing review bodies; claim-sensitive aggregate checks forbid merge-ready and closed-gate success. Nonempty source-command histories are checked against the exact evidence-derived live firewall and require zero return codes.
+Validation: Approval-plus-adverse, no-prior-approval, comment/approval/dismissal, stale-head, aggregate-decision, merge-ready, closed-gate, private-content, mutation, identity, page, permission-source, argument-order, return-code and no-output tests.
+Resolution condition: C3.7 exact head passes focused and complete tests, deterministic/schema checks, all local and PR-context controls, exact-head workflow inspection, outside-repository live collection, PR reconciliation, and fresh whole-PR exact-SHA review.
 Last reviewed: 2026-07-12
 ```
 

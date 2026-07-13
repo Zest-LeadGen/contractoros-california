@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.6"
-EVIDENCE_SCHEMA_VERSION = "1.3.6"
-PACKET_SCHEMA_VERSION = "1.3.6"
-FIXTURE_VERSION = "1.3.6"
+GENERATOR_VERSION = "1.3.7"
+EVIDENCE_SCHEMA_VERSION = "1.3.7"
+PACKET_SCHEMA_VERSION = "1.3.7"
+FIXTURE_VERSION = "1.3.7"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -885,11 +885,10 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
         record["reviewer_login"] for record in normalized_records if record.get("review_id") in duplicate_ids  # scope-bound approval evidence
     }
     reviewer_logins = sorted({r["reviewer_login"] for r in normalized_records if r["reviewer_login"]})  # scope-bound approval evidence
+    unresolved_changes_requested = False
     for login in reviewer_logins:  # scope-bound approval evidence
         reviewer_records = [r for r in normalized_records if r["reviewer_login"] == login]  # scope-bound approval evidence
         approvals = [r for r in reviewer_records if r["state"] == "APPROVED"]
-        if not approvals:
-            continue
         if login in ambiguous_logins:  # scope-bound approval evidence
             continue
         current_decisive = [
@@ -900,11 +899,16 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
             and r.get("submitted_at")
         ]
         latest = max(current_decisive, key=_review_sort_key) if current_decisive else None
+        if latest and latest["state"] == "CHANGES_REQUESTED":
+            unresolved_changes_requested = True
+            if approvals:
+                disqualify(login, "APPROVAL_SUPERSEDED_BY_CHANGES_REQUESTED")  # scope-bound approval evidence
+            continue
+        if not approvals:
+            continue
         if latest is None or latest["state"] != "APPROVED":
             if any(r["commit_id"] != pr.get("head") for r in approvals):
                 disqualify(login, "APPROVAL_STALE_HEAD")  # scope-bound approval evidence
-            if latest and latest["state"] == "CHANGES_REQUESTED":
-                disqualify(login, "APPROVAL_SUPERSEDED_BY_CHANGES_REQUESTED")  # scope-bound approval evidence
             if latest and latest["state"] == "DISMISSED":
                 disqualify(login, "APPROVAL_DISMISSED")  # scope-bound approval evidence
             if any(not r.get("submitted_at") for r in approvals):
@@ -936,8 +940,12 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
             disqualify(login, "APPROVAL_PERMISSION_UNKNOWN")  # scope-bound approval evidence
 
     qualifying = sorted(set(qualifying))
+    if unresolved_changes_requested:
+        quarantined.append("Unresolved current-head changes requested remain adverse")
     if str(review.get("decision") or "").upper() == "APPROVED" and not qualifying:
         quarantined.append("Review decision claims approval without a qualifying current-head approver")
+    if str(review.get("decision") or "").upper() == "CHANGES_REQUESTED":
+        quarantined.append("Aggregate review decision is changes requested")
     normalized_reasons = {key: sorted(set(value)) for key, value in sorted(reasons.items())}
     result = {
         "decision": str(review.get("decision") or "") or None,
@@ -1567,9 +1575,47 @@ def _validate_auto_merge_evidence(value: Any) -> None:
         raise CollectorError("auto-merge active evidence is malformed")
 
 
-def _validate_source_commands(value: Any) -> None:
+def _source_command_firewall(data: dict[str, Any]) -> set[tuple[str, ...]]:
+    """Reconstruct the exact evidence-derived read-only command set."""
+    if (
+        data["repository"]["name"].casefold() != EXPECTED_REPOSITORY.casefold()
+        or data["issue"]["number"] != 49
+        or data["pr"]["number"] != 50
+    ):
+        raise CollectorError("source-command evidence is outside the fixed repository, issue, or pull request scope")
+    args = argparse.Namespace(
+        repository=data["repository"]["name"],
+        issue_number=data["issue"]["number"],
+        pr_number=data["pr"]["number"],
+        run_id=data["workflow_run"]["id"],
+        canonical_ref=data["source_shas"]["canonical_ref"],
+    )
+    allowed = _live_command_firewall(args)
+    canonical_author = _canonical_login(data["pr"]["author_login"])  # scope-bound approval evidence
+    permission_logins = {  # scope-bound approval evidence
+        _canonical_login(record["reviewer_login"])  # scope-bound approval evidence
+        for record in data["review"]["review_records"]
+        if record["state"] == "APPROVED"
+        and record["commit_id"] == data["pr"]["head"]
+        and record.get("submitted_at")
+        and record["reviewer_type"] == "User"
+        and _canonical_login(record["reviewer_login"]) != canonical_author  # scope-bound approval evidence
+        and GITHUB_LOGIN_RE.fullmatch(record["reviewer_login"])  # scope-bound approval evidence
+    }
+    allowed.update(
+        (
+            "gh", "api", "--method", "GET",
+            f"repos/{EXPECTED_REPOSITORY}/collaborators/{login}/permission",  # scope-bound approval evidence
+        )
+        for login in permission_logins  # scope-bound approval evidence
+    )
+    return allowed
+
+
+def _validate_source_commands(value: Any, data: dict[str, Any] | None = None) -> None:
     if not isinstance(value, list) or len(value) > MAX_SOURCE_COMMANDS:
         raise CollectorError("source-command evidence is malformed or exceeds its bound")
+    allowed_commands = _source_command_firewall(data) if data is not None and value else None
     keys = {"argv", "return_code", "stdout_sha256", "stderr_present"}
     for item in value:
         command = _exact_mapping(item, keys, "source-command item")
@@ -1580,12 +1626,17 @@ def _validate_source_commands(value: Any) -> None:
             or any(not _nonempty_string(argument) for argument in argv)
         ):
             raise CollectorError("source-command argv evidence is malformed")
-        if type(command["return_code"]) is not int or command["return_code"] < 0:
+        if type(command["return_code"]) is not int or command["return_code"] != 0:
             raise CollectorError("source-command return code evidence is malformed")
         if not isinstance(command["stdout_sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", command["stdout_sha256"]):
             raise CollectorError("source-command stdout hash evidence is malformed")
         if type(command["stderr_present"]) is not bool:
             raise CollectorError("source-command stderr evidence is malformed")
+        if allowed_commands is not None:
+            try:
+                _validate_command(argv, allowed_commands=allowed_commands)
+            except CommandRejectedError as exc:
+                raise CollectorError("source-command evidence violates the exact read-only firewall") from exc
 
 
 def _validate_collected_review_evidence(value: Any) -> None:
@@ -1829,7 +1880,7 @@ def _validate_input(data: dict[str, Any]) -> None:
     _validate_marker_evidence(data["markers"])
     _validate_auto_merge_evidence(data["auto_merge"])
     if "source_commands" in data:
-        _validate_source_commands(data["source_commands"])
+        _validate_source_commands(data["source_commands"], data)
     if set(data["review"]) == {"decision", "evidence_status", "review_records", "permission_records"}:
         _validate_collected_review_evidence(data["review"])
     else:
@@ -2030,6 +2081,12 @@ def _compare(
         return "quarantined", sorted(set(findings)), sorted(blockers), True
 
     claim = data["lifecycle_claim"]
+    aggregate_review_decision = str(review.get("decision") or "").upper()
+    if claim in {"merge_ready", "closed_gate"} and aggregate_review_decision in {
+        "CHANGES_REQUESTED", "REVIEW_REQUIRED",
+    }:
+        findings.append("Adverse aggregate review decision forbids merge-ready or closed-gate consistency")
+        return "quarantined", sorted(set(findings)), sorted(blockers), True
     if claim in {"active_pr", "externally_approved", "merge_ready"}:
         active_bindings = (
             ("Local HEAD differs from the active PR head", source["local_head"], pr.get("head")),

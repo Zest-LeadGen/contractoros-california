@@ -659,6 +659,263 @@ class ApprovalEvidenceTests(unittest.TestCase):
         with self.assertRaises(rtc.CommandRejectedError):
             rtc._validate_command(command, {"another-reviewer"})
 
+    def test_approval_from_one_reviewer_does_not_override_another_change_request(self):
+        records = [
+            self.record(10, "reviewer-a"),
+            self.record(11, "reviewer-b", state="CHANGES_REQUESTED"),
+        ]
+        data = self.set_review(self.data(), records, [self.permission("reviewer-a")])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+        self.assertIn("Unresolved current-head changes requested remain adverse", evidence["comparison_findings"])
+
+    def test_change_request_without_prior_approval_is_adverse(self):
+        data = self.set_review(self.data(), [self.record(state="CHANGES_REQUESTED")])
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_aggregate_changes_requested_with_qualifying_approval_is_adverse(self):
+        data = self.set_review(
+            self.data(), [self.record()], [self.permission()], decision="CHANGES_REQUESTED"
+        )
+        result = self.evaluation(data)
+        self.assertEqual(result["review"]["qualifying_approvals"], ["reviewer"])
+        self.assertIn("Aggregate review decision is changes requested", result["quarantined"])
+
+    def test_aggregate_review_required_forbids_merge_ready(self):
+        data = self.set_review(
+            self.data(), [self.record()], [self.permission()], decision="REVIEW_REQUIRED"
+        )
+        data["lifecycle_claim"] = "merge_ready"
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+        self.assertIn(
+            "Adverse aggregate review decision forbids merge-ready or closed-gate consistency",
+            evidence["comparison_findings"],
+        )
+
+    def test_later_comment_does_not_erase_change_request(self):
+        records = [
+            self.record(state="CHANGES_REQUESTED"),
+            self.record(11, state="COMMENTED", submitted_at="2026-07-12T23:00:00Z"),
+        ]
+        self.assertIn(
+            "Unresolved current-head changes requested remain adverse",
+            self.evaluation(self.set_review(self.data(), records))["quarantined"],
+        )
+
+    def test_later_approval_clears_same_reviewer_change_request(self):
+        records = [
+            self.record(state="CHANGES_REQUESTED"),
+            self.record(11, state="APPROVED", submitted_at="2026-07-12T23:00:00Z"),
+        ]
+        result = self.evaluation(self.set_review(self.data(), records, [self.permission()]))
+        self.assertEqual(result["review"]["qualifying_approvals"], ["reviewer"])
+        self.assertNotIn("Unresolved current-head changes requested remain adverse", result["quarantined"])
+
+    def test_later_dismissal_clears_same_reviewer_change_request(self):
+        records = [
+            self.record(state="CHANGES_REQUESTED"),
+            self.record(11, state="DISMISSED", submitted_at="2026-07-12T23:00:00Z"),
+        ]
+        result = self.evaluation(self.set_review(self.data(), records))
+        self.assertNotIn("Unresolved current-head changes requested remain adverse", result["quarantined"])
+
+    def test_stale_head_change_request_is_preserved_but_not_adverse(self):
+        data = self.set_review(
+            self.data(), [self.record(state="CHANGES_REQUESTED", commit_id="d" * 40)]
+        )
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (0, "requires_live_verification"))
+        self.assertEqual(evidence["live_state"]["review"]["review_records"][0]["state"], "CHANGES_REQUESTED")
+
+    def test_merge_ready_fails_closed_with_unresolved_change_request(self):
+        data = self.set_review(self.data(), [self.record(state="CHANGES_REQUESTED")])
+        data["lifecycle_claim"] = "merge_ready"
+        self.assertEqual(self.classify(data)[0], 2)
+
+    def test_closed_gate_fails_closed_with_unresolved_change_request(self):
+        data = fixture("consistent_closed_gate.json")
+        data["review"]["review_records"].append(
+            self.record(
+                2, "reviewer-b", state="CHANGES_REQUESTED", commit_id=data["pr"]["head"]
+            )
+        )
+        code, evidence, _ = self.classify(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+    def test_adverse_finding_does_not_include_review_body_or_private_content(self):
+        private = "confidential review body content"
+        record = rtc._normalized_review_record({
+            "id": 10, "user": {"login": "reviewer", "type": "User"},  # scope-bound approval evidence
+            "state": "CHANGES_REQUESTED", "submitted_at": OBSERVED_AT,
+            "commit_id": ACTIVE_HEAD, "author_association": "MEMBER", "body": private,  # scope-bound approval evidence
+        })
+        data = self.set_review(self.data(), [record])
+        _, evidence, _ = self.classify(data)
+        rendered = json.dumps({"findings": evidence["comparison_findings"], "blockers": evidence["blockers"]})
+        self.assertNotIn(private, rendered)
+
+
+class C37SourceCommandSemanticValidationTests(unittest.TestCase):
+    def data(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def command(self, argv, return_code=0):
+        return {
+            "argv": list(argv),
+            "return_code": return_code,
+            "stdout_sha256": "0" * 64,
+            "stderr_present": False,
+        }
+
+    def assert_invalid(self, argv, mutate=None, return_code=0):
+        data = self.data()
+        if mutate:
+            mutate(data)
+        data["source_commands"] = [self.command(argv, return_code)]
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaises(rtc.CollectorError) as caught:
+                rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_valid_live_generated_command_history_passes(self):
+        data = self.data()
+        data["source_commands"] = [
+            self.command(argv) for argv in sorted(rtc._source_command_firewall(data))
+        ]
+        with tempfile.TemporaryDirectory() as temporary:
+            self.assertEqual(rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)[0], 0)
+
+    def test_git_push_rejects(self):
+        self.assert_invalid(["git", "push"])
+
+    def test_git_reset_rejects(self):
+        self.assert_invalid(["git", "reset", "--hard"])
+
+    def test_pr_merge_rejects(self):
+        self.assert_invalid(["gh", "pr", "merge", "50"])
+
+    def test_issue_close_rejects(self):
+        self.assert_invalid(["gh", "issue", "close", "49"])
+
+    def test_post_mutation_rejects(self):
+        self.assert_invalid(["gh", "api", "--method", "POST", "repos/Zest-LeadGen/contractoros-california/issues/49"])
+
+    def test_wrong_repository_rejects(self):
+        self.assert_invalid([
+            "gh", "issue", "view", "49", "--repo", "Other/repository", "--json",
+            "number,state,stateReason,url,closedAt,title",
+        ])
+
+    def test_matching_command_for_wrong_evidence_repository_rejects(self):
+        argv = [
+            "gh", "issue", "view", "49", "--repo", "Other/repository", "--json",
+            "number,state,stateReason,url,closedAt,title",
+        ]
+        self.assert_invalid(
+            argv, lambda data: data["repository"].__setitem__("name", "Other/repository")
+        )
+
+    def test_wrong_issue_rejects(self):
+        self.assert_invalid([
+            "gh", "issue", "view", "48", "--repo", rtc.EXPECTED_REPOSITORY, "--json",
+            "number,state,stateReason,url,closedAt,title",
+        ])
+
+    def test_matching_command_for_wrong_evidence_issue_rejects(self):
+        argv = [
+            "gh", "issue", "view", "48", "--repo", rtc.EXPECTED_REPOSITORY, "--json",
+            "number,state,stateReason,url,closedAt,title",
+        ]
+        self.assert_invalid(argv, lambda data: data["issue"].__setitem__("number", 48))
+
+    def test_wrong_pr_rejects(self):
+        self.assert_invalid([
+            "gh", "pr", "checks", "51", "--repo", rtc.EXPECTED_REPOSITORY, "--json",
+            "name,state,bucket,link",
+        ])
+
+    def test_matching_command_for_wrong_evidence_pr_rejects(self):
+        argv = [
+            "gh", "pr", "checks", "51", "--repo", rtc.EXPECTED_REPOSITORY, "--json",
+            "name,state,bucket,link",
+        ]
+        self.assert_invalid(argv, lambda data: data["pr"].__setitem__("number", 51))
+
+    def test_wrong_run_rejects(self):
+        self.assert_invalid([
+            "gh", "run", "view", "1", "--repo", rtc.EXPECTED_REPOSITORY, "--json",
+            "databaseId,name,workflowDatabaseId,event,status,conclusion,headSha,headBranch,url,jobs",
+        ])
+
+    def test_wrong_canonical_ref_rejects(self):
+        self.assert_invalid(["git", "show", f"{'d' * 40}:{rtc.CANONICAL_PATH}"])
+
+    def test_review_page_zero_and_six_reject(self):
+        for page in (0, 6):
+            with self.subTest(page=page):
+                self.assert_invalid([
+                    "gh", "api", "--method", "GET",
+                    f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page={page}",
+                ])
+
+    def test_unsourced_permission_lookup_rejects(self):
+        self.assert_invalid([
+            "gh", "api", "--method", "GET",
+            f"repos/{rtc.EXPECTED_REPOSITORY}/collaborators/reviewer/permission",
+        ])
+
+    def test_sourced_permission_lookup_passes(self):
+        data = self.data()
+        data["review"]["review_records"] = [
+            {
+                "review_id": 1, "reviewer_login": "reviewer", "reviewer_type": "User",  # scope-bound approval evidence
+                "state": "APPROVED", "submitted_at": OBSERVED_AT, "commit_id": data["pr"]["head"],
+                "author_association": "MEMBER",  # scope-bound approval evidence
+            }
+        ]
+        data["review"]["permission_records"] = [
+            {"reviewer_login": "reviewer", "permission": "write", "role_name": "write", "account_type": "User"}  # scope-bound approval evidence
+        ]
+        data["review"]["qualifying_approvals"] = ["reviewer"]
+        data["source_commands"] = [self.command([
+            "gh", "api", "--method", "GET",
+            f"repos/{rtc.EXPECTED_REPOSITORY}/collaborators/reviewer/permission",
+        ])]
+        with tempfile.TemporaryDirectory() as temporary:
+            self.assertEqual(rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)[0], 0)
+
+    def test_nonzero_command_result_rejects(self):
+        self.assert_invalid(["git", "rev-parse", "HEAD"], return_code=1)
+
+    def test_argument_reordering_and_extra_flags_reject(self):
+        cases = (
+            ["gh", "issue", "view", "49", "--json", "number,state,stateReason,url,closedAt,title", "--repo", rtc.EXPECTED_REPOSITORY],
+            ["git", "rev-parse", "HEAD", "--verify"],
+        )
+        for argv in cases:
+            with self.subTest(argv=argv):
+                self.assert_invalid(argv)
+
+    def test_malformed_command_cli_exits_five_without_traceback_or_output(self):
+        data = self.data()
+        data["source_commands"] = [self.command(["git", "push"])]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture_path = root / "fixture.json"
+            fixture_path.write_text(json.dumps(data), encoding="utf-8")
+            output = root / "output"
+            stderr = io.StringIO()
+            with mock.patch("sys.stderr", stderr):
+                code = rtc.main([
+                    "fixture", "--fixture", str(fixture_path), "--observed-at", OBSERVED_AT,
+                    "--output-dir", str(output),
+                ])
+            self.assertEqual(code, 5)
+            self.assertNotIn("Traceback", stderr.getvalue())
+            self.assertFalse(any((output / name).exists() for name in rtc.OUTPUT_NAMES))
+
 
 class WorkflowProvenanceTests(unittest.TestCase):
     def data(self):
@@ -2193,7 +2450,7 @@ class C36ContractHardeningTests(unittest.TestCase):
         for path in paths:
             with self.subTest(path=path.name):
                 schema = json.loads(path.read_text(encoding="utf-8"))
-                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.6")
+                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.7")
                 reasons = schema["$defs"]["review"]["properties"]["disqualification_reasons"]
                 self.assertEqual(
                     reasons["properties"]["_evidence"]["items"]["enum"],
