@@ -281,9 +281,20 @@ def _reject_unsafe(value: Any) -> None:
             raise UnsafeEvidenceError("unsafe or private-looking evidence rejected")
 
 
+def _review_page_argv(page: int) -> tuple[str, ...]:
+    return (
+        "gh",
+        "api",
+        "--method",
+        "GET",
+        f"repos/{EXPECTED_REPOSITORY}/pulls/50/reviews"
+        f"?per_page={REVIEW_PAGE_SIZE}&page={page}",
+    )
+
+
 def _live_command_firewall(args: argparse.Namespace) -> set[tuple[str, ...]]:
     """Return the only fixed command shapes a live invocation may execute."""
-    return {
+    fixed_commands = {
         ("git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"),
         ("git", "remote", "get-url", "origin"),
         ("git", "rev-parse", "HEAD"),
@@ -296,6 +307,9 @@ def _live_command_firewall(args: argparse.Namespace) -> set[tuple[str, ...]]:
         ("gh", "pr", "view", str(args.pr_number), "--repo", args.repository, "--json", "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,author,body"),  # scope-bound approval evidence
         ("gh", "pr", "checks", str(args.pr_number), "--repo", args.repository, "--json", "name,state,bucket,link"),
         ("gh", "run", "view", str(args.run_id), "--repo", args.repository, "--json", "databaseId,name,workflowDatabaseId,event,status,conclusion,headSha,headBranch,url,jobs"),
+    }
+    return fixed_commands | {
+        _review_page_argv(page) for page in range(1, MAX_REVIEW_PAGES + 1)
     }
 
 
@@ -965,14 +979,9 @@ def _collect_review_evidence(
     records: list[dict[str, Any]] = []
     evidence_status = "complete"
     for page in range(1, MAX_REVIEW_PAGES + 1):
+        review_argv = list(_review_page_argv(page))
         raw_page = _json_command(
-            [
-                "gh",
-                "api",
-                "--method",
-                "GET",
-                f"repos/{EXPECTED_REPOSITORY}/pulls/50/reviews?per_page={REVIEW_PAGE_SIZE}&page={page}",
-            ],
+            review_argv,
             repo_root,
             commands,
             allowed_commands=allowed_commands,

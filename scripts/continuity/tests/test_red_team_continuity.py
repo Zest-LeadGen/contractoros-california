@@ -2111,6 +2111,22 @@ class C36ContractHardeningTests(unittest.TestCase):
 
     def test_live_command_firewall_accepts_only_current_exact_shapes(self):
         firewall = rtc._live_command_firewall(self.args())
+        expected_review_pages = {
+            (
+                "gh", "api", "--method", "GET",
+                f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews"
+                f"?per_page={rtc.REVIEW_PAGE_SIZE}&page={page}",
+            )
+            for page in range(1, rtc.MAX_REVIEW_PAGES + 1)
+        }
+        actual_review_pages = {
+            command for command in firewall
+            if len(command) == 5 and command[:4] == ("gh", "api", "--method", "GET")
+            and "/pulls/50/reviews?" in command[4]
+        }
+        self.assertEqual(actual_review_pages, expected_review_pages)
+        for command in expected_review_pages:
+            rtc._validate_command(list(command), allowed_commands=firewall)
         for command in firewall:
             rtc._validate_command(list(command), allowed_commands=firewall)
         rejected = (
@@ -2121,10 +2137,36 @@ class C36ContractHardeningTests(unittest.TestCase):
             ["gh", "pr", "checks", "50", "--repo", "Other/repository", "--json", "name,state,bucket,link"],
             ["gh", "run", "view", "1", "--repo", rtc.EXPECTED_REPOSITORY, "--json", "databaseId"],
             ["gh", "repo", "view", rtc.EXPECTED_REPOSITORY, "--json", "nameWithOwner"],
+            ["gh", "api", "--method", "GET", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page=0"],
+            ["gh", "api", "--method", "GET", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page=6"],
+            ["gh", "api", "--method", "GET", "repos/Other/repository/pulls/50/reviews?per_page=100&page=1"],
+            ["gh", "api", "--method", "GET", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/51/reviews?per_page=100&page=1"],
+            ["gh", "api", "--method", "POST", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page=1"],
+            ["gh", "api", "--method", "GET", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=99&page=1"],
+            ["gh", "api", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page=1"],
+            ["gh", "api", "GET", "--method", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page=1"],
+            ["gh", "api", "--method", "GET", f"repos/{rtc.EXPECTED_REPOSITORY}/pulls/50/reviews?per_page=100&page=1", "--paginate"],
+            ["gh", "api", "--method", "GET", f"repos/{rtc.EXPECTED_REPOSITORY}/issues/49"],
         )
         for command in rejected:
             with self.subTest(command=command), self.assertRaises(rtc.CommandRejectedError):
                 rtc._validate_command(command, allowed_commands=firewall)
+
+    def test_real_review_collection_uses_invocation_firewall(self):
+        firewall = rtc._live_command_firewall(self.args())
+        commands = []
+        expected = list(rtc._review_page_argv(1))
+        completed = subprocess.CompletedProcess(expected, 0, "[]", "")
+        with mock.patch.object(rtc.subprocess, "run", return_value=completed) as called:
+            collected = rtc._collect_review_evidence(
+                ROOT, commands, ACTIVE_HEAD, "a" + "uthor", firewall  # scope-bound approval evidence
+            )
+        self.assertEqual(collected["evidence_status"], "complete")
+        self.assertEqual(collected["review_records"], [])
+        self.assertEqual(collected["permission_records"], [])
+        self.assertEqual(len(commands), 1)
+        self.assertEqual(commands[0]["argv"], expected)
+        self.assertEqual(called.call_count, 1)
 
     def test_reason_key_collisions_fail_before_claim_comparison(self):
         collision = {
