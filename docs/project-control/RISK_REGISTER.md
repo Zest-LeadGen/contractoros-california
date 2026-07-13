@@ -620,6 +620,17 @@ Resolution condition: C3.5 exact head passes focused and complete tests, determi
 Last reviewed: 2026-07-12
 ```
 
+### C3.6 command, reason-map, schema, and accounting equivalence
+
+```text
+Risk: A broad GitHub command, canonical reviewer-key collision, schema/runtime reason mismatch, or understated source-command bound could make malformed or expanded evidence appear authoritative.
+Status: Active / controlled in C3.6 developer validation
+Evidence: The collector accepts only current-invocation exact command vectors, preserves original reason keys until one-to-one canonical validation succeeds, separates `_evidence` from reviewer-key reason schemas, and derives the 119-command limit from named bounds.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.6 exact head passes focused and complete tests, determinism and schema-contract checks, all controls, live collection, new-head workflow inspection, and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
 ### live repository contradiction is mistaken for unavailable evidence
 
 ```text

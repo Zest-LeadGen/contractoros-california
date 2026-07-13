@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.5"
-EVIDENCE_SCHEMA_VERSION = "1.3.5"
-PACKET_SCHEMA_VERSION = "1.3.5"
-FIXTURE_VERSION = "1.3.5"
+GENERATOR_VERSION = "1.3.6"
+EVIDENCE_SCHEMA_VERSION = "1.3.6"
+PACKET_SCHEMA_VERSION = "1.3.6"
+FIXTURE_VERSION = "1.3.6"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -115,10 +115,14 @@ MAX_REVIEW_RECORDS = 500
 MAX_PERMISSION_CANDIDATES = 100
 REVIEW_PAGE_SIZE = 100
 MAX_REVIEW_PAGES = 5
+FIXED_LIVE_READS = 14
+MAX_LEGAL_SOURCE_COMMANDS = (
+    FIXED_LIVE_READS + MAX_REVIEW_PAGES + MAX_PERMISSION_CANDIDATES
+)
 MAX_CHECKS = 100
 MAX_WORKFLOW_JOBS = 25
 MAX_WORKFLOW_STEPS = 100
-MAX_SOURCE_COMMANDS = 100
+MAX_SOURCE_COMMANDS = MAX_LEGAL_SOURCE_COMMANDS
 MAX_COMMAND_ARGV = 32
 REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED", "COMMENTED", "PENDING"}
 DECISIVE_REVIEW_STATES = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED"}
@@ -277,12 +281,36 @@ def _reject_unsafe(value: Any) -> None:
             raise UnsafeEvidenceError("unsafe or private-looking evidence rejected")
 
 
+def _live_command_firewall(args: argparse.Namespace) -> set[tuple[str, ...]]:
+    """Return the only fixed command shapes a live invocation may execute."""
+    return {
+        ("git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"),
+        ("git", "remote", "get-url", "origin"),
+        ("git", "rev-parse", "HEAD"),
+        ("git", "rev-parse", "main"),
+        ("git", "rev-parse", "origin/main"),
+        ("git", "rev-parse", "--show-toplevel"),
+        ("git", "show", f"{args.canonical_ref}:{CANONICAL_PATH}"),
+        ("gh", "api", "graphql", "-f", f"query={REPOSITORY_GRAPHQL_QUERY}"),
+        ("gh", "issue", "view", str(args.issue_number), "--repo", args.repository, "--json", "number,state,stateReason,url,closedAt,title"),
+        ("gh", "pr", "view", str(args.pr_number), "--repo", args.repository, "--json", "number,state,baseRefName,headRefName,headRefOid,isDraft,mergeCommit,mergedAt,url,autoMergeRequest,reviewDecision,author,body"),  # scope-bound approval evidence
+        ("gh", "pr", "checks", str(args.pr_number), "--repo", args.repository, "--json", "name,state,bucket,link"),
+        ("gh", "run", "view", str(args.run_id), "--repo", args.repository, "--json", "databaseId,name,workflowDatabaseId,event,status,conclusion,headSha,headBranch,url,jobs"),
+    }
+
+
 def _validate_command(
-    argv: list[str], allowed_permission_logins: set[str] | None = None  # scope-bound approval evidence
+    argv: list[str],
+    allowed_permission_logins: set[str] | None = None,  # scope-bound approval evidence
+    allowed_commands: set[tuple[str, ...]] | None = None,
 ) -> None:
     """Reject every command shape not included in the positive read-only allowlist."""
     if not argv or argv[0] not in {"git", "gh"}:
         raise CommandRejectedError("unknown executable rejected by command allowlist")
+    if allowed_commands is not None:
+        if tuple(argv) not in allowed_commands:
+            raise CommandRejectedError("command does not match this live invocation's exact allowlist")
+        return
 
     if argv[0] == "git":
         allowed = {
@@ -324,7 +352,6 @@ def _validate_command(
 
     # Every other gh api shape and every GitHub mutation are forbidden.
     allowed_prefixes = {
-        ("gh", "repo", "view"),
         ("gh", "issue", "view"),
         ("gh", "pr", "view"),
         ("gh", "pr", "checks"),
@@ -332,12 +359,8 @@ def _validate_command(
     }
     if len(argv) < 3 or tuple(argv[:3]) not in allowed_prefixes:
         raise CommandRejectedError("forbidden or unknown GitHub command rejected by command allowlist")
-    if any(arg in {"--jq", "--template", "--web"} for arg in argv):
+    if any(arg in {"--comments", "--jq", "--log", "--template", "--watch", "--web"} for arg in argv):
         raise CommandRejectedError("unknown GitHub output flag rejected by command allowlist")
-    if tuple(argv[:3]) == ("gh", "repo", "view"):
-        if len(argv) != 6 or argv.count("--repo") != 0 or argv.count("--json") != 1:
-            raise CommandRejectedError("GitHub repository-read shape rejected by command allowlist")
-        return
     if argv.count("--repo") != 1 or argv.count("--json") != 1:
         raise CommandRejectedError("GitHub command shape rejected by command allowlist")
 
@@ -347,8 +370,9 @@ def _run_read_command(
     cwd: Path,
     timeout: int = 20,
     allowed_permission_logins: set[str] | None = None,  # scope-bound approval evidence
+    allowed_commands: set[tuple[str, ...]] | None = None,
 ) -> tuple[str, dict[str, Any]]:
-    _validate_command(argv, allowed_permission_logins)  # scope-bound approval evidence
+    _validate_command(argv, allowed_permission_logins, allowed_commands)  # scope-bound approval evidence
     try:
         proc = subprocess.run(
             argv,
@@ -382,8 +406,9 @@ def _json_command(
     cwd: Path,
     commands: list[dict[str, Any]],
     allowed_permission_logins: set[str] | None = None,  # scope-bound approval evidence
+    allowed_commands: set[tuple[str, ...]] | None = None,
 ) -> Any:
-    output, result = _run_read_command(argv, cwd, allowed_permission_logins=allowed_permission_logins)  # scope-bound approval evidence
+    output, result = _run_read_command(argv, cwd, allowed_permission_logins=allowed_permission_logins, allowed_commands=allowed_commands)  # scope-bound approval evidence
     commands.append(result)
     try:
         return json.loads(output)
@@ -914,8 +939,8 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
         claimed_qualifying = sorted(_canonical_login(login) for login in review["qualifying_approvals"])
         claimed_disqualified = sorted(_canonical_login(login) for login in review["disqualified_approvals"])
         claimed_reasons = {
-            key if key == "_evidence" else _canonical_login(key): sorted(values)  # scope-bound approval evidence
-            for key, values in sorted(review["disqualification_reasons"].items())
+            key: sorted(values)
+            for key, values in sorted(_canonical_reason_map(review["disqualification_reasons"]).items())
         }
         if claimed_qualifying != result["qualifying_approvals"]:
             quarantined.append("Claimed qualifying approvals contradict computed approval evidence")
@@ -935,6 +960,7 @@ def _collect_review_evidence(
     commands: list[dict[str, Any]],
     pr_head: str,
     pr_author_login: str,  # scope-bound approval evidence
+    allowed_commands: set[tuple[str, ...]] | None = None,
 ) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     evidence_status = "complete"
@@ -949,6 +975,7 @@ def _collect_review_evidence(
             ],
             repo_root,
             commands,
+            allowed_commands=allowed_commands,
         )
         if not isinstance(raw_page, list):
             raise ApprovalEvidenceUnavailableError("review approval evidence is not a JSON array")
@@ -981,18 +1008,19 @@ def _collect_review_evidence(
             raise ApprovalEvidenceUnavailableError("permission approval candidates exceed the bounded limit")
         allowed = set(candidates)
         for login in candidates:  # scope-bound approval evidence
+            permission_argv = [
+                "gh", "api", "--method", "GET",
+                f"repos/{EXPECTED_REPOSITORY}/collaborators/{login}/permission",  # scope-bound approval evidence
+            ]
+            if allowed_commands is not None:
+                allowed_commands.add(tuple(permission_argv))
             try:
                 permission = _json_command(
-                    [
-                        "gh",
-                        "api",
-                        "--method",
-                        "GET",
-                        f"repos/{EXPECTED_REPOSITORY}/collaborators/{login}/permission",  # scope-bound approval evidence
-                    ],
+                    permission_argv,
                     repo_root,
                     commands,
                     allowed_permission_logins=allowed,  # scope-bound approval evidence
+                    allowed_commands=allowed_commands,
                 )
             except EvidenceUnavailableError as exc:
                 raise ApprovalEvidenceUnavailableError(
@@ -1156,9 +1184,10 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         raise CollectorError("live approval collection is bounded to Issue #49 and PR #50")
 
     commands: list[dict[str, Any]] = []
+    allowed_commands = _live_command_firewall(args)
 
     def read(argv: list[str]) -> str:
-        output, result = _run_read_command(argv, repo_root)
+        output, result = _run_read_command(argv, repo_root, allowed_commands=allowed_commands)
         commands.append(result)
         return output.strip()
 
@@ -1188,6 +1217,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         ["gh", "api", "graphql", "-f", f"query={REPOSITORY_GRAPHQL_QUERY}"],
         repo_root,
         commands,
+        allowed_commands=allowed_commands,
     )
     if not isinstance(repo_response, dict) or not isinstance(repo_response.get("data"), dict):
         raise EvidenceUnavailableError("required repository GraphQL response is unavailable")
@@ -1205,6 +1235,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         ],
         repo_root,
         commands,
+        allowed_commands=allowed_commands,
     )
     pr = _json_command(
         [
@@ -1219,6 +1250,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         ],
         repo_root,
         commands,
+        allowed_commands=allowed_commands,
     )
     raw_checks = _json_command(
         [
@@ -1233,6 +1265,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         ],
         repo_root,
         commands,
+        allowed_commands=allowed_commands,
     )
     run = _json_command(
         [
@@ -1247,6 +1280,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         ],
         repo_root,
         commands,
+        allowed_commands=allowed_commands,
     )
 
     repo = _require_live_fields(repo, ("nameWithOwner", "defaultBranchRef"), "repository")
@@ -1278,6 +1312,7 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         commands,
         str(pr.get("headRefOid") or ""),
         str(pr_author.get("login") or ""),  # scope-bound approval evidence
+        allowed_commands=allowed_commands,
     )
     marker = _marker_summary(
         str(pr.get("body") or ""),
@@ -1611,15 +1646,15 @@ def _validate_review_evidence(value: Any) -> None:
     disqualified = {_canonical_login(login) for login in review["disqualified_approvals"]}  # scope-bound approval evidence
     if qualifying & disqualified:
         raise CollectorError("approval qualifying and disqualified identities overlap")
+    reason_entries = _canonical_reason_entries(reasons)
     reason_identities: set[str] = set()
-    for login, values in reasons.items():  # scope-bound approval evidence
+    for login, canonical_login, values in reason_entries:  # scope-bound approval evidence
         if not isinstance(values, list) or not values or len(values) > MAX_DISQUALIFICATION_REASONS:
             raise CollectorError("approval disqualification reason list is malformed")
         if login == "_evidence":  # scope-bound approval evidence
             if not set(values).issubset(EVIDENCE_WIDE_DISQUALIFICATION_REASONS):
                 raise CollectorError("approval evidence-wide reason is not permitted")
         else:
-            canonical_login = _canonical_login(login)  # scope-bound approval evidence
             if canonical_login not in disqualified:  # scope-bound approval evidence
                 raise CollectorError("approval disqualification reason lacks a disqualified reviewer")
             reason_identities.add(canonical_login)  # scope-bound approval evidence
@@ -1632,6 +1667,33 @@ def _validate_review_evidence(value: Any) -> None:
             raise CollectorError("approval disqualification reason is malformed")
     if disqualified != reason_identities:
         raise CollectorError("every disqualified approval requires a nonempty reason list")
+
+
+def _canonical_reason_entries(reasons: dict[str, Any]) -> list[tuple[str, str | None, Any]]:
+    """Preserve original reason keys while rejecting canonical reviewer collisions."""
+    entries: list[tuple[str, str | None, Any]] = []
+    originals_by_canonical: dict[str, str] = {}
+    for original, values in reasons.items():
+        if original == "_evidence":
+            entries.append((original, None, values))
+            continue
+        canonical = _canonical_login(original)  # scope-bound approval evidence
+        prior = originals_by_canonical.get(canonical)
+        if prior is not None:
+            raise CollectorError(
+                "approval disqualification reason keys collide after canonicalization"
+            )
+        originals_by_canonical[canonical] = original
+        entries.append((original, canonical, values))
+    return entries
+
+
+def _canonical_reason_map(reasons: dict[str, Any]) -> dict[str, Any]:
+    """Build a canonical reason map only after one-to-one validation succeeds."""
+    return {
+        canonical if canonical is not None else original: values
+        for original, canonical, values in _canonical_reason_entries(reasons)
+    }
 
 
 def _validate_input(data: dict[str, Any]) -> None:

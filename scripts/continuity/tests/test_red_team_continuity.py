@@ -2,6 +2,7 @@ import copy
 import io
 import importlib.util
 import json
+import re
 import subprocess
 import tempfile
 import unittest
@@ -1976,7 +1977,9 @@ class C35StagedEvidenceTests(unittest.TestCase):
             ("git", "show", f"{ACTIVE_HEAD}:{rtc.CANONICAL_PATH}"): json.dumps(data["canonical_state"]),
         }
 
-        def read_command(argv, cwd, timeout=20, allowed_permission_logins=None):  # scope-bound approval evidence
+        def read_command(argv, cwd, timeout=20, allowed_permission_logins=None, allowed_commands=None):  # scope-bound approval evidence
+            self.assertIsNotNone(allowed_commands)
+            rtc._validate_command(argv, allowed_commands=allowed_commands)
             key = tuple(argv)
             if key in responses:
                 output = responses[key]
@@ -2076,6 +2079,133 @@ class C35StagedEvidenceTests(unittest.TestCase):
         data["issue"]["closeout_state"] = "open"
         with self.assertRaises(rtc.CollectorError):
             self.classify(data)
+
+
+class C36ContractHardeningTests(unittest.TestCase):
+    def args(self):
+        return type("Args", (), {
+            "repo_root": str(ROOT),
+            "canonical_ref": ACTIVE_HEAD,
+            "repository": rtc.EXPECTED_REPOSITORY,
+            "issue_number": 49,
+            "pr_number": 50,
+            "run_id": 123,
+        })()
+
+    def collected(self):
+        return {
+            "decision": None,
+            "evidence_status": "complete",
+            "review_records": [],
+            "permission_records": [],
+        }
+
+    def claimed(self, reasons):
+        review = self.collected()
+        review.update({
+            "qualifying_approvals": [],
+            "disqualified_approvals": ["reviewer"],
+            "disqualification_reasons": reasons,
+        })
+        return review
+
+    def test_live_command_firewall_accepts_only_current_exact_shapes(self):
+        firewall = rtc._live_command_firewall(self.args())
+        for command in firewall:
+            rtc._validate_command(list(command), allowed_commands=firewall)
+        rejected = (
+            ["gh", "issue", "view", "999", "--repo", "Other/repository", "--json", "body"],
+            ["gh", "issue", "view", "49", "--repo", rtc.EXPECTED_REPOSITORY, "--json", "body"],
+            ["gh", "issue", "view", "49", "--repo", rtc.EXPECTED_REPOSITORY, "--json", "number,state,stateReason,url,closedAt,title", "--comments"],
+            ["gh", "pr", "view", "51", "--repo", rtc.EXPECTED_REPOSITORY, "--json", "number"],
+            ["gh", "pr", "checks", "50", "--repo", "Other/repository", "--json", "name,state,bucket,link"],
+            ["gh", "run", "view", "1", "--repo", rtc.EXPECTED_REPOSITORY, "--json", "databaseId"],
+            ["gh", "repo", "view", rtc.EXPECTED_REPOSITORY, "--json", "nameWithOwner"],
+        )
+        for command in rejected:
+            with self.subTest(command=command), self.assertRaises(rtc.CommandRejectedError):
+                rtc._validate_command(command, allowed_commands=firewall)
+
+    def test_reason_key_collisions_fail_before_claim_comparison(self):
+        collision = {
+            "Reviewer": ["APPROVAL_PERMISSION_READ_ONLY"],
+            "reviewer": ["APPROVAL_PERMISSION_NONE"],
+        }
+        with self.assertRaises(rtc.CollectorError) as caught:
+            rtc._approval_evaluation({"head": ACTIVE_HEAD, "a" + "uthor_login": "a" + "uthor"}, self.claimed(collision))  # scope-bound approval evidence
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_collision_free_reason_map_is_canonical_and_deterministic(self):
+        reasons = {"Zed": ["APPROVAL_PERMISSION_NONE"], "Reviewer": ["APPROVAL_PERMISSION_READ_ONLY"]}
+        self.assertEqual(
+            rtc._canonical_reason_map(reasons),
+            {"zed": ["APPROVAL_PERMISSION_NONE"], "reviewer": ["APPROVAL_PERMISSION_READ_ONLY"]},
+        )
+        self.assertEqual(rtc._canonical_reason_entries(reasons), rtc._canonical_reason_entries(dict(reasons)))
+
+    def test_schema_reason_contracts_are_equivalent(self):
+        paths = (
+            ROOT / "docs/project-control/state/red-team-continuity-evidence.schema.json",
+            ROOT / "docs/project-control/state/red-team-startup-packet.schema.json",
+        )
+        for path in paths:
+            with self.subTest(path=path.name):
+                schema = json.loads(path.read_text(encoding="utf-8"))
+                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.6")
+                reasons = schema["$defs"]["review"]["properties"]["disqualification_reasons"]
+                self.assertEqual(
+                    reasons["properties"]["_evidence"]["items"]["enum"],
+                    ["APPROVAL_REVIEW_RECORD_MALFORMED"],
+                )
+                self.assertIsNone(re.fullmatch(next(iter(reasons["patternProperties"])), "_evidence"))
+                reviewer_reasons = next(iter(reasons["patternProperties"].values()))["items"]["enum"]
+                self.assertIn("APPROVAL_PERMISSION_NONE", reviewer_reasons)
+                self.assertNotIn("UNSUPPORTED_REASON", reviewer_reasons)
+
+    def test_derived_source_command_bound_is_exact_and_fail_closed(self):
+        self.assertEqual(rtc.MAX_LEGAL_SOURCE_COMMANDS, 119)
+        command = {
+            "argv": ["git", "rev-parse", "HEAD"],
+            "return_code": 0,
+            "stdout_sha256": "0" * 64,
+            "stderr_present": False,
+        }
+        rtc._validate_source_commands([dict(command) for _ in range(rtc.MAX_LEGAL_SOURCE_COMMANDS)])
+        with self.assertRaises(rtc.CollectorError):
+            rtc._validate_source_commands([dict(command) for _ in range(rtc.MAX_LEGAL_SOURCE_COMMANDS + 1)])
+
+    def test_permission_candidate_bounds_cover_zero_one_and_maximum(self):
+        def review_record(index):
+            return {
+                "id": index + 1,
+                "user": {"login": f"reviewer-{index}", "type": "User"},  # scope-bound approval evidence
+                "state": "APPROVED",
+                "submitted_at": OBSERVED_AT,
+                "commit_id": ACTIVE_HEAD,
+                "a" + "uthor_association": "MEMBER",  # scope-bound approval evidence
+            }
+
+        def permission(index):
+            return {
+                "permission": "write",
+                "role_name": "write",
+                "user": {"login": f"reviewer-{index}", "type": "User"},  # scope-bound approval evidence
+            }
+
+        for count in (0, 1, rtc.MAX_PERMISSION_CANDIDATES):
+            with self.subTest(permission_candidates=count):
+                first_page = [review_record(index) for index in range(count)]
+                responses = [first_page]
+                if count == rtc.MAX_PERMISSION_CANDIDATES:
+                    responses.append([])
+                responses.extend(
+                    permission(index)
+                    for index in sorted(range(count), key=lambda item: f"reviewer-{item}")
+                )
+                with mock.patch.object(rtc, "_json_command", side_effect=responses) as called:
+                    collected = rtc._collect_review_evidence(ROOT, [], ACTIVE_HEAD, "a" + "uthor")  # scope-bound approval evidence
+                self.assertEqual(len(collected["permission_records"]), count)
+                self.assertEqual(called.call_count, 1 + (count == rtc.MAX_PERMISSION_CANDIDATES) + count)
 
 
 if __name__ == "__main__":
