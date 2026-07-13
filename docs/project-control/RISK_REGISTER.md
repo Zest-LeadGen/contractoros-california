@@ -639,6 +639,18 @@ Resolution condition: C3.7 exact head passes focused and complete tests, determi
 Last reviewed: 2026-07-12
 ```
 
+### C3.8 pre-validation dereference or provenance/schema mismatch
+
+```text
+Risk: Malformed review evidence can be dereferenced by semantic command validation before structural validation, canonical source provenance can be absent, or a nonzero command result can satisfy the evidence schema despite runtime rejection.
+Status: Active / controlled in C3.8 developer validation
+Evidence: Review validation now precedes semantic firewall derivation; canonical_ref uses a dedicated required exact-SHA contract in runtime and both schemas; command results require runtime integer zero and schema const zero.
+Validation: Direct-generation and CLI malformed-review matrices, null/missing/abbreviated/uppercase/malformed canonical refs, active/closed output generation, firewall non-construction, return-code type/value cases, and standard-library schema assertions.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.8 exact head passes focused and complete tests, determinism and schema checks, all local and PR-context controls, exact-head workflow inspection, outside-repository live collection, PR reconciliation, and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
 ### live repository contradiction is mistaken for unavailable evidence
 
 ```text

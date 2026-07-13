@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.7"
-EVIDENCE_SCHEMA_VERSION = "1.3.7"
-PACKET_SCHEMA_VERSION = "1.3.7"
-FIXTURE_VERSION = "1.3.7"
+GENERATOR_VERSION = "1.3.8"
+EVIDENCE_SCHEMA_VERSION = "1.3.8"
+PACKET_SCHEMA_VERSION = "1.3.8"
+FIXTURE_VERSION = "1.3.8"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -1800,10 +1800,12 @@ def _validate_input(data: dict[str, Any]) -> None:
     }:
         raise CollectorError("source SHA object is malformed")
     if any(value is not None and not _is_sha(value) for key, value in source.items() if key in {
-        "local_head", "local_main", "local_origin_main", "live_default_branch", "canonical_ref",
+        "local_head", "local_main", "local_origin_main", "live_default_branch",
         "worktree_head_before", "worktree_head_after",
     }):
         raise CollectorError("source SHA is malformed")
+    if not _is_sha(source["canonical_ref"]):
+        raise CollectorError("canonical source ref is malformed")
     if any(type(source[key]) is not bool for key in (
         "worktree_clean_before", "worktree_clean_after", "worktree_status_unchanged", "worktree_head_unchanged",
     )):
@@ -1879,12 +1881,15 @@ def _validate_input(data: dict[str, Any]) -> None:
     _validate_workflow_evidence(data["workflow_run"])
     _validate_marker_evidence(data["markers"])
     _validate_auto_merge_evidence(data["auto_merge"])
+    review = data["review"]
+    if isinstance(review, dict) and set(review) == {
+        "decision", "evidence_status", "review_records", "permission_records",
+    }:
+        _validate_collected_review_evidence(review)
+    else:
+        _validate_review_evidence(review)
     if "source_commands" in data:
         _validate_source_commands(data["source_commands"], data)
-    if set(data["review"]) == {"decision", "evidence_status", "review_records", "permission_records"}:
-        _validate_collected_review_evidence(data["review"])
-    else:
-        _validate_review_evidence(data["review"])
 
 
 def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:

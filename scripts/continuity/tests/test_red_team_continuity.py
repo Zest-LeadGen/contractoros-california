@@ -917,6 +917,170 @@ class C37SourceCommandSemanticValidationTests(unittest.TestCase):
             self.assertFalse(any((output / name).exists() for name in rtc.OUTPUT_NAMES))
 
 
+class C38ValidationAndSchemaCorrectionTests(unittest.TestCase):
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def command(self, return_code=0):
+        return {
+            "argv": ["git", "rev-parse", "HEAD"],
+            "return_code": return_code,
+            "stdout_sha256": "0" * 64,
+            "stderr_present": False,
+        }
+
+    def review_record(self):
+        return {
+            "review_id": 1,
+            "reviewer_login": "reviewer",  # scope-bound review evidence
+            "reviewer_type": "User",
+            "state": "APPROVED",
+            "submitted_at": OBSERVED_AT,
+            "commit_id": ACTIVE_HEAD,
+            "author_association": "MEMBER",  # scope-bound review evidence
+        }
+
+    def malformed_review_cases(self):
+        def missing_review_records(data):
+            del data["review"]["review_records"]
+
+        def review_records_mapping(data):
+            data["review"]["review_records"] = {}
+
+        def empty_review_record(data):
+            data["review"]["review_records"] = [{}]
+
+        def missing_record_state(data):
+            record = self.review_record()
+            del record["state"]
+            data["review"]["review_records"] = [record]
+
+        def missing_reviewer_login(data):  # scope-bound review evidence
+            record = self.review_record()
+            del record["reviewer_login"]  # scope-bound review evidence
+            data["review"]["review_records"] = [record]
+
+        def malformed_permission_record(data):
+            data["review"]["permission_records"] = [{"reviewer_login": "reviewer"}]  # scope-bound review evidence
+
+        def malformed_final_claims(data):
+            data["review"]["qualifying_approvals"] = {}
+
+        return (
+            ("empty mapping", lambda data: data.__setitem__("review", {})),
+            ("list", lambda data: data.__setitem__("review", [])),
+            ("missing review records", missing_review_records),
+            ("review records mapping", review_records_mapping),
+            ("empty review record", empty_review_record),
+            ("missing record state", missing_record_state),
+            ("missing reviewer login", missing_reviewer_login),  # scope-bound review evidence
+            ("malformed permission record", malformed_permission_record),
+            ("malformed final claims", malformed_final_claims),
+        )
+
+    def test_nonempty_commands_validate_complete_review_before_firewall_direct_generation(self):
+        for label, mutate in self.malformed_review_cases():
+            with self.subTest(case=label), tempfile.TemporaryDirectory() as temporary:
+                data = self.active()
+                data["source_commands"] = [self.command()]
+                mutate(data)
+                output = Path(temporary) / "output"
+                with mock.patch.object(rtc, "_source_command_firewall") as firewall:
+                    with self.assertRaises(rtc.CollectorError) as caught:
+                        rtc.generate(data, OBSERVED_AT, output, ROOT)
+                self.assertEqual(caught.exception.exit_code, 5)
+                firewall.assert_not_called()
+                self.assertFalse(any((output / name).exists() for name in rtc.OUTPUT_NAMES))
+
+    def test_nonempty_commands_with_malformed_review_cli_exit_five_without_output(self):
+        for label, mutate in self.malformed_review_cases():
+            with self.subTest(case=label), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                data = self.active()
+                data["source_commands"] = [self.command()]
+                mutate(data)
+                fixture_path = root / "fixture.json"
+                fixture_path.write_text(json.dumps(data), encoding="utf-8")
+                output = root / "output"
+                stderr = io.StringIO()
+                with mock.patch("sys.stderr", stderr):
+                    code = rtc.main([
+                        "fixture", "--fixture", str(fixture_path), "--observed-at", OBSERVED_AT,
+                        "--output-dir", str(output),
+                    ])
+                self.assertEqual(code, 5)
+                self.assertNotIn("Traceback", stderr.getvalue())
+                self.assertFalse(any((output / name).exists() for name in rtc.OUTPUT_NAMES))
+
+    def test_canonical_ref_exact_lowercase_sha_is_required_for_all_fixture_classifications(self):
+        for fixture_name in ("active_pr_requires_live_verification.json", "consistent_closed_gate.json"):
+            with self.subTest(fixture=fixture_name), tempfile.TemporaryDirectory() as temporary:
+                data = fixture(fixture_name)
+                code, evidence, packet = rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)
+                self.assertEqual(code, 0)
+                self.assertEqual(evidence["source_shas"]["canonical_ref"], data["source_shas"]["canonical_ref"])
+                self.assertIn(f"Canonical source ref: {data['source_shas']['canonical_ref']}", packet)
+
+    def test_canonical_ref_null_missing_abbreviated_uppercase_and_malformed_reject(self):
+        cases = (
+            ("null", None),
+            ("abbreviated", "a" * 12),
+            ("uppercase", "A" * 40),
+            ("malformed", "not-a-sha"),
+        )
+        for label, value in cases:
+            with self.subTest(case=label), tempfile.TemporaryDirectory() as temporary:
+                data = self.active()
+                data["source_shas"]["canonical_ref"] = value
+                with self.assertRaises(rtc.CollectorError) as caught:
+                    rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)
+                self.assertEqual(caught.exception.exit_code, 5)
+        data = self.active()
+        del data["source_shas"]["canonical_ref"]
+        with tempfile.TemporaryDirectory() as temporary, self.assertRaises(rtc.CollectorError) as caught:
+            rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_null_canonical_ref_with_nonempty_commands_never_builds_firewall(self):
+        data = self.active()
+        data["source_shas"]["canonical_ref"] = None
+        data["source_commands"] = [self.command()]
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "output"
+            with mock.patch.object(rtc, "_source_command_firewall") as firewall:
+                with self.assertRaises(rtc.CollectorError):
+                    rtc.generate(data, OBSERVED_AT, output, ROOT)
+            firewall.assert_not_called()
+            self.assertFalse(any((output / name).exists() for name in rtc.OUTPUT_NAMES))
+
+    def test_command_return_code_runtime_accepts_only_integer_zero(self):
+        rtc._validate_source_commands([self.command(0)])
+        for value in (1, 2, 999, -1, "0", True, 0.5, None):
+            with self.subTest(return_code=value), self.assertRaises(rtc.CollectorError):
+                rtc._validate_source_commands([self.command(value)])
+
+    def test_current_schema_contracts_bind_version_canonical_ref_and_return_code(self):
+        evidence = json.loads(
+            (ROOT / "docs/project-control/state/red-team-continuity-evidence.schema.json").read_text(encoding="utf-8")
+        )
+        packet = json.loads(
+            (ROOT / "docs/project-control/state/red-team-startup-packet.schema.json").read_text(encoding="utf-8")
+        )
+        for schema in (evidence, packet):
+            with self.subTest(schema=schema["title"]):
+                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.8")
+                canonical = schema["$defs"]["sourceShas"]["properties"]["canonical_ref"]
+                self.assertEqual(canonical, {"$ref": "#/$defs/requiredSha"})
+                self.assertEqual(
+                    schema["$defs"]["requiredSha"],
+                    {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+                )
+        self.assertEqual(
+            evidence["$defs"]["commandResult"]["properties"]["return_code"],
+            {"const": 0},
+        )
+
+
 class WorkflowProvenanceTests(unittest.TestCase):
     def data(self):
         return fixture("active_pr_requires_live_verification.json")
@@ -2450,7 +2614,7 @@ class C36ContractHardeningTests(unittest.TestCase):
         for path in paths:
             with self.subTest(path=path.name):
                 schema = json.loads(path.read_text(encoding="utf-8"))
-                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.7")
+                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.8")
                 reasons = schema["$defs"]["review"]["properties"]["disqualification_reasons"]
                 self.assertEqual(
                     reasons["properties"]["_evidence"]["items"]["enum"],
