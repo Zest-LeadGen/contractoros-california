@@ -32,6 +32,10 @@ At the start of a red-team window:
 12. Verify human approval state.
 13. Verify merge, main, and issue-closeout state before allowing next-phase planning.
 
+Before any red-team next step, validate the actor-bound scope from `RED_TEAM_ROLE_CONTRACT.md`: active actor, `ROLE`, repository, issue, pull request, branch, exact SHA, lifecycle state, authority source, observation timestamp, descriptive program action, next authorized actor, and one bounded next action or `NONE` for every lifecycle role. Program direction creates no actor authority scope.
+
+For red-team, repository write, GitHub write, terminal mutation, implementation, human approval, merge, and issue-closeout power must remain none or no. A contradiction enters `ROLE_CONFLICT` and `REPAIR_REQUIRED`; repair may restore only `READ_ONLY_ROLE_RESTORED`. Any attempted mutation remains denied and recorded in bounded public-safe incident evidence.
+
 Never rely on chat memory as source of truth.
 
 ## Current Marker Handoff Rule
@@ -99,6 +103,16 @@ Stop conditions:
 What not to do:
 Where this state is recorded:
 Progress snapshot:
+Actor role and authority scope:
+Program next action:
+Next authorized actor scope:
+Developer next action:
+Red-team next action:
+Human-approver next action:
+Merge-operator next action:
+Role-conflict status:
+Role-repair state:
+Denied incident summary:
 ```
 
 ## Progress Snapshot Template

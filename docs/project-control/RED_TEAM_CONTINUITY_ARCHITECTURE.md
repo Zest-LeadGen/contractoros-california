@@ -51,4 +51,12 @@ Version `1.3.0` binds the strictly resolved requested root to Git's strictly res
 
 Output validation is pre-mutation. The nearest existing ancestor is strictly resolved, nonexistent suffixes are projected, repository descendants and symlink redirection are rejected, and target object types are checked before directory creation. The boundary is rechecked after creation and atomic-write temporary files are cleaned on failure.
 
-The implementation has no authority to mutate Git, GitHub, canonical state, approvals, merges, releases, budgets, credentials, policy, Phase 4K-9, or Phase 4I. A generated packet remains derived, public-safe, point-in-time evidence. Merged capability is not yet proven while PR #50 is open.
+The Issue #49 implementation has no authority scope to mutate Git, GitHub, canonical state, approvals, merges, releases, budgets, credentials, policy, Phase 4K-9, or Phase 4I. A generated packet remains derived, public-safe, point-in-time evidence.
+
+## Issue #55 Stage A Actor Contract In Review
+
+Issue #49 is closed and PR #50 is merged at main SHA `7d00343c233e45185e6c4d77e50eb870f408c01f`. Issue #55 extends the merged collector with deterministic actor-bound interpretation, role-conflict denial, read-only repair, public-safe incident evidence, schema binding, and packet-hash integration.
+
+The packet distinguishes descriptive program direction from one bounded next action or `NONE` for each developer, red-team, human-approver, and merge-operator role. For red-team, repository write, GitHub write, terminal mutation, implementation, human approval, merge, and issue-closeout authority scope remains none or no.
+
+Stage A proves only the tested repository and startup-packet contract while its PR is in review. Full runtime isolation is not proven. Least-privilege credentials, write-tool removal, immutable repository access, external action-firewall enforcement, credential isolation, and mutation-escape tests remain Stage B requirements under separate future authority scope.

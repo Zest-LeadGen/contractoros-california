@@ -683,3 +683,58 @@ Owner: ContractorOS development lead / external red-team gate
 Resolution condition: C3.4 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
 Last reviewed: 2026-07-12
 ```
+
+### program direction mistaken for actor authority scope
+
+```text
+Risk: A descriptive program next action is treated as execution permission for the active actor.
+Status: Active / controlled in Issue #55 Stage A review
+Evidence: The role validator and packet separate program direction, next authorized actor, and one bounded action per lifecycle role; program direction explicitly grants no actor authority scope.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: Stage A exact head passes tests, controls, external review, human approval, protected merge, verified main, and Issue #55 closeout.
+Last reviewed: 2026-07-13
+```
+
+### role repair broadens authority scope
+
+```text
+Risk: Repair silently converts a red-team conflict into developer, approval, merge, or closeout power.
+Status: Active / controlled in Issue #55 Stage A review
+Evidence: Repair returns only READ_ONLY_ROLE_RESTORED, preserves incident and reasons, and grants no write, mutation, implementation, approval, merge, or closeout authority scope.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: Repair tests and external exact-SHA review confirm the bounded profile on the current head.
+Last reviewed: 2026-07-13
+```
+
+### stale actor binding appears current
+
+```text
+Risk: A stale issue, pull request, branch, SHA, lifecycle, timestamp, repository, or authority-source scope is accepted as current.
+Status: Active / controlled in Issue #55 Stage A review
+Evidence: Independent expected context, exact SHA rules, enumerated lifecycle/source values, and deterministic timestamp bounds fail closed.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: Binding and timestamp matrices pass on the exact reviewed head and remain enforced after merge.
+Last reviewed: 2026-07-13
+```
+
+### role incident leaks private evidence
+
+```text
+Risk: A denied mutation record repeats secrets, credentials, absolute home paths, customer data, private legal or financial material, or private reasoning.
+Status: Active / controlled in Issue #55 Stage A review
+Evidence: Incident output uses bounded enumerated fields and privacy tests prove unsafe raw values do not enter results or packets.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: Public-safe scans and external review pass for the current PR head.
+Last reviewed: 2026-07-13
+```
+
+### Stage A overclaimed as runtime isolation
+
+```text
+Risk: Deterministic repository-level contract enforcement is described as full runtime isolation or infrastructure tool removal.
+Status: Active / controlled by bounded claim language
+Evidence: Normative contract, schemas, packet, report, roadmap, and tracker state FULL_RUNTIME_ISOLATION=NOT_PROVEN and STAGE_B_REQUIRED=YES.
+Owner: ContractorOS owner / external red-team gate / human approver
+Resolution condition: Stage B receives separate durable authority scope and proves infrastructure controls before any broader claim.
+Last reviewed: 2026-07-13
+```

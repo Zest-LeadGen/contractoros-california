@@ -213,6 +213,14 @@ The next permissible implementation gate after Issue #47 closeout is the read-on
 
 ## 22. Issue #49 Read-Only Continuity Collector Gate
 
-Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 and PR #50 contain the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation in review.
+Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 is closed and PR #50 merged the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation at main SHA `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
 This gate precedes Phase 4K-9. Phase 4K-9 is not started, Phase 4I remains paused, and no later product, source-ingestion, database, private-infrastructure, paid-service, release, or production work is included.
+
+## 23. Issue #55 Stage A Actor-Bound Role Contract
+
+Issue #53 remains the parent planning and security-requirements record. Issue #55 is the dedicated Stage A implementation authority scope for deterministic actor-role interpretation, startup-packet integration, schema and fixture migration, tests, and allowlisted governance reconciliation.
+
+Stage A distinguishes descriptive program direction from actor-specific next actions; fails closed on missing, unknown, stale, duplicate, malformed, or contradictory governing evidence; denies red-team mutation attempts; and permits only read-only role repair. The approved in-review claim is `ACTOR_BOUND_ROLE_CONTRACT=IMPLEMENTED_IN_REVIEW`, `FULL_RUNTIME_ISOLATION=NOT_PROVEN`, and `STAGE_B_REQUIRED=YES`.
+
+Stage B runtime isolation, Issue #54, Phase 4K-9, and Phase 4I are not started. No credential, tool-removal, immutable-worktree, external action-firewall, product, dependency, backend, build, deployment, release, paid-service, approval, merge, or closeout authority scope is added by Stage A.

@@ -15,11 +15,15 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+try:
+    from scripts.continuity import role_contract
+except ModuleNotFoundError:  # direct script execution from scripts/continuity
+    import role_contract  # type: ignore[no-redef]
 
-GENERATOR_VERSION = "1.3.8"
-EVIDENCE_SCHEMA_VERSION = "1.3.8"
-PACKET_SCHEMA_VERSION = "1.3.8"
-FIXTURE_VERSION = "1.3.8"
+GENERATOR_VERSION = "1.4.0"
+EVIDENCE_SCHEMA_VERSION = "1.4.0"
+PACKET_SCHEMA_VERSION = "1.4.0"
+FIXTURE_VERSION = "1.4.0"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -1341,6 +1345,18 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
     )
     worktree_head_after = read(["git", "rev-parse", "HEAD"])
     _require_clean_unchanged_worktree(before_status, after_status, worktree_head_before, worktree_head_after)
+    lifecycle_claim = "active_pr" if str(pr.get("state") or "").upper() == "OPEN" else "closed_gate"
+    actor_lifecycle = (
+        "DEVELOPER_IMPLEMENTATION_IN_REVIEW"
+        if lifecycle_claim == "active_pr"
+        else "PHASE_CLOSED_READY_FOR_NEXT_PHASE"
+    )
+    actor_program_action = (
+        "External exact-SHA review must inspect the current PR head."
+        if lifecycle_claim == "active_pr"
+        else "Verify merged evidence before any later planning gate."
+    )
+    actor_red_team_action = "REVIEW_EXACT_SHA" if lifecycle_claim == "active_pr" else "NONE"
     evidence = {
         "fixture_version": FIXTURE_VERSION,
         "repository": {
@@ -1405,7 +1421,20 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             **approval_evidence,
         },
         "auto_merge": {"active": pr["autoMergeRequest"] is not None},
-        "lifecycle_claim": "active_pr" if str(pr.get("state") or "").upper() == "OPEN" else "closed_gate",
+        "actor_contract": role_contract.red_team_contract(
+            repository=repository_name,
+            issue=int(issue.get("number")),
+            pull_request=int(pr.get("number")),
+            branch=str(pr.get("headRefName") or ""),
+            exact_sha=str(pr.get("headRefOid") or ""),
+            lifecycle_state=actor_lifecycle,
+            authority_source="GITHUB_ISSUE_49",  # scope
+            observation_timestamp=args.observed_at,
+            program_next_action=actor_program_action,
+            red_team_next_action=actor_red_team_action,
+            requested_action_class="EXACT_SHA_REVIEW" if actor_red_team_action != "NONE" else "NONE",
+        ),
+        "lifecycle_claim": lifecycle_claim,
         "raw_chat_status": "no authority",
         "source_commands": commands,
     }
@@ -1769,6 +1798,7 @@ def _validate_input(data: dict[str, Any]) -> None:
         "markers",
         "review",
         "auto_merge",
+        "actor_contract",
         "lifecycle_claim",
         "raw_chat_status",
     }
@@ -1881,6 +1911,10 @@ def _validate_input(data: dict[str, Any]) -> None:
     _validate_workflow_evidence(data["workflow_run"])
     _validate_marker_evidence(data["markers"])
     _validate_auto_merge_evidence(data["auto_merge"])
+    if not isinstance(data["actor_contract"], dict) or set(data["actor_contract"]) != set(
+        role_contract.GOVERNING_KEYS
+    ):
+        raise CollectorError("actor contract evidence is malformed")
     review = data["review"]
     if isinstance(review, dict) and set(review) == {
         "decision", "evidence_status", "review_records", "permission_records",
@@ -1890,6 +1924,28 @@ def _validate_input(data: dict[str, Any]) -> None:
         _validate_review_evidence(review)
     if "source_commands" in data:
         _validate_source_commands(data["source_commands"], data)
+
+
+def _actor_expected_context(data: dict[str, Any], observed_at: str) -> dict[str, Any]:
+    issue_number = data["issue"]["number"]
+    authority_source = (  # scope
+        "GITHUB_ISSUE_49" if issue_number == 49 else "GITHUB_ISSUE_55" if issue_number == 55 else "GITHUB_PULL_REQUEST"
+    )
+    lifecycle = (
+        "PHASE_CLOSED_READY_FOR_NEXT_PHASE"
+        if data["lifecycle_claim"] == "closed_gate"
+        else "DEVELOPER_IMPLEMENTATION_IN_REVIEW"
+    )
+    return {
+        "REPOSITORY": data["repository"]["name"],
+        "ISSUE": issue_number,
+        "PULL_REQUEST": data["pr"]["number"],
+        "BRANCH": data["pr"]["head_branch"],
+        "EXACT_SHA": data["pr"]["head"],
+        "LIFECYCLE_STATE": lifecycle,
+        "AUTHORITY_SOURCE": authority_source,  # scope
+        "CURRENT_TIME": observed_at,
+    }
 
 
 def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:
@@ -2159,6 +2215,10 @@ def _compare(
         return "quarantined", sorted(set(findings)), sorted(blockers), True
     if findings:
         return "stale", sorted(findings), sorted(blockers), False
+    actor_result = data["actor_contract_result"]
+    if not actor_result["valid"]:
+        findings.extend(f"Actor role contract denied: {reason}" for reason in actor_result["reasons"])
+        return "quarantined", sorted(set(findings)), sorted(blockers), True
     if markers.get("owner_trigger_status") != "valid":
         findings.append("Owner-trigger marker evidence is missing, malformed, conflicting, or ambiguous")
         return "quarantined", sorted(findings), sorted(blockers), True
@@ -2271,6 +2331,8 @@ def _packet_data(data: dict[str, Any], observed_at: str, classification: str, fi
         "markers": data["markers"],
         "review": data["review"],
         "auto_merge": data["auto_merge"],
+        "actor_contract": data["actor_contract"],
+        "actor_contract_result": data["actor_contract_result"],
         "classification": classification,
         "quarantine": quarantine,
         "findings": findings,
@@ -2303,6 +2365,8 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
     run = packet["workflow_run"]
     markers = packet["markers"]
     review = packet["review"]
+    actor = packet["actor_contract"]
+    actor_result = packet["actor_contract_result"]
     lines = [
         "# RED_TEAM_STARTUP_PACKET",
         "",
@@ -2355,6 +2419,33 @@ def _render_packet_payload(packet: dict[str, Any]) -> str:
         f"- Qualifying human approvals: {len(review.get('qualifying_approvals') or [])}",
         f"- Disqualified approval candidates: {len(review.get('disqualified_approvals') or [])}",
         f"- Auto-merge active: {str(bool(packet['auto_merge'].get('active'))).lower()}",
+        "",
+        "## Actor-Bound Role Contract",
+        "",
+        f"- Active actor: {actor.get('ACTOR_ROLE')}",
+        f"- Actor-role declaration: ROLE={actor.get('ROLE')}",
+        f"- Repository binding: {actor.get('REPOSITORY')}",
+        f"- Issue binding: #{actor.get('ISSUE')}",
+        f"- Pull-request binding: #{actor.get('PULL_REQUEST')}",
+        f"- Branch binding: {actor.get('BRANCH')}",
+        f"- Exact-SHA binding: {actor.get('EXACT_SHA')}",
+        f"- Lifecycle binding: {actor.get('LIFECYCLE_STATE')}",
+        f"- Authority source scope: {actor.get('AUTHORITY_SOURCE')}",
+        f"- Observation timestamp: {actor.get('OBSERVATION_TIMESTAMP')}",
+        f"- Program next action: {actor.get('PROGRAM_NEXT_ACTION')}",
+        f"- Next authorized actor scope: {actor.get('NEXT_AUTHORIZED_ACTOR')}",
+        f"- Developer next action: {actor.get('DEVELOPER_NEXT_ACTION')}",
+        f"- Red-team next action: {actor.get('RED_TEAM_NEXT_ACTION')}",
+        f"- Human-approver next action: {actor.get('HUMAN_APPROVER_NEXT_ACTION')}",
+        f"- Merge-operator next action: {actor.get('MERGE_OPERATOR_NEXT_ACTION')}",
+        f"- Role-conflict status: {actor_result.get('role_conflict_status')}",
+        f"- Role-repair state: {actor_result.get('role_repair_state')}",
+        f"- Requested action decision: {actor_result.get('decision')}",
+        f"- Denied incident summary: {json.dumps(actor_result.get('incident'), sort_keys=True, separators=(',', ':')) if actor_result.get('incident') else 'NONE'}",
+        "- Program direction is descriptive and is not actor authority scope.",
+        "- Stage A claim: ACTOR_BOUND_ROLE_CONTRACT=IMPLEMENTED_IN_REVIEW",
+        "- Full runtime isolation: NOT_PROVEN",
+        "- Stage B required: YES",
         "",
         "## Required Checks",
         "",
@@ -2478,9 +2569,13 @@ def generate(data: dict[str, Any], observed_at: str, output_dir: Path, repo_root
     _parse_rfc3339(observed_at)
     _reject_unsafe(data)
     _validate_input(data)
+    actor_result = role_contract.validate_role_contract(
+        data["actor_contract"], _actor_expected_context(data, observed_at)
+    )
     approval = _approval_evaluation(data["pr"], data["review"])
     data = dict(data)
     data["review"] = approval["review"]
+    data["actor_contract_result"] = actor_result
     destination = _validate_output_dir(output_dir, repo_root)
     classification, findings, blockers, quarantine = _compare(data, approval)
     packet = _packet_data(data, observed_at, classification, findings, blockers, quarantine)
@@ -2495,6 +2590,8 @@ def generate(data: dict[str, Any], observed_at: str, output_dir: Path, repo_root
         "source_shas": data["source_shas"],
         "source_commands": data.get("source_commands", []),
         "canonical_state": data["canonical_state"],
+        "actor_contract": data["actor_contract"],
+        "actor_contract_result": data["actor_contract_result"],
         "live_state": {
             "issue": data["issue"],
             "pr": data["pr"],

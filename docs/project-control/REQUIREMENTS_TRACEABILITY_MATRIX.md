@@ -282,3 +282,18 @@ Purpose: map Phase 4J-0 governance requirements to versioned ContractorOS Califo
 | RTM-I49-071 | Canonical source provenance must be a mandatory exact committed ref. | Collector, fixtures, packet rendering, both schemas and C3.8 tests | Null, missing, abbreviated, uppercase and malformed refs reject; active and closed output require and render an exact lowercase 40-character SHA. |
 | RTM-I49-072 | Persisted command-result schema semantics must match runtime success semantics. | Collector, evidence schema and standard-library contract tests | Runtime accepts only integer zero; the schema fixes `return_code` to zero; nonzero and malformed values fail closed. |
 | RTM-I49-073 | The C3.8 contract migration must be coherent and bounded. | Generator, fixtures, expected packet, both schemas and governance records | Current fixture, evidence, packet and generator contracts are version `1.3.8`; historical C3.6 and C3.7 records remain historical. |
+
+## Issue #55 Stage A Actor-Bound Role Contract
+
+| Requirement ID | Issue #55 requirement | Evidence files | Validation |
+|---|---|---|---|
+| RTM-I55-001 | Program direction grants no actor authority scope; every lifecycle actor has one bounded next action or `NONE`. | `RED_TEAM_ROLE_CONTRACT.md`, role validator, packet renderer | Dedicated and integration action-separation tests. |
+| RTM-I55-002 | Red-team authority scope fixes write, mutation, implementation, approval, merge, and closeout power to none or no. | Role validator, both schemas, startup specification | Exact-profile tests and schema conditional. |
+| RTM-I55-003 | Missing, unknown, duplicate, malformed, stale, and contradictory governing evidence fails closed. | Role validator and dedicated tests | Binding, shape, duplicate-pair, timestamp, and authority-scope matrices. |
+| RTM-I55-004 | Red-team mutation attempts are denied and produce bounded public-safe incident evidence. | Role validator, collector integration, tests | Mutation-class matrix, privacy scan, and packet incident test. |
+| RTM-I55-005 | Role repair restores only the read-only profile and preserves reasons and incident evidence. | Role validator and normative contract | Repair authority-scope and reason-order tests. |
+| RTM-I55-006 | Actor evidence is required in JSON and Markdown and participates in packet hashing. | Collector, schemas, fixtures, expected packet | Fixed-time bytes, independent hash recomputation, and actor-change sensitivity. |
+| RTM-I55-007 | Existing Issue #49 collector classifications and safety boundaries remain intact. | Collector and full continuity suite | Full regression suite and fixture exit matrix. |
+| RTM-I55-008 | Stage A remains bounded and full runtime isolation is not proven. | Normative contract, report, architecture, roadmap, tracker | Exact bounded-claim and Stage B exclusion checks. |
+| RTM-I55-009 | External exact-SHA review, human approval, merge, verified main, and closeout remain separate in scope. | AGENTS, protocol, handoff, state machine, packet | Authority-separation tests and lifecycle evidence review. |
+| RTM-I55-010 | Workflow, control-script, dependency, lockfile, product, backend, database, release, credential, paid-service, Stage B, Issue #54, Phase 4K-9, and Phase 4I scope does not change. | Issue #55, changed-file evidence, report | Required local controls and exact allowlist comparison. |

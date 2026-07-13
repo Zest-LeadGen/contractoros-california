@@ -32,6 +32,19 @@ Red-team must not ask the owner to choose between future paths while the current
 | `MAIN_VERIFIED_WAITING_FOR_ISSUE_CLOSE` | PR merge and main verification are recorded; linked phase issue remains open or closeout comment is missing. | Close the linked phase issue with post-merge verification evidence. | Linked issue unknown, issue already closed without verification evidence, or main verification incomplete. | Do not start next phase until issue closeout is recorded. |
 | `PHASE_CLOSED_READY_FOR_NEXT_PHASE` | PR merged, main verified, local main clean when local verification was required, linked phase issue closed, and closeout summarized. | Summarize closeout, then prepare the next phase issue or approved phase prompt. | Any prior state evidence is missing or contradictory. | Do not claim readiness beyond the recorded governance scope. |
 
+## Actor Role-Conflict And Repair States
+
+These actor states are evaluated before the lifecycle table grants any next action:
+
+| Actor state | Required evidence | Allowed next action | Stop condition |
+|---|---|---|---|
+| `NORMAL` | Exact actor declaration, bindings, authority-source scope, observation time, next-action fields, and authority profile agree. | Perform only the single bounded action assigned to the active actor. | Any missing, unknown, stale, duplicate, malformed, or contradictory governing field. |
+| `ROLE_CONFLICT` | Actor evidence or requested action contradicts the exact profile or current bindings. | Deny the request and enter `REPAIR_REQUIRED`. | Do not select broader authority scope or assume developer power. |
+| `REPAIR_REQUIRED` | Conflict reasons and any bounded incident are preserved. | Re-establish the exact actor contract without mutation. | No repository, GitHub, terminal, implementation, approval, merge, or closeout action is permitted. |
+| `READ_ONLY_ROLE_RESTORED` | Red-team exact read-only profile is restored and the incident remains visible. | Revalidate current evidence before prompt authoring or exact-SHA review. | Repair grants no broader authority scope and does not validate the denied action. |
+
+Program direction alone cannot transition any actor or lifecycle state. Exact-SHA review is not human approval; human approval is not merge power; merge is not verified main or issue closeout.
+
 ## Stale PR Head SHA Handling
 
 If the pull request head SHA changes after red-team review:

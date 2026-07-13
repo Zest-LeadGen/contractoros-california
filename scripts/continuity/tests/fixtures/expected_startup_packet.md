@@ -7,8 +7,8 @@ It provides no write authorization and cannot approve, merge, release or close a
 
 ## Generator
 
-- Generator version: 1.3.8
-- Packet schema version: 1.3.8
+- Generator version: 1.4.0
+- Packet schema version: 1.4.0
 - Observation timestamp: 2026-07-13T00:00:00Z
 - Repository: Zest-LeadGen/contractoros-california
 - Canonical schema version: 1.0.1
@@ -49,6 +49,33 @@ It provides no write authorization and cannot approve, merge, release or close a
 - Qualifying human approvals: 0
 - Disqualified approval candidates: 0
 - Auto-merge active: false
+
+## Actor-Bound Role Contract
+
+- Active actor: RED_TEAM
+- Actor-role declaration: ROLE=RED_TEAM
+- Repository binding: Zest-LeadGen/contractoros-california
+- Issue binding: #49
+- Pull-request binding: #50
+- Branch binding: collector-branch
+- Exact-SHA binding: cccccccccccccccccccccccccccccccccccccccc
+- Lifecycle binding: DEVELOPER_IMPLEMENTATION_IN_REVIEW
+- Authority source scope: GITHUB_ISSUE_49
+- Observation timestamp: 2026-07-13T00:00:00Z
+- Program next action: External exact-SHA review must inspect the current PR head.
+- Next authorized actor scope: RED_TEAM
+- Developer next action: NONE
+- Red-team next action: REVIEW_EXACT_SHA
+- Human-approver next action: NONE
+- Merge-operator next action: NONE
+- Role-conflict status: NORMAL
+- Role-repair state: NORMAL
+- Requested action decision: ALLOW
+- Denied incident summary: NONE
+- Program direction is descriptive and is not actor authority scope.
+- Stage A claim: ACTOR_BOUND_ROLE_CONTRACT=IMPLEMENTED_IN_REVIEW
+- Full runtime isolation: NOT_PROVEN
+- Stage B required: YES
 
 ## Required Checks
 
@@ -92,4 +119,4 @@ External exact-SHA review must rerun this collector against the current PR head.
 
 ## Packet Hash
 
-`733034ae5d75ad54065da906d11f01ac6e461df09b81623357b00833dc3ff266`
+`e633d7d9afcf0f91f1061fe8619e89831b0c3a40e7a3a7e615ff16eec9bff13b`

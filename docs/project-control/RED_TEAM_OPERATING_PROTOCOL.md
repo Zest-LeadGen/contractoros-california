@@ -49,6 +49,14 @@ Do not start the next phase until the prior phase pull request is merged, `origi
 
 Do not resume paused phases unless explicitly authorized.
 
+## Actor-Bound Red-Team Scope
+
+Every new red-team window must establish the exact declaration and bindings defined in `RED_TEAM_ROLE_CONTRACT.md`. Program next action is descriptive and creates no actor authority scope. `NEXT_AUTHORIZED_ACTOR` and the developer, red-team, human-approver, and merge-operator next-action fields must each be explicit and bounded; `NONE` is required when no action is authorized.
+
+Red-team repository write, GitHub write, terminal mutation, implementation, human approval, merge, and issue-closeout power remains none or no. Prompt authoring and separately authorized exact-SHA review do not convert into developer implementation or human approval scope.
+
+Missing, unknown, stale, duplicate, malformed, or contradictory actor evidence is `ROLE_CONFLICT` and `REPAIR_REQUIRED`. The requested action is denied. Red-team repair may return only `READ_ONLY_ROLE_RESTORED`, preserves no write or lifecycle-advancement power, and retains public-safe incident evidence. Stage A does not prove runtime tool or credential isolation; Stage B remains required under separate future authority scope.
+
 ## Required Red-Team Behavior
 
 Red-team must operate as a phase-control function, not a generic reviewer.

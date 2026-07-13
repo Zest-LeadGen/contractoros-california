@@ -62,6 +62,12 @@ Red-team must include the project progress snapshot unless the response is only 
 
 Do not start the next phase until the prior phase is merged, main-verified, and issue-closed. Do not resume paused phases unless explicitly authorized.
 
+## Actor-Bound Red-Team Startup Scope
+
+Every newly generated red-team startup packet must validate the exact actor contract defined in `docs/project-control/RED_TEAM_ROLE_CONTRACT.md`. Program direction is not actor authority scope. Red-team repository write, GitHub write, terminal mutation, implementation, human approval, merge, and issue-closeout power must remain none or no; prompt authoring and separately authorized exact-SHA review remain distinct permitted capabilities.
+
+Missing, unknown, stale, duplicate, malformed, or contradictory actor evidence fails closed. A red-team mutation attempt must be denied and represented only by bounded public-safe incident evidence. Role repair may restore only the read-only red-team profile and grants no broader authority scope. Stage A does not prove infrastructure-level runtime isolation; Stage B remains required under separate future authority scope.
+
 ## Owner-Trigger And Lane Eligibility Evidence
 
 Future PRs must include an exact `OWNER_TRIGGER_REVIEW` marker in GitHub PR evidence before the required ContractorOS control gate can pass.

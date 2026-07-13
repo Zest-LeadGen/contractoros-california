@@ -421,17 +421,17 @@ Verified main controls phase advancement.
 
 The next recommended gate after Issue #47 closeout is the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.
 
-## Current Issue #49 Snapshot
+## Historical Issue #49 Snapshot
 
 | Item | Evidence-based status |
 |---|---|
 | Issue #47 | Closed/completed |
 | PR #48 | Merged at `01b90ab8b12416101b4be067794bf543a3488779` |
-| Issue #49 | Active |
-| PR #50 | Open; implementation in review |
+| Issue #49 | Closed/completed |
+| PR #50 | Merged at `7d00343c233e45185e6c4d77e50eb870f408c01f` |
 | Phase 4K-9 | Not started |
 | Phase 4I | Paused |
-| Continuity collector | Implementation in review; merged capability not yet proven |
+| Continuity collector | Present on Issue #55 starting main; generated evidence remains derived and non-authoritative within this scope |
 
 ## Issue #49 Governance Hardening Progress Contract
 
@@ -462,3 +462,22 @@ Current-phase reporting must remain separate from program-capability reporting.
 | Overall program | Must not inherit governance-only gains as product delivery |
 
 Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and documentation-only Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress. Phase 4K-9 remains not started and Phase 4I remains paused.
+
+## Current Issue #55 Stage A Snapshot
+
+| Item | Evidence-based status |
+|---|---|
+| Starting main | `7d00343c233e45185e6c4d77e50eb870f408c01f` verified local, origin, and remote before branch creation |
+| Parent Issue #53 | Open planning and security-requirements record; no direct implementation authority scope |
+| Implementation Issue #55 | Open, assigned to `danidon-wq`, dedicated Stage A authority scope |
+| Branch | `stage-a-red-team-role-isolation` |
+| Stage A | Actor-bound contract implemented in review within tested scope |
+| Full runtime isolation | Not proven; Stage B required |
+| External red-team | Pending exact-current-head review after PR handoff |
+| Human approval | Pending and separate |
+| Merge / verified main / closeout | Pending; no developer authority scope |
+| Issue #54 | Planning-only |
+| Phase 4K-9 | Not started |
+| Phase 4I | Paused |
+
+Stage A governance/control progress does not increase product, content, dependency/runtime, backend/data, build/distribution, business-validation, or overall-program capability. Exact tests and lifecycle evidence control all claims.

@@ -6,6 +6,27 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entries
 
+### Issue #55 Stage A Actor-Bound Red-Team Role Contract
+
+```text
+Phase: Pre-4K-9 Stage A actor-bound red-team role isolation
+Lane: Control / Infrastructure
+Date: 2026-07-13
+Branch: stage-a-red-team-role-isolation
+Implementation issue: #55
+Parent planning issue: #53
+Starting main: 7d00343c233e45185e6c4d77e50eb870f408c01f
+PR: Pending developer validation and creation
+Head SHA: Pending validated commit
+Merge SHA: Pending; no merge authority scope is granted to Codex
+Changed files: Exact Issue #55 allowlist only; final list recorded in the Stage A report
+Commands run: Identity and exact-SHA preflight, baseline tests, role self-test, focused role and integration tests, full continuity suite, deterministic comparisons, schema parsing, privacy scan, all required local controls, full staged inspection, and both diff checks; exact-head GitHub inspection follows after push
+Claim level: ACTOR_BOUND_ROLE_CONTRACT=IMPLEMENTED_IN_REVIEW; FULL_RUNTIME_ISOLATION=NOT_PROVEN; STAGE_B_REQUIRED=YES
+Next actor after PR handoff: external exact-SHA red-team; human approval, merge, verified main, and closeout remain separate
+Phase 4K-9: not started
+Phase 4I: paused
+```
+
 ### Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate
 
 ```text
@@ -36,10 +57,10 @@ Implementation evidence commit: ee0ffc7c17072543cf818849252a8c07d2019538
 Intermediate live run: 29177537570 for implementation evidence commit ee0ffc7c17072543cf818849252a8c07d2019538
 Final reconciliation head: live GitHub evidence required after the evidence commit; no static value grants review decision power
 Current PR head: live GitHub evidence required; static ledger values grant no review decision power
-Merge SHA: pending
+Merge SHA: 7d00343c233e45185e6c4d77e50eb870f408c01f
 Phase 4K-9: not started
 Phase 4I: paused
-Claim level: read-only collector and derived-packet implementation in review
+Claim level: Issue #49 closed and PR #50 merged; read-only collector and derived-packet capability is present on verified starting main for Issue #55
 ```
 
 ### Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate

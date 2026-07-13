@@ -286,6 +286,104 @@ class ContinuityCollectorTests(unittest.TestCase):
         self.assertEqual(sorted(path.name for path in output.iterdir()), sorted(rtc.OUTPUT_NAMES))
 
 
+class ActorContractIntegrationTests(unittest.TestCase):
+    def generate(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def test_valid_actor_contract_is_explicit_in_json_and_markdown(self):
+        code, evidence, packet = self.generate(self.active())
+        self.assertEqual(code, 0)
+        self.assertEqual(evidence["actor_contract"]["ACTOR_ROLE"], "RED_TEAM")
+        self.assertTrue(evidence["actor_contract_result"]["valid"])
+        self.assertIn("## Actor-Bound Role Contract", packet)
+        self.assertIn("Program direction is descriptive and is not actor authority scope.", packet)
+        self.assertIn("Full runtime isolation: NOT_PROVEN", packet)
+
+    def test_actor_contract_change_alters_packet_hash(self):
+        data = self.active()
+        _, first, _ = self.generate(data)
+        changed = copy.deepcopy(data)
+        changed["actor_contract"]["PROGRAM_NEXT_ACTION"] = (
+            "External exact-SHA review remains the descriptive program action."
+        )
+        _, second, _ = self.generate(changed)
+        self.assertNotEqual(first["packet_hash"], second["packet_hash"])
+
+    def test_red_team_mutation_attempt_is_denied_quarantined_and_recorded(self):
+        data = self.active()
+        data["actor_contract"]["REQUESTED_ACTION_CLASS"] = "REPOSITORY_MUTATION"
+        code, evidence, packet = self.generate(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+        result = evidence["actor_contract_result"]
+        self.assertEqual(result["decision"], "DENY")
+        self.assertEqual(result["role_repair_state"], "REPAIR_REQUIRED")
+        self.assertEqual(result["incident"]["result"], "DENIED")
+        self.assertIn('"requested_action_class":"REPOSITORY_MUTATION"', packet)
+
+    def test_stale_actor_binding_fails_closed(self):
+        data = self.active()
+        data["actor_contract"]["EXACT_SHA"] = "d" * 40
+        code, evidence, _ = self.generate(data)
+        self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+        self.assertIn("STALE_EXACT_SHA_BINDING", evidence["actor_contract_result"]["reasons"])
+
+    def test_missing_actor_contract_field_is_invalid_input(self):
+        data = self.active()
+        del data["actor_contract"]["ROLE"]
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaises(rtc.CollectorError):
+                rtc.generate(data, OBSERVED_AT, Path(temporary), ROOT)
+
+    def test_actor_actions_are_singular_and_separated(self):
+        _, evidence, _ = self.generate(self.active())
+        actions = evidence["actor_contract_result"]["next_actions"]
+        self.assertEqual(set(actions), {"CODEX_DEVELOPER", "RED_TEAM", "HUMAN_APPROVER", "MERGE_OPERATOR"})
+        self.assertEqual([actor for actor, action in actions.items() if action != "NONE"], ["RED_TEAM"])
+        authority = evidence["actor_contract_result"]["effective_authority"]  # scope
+        self.assertEqual(authority["EXACT_SHA_REVIEW_AUTHORITY"], "YES")  # scope
+        self.assertEqual(authority["HUMAN_APPROVAL_AUTHORITY"], "NO")  # scope
+        self.assertEqual(authority["MERGE_AUTHORITY"], "NO")  # scope
+        self.assertEqual(authority["ISSUE_CLOSEOUT_AUTHORITY"], "NO")  # scope
+
+    def test_schema_contract_accepts_valid_and_rejects_contradictory_red_team(self):
+        schema = json.loads(
+            (ROOT / "docs/project-control/state/red-team-continuity-evidence.schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        actor_schema = schema["$defs"]["actorContract"]
+
+        def accepted(value):
+            if set(actor_schema["required"]) - set(value):
+                return False
+            if actor_schema.get("additionalProperties") is False and set(value) - set(actor_schema["properties"]):
+                return False
+            for key, rule in actor_schema["properties"].items():
+                if key not in value:
+                    continue
+                if "const" in rule and value[key] != rule["const"]:
+                    return False
+                if "enum" in rule and value[key] not in rule["enum"]:
+                    return False
+                if "pattern" in rule and not re.fullmatch(rule["pattern"], value[key]):
+                    return False
+            if value.get("ACTOR_ROLE") == "RED_TEAM":
+                red_team_rules = actor_schema["allOf"][0]["then"]["properties"]
+                if any(value.get(key) != rule["const"] for key, rule in red_team_rules.items()):
+                    return False
+            return True
+
+        valid = self.active()["actor_contract"]
+        self.assertTrue(accepted(valid))
+        invalid = dict(valid, IMPLEMENTATION_AUTHORITY="YES")  # scope
+        self.assertFalse(accepted(invalid))
+
+
 class MarkerSemanticsTests(unittest.TestCase):
     def evaluations(self, body):
         return rtc._marker_evaluations(body, ACTIVE_HEAD, 50)
@@ -1068,7 +1166,7 @@ class C38ValidationAndSchemaCorrectionTests(unittest.TestCase):
         )
         for schema in (evidence, packet):
             with self.subTest(schema=schema["title"]):
-                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.8")
+                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.4.0")
                 canonical = schema["$defs"]["sourceShas"]["properties"]["canonical_ref"]
                 self.assertEqual(canonical, {"$ref": "#/$defs/requiredSha"})
                 self.assertEqual(
@@ -2418,7 +2516,7 @@ class C35StagedEvidenceTests(unittest.TestCase):
                 self.fail(f"unexpected live command: {argv}")
             return output, {"argv": argv, "return_code": 0, "stdout_sha256": "0" * 64, "stderr_present": False}
 
-        args = type("Args", (), {"repo_root": str(ROOT), "canonical_ref": ACTIVE_HEAD, "repository": rtc.EXPECTED_REPOSITORY, "issue_number": 49, "pr_number": 50, "run_id": run["id"]})()
+        args = type("Args", (), {"repo_root": str(ROOT), "canonical_ref": ACTIVE_HEAD, "repository": rtc.EXPECTED_REPOSITORY, "issue_number": 49, "pr_number": 50, "run_id": run["id"], "observed_at": OBSERVED_AT})()
         with mock.patch.object(rtc, "_run_read_command", side_effect=read_command), mock.patch.object(rtc, "_collect_review_evidence", return_value=self.collected()):
             result = rtc._collect_live(args)
         self.assertEqual(result["review"]["qualifying_approvals"], [])
@@ -2614,7 +2712,7 @@ class C36ContractHardeningTests(unittest.TestCase):
         for path in paths:
             with self.subTest(path=path.name):
                 schema = json.loads(path.read_text(encoding="utf-8"))
-                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.3.8")
+                self.assertEqual(schema["properties"]["schema_version"]["const"], "1.4.0")
                 reasons = schema["$defs"]["review"]["properties"]["disqualification_reasons"]
                 self.assertEqual(
                     reasons["properties"]["_evidence"]["items"]["enum"],

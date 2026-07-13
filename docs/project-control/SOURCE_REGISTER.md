@@ -115,3 +115,13 @@ The UI label "Extra High" is recorded only as UI-observed terminology unless an 
 | SRC-I49-010 | Issue #49 comment `4950978131` | Owner GitHub clarification | Compact tables rather than paragraph compression | Verified 2026-07-12 | Supersedes inline-prose interpretation of compact reporting. |
 | SRC-I49-011 | GitHub REST API endpoints for pull request reviews | Official GitHub documentation | Chronological review records, review fields, submission state and pagination bounds | Verified 2026-07-12 | https://docs.github.com/en/rest/pulls/reviews |
 | SRC-I49-012 | GitHub REST API endpoint for repository permissions | Official GitHub documentation | Calculated permission, role name, and maintain-to-write / triage-to-read base-role mapping | Verified 2026-07-12 | https://docs.github.com/en/rest/collaborators/collaborators#get-repository-permissions-for-a-user |
+
+## Issue #55 Stage A Public-Safe Sources
+
+| Source ID | Source | Authority scope | Use | Status |
+|---|---|---|---|---|
+| SRC-I55-001 | GitHub Issue #55 | Dedicated Stage A implementation authority scope | Objective, exact allowlist, forbidden scope, evidence, assumptions, risks, validations, review, and approval requirements | Live verified 2026-07-13 |
+| SRC-I55-002 | GitHub Issue #53 | Parent planning and security-requirements scope only | Stage A threat model and Stage B boundary; no direct implementation authority scope | Live verified open 2026-07-13 |
+| SRC-I55-003 | GitHub Issue #49 and PR #50 | Merged prerequisite evidence; no current implementation authority scope | Proves collector prerequisite closed/merged and identifies preserved behavior | Live verified 2026-07-13 |
+| SRC-I55-004 | `docs/project-control/RED_TEAM_ROLE_CONTRACT.md` | Versioned normative Stage A contract scope | Actor fields, red-team profile, conflict, repair, incident, determinism, and limitations | Implemented in review |
+| SRC-I55-005 | `docs/project-control/PROMPT_CONVENTION.md` | ContractorOS prompt and capability-discovery policy scope | Required ten-field intake, honest fallback, one-agent and packet discipline | Verified at starting SHA |

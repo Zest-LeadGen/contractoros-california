@@ -1,48 +1,43 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "01b90ab8b12416101b4be067794bf543a3488779",
-  "active_gate": "Pre-4K-9 — Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate",
-  "linked_issue": {"number":49,"state":"active"},
-  "linked_pr": {
-    "number":50,
-    "state":"open",
-    "url":"https://github.com/Zest-LeadGen/contractoros-california/pull/50",
-    "head_sha_source":"live_github_required",
-    "observed_head_sha":null
-  },
-  "lifecycle_state":"developer_implementation_in_review",
+  "current_main_sha": "7d00343c233e45185e6c4d77e50eb870f408c01f",
+  "active_gate": "Pre-4K-9 Stage A — Actor-Bound Red-Team Role Contract and Anti-Drift Validator",
+  "linked_issue": {"number":55,"state":"active"},
+  "linked_pr": null,
+  "lifecycle_state":"developer_implementation_branch_before_pr",
   "paused_phases":["Phase 4I"],
   "completed_prior_phase": {
-    "phase":"Pre-4K-9 Program Constitution and Red-Team Continuity Reconciliation",
-    "issue_number":47,
+    "phase":"Pre-4K-9 Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate",
+    "issue_number":49,
     "issue_state":"closed_completed",
-    "pr_number":48,
+    "pr_number":50,
     "pr_state":"merged",
-    "merge_sha":"01b90ab8b12416101b4be067794bf543a3488779"
+    "merge_sha":"7d00343c233e45185e6c4d77e50eb870f408c01f"
   },
   "blockers": [
-    "External exact-SHA red-team review is required for the current PR #50 head",
-    "Human/write-access approval remains required before merge",
-    "Merge, main verification and Issue #49 closeout remain pending",
-    "Phase 4K-9 remains not started"
+    "Validated Issue #55 commit and branch push remain pending",
+    "A non-draft Issue #55 pull request must be created before external review",
+    "External exact-SHA red-team review is required for the future current PR head",
+    "Human/write-access approval remains required after external review",
+    "Protected merge, main verification and Issue #55 closeout remain pending",
+    "Stage B, Issue #54, Phase 4K-9 and Phase 4I remain outside authorized scope or paused"
   ],
-  "next_authorized_planning_target":"No scope expansion; Issue #49 review, protected merge, main verification and closeout only",
+  "next_authorized_planning_target":"No planning expansion; Issue #55 developer validation, PR creation and external exact-SHA handoff only",
   "documentation_scope":"public_safe",
-  "evidence_timestamps":{"github_verified_at":"2026-07-12T03:00:00Z","state_recorded_on":"2026-07-11"},
+  "evidence_timestamps":{"github_verified_at":"2026-07-13T08:44:39Z","state_recorded_on":"2026-07-13"},
   "evidence_identifiers": [
-    "issue:49",
-    "issue:47:closed_completed",
-    "pr:48:merged",
-    "reviewed-head:8a81d429a93a342527e0efe7962f9bfef22d22d4",
-    "actions-run:29176103821:success",
-    "merge:01b90ab8b12416101b4be067794bf543a3488779",
-    "pr:50:open",
-    "implementation-head:ee0ffc7c17072543cf818849252a8c07d2019538",
-    "actions-run:29177537570:expected_pre_marker_failure"
+    "issue:49:closed_completed",
+    "pr:50:merged",
+    "merge:7d00343c233e45185e6c4d77e50eb870f408c01f",
+    "issue:53:open_planning_only",
+    "issue:55:open_assigned:danidon-wq",
+    "branch:stage-a-red-team-role-isolation",
+    "stage-a:actor-bound-role-contract:implemented_in_review",
+    "stage-b:full-runtime-isolation:not_proven"
   ],
   "public_private_references": {
-    "public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml","docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"],
+    "public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml","docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md","docs/project-control/RED_TEAM_ROLE_CONTRACT.md"],
     "private":[]
   },
   "consistency_status":"requires_live_verification"

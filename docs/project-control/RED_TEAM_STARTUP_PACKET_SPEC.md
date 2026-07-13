@@ -2,7 +2,7 @@
 
 ## Status And Decision Boundary
 
-This specification governs the Issue #49 implementation in review. A generated `RED_TEAM_STARTUP_PACKET.md` is derived, non-authoritative, point-in-time evidence. It grants no write, approval, review, merge, release, spending, credential, policy, Phase 4K-9, or Phase 4I decision power.
+This specification preserves the merged Issue #49 collector contract and governs the Issue #55 Stage A actor-role extension in review. A generated `RED_TEAM_STARTUP_PACKET.md` is derived, non-authoritative, point-in-time evidence. It grants no write, approval, review, merge, release, spending, credential, policy, Phase 4K-9, or Phase 4I decision power.
 
 The packet supplements versioned public-safe state with live read-only evidence. It does not replace GitHub, exact-SHA external review, human/write-access approval, branch protection, merge verification, or issue closeout.
 
@@ -12,7 +12,17 @@ Fixture mode consumes a bounded JSON fixture plus an explicit observation timest
 
 Live provenance includes bounded local Git metadata; canonical state read from the exact ref; issue, pull request, checks, workflow run and step evidence; owner-trigger and red-team marker status; normalized pull-request reviews; calculated repository-permission evidence for sourced candidates; deterministic qualifying and disqualified approvals; auto-merge state; comparison findings; blockers; and gaps. Raw credentials, headers, environment contents, review bodies, unrelated comment bodies, and unrestricted command output are not persisted.
 
-The version `1.3.8` scope-bound evidence contract binds active-family classification to collected local HEAD equals PR head, repository default branch and PR base equal `main`, and run SHA/branch equals the PR. It captures normalized public-safe worktree hashes before and after authoritative reads; both must be clean and equal. Closed-gate classification also requires PR base equal to the verified default branch and binds collected local HEAD, local main, and merge commit to verified live main without conflating that post-merge SHA with the pre-merge PR head. Nullable authoritative PR keys are presence-bound; only a null auto-merge request is inactive, and a non-null Issue `closedAt` must be RFC3339. Completed live runs, jobs, and steps require a nonempty conclusion. Decisive review timestamps must be valid RFC3339 and non-null before selection. Canonical schema version and lifecycle state are nonempty strings, canonical lifecycle/consistency values are compared against the active or closed family, and the canonical source ref is a required exact lowercase 40-character SHA. The generator and both generated schemas use `1.3.8`; every current fixture uses `fixture_version: 1.3.8`. Absolute repository paths and raw remote URLs are never persisted.
+The version `1.4.0` scope-bound evidence contract binds active-family classification to collected local HEAD equals PR head, repository default branch and PR base equal `main`, and run SHA/branch equals the PR. It captures normalized public-safe worktree hashes before and after authoritative reads; both must be clean and equal. Closed-gate classification also requires PR base equal to the verified default branch and binds collected local HEAD, local main, and merge commit to verified live main without conflating that post-merge SHA with the pre-merge PR head. Nullable authoritative PR keys are presence-bound; only a null auto-merge request is inactive, and a non-null Issue `closedAt` must be RFC3339. Completed live runs, jobs, and steps require a nonempty conclusion. Decisive review timestamps must be valid RFC3339 and non-null before selection. Canonical schema version and lifecycle state are nonempty strings, canonical lifecycle/consistency values are compared against the active or closed family, and the canonical source ref is a required exact lowercase 40-character SHA. The generator and both generated schemas use `1.4.0`; every generatable current fixture uses `fixture_version: 1.4.0`. Absolute repository paths and raw remote URLs are never persisted.
+
+## Actor-Bound Role Evidence
+
+Every newly generated packet requires an exact actor contract and a deterministic validation result. The contract binds the active actor, actor-role declaration, repository, issue, pull request, branch, exact SHA, lifecycle state, authority source, observation timestamp, descriptive program next action, next authorized actor, and exactly one bounded value for each developer, red-team, human-approver, and merge-operator next-action field. `NONE` is required where no action is authorized. `PROGRAM_NEXT_ACTION` never grants repository, terminal, GitHub, implementation, review-submission, human-approval, merge, verified-main, closeout, credential, spending, deployment, release, Stage B, Issue #54, Phase 4K-9, or Phase 4I authority.
+
+For `ROLE=RED_TEAM`, the exact contract fixes repository write, GitHub write, and terminal mutation authority to `NONE`; implementation, human approval, merge, and issue closeout authority to `NO`; and prompt authoring and separately authorized exact-SHA review authority to `YES`. Missing, unknown, duplicate, malformed, stale, or contradictory governing evidence fails closed. The deterministic observation policy rejects evidence older than 3,600 seconds or more than 300 seconds in the future relative to the explicit generator timestamp.
+
+A requested red-team mutation is denied and produces a bounded incident containing only actor, observation timestamp, enumerated action class, lifecycle state, authority source, denial result, stable denial reasons, and required repair state. It never repeats raw commands, environment data, absolute home paths, secrets, credentials, customer information, private legal or financial material, or private reasoning. A repair result may restore only the read-only red-team profile and does not erase the incident or broaden authority.
+
+The packet explicitly reports `ACTOR_BOUND_ROLE_CONTRACT=IMPLEMENTED_IN_REVIEW`, `FULL_RUNTIME_ISOLATION=NOT_PROVEN`, and `STAGE_B_REQUIRED=YES`. Stage A validates interpretation within the tested repository evidence and packet boundary; it does not remove external tools, credentials, network permissions, or mutable worktrees.
 
 ## Read-Only Command Security
 
@@ -70,7 +80,7 @@ The normalization rule is UTF-8, LF newlines, stable headings, stable list order
 
 `packet_hash` is SHA-256 over the canonical rendered packet payload excluding the displayed `Packet Hash` heading and value. The displayed hash is appended after hashing. The evidence JSON records the rule, and tests independently remove the displayed hash section and recompute the digest.
 
-Fixture runs with identical inputs, timestamp, and arguments must produce byte-for-byte identical JSON evidence, Markdown packet, ordered evidence lists, and packet hash. Changing material fixture evidence changes the packet hash.
+Fixture runs with identical inputs, timestamp, and arguments must produce byte-for-byte identical JSON evidence, Markdown packet, ordered evidence lists, and packet hash. Changing material fixture or actor-contract evidence changes the packet hash.
 
 ## Output Boundary
 
@@ -86,7 +96,7 @@ The collector avoids gathering data that would require broad redaction. Sanitiza
 
 ## Packet Content
 
-The rendered packet contains generator and schema versions, observation timestamp, repository identity, source SHAs, canonical schema version, issue and pull-request lifecycle evidence, exact pull-request head, workflow evidence, marker status and binding, human approval state, auto-merge state, classification, quarantine flag, comparison findings, blockers, gaps, the single next action, stop conditions, prohibited actions, evidence classification, a derived notice that grants no authority, and packet hash.
+The rendered packet contains generator and schema versions, observation timestamp, repository identity, source SHAs, canonical schema version, issue and pull-request lifecycle evidence, exact pull-request head, workflow evidence, marker status and binding, human approval state, auto-merge state, the actor declaration and authority profile, actor-specific next actions, role-conflict and repair states, bounded incident summary, Stage A/Stage B boundary, classification, quarantine flag, comparison findings, blockers, gaps, the single next action, stop conditions, prohibited actions, evidence classification, a derived notice that grants no authority, and packet hash.
 
 The packet contains no write permission. It must be revalidated against live evidence before consequential action.
 
@@ -94,7 +104,7 @@ The packet contains no write permission. It must be revalidated against live evi
 
 `docs/project-control/state/red-team-continuity-evidence.schema.json` and `docs/project-control/state/red-team-startup-packet.schema.json` use Draft 2020-12, required properties, bounded enums, SHA patterns, date-time and URI formats, typed arrays, unique items where applicable, and nested `additionalProperties: false`.
 
-No third-party schema validator is added. Standard-library runtime validation checks exact allowed keys, documented types, supported values and bounded counts for repository, issue, pull request, checks, workflow run, jobs, steps, markers, auto-merge and optional source-command evidence before classification, rendering or output. Malformed fixture/evidence structures return exit `5` without a traceback; malformed authoritative live responses return unavailable-evidence exit `3`.
+No third-party schema validator is added. Standard-library runtime validation checks exact allowed keys, documented types, supported values and bounded counts for repository, issue, pull request, checks, workflow run, jobs, steps, markers, auto-merge, actor contract and optional source-command evidence before classification, rendering or output. The schemas make actor fields required and bounded and conditionally fix the red-team authority profile. Malformed fixture/evidence structures return exit `5` without a traceback; malformed authoritative live responses return unavailable-evidence exit `3`.
 
 ## C3.6 correction contract
 
