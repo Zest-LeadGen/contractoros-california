@@ -484,16 +484,21 @@ class ApprovalEvidenceTests(unittest.TestCase):
         value.update(overrides)
         return value
 
-    def set_review(self, data, records, permissions=(), decision=None, claimed=()):
+    def set_review(self, data, records, permissions=(), decision=None, claimed=None):
         data["review"] = {
             "decision": decision,
             "evidence_status": "complete",
             "review_records": list(records),
             "permission_records": list(permissions),
-            "qualifying_approvals": list(claimed),
-            "disqualified_approvals": [],
-            "disqualification_reasons": {},
         }
+        if claimed is not None:
+            data["review"].update(
+                {
+                    "qualifying_approvals": list(claimed),
+                    "disqualified_approvals": [],
+                    "disqualification_reasons": {},
+                }
+            )
         return data
 
     def classify(self, data):
@@ -1907,6 +1912,170 @@ class C34EvidenceHardeningTests(unittest.TestCase):
         data["pr"]["base"] = "release"
         code, evidence, _ = self.classify(data)
         self.assertEqual((code, evidence["consistency_classification"]), (2, "quarantined"))
+
+
+class C35StagedEvidenceTests(unittest.TestCase):
+    def active(self):
+        return fixture("active_pr_requires_live_verification.json")
+
+    def evaluate(self, review):
+        return rtc._approval_evaluation(self.active()["pr"], review)
+
+    def classify(self, data):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        return rtc.generate(data, OBSERVED_AT, Path(temporary.name), ROOT)
+
+    def collected(self, records=(), permissions=(), decision=None):
+        return {
+            "decision": decision,
+            "evidence_status": "complete",
+            "review_records": list(records),
+            "permission_records": list(permissions),
+        }
+
+    def review_record(self):
+        return {
+            "review_id": 1,
+            "reviewer_login": "reviewer",  # scope-bound approval evidence
+            "reviewer_type": "User",
+            "state": "APPROVED",
+            "submitted_at": OBSERVED_AT,
+            "commit_id": ACTIVE_HEAD,
+            "author_association": "MEMBER",  # scope-bound approval evidence
+        }
+
+    def permission(self):
+        return {"reviewer_login": "reviewer", "permission": "write", "role_name": "write", "account_type": "User"}  # scope-bound approval evidence
+
+    def test_collected_four_field_contract_reaches_zero_approval_evaluation(self):
+        result = self.evaluate(self.collected())
+        self.assertEqual(set(result["review"]), {
+            "decision", "evidence_status", "review_records", "permission_records",
+            "qualifying_approvals", "disqualified_approvals", "disqualification_reasons",
+        })
+        self.assertEqual(result["review"]["qualifying_approvals"], [])
+
+    def test_mocked_full_live_collection_reaches_approval_reduction(self):
+        data = self.active()
+        run = data["workflow_run"]
+        live_pr = {
+            "number": 50, "state": "OPEN", "baseRefName": "main", "headRefName": "collector-branch",
+            "headRefOid": ACTIVE_HEAD, "isDraft": False, "mergeCommit": None, "mergedAt": None,
+            "url": "https://github.com/Zest-LeadGen/contractoros-california/pull/50", "autoMergeRequest": None,
+            "reviewDecision": None, "author": {"login": "pr-author-scope", "is_bot": False},
+            "body": owner_trigger_marker(),
+        }
+        responses = {
+            ("git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"): "## collector-branch...origin/collector-branch\n",
+            ("git", "remote", "get-url", "origin"): "https://github.com/Zest-LeadGen/contractoros-california.git\n",
+            ("git", "rev-parse", "HEAD"): f"{ACTIVE_HEAD}\n",
+            ("git", "rev-parse", "main"): f"{'b' * 40}\n",
+            ("git", "rev-parse", "origin/main"): f"{'b' * 40}\n",
+            ("git", "rev-parse", "--show-toplevel"): f"{ROOT}\n",
+            ("git", "show", f"{ACTIVE_HEAD}:{rtc.CANONICAL_PATH}"): json.dumps(data["canonical_state"]),
+        }
+
+        def read_command(argv, cwd, timeout=20, allowed_permission_logins=None):  # scope-bound approval evidence
+            key = tuple(argv)
+            if key in responses:
+                output = responses[key]
+            elif argv[:3] == ["gh", "api", "graphql"]:
+                output = json.dumps({"data": {"repository": {"nameWithOwner": rtc.EXPECTED_REPOSITORY, "defaultBranchRef": {"name": "main", "target": {"oid": "b" * 40}}}}})
+            elif argv[:3] == ["gh", "issue", "view"]:
+                output = json.dumps({"number": 49, "state": "OPEN", "stateReason": None, "url": "https://github.com/Zest-LeadGen/contractoros-california/issues/49", "closedAt": None})
+            elif argv[:3] == ["gh", "pr", "view"]:
+                output = json.dumps(live_pr)
+            elif argv[:3] == ["gh", "pr", "checks"]:
+                output = json.dumps(data["checks"])
+            elif argv[:3] == ["gh", "run", "view"]:
+                output = json.dumps({"databaseId": run["id"], "name": run["name"], "workflowDatabaseId": run["workflow_id"], "event": run["event"], "status": run["status"], "conclusion": run["conclusion"], "headSha": run["head_sha"], "headBranch": run["head_branch"], "url": run["url"], "jobs": run["jobs"]})
+            else:
+                self.fail(f"unexpected live command: {argv}")
+            return output, {"argv": argv, "return_code": 0, "stdout_sha256": "0" * 64, "stderr_present": False}
+
+        args = type("Args", (), {"repo_root": str(ROOT), "canonical_ref": ACTIVE_HEAD, "repository": rtc.EXPECTED_REPOSITORY, "issue_number": 49, "pr_number": 50, "run_id": run["id"]})()
+        with mock.patch.object(rtc, "_run_read_command", side_effect=read_command), mock.patch.object(rtc, "_collect_review_evidence", return_value=self.collected()):
+            result = rtc._collect_live(args)
+        self.assertEqual(result["review"]["qualifying_approvals"], [])
+
+    def test_valid_current_head_approval_recomputes_final_result(self):
+        result = self.evaluate(self.collected([self.review_record()], [self.permission()]))
+        self.assertEqual(result["review"]["qualifying_approvals"], ["reviewer"])
+
+    def test_malformed_collected_fixture_returns_exit_five(self):
+        data = self.active()
+        data["review"] = self.collected([{"review_id": 1}])
+        with self.assertRaises(rtc.CollectorError) as caught:
+            self.classify(data)
+        self.assertEqual(caught.exception.exit_code, 5)
+
+    def test_claimed_derived_contradictions_quarantine(self):
+        review = self.collected([self.review_record()], [self.permission()])
+        review.update({
+            "qualifying_approvals": [],
+            "disqualified_approvals": [],
+            "disqualification_reasons": {},
+        })
+        self.assertIn("Claimed qualifying approvals contradict", " ".join(self.evaluate(review)["quarantined"]))
+
+    def test_final_claim_overlap_and_reason_consistency_fail_closed(self):
+        review = self.collected()
+        review.update({
+            "qualifying_approvals": ["reviewer"],
+            "disqualified_approvals": ["reviewer"],
+            "disqualification_reasons": {"reviewer": ["APPROVAL_PERMISSION_NONE"]},
+        })
+        with self.assertRaises(rtc.CollectorError):
+            self.evaluate(review)
+        review["qualifying_approvals"] = []
+        review["disqualification_reasons"] = {}
+        with self.assertRaises(rtc.CollectorError):
+            self.evaluate(review)
+
+    def test_unsupported_evidence_reason_fails_closed(self):
+        review = self.collected()
+        review.update({
+            "qualifying_approvals": [],
+            "disqualified_approvals": [],
+            "disqualification_reasons": {"_evidence": ["APPROVAL_PERMISSION_NONE"]},
+        })
+        with self.assertRaises(rtc.CollectorError):
+            self.evaluate(review)
+
+    def test_explicit_all_untracked_status_is_required(self):
+        rtc._validate_command(["git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"])
+        with self.assertRaises(rtc.CommandRejectedError):
+            rtc._validate_command(["git", "status", "--porcelain=v1", "--branch"])
+
+    def test_unequal_worktree_hashes_and_moving_head_fail_closed(self):
+        data = self.active()
+        data["source_shas"]["worktree_status_after_sha256"] = "f" * 64
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+        before = rtc._normalized_worktree_status("## branch\n")
+        with self.assertRaises(rtc.EvidenceUnavailableError):
+            rtc._require_clean_unchanged_worktree(before, before, "a" * 40, "b" * 40)
+
+    def test_live_issue_state_and_closeout_pairing(self):
+        base = {"number": 49, "state": "OPEN", "stateReason": None, "url": "https://example.test/49", "closedAt": None}
+        rtc._validate_live_issue(base)
+        for timestamp in ("2026-07-13T00:00:00Z", "2026-07-12T19:00:00-05:00"):
+            rtc._validate_live_issue(dict(base, state="CLOSED", closedAt=timestamp))
+        for issue in (dict(base, closedAt="2026-07-13T00:00:00Z"), dict(base, state="CLOSED"), dict(base, state="CLOSED", closedAt="bad")):
+            with self.subTest(issue=issue):
+                with self.assertRaises(rtc.EvidenceUnavailableError):
+                    rtc._validate_live_issue(issue)
+
+    def test_fixture_closeout_contradictions_fail_before_classification(self):
+        data = self.active()
+        data["issue"]["closeout_state"] = "closed"
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
+        data = fixture("consistent_closed_gate.json")
+        data["issue"]["closeout_state"] = "open"
+        with self.assertRaises(rtc.CollectorError):
+            self.classify(data)
 
 
 if __name__ == "__main__":

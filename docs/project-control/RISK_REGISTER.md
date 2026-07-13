@@ -609,6 +609,17 @@ Resolution condition: The C3.2 exact head passes the full suite, deterministic/s
 Last reviewed: 2026-07-12
 ```
 
+### C3.5 staged evidence, provenance, and lifecycle binding
+
+```text
+Risk: A four-field live review structure, implicit untracked-file status, moving worktree head, contradictory approval claims, or inconsistent issue closeout timestamp could appear authoritative without fail-closed reduction.
+Status: Active / controlled in C3.5 developer validation
+Evidence: Collected and evaluated review contracts are distinct; all-untracked status hashes and exact heads are paired before/after collection; final claims are recomputed and compared; `closedAt` and normalized closeout state are lifecycle-bound.
+Owner: ContractorOS development lead / external red-team gate
+Resolution condition: C3.5 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
+Last reviewed: 2026-07-12
+```
+
 ### live repository contradiction is mistaken for unavailable evidence
 
 ```text

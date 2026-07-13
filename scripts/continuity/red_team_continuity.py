@@ -16,10 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
-GENERATOR_VERSION = "1.3.4"
-EVIDENCE_SCHEMA_VERSION = "1.3.4"
-PACKET_SCHEMA_VERSION = "1.3.4"
-FIXTURE_VERSION = "1.3.4"
+GENERATOR_VERSION = "1.3.5"
+EVIDENCE_SCHEMA_VERSION = "1.3.5"
+PACKET_SCHEMA_VERSION = "1.3.5"
+FIXTURE_VERSION = "1.3.5"
 REPOSITORY_GRAPHQL_QUERY = (
     'query { repository(owner: "Zest-LeadGen", name: "contractoros-california") '
     "{ nameWithOwner defaultBranchRef { name target { oid } } } }"
@@ -143,6 +143,7 @@ DISQUALIFICATION_REASONS = {
     "APPROVAL_PERMISSION_NONE",
     "APPROVAL_PERMISSION_UNKNOWN",
 }
+EVIDENCE_WIDE_DISQUALIFICATION_REASONS = {"APPROVAL_REVIEW_RECORD_MALFORMED"}
 GITHUB_LOGIN_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")  # scope-bound approval evidence
 
 # Every entry is forbidden private material and causes a fail-closed rejection.
@@ -230,15 +231,26 @@ def _normalized_worktree_status(raw: Any) -> dict[str, Any]:
     }
 
 
-def _require_clean_unchanged_worktree(before: dict[str, Any], after: dict[str, Any] | None = None) -> None:
+def _require_clean_unchanged_worktree(
+    before: dict[str, Any],
+    after: dict[str, Any] | None = None,
+    before_head: str | None = None,
+    after_head: str | None = None,
+) -> None:
     if not before["clean"]:
         raise EvidenceUnavailableError("worktree is not clean before authoritative collection")  # scope-bound provenance evidence
+    if (after is None) != (after_head is None):
+        raise EvidenceUnavailableError("worktree provenance evidence is incomplete")
     if after is None:
         return
     if not after["clean"]:
         raise EvidenceUnavailableError("worktree is not clean after authoritative collection")  # scope-bound provenance evidence
     if before["sha256"] != after["sha256"]:
         raise EvidenceUnavailableError("worktree status changed during authoritative collection")  # scope-bound provenance evidence
+    if not _is_sha(before_head) or not _is_sha(after_head):
+        raise EvidenceUnavailableError("worktree HEAD provenance evidence is malformed")
+    if before_head != after_head:
+        raise EvidenceUnavailableError("worktree HEAD changed during authoritative collection")  # scope-bound provenance evidence
 
 
 def _require_review_timestamp(value: Any, state: str, error: type[CollectorError]) -> None:
@@ -279,7 +291,7 @@ def _validate_command(
             ("git", "rev-parse", "main"),
             ("git", "rev-parse", "origin/main"),
             ("git", "rev-parse", "--show-toplevel"),
-            ("git", "status", "--porcelain=v1", "--branch"),
+            ("git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"),
         }
         shape = tuple(argv)
         exact_show = (
@@ -726,7 +738,17 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
     """Recompute qualifying approvals from normalized, public-safe evidence."""
     blocked: list[str] = []
     quarantined: list[str] = []
-    _validate_review_evidence(review)
+    collected_keys = {"decision", "evidence_status", "review_records", "permission_records"}
+    final_keys = collected_keys | {
+        "qualifying_approvals", "disqualified_approvals", "disqualification_reasons",
+    }
+    has_claims = set(review) == final_keys
+    if set(review) == collected_keys:
+        _validate_collected_review_evidence(review)
+    elif has_claims:
+        _validate_review_evidence(review)
+    else:
+        raise CollectorError("collected approval evidence has an invalid contract shape")
     status = review["evidence_status"]
     records = review.get("review_records")
     permissions = review.get("permission_records")
@@ -820,11 +842,16 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
             disqualify(record.get("reviewer_login") or "_evidence", "APPROVAL_REVIEW_RECORD_MALFORMED")  # scope-bound approval evidence
 
     qualifying: list[str] = []
+    ambiguous_logins = {  # scope-bound approval evidence
+        record["reviewer_login"] for record in normalized_records if record.get("review_id") in duplicate_ids  # scope-bound approval evidence
+    }
     reviewer_logins = sorted({r["reviewer_login"] for r in normalized_records if r["reviewer_login"]})  # scope-bound approval evidence
     for login in reviewer_logins:  # scope-bound approval evidence
         reviewer_records = [r for r in normalized_records if r["reviewer_login"] == login]  # scope-bound approval evidence
         approvals = [r for r in reviewer_records if r["state"] == "APPROVED"]
         if not approvals:
+            continue
+        if login in ambiguous_logins:  # scope-bound approval evidence
             continue
         current_decisive = [
             r
@@ -870,9 +897,6 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
             disqualify(login, "APPROVAL_PERMISSION_UNKNOWN")  # scope-bound approval evidence
 
     qualifying = sorted(set(qualifying))
-    claimed = sorted({_canonical_login(login) for login in review["qualifying_approvals"]})
-    if claimed != qualifying:
-        quarantined.append("Claimed qualifying approvals contradict computed approval evidence")
     if str(review.get("decision") or "").upper() == "APPROVED" and not qualifying:
         quarantined.append("Review decision claims approval without a qualifying current-head approver")
     normalized_reasons = {key: sorted(set(value)) for key, value in sorted(reasons.items())}
@@ -885,6 +909,20 @@ def _approval_evaluation(pr: dict[str, Any], review: dict[str, Any]) -> dict[str
         "disqualified_approvals": sorted(normalized_reasons),
         "disqualification_reasons": normalized_reasons,
     }
+    _validate_review_evidence(result)
+    if has_claims:
+        claimed_qualifying = sorted(_canonical_login(login) for login in review["qualifying_approvals"])
+        claimed_disqualified = sorted(_canonical_login(login) for login in review["disqualified_approvals"])
+        claimed_reasons = {
+            key if key == "_evidence" else _canonical_login(key): sorted(values)  # scope-bound approval evidence
+            for key, values in sorted(review["disqualification_reasons"].items())
+        }
+        if claimed_qualifying != result["qualifying_approvals"]:
+            quarantined.append("Claimed qualifying approvals contradict computed approval evidence")
+        if claimed_disqualified != result["disqualified_approvals"]:
+            quarantined.append("Claimed disqualified approvals contradict computed approval evidence")
+        if claimed_reasons != result["disqualification_reasons"]:
+            quarantined.append("Claimed disqualification reasons contradict computed approval evidence")
     return {
         "review": result,
         "blocked": sorted(set(blocked)),
@@ -1049,6 +1087,14 @@ def _validate_live_issue(issue: Any) -> None:
         or (issue.get("closedAt") is not None and not _is_rfc3339(issue.get("closedAt")))
     ):
         raise EvidenceUnavailableError("required live issue evidence is malformed")
+    state = str(issue["state"]).upper()
+    closed_at = issue.get("closedAt")
+    if state == "OPEN" and closed_at is not None:
+        raise EvidenceUnavailableError("open live issue has contradictory closeout timestamp")
+    if state == "CLOSED" and closed_at is None:
+        raise EvidenceUnavailableError("closed live issue lacks required closeout timestamp")
+    if state not in {"OPEN", "CLOSED"}:
+        raise EvidenceUnavailableError("live issue state is unsupported")
 
 
 def _validate_live_pr(pr: Any) -> None:
@@ -1116,11 +1162,14 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         commands.append(result)
         return output.strip()
 
-    before_status = _normalized_worktree_status(read(["git", "status", "--porcelain=v1", "--branch"]))
+    before_status = _normalized_worktree_status(
+        read(["git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"])
+    )
     _require_clean_unchanged_worktree(before_status)
     remote = read(["git", "remote", "get-url", "origin"])
     remote_identity = _normalize_origin(remote)
     local_head = read(["git", "rev-parse", "HEAD"])
+    worktree_head_before = local_head
     local_main = read(["git", "rev-parse", "main"])
     local_origin = read(["git", "rev-parse", "origin/main"])
     git_top_raw = read(["git", "rev-parse", "--show-toplevel"])
@@ -1235,8 +1284,11 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         str(pr.get("headRefOid") or ""),
         int(pr.get("number")),
     )
-    after_status = _normalized_worktree_status(read(["git", "status", "--porcelain=v1", "--branch"]))
-    _require_clean_unchanged_worktree(before_status, after_status)
+    after_status = _normalized_worktree_status(
+        read(["git", "status", "--porcelain=v1", "--branch", "--untracked-files=all"])
+    )
+    worktree_head_after = read(["git", "rev-parse", "HEAD"])
+    _require_clean_unchanged_worktree(before_status, after_status, worktree_head_before, worktree_head_after)
     evidence = {
         "fixture_version": FIXTURE_VERSION,
         "repository": {
@@ -1257,6 +1309,9 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
             "worktree_status_unchanged": before_status["sha256"] == after_status["sha256"],
             "worktree_status_before_sha256": before_status["sha256"],
             "worktree_status_after_sha256": after_status["sha256"],
+            "worktree_head_before": worktree_head_before,
+            "worktree_head_after": worktree_head_after,
+            "worktree_head_unchanged": worktree_head_before == worktree_head_after,
         },
         "canonical_state": canonical,
         "issue": {
@@ -1302,7 +1357,10 @@ def _collect_live(args: argparse.Namespace) -> dict[str, Any]:
         "raw_chat_status": "no authority",
         "source_commands": commands,
     }
-    evidence["review"] = _approval_evaluation(evidence["pr"], evidence["review"])["review"]
+    try:
+        evidence["review"] = _approval_evaluation(evidence["pr"], evidence["review"])["review"]
+    except CollectorError as exc:
+        raise ApprovalEvidenceUnavailableError("collected live review evidence is malformed") from exc
     _reject_unsafe(evidence)
     return evidence
 
@@ -1371,6 +1429,10 @@ def _validate_issue_evidence(value: Any) -> None:
         raise CollectorError("issue URL evidence is malformed")
     if issue["closeout_state"] not in {"open", "closed"}:
         raise CollectorError("issue closeout evidence is malformed")
+    if issue["state"] in {"open", "active"} and issue["closeout_state"] != "open":
+        raise CollectorError("active issue requires open closeout evidence")
+    if issue["state"] == "closed" and issue["closeout_state"] != "closed":
+        raise CollectorError("closed issue requires closed closeout evidence")
 
 
 def _validate_pr_evidence(value: Any) -> None:
@@ -1482,14 +1544,11 @@ def _validate_source_commands(value: Any) -> None:
             raise CollectorError("source-command stderr evidence is malformed")
 
 
-def _validate_review_evidence(value: Any) -> None:
+def _validate_collected_review_evidence(value: Any) -> None:
     review = _exact_mapping(
         value,
-        {
-            "decision", "evidence_status", "review_records", "permission_records",
-            "qualifying_approvals", "disqualified_approvals", "disqualification_reasons",
-        },
-        "normalized approval",
+        {"decision", "evidence_status", "review_records", "permission_records"},
+        "collected pre-evaluation approval",
     )
     if review["decision"] is not None and review["decision"] not in REVIEW_DECISIONS:
         raise CollectorError("approval decision evidence is malformed")
@@ -1524,6 +1583,20 @@ def _validate_review_evidence(value: Any) -> None:
             raise CollectorError("permission approval enum evidence is malformed")
         if not _nonempty_string(item["role_name"]) or len(item["role_name"]) > MAX_ROLE_NAME_LENGTH:
             raise CollectorError("permission approval role evidence is malformed")
+
+
+def _validate_review_evidence(value: Any) -> None:
+    review = _exact_mapping(
+        value,
+        {
+            "decision", "evidence_status", "review_records", "permission_records",
+            "qualifying_approvals", "disqualified_approvals", "disqualification_reasons",
+        },
+        "evaluated normalized approval",
+    )
+    _validate_collected_review_evidence(
+        {key: review[key] for key in ("decision", "evidence_status", "review_records", "permission_records")}
+    )
     for field in ("qualifying_approvals", "disqualified_approvals"):
         logins = review[field]  # scope-bound approval evidence
         if not isinstance(logins, list) or len(logins) > MAX_PERMISSION_CANDIDATES:  # scope-bound approval evidence
@@ -1534,14 +1607,22 @@ def _validate_review_evidence(value: Any) -> None:
     reasons = review["disqualification_reasons"]
     if not isinstance(reasons, dict) or len(reasons) > MAX_PERMISSION_CANDIDATES:
         raise CollectorError("approval disqualification reasons are malformed or exceed their bound")
+    qualifying = {_canonical_login(login) for login in review["qualifying_approvals"]}  # scope-bound approval evidence
     disqualified = {_canonical_login(login) for login in review["disqualified_approvals"]}  # scope-bound approval evidence
+    if qualifying & disqualified:
+        raise CollectorError("approval qualifying and disqualified identities overlap")
+    reason_identities: set[str] = set()
     for login, values in reasons.items():  # scope-bound approval evidence
-        if login != "_evidence":  # scope-bound approval evidence
+        if not isinstance(values, list) or not values or len(values) > MAX_DISQUALIFICATION_REASONS:
+            raise CollectorError("approval disqualification reason list is malformed")
+        if login == "_evidence":  # scope-bound approval evidence
+            if not set(values).issubset(EVIDENCE_WIDE_DISQUALIFICATION_REASONS):
+                raise CollectorError("approval evidence-wide reason is not permitted")
+        else:
             canonical_login = _canonical_login(login)  # scope-bound approval evidence
             if canonical_login not in disqualified:  # scope-bound approval evidence
                 raise CollectorError("approval disqualification reason lacks a disqualified reviewer")
-        if not isinstance(values, list) or not values or len(values) > MAX_DISQUALIFICATION_REASONS:
-            raise CollectorError("approval disqualification reason list is malformed")
+            reason_identities.add(canonical_login)  # scope-bound approval evidence
         if len(values) != len(set(values)) or any(
             not isinstance(reason, str)
             or reason not in DISQUALIFICATION_REASONS
@@ -1549,6 +1630,8 @@ def _validate_review_evidence(value: Any) -> None:
             for reason in values
         ):
             raise CollectorError("approval disqualification reason is malformed")
+    if disqualified != reason_identities:
+        raise CollectorError("every disqualified approval requires a nonempty reason list")
 
 
 def _validate_input(data: dict[str, Any]) -> None:
@@ -1589,19 +1672,33 @@ def _validate_input(data: dict[str, Any]) -> None:
         "worktree_status_unchanged",
         "worktree_status_before_sha256",
         "worktree_status_after_sha256",
+        "worktree_head_before",
+        "worktree_head_after",
+        "worktree_head_unchanged",
     }:
         raise CollectorError("source SHA object is malformed")
     if any(value is not None and not _is_sha(value) for key, value in source.items() if key in {
         "local_head", "local_main", "local_origin_main", "live_default_branch", "canonical_ref",
+        "worktree_head_before", "worktree_head_after",
     }):
         raise CollectorError("source SHA is malformed")
-    if any(type(source[key]) is not bool for key in ("worktree_clean_before", "worktree_clean_after", "worktree_status_unchanged")):
+    if any(type(source[key]) is not bool for key in (
+        "worktree_clean_before", "worktree_clean_after", "worktree_status_unchanged", "worktree_head_unchanged",
+    )):
         raise CollectorError("worktree provenance boolean evidence is malformed")
     if any(not isinstance(source[key], str) or not re.fullmatch(r"[0-9a-f]{64}", source[key]) for key in (
         "worktree_status_before_sha256", "worktree_status_after_sha256",
     )):
         raise CollectorError("worktree provenance hash evidence is malformed")
-    if not (source["worktree_clean_before"] and source["worktree_clean_after"] and source["worktree_status_unchanged"]):
+    if source["worktree_status_unchanged"] and (
+        source["worktree_status_before_sha256"] != source["worktree_status_after_sha256"]
+    ):
+        raise CollectorError("worktree status hashes contradict unchanged evidence")
+    if not (
+        source["worktree_clean_before"] and source["worktree_clean_after"]
+        and source["worktree_status_unchanged"] and source["worktree_head_unchanged"]
+        and source["worktree_head_before"] == source["worktree_head_after"]
+    ):
         raise CollectorError("worktree provenance evidence is not clean and unchanged")
     canonical = data.get("canonical_state")
     if not isinstance(canonical, dict):
@@ -1662,7 +1759,10 @@ def _validate_input(data: dict[str, Any]) -> None:
     _validate_auto_merge_evidence(data["auto_merge"])
     if "source_commands" in data:
         _validate_source_commands(data["source_commands"])
-    _validate_review_evidence(data["review"])
+    if set(data["review"]) == {"decision", "evidence_status", "review_records", "permission_records"}:
+        _validate_collected_review_evidence(data["review"])
+    else:
+        _validate_review_evidence(data["review"])
 
 
 def _control_workflow_evaluation(data: dict[str, Any]) -> dict[str, list[str]]:

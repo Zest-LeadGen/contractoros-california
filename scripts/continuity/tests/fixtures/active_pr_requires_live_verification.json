@@ -1,5 +1,5 @@
 {
-  "fixture_version": "1.3.4",
+  "fixture_version": "1.3.5",
   "repository": {"requested_name": "Zest-LeadGen/contractoros-california", "name": "Zest-LeadGen/contractoros-california", "default_branch": "main", "remote_name": "Zest-LeadGen/contractoros-california", "remote_transport": "https", "root_verified": true, "remote_verified": true, "remote_identifier": "Zest-LeadGen/contractoros-california"},
   "source_shas": {
     "local_head": "cccccccccccccccccccccccccccccccccccccccc",
@@ -11,7 +11,7 @@
     "worktree_clean_after": true,
     "worktree_status_unchanged": true,
     "worktree_status_before_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-    "worktree_status_after_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    "worktree_status_after_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "worktree_head_before": "cccccccccccccccccccccccccccccccccccccccc", "worktree_head_after": "cccccccccccccccccccccccccccccccccccccccc", "worktree_head_unchanged": true
   },
   "canonical_state": {
     "schema_version": "1.0.1",
