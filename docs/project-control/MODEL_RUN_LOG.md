@@ -22,5 +22,16 @@ Purpose: record AI/developer-executor runs that affect ContractorOS California g
 - No auto-merge was attempted.
 - No self-review was performed.
 - No hooks were trusted for evidence.
-- Commit and push must use hook-bypass flags so unrelated hooks do not control the result.
+- Hooks are not trusted as evidence, but normal commit and push must not bypass them. A hook-bypass flag requires a later exact owner authorization naming the command and scope; prior blanket bypass wording is superseded.
 - Initial branch existence on GitHub and PR existence are mitigated by owner setup and PR #15 creation. Final correction push, PR body update, GitHub Actions status, red-team review, approval, merge, and post-merge main verification remain pending.
+
+## H1 Recovery Run History
+
+| Run ID | Date | Executor | Scope | Inputs used | Commands / tools used | Prohibited calls / deviations | Output |
+|---|---|---|---|---|---|---|---|
+| MRL-H1-R1 | 2026-07-14 | Codex developer executor | Initial H1 recovery preflight | Local repository and owner packet | Local Git and GitHub authentication checks | No repository mutation; authentication gate blocked the attempt | `BLOCKED`; no branch, commit, PR, product, governance-repository, or H1-bootstrap mutation. |
+| MRL-H1-R1A | 2026-07-14 | Codex developer executor | Public Issue #24 corpus export and verification | Live Issue #24 API corpus | Direct bounded GitHub API reads and independent hash calculation | No repository or policy mutation | Corpus count 11 and SHA-256 `925024201b7b357cc75471fb8a87d6fc25def983feac4237a3be07c2a8f786e5` verified. |
+| MRL-H1-R2A | 2026-07-14 | Codex developer executor | Recovery-comment posting preflight | Owner-approved recovery text | Exact-path/body checks | Wrong-path condition blocked posting; no mutation | `BLOCKED`; no next-packet authority. |
+| MRL-H1-R2B | 2026-07-14 | Codex developer executor | Exact recovery-body integrity and posting support | Exact owner-approved recovery body | Body hashing and direct GitHub evidence | Repeated prohibited broad connector-schema discovery calls occurred in the surrounding local packet chain | Exact body integrity passed; red-team posting action created Issue #58 comment `4975617497`; this granted recovery direction only. |
+| MRL-H1-PR56-INCIDENT | 2026-07-14 | Local H1 execution chain | Unauthorized PR #56 reactions and correction | PR #56 live evidence | Four reactions added; three wrong-endpoint removal attempts returned `404`; all four reactions later removed; disposition comment `4976189238`; PR closed unmerged | Unauthorized GitHub reactions and prohibited broad discovery; no repository-file or commit mutation | Reactions verified at zero; branch preserved; Issues #55 and #53 remain open; no main, governance-repository, product, or H1-bootstrap mutation; no next-packet authority. |
+| MRL-H1-R3B | 2026-07-14 | Codex developer executor | Exact H1 project-control reconciliation contract | Consolidated R3B prompt, contract SHA-256 `52df643dbd5fcce2b1d8b018730c8762b60900a806bf97f5a2c9c2b5946e4726`, Issue #58 authority, live preflight | One lead agent; bounded Git/GitHub reads; exact allowlisted documentation edits and required local controls | `/init`, broad connector/resource discovery, hooks bypass, product/dependency/workflow/validator mutation, self-review, merge, and automatic continuation prohibited | R4 reconciliation implementation only; final status recorded in the phase report and PR evidence. |

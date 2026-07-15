@@ -81,6 +81,19 @@ If the issue is closed before merge or before main verification, classify as `RE
 
 ## Compatibility Notes
 
+## H1 Recovery Lifecycle Mapping
+
+Issue #58 comment `4975617497` controls the H1 recovery sequence without replacing the lifecycle states above:
+
+| Recovery step | State-machine treatment | Next allowed action |
+|---|---|---|
+| R4 project-control reconciliation implementation | `WAITING_FOR_CODEX_RESPONSE` or `CODEX_RESPONSE_RECEIVED_NEEDS_REVIEW` | Developer may implement the exact approved contract and open one PR. |
+| R5 fresh independent exact-SHA review | `RED_TEAM_REVIEW_IN_PROGRESS`, then one of the allowed decision outcomes | Independently retrieve the current head and evidence; use only `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED`. |
+| R6 owner merge decision | `CHECKS_PASSED_WAITING_FOR_HUMAN_APPROVAL` or `HUMAN_APPROVED_WAITING_FOR_MERGE` | Obtain separate qualifying human/write-access approval and protected merge decision. |
+| R7 verified main and durable closeout | `MERGED_WAITING_FOR_MAIN_VERIFICATION` then the applicable closeout state | Verify main and record durable closeout; do not close Issue #58 absent later exact authority. |
+
+Conflicting recovery evidence is `RED_TEAM_BLOCKED`. A local report, generated packet, chat instruction, or stale snapshot cannot advance the lifecycle. The Epistemic Integrity and Non-Fabrication Standard controls claim classification and freshness at every state.
+
 Issue #24 originally listed legacy state labels such as `PR_OPEN_MARKER_MISSING`, `MARKER_ADDED_CHECKS_PENDING`, `CHECKS_PASSED_HUMAN_APPROVAL_NEEDED`, `APPROVED_MERGE_READY`, `MERGED_MAIN_NOT_VERIFIED`, and `MAIN_VERIFIED_ISSUE_OPEN`.
 
 Phase 4J-5 preserves the same behavior using the explicit labels in this file:

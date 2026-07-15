@@ -6,6 +6,14 @@ This file defines how Codex may operate in the ContractorOS California repositor
 
 GitHub code, GitHub PRs, and versioned project-control files are the source of truth. Chat memory, local scratch files, connector state, and unversioned notes are not source of truth.
 
+## H1 Recovery Authority And Epistemic Controls — Documentation Scope
+
+Issue #58 comment `4975617497` is the active H1 recovery authority. Its approved project-control implementation contract is limited to reconciliation; it grants no H1 bootstrap, product, production, merge, or next-packet authority. Current precedence and historical classifications are recorded in `docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md`.
+
+All material claims and actions must follow `docs/project-control/EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md`. Missing evidence is `NOT_PROVEN`, conflicting evidence is `BLOCKED`, stale evidence must be reverified, and assumptions or inferences must be labeled.
+
+Codex remains the bounded developer executor. Red-team may lead architecture, requirements, and threat modeling, but must remain separate from the implementation it audits. A fresh independent context must review the exact current PR head SHA before any final red-team decision. No packet continues automatically: phase progression requires protected merge, verified main, durable closeout, and any separately required owner authorization.
+
 ## Prompt Convention
 
 Every substantive ContractorOS implementation, correction, review, red-team, continuation, handoff, or automation prompt must begin with the exact ordered ten-field model, effort, speed, agent, quota, context, checkpoint, and scope profile defined in `docs/project-control/PROMPT_CONVENTION.md`.
@@ -114,6 +122,8 @@ Every assumption, design decision, source, model run, validation task, and origi
 ## Bootstrap Exception
 
 Phase 4J-0 may create this file and the AI governance files before `AGENTS.md` exists. This exception is active only for Phase 4J-0 and does not permit future bypass, product work, auto-merge, lane-based automation, self-review, branch-protection bypass, or merge without red-team review and human/write-access approval.
+
+The Phase 4J-0 bootstrap exception is historical and cannot authorize H1 work. Hook bypass is prohibited unless a later exact owner authorization names the command and scope; no blanket hook-bypass instruction is valid.
 
 ## Program Constitution Authority — Documentation Scope
 

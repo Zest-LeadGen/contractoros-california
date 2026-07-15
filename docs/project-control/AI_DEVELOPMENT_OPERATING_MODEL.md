@@ -12,6 +12,8 @@ Chat memory is not source of truth. Unversioned local notes, transient tool stat
 
 Every assumption, design decision, source, model run, validation task, and originality requirement must be captured in versioned repo files.
 
+Documentation scope: Issue #58 comment `4975617497`, the Authority and Supersession Index, and the Epistemic Integrity and Non-Fabrication Standard govern the current H1 recovery lane. Local output, chat text, model personality, or a generated packet cannot create policy, implementation, merge, or next-packet authority.
+
 ## Prompt Convention
 
 Every future implementation, review, or correction prompt must include model and effort recommendation.
@@ -37,6 +39,8 @@ Missing linked phase issue reference is a PR control-gate failure.
 Codex is developer executor only. Codex may prepare scoped file changes, run permitted local checks, and open PRs. Codex must not self-review, act as red-team, merge, approve its own PR, bypass branch protection, or continue into the next phase.
 
 Red-team remains separate. Red-team decisions must become GitHub PR evidence tied to the exact PR head SHA reviewed.
+
+Red-team may serve as Lead Engineer/Architect for requirements, architecture, threat modeling, sequencing, and adversarial review, but it must not implement the exact change it later approves. Final review uses a fresh independent context that retrieves the exact current SHA and evidence without relying on the developer handoff alone.
 
 The required plain-text marker begins with `RED_TEAM_DECISION` and includes PR number, PR head SHA, decision, reviewer role, review date, scope reviewed, conditions, forbidden-scope confirmation, and the statement `This decision applies only to the listed PR head SHA.`
 
@@ -138,6 +142,8 @@ Stop instead of proceeding when:
 ## Program Constitution Alignment
 
 The Program Constitution and Owner Decision Register govern public-safe program direction. The four-level AI decision-power model, least-privilege tools, separate read/write identities, and read-only-first continuity collector are architecture direction only. This documentation does not grant credentials, approval, merge, release, budget, policy-amendment, or production decision power.
+
+The current recovery lifecycle is R4 project-control reconciliation only. R5 fresh exact-SHA review, R6 owner merge decision, and R7 verified-main durable closeout remain separate. Preparation of the minimal inert governance-bootstrap decision packet may begin only after R7 and does not itself authorize the first governance commit.
 
 ## Capability, Effort, Speed, And Agent Routing
 

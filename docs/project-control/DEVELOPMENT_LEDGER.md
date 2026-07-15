@@ -4,9 +4,31 @@ Purpose: chronological project development log for ContractorOS California.
 
 Historical details remain in existing phase reports and GitHub PR history.
 
-## Active Ledger Entries
+## Active Ledger Entry
 
-### Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate
+### H1 Recovery — Project-Control Reconciliation
+
+```text
+Phase: H1 recovery project-control reconciliation
+Lane: Control / Infrastructure
+Date: 2026-07-14
+Branch: h1-recovery-project-control-reconciliation
+Phase issue: #58
+Authority comment: 4975617497 (documentation scope)
+Starting main: 7d00343c233e45185e6c4d77e50eb870f408c01f
+PR: Pending creation after local validation and one implementation commit
+Claim level: Project-control reconciliation only
+Product work: Frozen
+Production: Blocked
+Phase 4K-9 and downstream: Paused
+Phase 4I: Paused
+H1 bootstrap: Not authorized
+Next gate: Fresh independent exact-SHA review after PR creation
+```
+
+## Historical Ledger Entries
+
+### Historical Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate
 
 ```text
 Phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate
@@ -16,15 +38,15 @@ Branch: phase-4k-8-workflow-command-pack-operator-runbook
 Phase issue: #45
 PR: #46
 Base SHA: 8d443310cf006b82966163f8e486d1f52d8d4e6c
-Head SHA: Active PR head; the exact final head SHA must be taken from PR #46 metadata after each correction commit and must receive fresh external red-team review before merge.
-Merge SHA: Pending
+Head SHA: Historical PR-head evidence is preserved in GitHub.
+Merge SHA: b99fc7d1fe0882380fc53041be42bb0aad35c02e
 Changed files: Exactly fourteen Issue #45-authorized project-control files: automation roadmap, decision log, development ledger, handoff playbook, low-risk lane policy, product/development source of truth, implementation roadmap, vision/phase tracker, red-team protocol, risk register, command pack, workflow target state, operator runbook, and Phase 4K-8 report
 Commands run: Starting-state and GitHub evidence reads, protocol/control documentation inspection, documentation edits, full local validation suite, staged whitespace validation
 Claim level: Documentation-only command-pack and operator-runbook gate; no automation activation, auto-merge, approval reduction, product implementation, dependency/toolchain mutation, runtime QA, build, backend or identity-system implementation, scoring, pass/fail, public content, or release claim
 Next phase: Phase 4K-9 is not started; Phase 4I remains paused
 ```
 
-## Issue #49 Read-Only Continuity Collector
+## Historical Issue #49 Read-Only Continuity Collector
 
 ```text
 Issue: #49
@@ -34,12 +56,12 @@ Starting main: 01b90ab8b12416101b4be067794bf543a3488779
 Bootstrap commit: 6aabfd9cd25889d4f0bbdf4dae11008291fce9f0
 Implementation evidence commit: ee0ffc7c17072543cf818849252a8c07d2019538
 Intermediate live run: 29177537570 for implementation evidence commit ee0ffc7c17072543cf818849252a8c07d2019538
-Final reconciliation head: live GitHub evidence required after the evidence commit; no static value grants review decision power
-Current PR head: live GitHub evidence required; static ledger values grant no review decision power
-Merge SHA: pending
+Final reconciliation head: 1a21e636ab31a0276d854dc4c122641a05023d10
+Current PR head: historical; PR #50 is closed and merged
+Merge SHA: 7d00343c233e45185e6c4d77e50eb870f408c01f
 Phase 4K-9: not started
 Phase 4I: paused
-Claim level: read-only collector and derived-packet implementation in review
+Claim level: historical merged read-only collector and derived-packet implementation; no current recovery authority
 ```
 
 ### Phase 4K-7 - Low-Risk Lane Validator / Control-Gate Implementation Gate
@@ -57,7 +79,7 @@ Merge SHA: 8d443310cf006b82966163f8e486d1f52d8d4e6c
 Changed files: Low-risk lane validator, control-gates workflow integration, Phase 4K-7 report, and allowed project-control evidence updates
 Commands run: Starting-state and GitHub evidence reads, control validator inspection, validator self-test, workflow integration, documentation edits, local validation, external review route, and protected merge
 Claim level: Control-gate validator implementation only; no workflow automation activation, auto-merge, approval reduction, product implementation, dependency/toolchain mutation, runtime QA, build, backend or identity-system implementation, scoring, pass/fail, public content, or release claim
-Next phase: Phase 4K-8 is active through Issue #45; Phase 4I remains paused
+Historical next phase: Phase 4K-8 was active through Issue #45; it is now closed/merged, and Phase 4I remains paused
 ```
 
 ### Phase 4K-6 - Owner-Trigger / Low-Risk Lane Automation Policy Gate

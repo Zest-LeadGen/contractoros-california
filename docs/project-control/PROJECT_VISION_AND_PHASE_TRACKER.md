@@ -131,7 +131,7 @@ Phase 4K-5 is historical blocked-before-mutation dependency/toolchain evidence. 
 
 Phase 4K-6 is historical after PR #42 merged at `4315c943b6210f023849592213882bc8983c31d2`. It records the owner-approved redirect toward approximately 95% workflow/process automation and does not implement automation.
 
-Phase 4K-7 completed through Issue #43 and merged PR #44. Its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`. Phase 4K-8 is active through Issue #45 and PR #46. Phase 4K-9 through Phase 4K-12 remain planning targets and are not started. The toolchain availability / npm bootstrap governance path is deferred, not rejected.
+Historical snapshot: Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 was then active through Issue #45 and PR #46; it is now closed/merged. Phase 4K-9 through Phase 4K-12 were planning targets. The toolchain availability / npm bootstrap governance path was deferred, not rejected.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
@@ -163,7 +163,7 @@ This phase map is a tracking structure. It is not proof that every item is compl
 | Phase 4K-5 | Web dependency / lockfile baseline implementation gate | Issue #39 + PR #40 | Merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`; blocked-before-mutation evidence and no dependency baseline implementation |
 | Phase 4K-6 | Owner-trigger / low-risk lane automation policy gate | Issue #41 + PR #42 | Merged at `4315c943b6210f023849592213882bc8983c31d2`; policy/documentation phase only |
 | Phase 4K-7 | Low-risk lane validator / control-gate implementation gate | Issue #43 + PR #44 | Completed; reviewed head `a519ef5579c130181ac1b25f74bb48f481478378`, merged at `8d443310cf006b82966163f8e486d1f52d8d4e6c` |
-| Phase 4K-8 | Workflow automation command-pack / operator runbook gate | Issue #45 + PR #46 | Active documentation-only gate; no automation activation or approval reduction |
+| Phase 4K-8 | Workflow automation command-pack / operator runbook gate | Issue #45 + PR #46 | Historical documentation-only gate; now closed/merged; no automation activation or approval reduction |
 | Phase 4K-9 through 4K-12 | Intake, closeout, dry-run, and decision planning sequence | Future durable issues required | Planning targets only; not started or authorized by Phase 4K-8 |
 
 This table must be updated after each completed phase.
@@ -406,29 +406,29 @@ Verified main controls phase advancement.
 
 `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` controls current product/development source-of-truth.
 
-## 16. Current Program Gate
+## 16. Historical Program Gate Snapshot
 
 | Item | Verified state |
 |---|---|
 | Phase 4K-8 | Completed |
 | PR #46 | Merged at `b99fc7d1fe0882380fc53041be42bb0aad35c02e` |
 | Issue #45 | Closed/completed |
-| Issue #47 | Active Program Constitution documentation gate |
+| Issue #47 | Historical Program Constitution documentation gate |
 | Phase 4K-9 | Not started |
 | Phase 4I | Paused |
 | Toolchain/npm | Deferred, not rejected |
 | Continuity collector | Not implemented |
 
-The next recommended gate after Issue #47 closeout is the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.
+The next gate recorded by this historical snapshot was the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.
 
-## Current Issue #49 Snapshot
+## Historical Issue #49 Snapshot
 
 | Item | Evidence-based status |
 |---|---|
 | Issue #47 | Closed/completed |
 | PR #48 | Merged at `01b90ab8b12416101b4be067794bf543a3488779` |
-| Issue #49 | Active |
-| PR #50 | Open; implementation in review |
+| Issue #49 | Historical snapshot recorded it as active; live recovery evidence now proves it closed. |
+| PR #50 | Historical snapshot recorded it as open; live recovery evidence now proves it merged. |
 | Phase 4K-9 | Not started |
 | Phase 4I | Paused |
 | Continuity collector | Implementation in review; merged capability not yet proven |
@@ -461,4 +461,22 @@ Current-phase reporting must remain separate from program-capability reporting.
 | Business/market validation | Requires measured market evidence |
 | Overall program | Must not inherit governance-only gains as product delivery |
 
-Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and documentation-only Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress. Phase 4K-9 remains not started and Phase 4I remains paused.
+Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and documentation-only Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress.
+
+## Current H1 Recovery Gate
+
+| Item | Verified state |
+|---|---|
+| Current main | `7d00343c233e45185e6c4d77e50eb870f408c01f` |
+| Issue #49 | Closed |
+| PR #50 | Merged at current main |
+| Active H1 issue | #58 |
+| Recovery authority | Issue #58 comment `4975617497`; documentation scope only |
+| Product work | Frozen |
+| Production | Blocked |
+| Phase 4K-9 and downstream | Paused |
+| Phase 4I | Paused |
+| Current allowed activity | Project-control reconciliation PR only |
+| H1 bootstrap | Not authorized |
+
+The long-term product vision in this tracker is unchanged. After reconciliation merge and verified-main durable closeout, the next possible activity is preparation of the minimal inert governance-bootstrap decision packet; that preparation grants no commit or implementation authority.

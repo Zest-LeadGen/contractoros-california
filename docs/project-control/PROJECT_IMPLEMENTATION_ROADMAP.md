@@ -185,13 +185,13 @@ Issue #39 is closed/completed and PR #40 merged Phase 4K-5 blocked-before-mutati
 
 The owner-approved immediate path is redirected to Phase 4K-6 workflow-automation policy and the planning sequence through Phase 4K-12. The toolchain availability / npm bootstrap governance path remains valid but deferred, not rejected.
 
-Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 is active through Issue #45 and PR #46 for command-pack and operator-runbook documentation only. Phase 4K-9 through Phase 4K-12 remain planning targets. Each later phase requires its own future durable GitHub issue and must not start before its prerequisite phase is merged, main-verified, and closed.
+Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 completed through closed Issue #45 and merged PR #46 for command-pack and operator-runbook documentation only. Phase 4K-9 through Phase 4K-12 are paused planning history under Issue #58 recovery authority.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
-## 19. Current Phase Constraint
+## 19. Historical Phase 4K-8 Constraint
 
-Current Phase 4K-8 work is project-control documentation only. It does not change control scripts, workflows, PR templates, app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
+Phase 4K-8 work was project-control documentation only. It did not change control scripts, workflows, PR templates, app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
 
 Phase 4K-8 does not activate workflow automation, reduce current human approval or external red-team requirements, activate auto-merge, resume the deferred toolchain/npm path, start Phase 4K-9, or resume Phase 4I.
 
@@ -213,6 +213,8 @@ The next permissible implementation gate after Issue #47 closeout is the read-on
 
 ## 22. Issue #49 Read-Only Continuity Collector Gate
 
-Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 and PR #50 contain the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation in review.
+Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 is closed and PR #50 merged the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
-This gate precedes Phase 4K-9. Phase 4K-9 is not started, Phase 4I remains paused, and no later product, source-ingestion, database, private-infrastructure, paid-service, release, or production work is included.
+## 23. H1 Recovery Reconciliation Gate
+
+Issue #58 comment `4975617497` is the active recovery authority. The only current activity is the protected project-control reconciliation PR. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. After merge and verified-main durable closeout, the next possible activity is preparation of a minimal inert governance-bootstrap decision packet; preparation grants no implementation authority.

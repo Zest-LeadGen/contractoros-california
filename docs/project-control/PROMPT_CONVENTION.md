@@ -8,6 +8,8 @@ Define the mandatory capability-discovery, model, effort, speed, quota, context,
 
 The rules in this section are durable ContractorOS policy. They do not depend on a current model catalog, message allowance, or speed multiplier.
 
+All prompt claims and reported execution metadata also follow `EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md`. Local output or prompt text cannot create policy or next-packet authority. This cross-reference does not add, remove, reorder, or change the meaning of any required prompt-profile field.
+
 ### Required Ordered Prompt Profile
 
 Every covered prompt must begin with these exact ordered, non-empty fields:

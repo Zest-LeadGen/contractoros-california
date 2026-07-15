@@ -13,7 +13,25 @@ Resolution condition:
 Last reviewed:
 ```
 
-## Issue #49 Continuity Collector Risks
+## H1 Recovery Risks
+
+| Risk ID | Risk | Current control | Status |
+|---|---|---|---|
+| R-H1-P0-01 | Circular trust: a candidate policy or first commit defines the oracle that accepts itself. | Minimal inert first commit, external trusted evidence, protected later PR, fresh independent review. | P0 active; unresolved. |
+| R-H1-02 | Local authority drift advances prompts or packets beyond durable GitHub closeout. | Issue #58 authority, no local authority, ordered R4-R7 closeout, no automatic continuation. | Active. |
+| R-H1-03 | Developer and red-team roles collapse into self-review. | Codex executor-only role, separate red-team architecture/audit, fresh exact-SHA review, human approval. | Active. |
+| R-H1-04 | Candidate-owned oracle accepts candidate-controlled policy or test evidence. | External trusted file oracle requirement and prohibition on executing candidate policy code. | P0 active; unresolved. |
+| R-H1-05 | Duplicate YAML or JSON keys create ambiguous accepted policy. | Strict parsing strategy and duplicate-key rejection remain required H1 engineering decisions. | Active; unresolved. |
+| R-H1-06 | Stale canonical current state competes with live GitHub evidence. | Reconciled snapshot, explicit supersession, live reverification, fail-closed contradiction handling. | Active. |
+| R-H1-07 | Mutable third-party Action provenance changes reviewed behavior. | Full-SHA action pins and immutable reusable-workflow provenance remain required. | Active; unresolved. |
+| R-H1-08 | Policy and runtime resource limits diverge. | Policy-bound runtime-limit engineering decision and negative tests remain required. | Active; unresolved. |
+| R-H1-09 | Broad connector/resource discovery violates scope or exposes unrelated context. | Direct-tool-only rule, incident evidence, regression checks, and fail-closed stop. | Active. |
+
+Nine unresolved H1 engineering decisions remain: `P0_02` exact current product PR-head mechanism; `P0_03` trusted default-branch/main binding; `P1_01` immutable reusable-workflow provenance; `P1_03` strict YAML/schema strategy; `P1_04` deterministic evaluation time; `P1_05` GitHub-applicable ruleset payload; `RT_P0_04` external trusted file oracle; `RT_P1_06` policy-bound runtime limits; and `RT_P2_07` duplicate JSON-key rejection. No local H1 candidate is accepted.
+
+## Historical Issue #49 Continuity Collector Risks
+
+Issue #49 is closed and PR #50 merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`. Any row wording below that says “implementation review” records the historical review state; it is superseded by merged status. Remaining technical limitations stay active only as operational risks and grant no current-phase authority.
 
 | Risk ID | Risk | Control | Validation task | Status |
 |---|---|---|---|---|

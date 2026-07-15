@@ -44,7 +44,7 @@ The current governance route requires approximately 8-14 owner/collaborator acti
 | Dependency/security/toolchain phases | Approximately 5-9 owner/human actions | Risk acceptance and toolchain decisions remain human controlled unless later durable policy reduces them. |
 | Legal, financial, public-release, production, app-store/build/distribution, backend or identity/security, and high-risk product phases | No autonomous reduction of required approval | Owner/human approval remains required. |
 
-These are target ranges for manual relay reduction, not guarantees and not approval to activate automation. Phase 4K-7 completed through Issue #43 and merged PR #44 at `8d443310cf006b82966163f8e486d1f52d8d4e6c`; Phase 4K-8 is active through Issue #45 and PR #46.
+These are target ranges for manual relay reduction, not guarantees and not approval to activate automation. Phase 4K-7 completed through Issue #43 and merged PR #44 at `8d443310cf006b82966163f8e486d1f52d8d4e6c`; Phase 4K-8 is historical and completed through closed Issue #45 and merged PR #46.
 
 ## Source-of-Truth Requirements
 
@@ -96,8 +96,8 @@ Neither phase is started or approved by this document.
 
 ## Non-Goals
 
-Phase 4K-8 documents operator controls only. It does not implement bots, issue-intake automation, Codex-handoff automation, merge automation, issue-closeout automation, repo-backed red-team memory, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims. Phase 4K-9 is not started, Phase 4I remains paused, and the toolchain/npm path remains deferred rather than rejected.
+Historical Phase 4K-8 documents operator controls only. It does not implement bots, issue-intake automation, Codex-handoff automation, merge automation, issue-closeout automation, repo-backed red-team memory, auto-merge, dependency tooling, package changes, runtime QA, builds, product features, backend or identity-system implementation, public content, or release claims. Phase 4K-9 and downstream progression are paused, Phase 4I remains paused, and the toolchain/npm path remains deferred rather than rejected.
 
 ## Program Constitution Reconciliation
 
-The 95% target now means eligible routine workflow steps, not protected high-impact decisions. Exact-SHA external review, human/write-access approval, branch protection, manual protected merge, and issue closeout remain retained boundaries. Issue #47 documents canonical state and continuity architecture only; no collector or automation is operational.
+The 95% target means eligible routine workflow steps, not protected high-impact decisions. Exact-SHA external review, human/write-access approval, branch protection, manual protected merge, and issue closeout remain retained boundaries. Issue #49 and PR #50 are closed/merged historical collector evidence; no workflow automation is operational. Issue #58 recovery authorizes only project-control reconciliation and no H1 bootstrap or product work.

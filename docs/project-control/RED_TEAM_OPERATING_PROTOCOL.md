@@ -4,7 +4,9 @@
 
 Define the durable ContractorOS California red-team operating rules that future review windows must inherit from GitHub source-of-truth files.
 
-This protocol records Issue #24, the Issue #24 red-team operating addenda, and Phase 4J-5 issue #25 as committed project-control evidence.
+This protocol records Issue #24, the Issue #24 red-team operating addenda, Phase 4J-5 issue #25, and the current Issue #58 recovery amendment as committed project-control evidence.
+
+Documentation scope: Issue #58 comment `4975617497` and `AUTHORITY_AND_SUPERSESSION_INDEX.md` control where earlier lifecycle or authority statements conflict. Issue #24 remains audit and protocol history where incorporated; it is not the current constitutional anchor.
 
 ## Source Of Truth
 
@@ -153,6 +155,14 @@ Chat memory is not evidence.
 - Do not invent Drive artifacts.
 - Do not invent branch status, pull request status, GitHub Actions status, validation results, approval state, merge state, or closeout state.
 - Do not approve if the exact current pull request head SHA is not known.
+
+## Epistemic Integrity And Recovery Role Boundary
+
+The `EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md` rules apply to every review claim: no evidence means no claim; missing evidence is `NOT_PROVEN`; conflicting evidence is `BLOCKED`; stale evidence requires reverification; and assumptions, inferences, and uncertainty must be labeled.
+
+The red-team window may lead architecture, requirements, threat modeling, and review planning. It must remain separate from developer implementation and cannot approve its own changes. Final review must be performed from a fresh independent context against the exact current PR head SHA. Allowed final decisions remain exactly `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED`.
+
+Current recovery sequencing is R4 reconciliation implementation, R5 fresh exact-SHA review, R6 owner merge decision, and R7 main verification plus durable closeout. Neither local output nor a generated packet can authorize a later recovery step or H1 bootstrap activity; no broader scope is granted.
 
 ## Required Route
 

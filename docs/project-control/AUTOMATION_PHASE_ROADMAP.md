@@ -8,7 +8,7 @@ Record the owner-approved redirect toward workflow automation, the planning sequ
 
 Phase 4K-5 ended as blocked-before-mutation dependency/toolchain evidence. Issue #39 is closed/completed and PR #40 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52` without implementing the dependency baseline.
 
-Phase 4K-6 is merged through PR #42. Phase 4K-7 completed through Issue #43 and merged PR #44; its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`. Phase 4K-8 is active through Issue #45 and PR #46. Phase 4K-9 is not started, Phase 4I remains paused, and auto-merge remains inactive.
+Phase 4K-6 is merged through PR #42. Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 completed through closed Issue #45 and merged PR #46. Issue #49 is closed and PR #50 merged at current main `7d00343c233e45185e6c4d77e50eb870f408c01f`. Issue #58 is the active H1 recovery issue. Phase 4K-9 and downstream progression are paused, Phase 4I remains paused, product work is frozen, production is blocked, and auto-merge remains inactive.
 
 ## Owner-Approved Redirect
 
@@ -34,7 +34,7 @@ Dependency: Phase 4K-6 merged, main verified, Issue #41 closed, and Issue #43 ap
 
 ## Phase 4K-8 Workflow Automation Command-Pack / Operator Runbook Gate
 
-Status: Active through Issue #45 and PR #46.
+Status: Historical; completed through closed Issue #45 and merged PR #46.
 
 Planned outcome: define an approved operator command pack and runbook for repetitive evidence collection, check monitoring, marker assembly, merge verification, issue closeout, and stop-condition reporting.
 
@@ -93,16 +93,16 @@ Stop the sequence when a prerequisite phase is not merged/main-verified/closed, 
 
 ## Claim Limits
 
-Phase 4K-8 may prove command-pack and operator-runbook documentation only after local validation, external review, and merge. It does not prove low-risk automation activation, reduced manual action in practice, runtime behavior, toolchain availability, dependency baseline, build status, product status, or release status.
+Historical Phase 4K-8 evidence proves command-pack and operator-runbook documentation only. It does not prove low-risk automation activation, reduced manual action in practice, runtime behavior, toolchain availability, dependency baseline, build status, product status, or release status.
 
 ## Pre-4K-9 Program Constitution Gate
 
-Phase 4K-8 is completed through merged PR #46 and closed/completed Issue #45 at main `b99fc7d1fe0882380fc53041be42bb0aad35c02e`. Issue #47 is the active documentation gate for the Program Constitution, D1–D26 decision reconciliation, red-team continuity architecture, public/private policy, and current-state records. Phase 4K-9 remains not started and Phase 4I remains paused.
+Historical snapshot: Phase 4K-8 completed through merged PR #46 and closed/completed Issue #45 at main `b99fc7d1fe0882380fc53041be42bb0aad35c02e`. Issue #47 was then the active documentation gate for the Program Constitution, D1–D26 decision reconciliation, red-team continuity architecture, public/private policy, and current-state records. Phase 4K-9 had not started and Phase 4I was paused.
 
 After Issue #47 is merged, main-verified, and closed, the next gate is the **Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate**. It must precede Phase 4K-9 and begin with read-only evidence access only.
 
 ## Issue #49 Read-Only Continuity Gate
 
-Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 is active through PR #50 for the read-only continuity collector and deterministic derived startup packet implementation in review.
+Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 is closed and PR #50 merged the read-only continuity collector and deterministic derived startup packet at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
-Phase 4K-9 is not started. Phase 4I remains paused. This gate must pass external exact-SHA review, human approval, protected merge, main verification and Issue #49 closeout before Phase 4K-9 may be evaluated.
+Issue #58 comment `4975617497` now controls recovery. The only current activity is the project-control reconciliation PR. Phase 4K-9 and downstream progression remain paused, Phase 4I remains paused, H1 bootstrap is not authorized, product work is frozen, and production is blocked.
