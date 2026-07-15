@@ -17,26 +17,32 @@ Phase issue: #76
 Parent issue: #58
 Starting main: 98aa418aca568eca0c98cedb017488c711bb50ed
 Historical reconciliation evidence: PR #75 merged at 98aa418aca568eca0c98cedb017488c711bb50ed
-PR: #77 open; exact current head must be retrieved from live GitHub evidence.
 INITIAL_DEVELOPER_DELIVERY=COMPLETED
 R1_REVIEWED_HEAD=486a55dd17b578ad2dcbee1f05debb5337e7a32c
 R1_RESULT=CHANGES_REQUESTED
 R1_FINDING_1=R1-OUTPUT-ORDER-001
 R1_FINDING_2=R1-STATE-002
-CORRECTION_AUTHORITY=ISSUE_76_COMMENT_4984310758 # documentation scope
-CORRECTION_SCOPE=TEN_EXISTING_FILES
-CORRECTION_COMMIT_LIMIT=ONE
-PUSH_LIMIT=ONE
-PR_BODY_REPLACEMENT_LIMIT=ONE
-FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
-Scope: Initial explicit navigation contract plus owner-authorized ten-file output-order and current-state correction
+R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_RESULT=CHANGES_REQUESTED
+R2_FINDING_1=R2-STATE-001
+R2_FINDING_2=R2-TEST-001
+R2_CORRECTION_AUTHORITY=ISSUE_76_COMMENT_4984934461 # documentation scope
+R2_CORRECTION_SCOPE=SIX_EXISTING_FILES
+R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
+PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
+EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
+Scope: Historical initial delivery and R1 correction; this commit applies the owner-authorized six-file R2 lifecycle correction
 Runtime/schema/fixture migration: Not required by the bounded impact analysis
 Private-chat enforcement: Behavioral obligation; universal technical enforcement is not proven
 Claim level: Project-control navigation hardening only
 Product work: Frozen
 Production: Blocked
 H1 bootstrap: Not authorized
-Documentation scope next gate: Deliver the authorized correction, verify the resulting exact head, and obtain fresh independent whole-PR exact-SHA review
 ```
 
 ## Historical Ledger Entries

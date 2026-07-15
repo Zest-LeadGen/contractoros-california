@@ -28,6 +28,8 @@ STARTUP_PACKET_SPEC = ROOT / "docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.
 DEVELOPMENT_LEDGER = ROOT / "docs/project-control/DEVELOPMENT_LEDGER.md"
 VALIDATION_TASKS = ROOT / "docs/project-control/VALIDATION_TASKS.md"
 ISSUE76_PHASE_REPORT = ROOT / "docs/project-control/phase_h1_next_window_handoff_contract_gate_report.md"
+RISK_REGISTER = ROOT / "docs/project-control/RISK_REGISTER.md"
+REQUIREMENTS_TRACEABILITY_MATRIX = ROOT / "docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md"
 TRACKER = ROOT / "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md"
 SOURCE_REGISTER = ROOT / "docs/project-control/SOURCE_REGISTER.md"
 PHASE_REPORT = ROOT / "docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md"
@@ -1487,25 +1489,89 @@ class GovernanceHardeningTests(unittest.TestCase):
                 for phrase in forbidden:
                     self.assertNotIn(phrase, text)
 
-    def test_issue76_active_records_do_not_claim_pre_pr_delivery(self):
+    def issue76_active_records(self):
         ledger = self.text(DEVELOPMENT_LEDGER).split("## Historical Ledger Entries", 1)[0]
         validation = self.text(VALIDATION_TASKS).split(
             "## H1 Issue #76 Next-Window Handoff Contract Validation", 1
         )[1]
         report = self.text(ISSUE76_PHASE_REPORT)
+        risk = self.text(RISK_REGISTER).split(
+            "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
+        )[0]
+        traceability = self.text(REQUIREMENTS_TRACEABILITY_MATRIX).split(
+            "## H1 Issue #76 Next-Window Handoff Contract", 1
+        )[1]
+        return {
+            "DEVELOPMENT_LEDGER.md": ledger,
+            "VALIDATION_TASKS.md": validation,
+            "phase_h1_next_window_handoff_contract_gate_report.md": report,
+            "RISK_REGISTER.md": risk,
+            "REQUIREMENTS_TRACEABILITY_MATRIX.md": traceability,
+        }
+
+    def test_issue76_active_records_use_event_invariant_lifecycle_fields(self):
+        required = (
+            "R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT",
+            "CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED",
+            "REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED",
+            "PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED",
+            "EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED",
+            "CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED",
+            "NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION",
+        )
+        for path, text in self.issue76_active_records().items():
+            with self.subTest(path=path):
+                for field in required:
+                    self.assertIn(field, text)
+
+    def test_issue76_active_records_reject_post_correction_pending_actions(self):
+        forbidden = (
+            "pr: not created",
+            "pending developer delivery",
+            "deliver the authorized correction",  # documentation scope test literal
+            "staged verification remains required before commit",
+            "pending correction commit and push",
+            "pending correction commit, push, body replacement, and exact-head workflow runs",
+            "controlled body replacement pending",
+            "delivery and body replacement pending",
+            "correction delivery pending",
+            "push pending",
+            "pr-body replacement pending",
+            "workflow verification pending",
+        )
+        for path, text in self.issue76_active_records().items():
+            with self.subTest(path=path):
+                lowered = text.lower()
+                for phrase in forbidden:
+                    self.assertNotIn(phrase, lowered)
+
+    def test_issue76_mutable_github_state_requires_live_verification(self):
+        for path, text in self.issue76_active_records().items():
+            with self.subTest(path=path):
+                self.assertIn("LIVE_GITHUB_REQUIRED", text)
+                self.assertIn(
+                    "NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION",
+                    text,
+                )
+
+    def test_issue76_historical_evidence_remains_distinct_from_current_state(self):
+        ledger = self.issue76_active_records()["DEVELOPMENT_LEDGER.md"]
+        validation = self.issue76_active_records()["VALIDATION_TASKS.md"]
+        report = self.issue76_active_records()[
+            "phase_h1_next_window_handoff_contract_gate_report.md"
+        ]
         for text in (ledger, validation, report):
-            self.assertNotIn("PR: Not created", text)
-            self.assertNotIn("pending developer delivery", text.lower())
-            self.assertNotIn(
-                "Create one developer commit, push once, open and verify the PR", text
-            )
-        self.assertIn("PR: #77 open; exact current head must be retrieved from live GitHub evidence.", ledger)
+            self.assertIn("R1_RESULT=CHANGES_REQUESTED", text)
+            self.assertIn("R2_RESULT=CHANGES_REQUESTED", text)
+            self.assertIn("R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92", text)
+            self.assertIn("R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT", text)
+            self.assertIn("CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED", text)
         self.assertIn("INITIAL_DEVELOPER_DELIVERY=COMPLETED", ledger)
+        self.assertIn("R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92", ledger)
         self.assertIn(
             "INITIAL_DEVELOPER_DELIVERY=COMPLETED_AT_486a55dd17b578ad2dcbee1f05debb5337e7a32c",
             validation,
         )
-        self.assertIn("R1_RESULT=CHANGES_REQUESTED", report)
 
     def test_raw_chart_configuration_is_prohibited(self):
         text = self.text(RED_TEAM_PROTOCOL)

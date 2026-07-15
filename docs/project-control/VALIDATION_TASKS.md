@@ -377,16 +377,26 @@ FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
 
 ## H1 Issue #76 Next-Window Handoff Contract Validation
 
-The initial Developer validation below is preserved as historical delivery evidence. R1 reviewed the delivered head and required the bounded correction recorded here.
+The initial Developer validation and R1 correction evidence below are historical. R2 reviewed the R1 correction head and required this separately authorized six-file, event-invariant lifecycle correction (documentation scope).
 
 ```text
 INITIAL_DEVELOPER_DELIVERY=COMPLETED_AT_486a55dd17b578ad2dcbee1f05debb5337e7a32c
 R1_RESULT=CHANGES_REQUESTED
 R1_FINDING_1=R1-OUTPUT-ORDER-001
 R1_FINDING_2=R1-STATE-002
-BOUNDED_CORRECTION=OWNER_AUTHORIZED # documentation scope
-CORRECTION_AUTHORITY_COMMENT=4984310758 # documentation scope
-FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_RESULT=CHANGES_REQUESTED
+R2_FINDING_1=R2-STATE-001
+R2_FINDING_2=R2-TEST-001
+R2_CORRECTION_AUTHORITY_COMMENT=4984934461 # documentation scope
+R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
+PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
+EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
 ```
 
 | ID | Task | Method | Expected result | Status |
@@ -401,7 +411,10 @@ FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
 | VAL-H1-76-008 | Bind the initial delivery to the exact PR head. | Historical initial commit, push, non-draft PR, exact live metadata, and workflow inspection. | Initial delivery is bound to `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 findings govern subsequent correction work. | Initial Developer delivery completed at `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 returned `CHANGES_REQUESTED`. |
 | VAL-H1-76-009 | Validate canonical final response ordering. | Run the four named deterministic Issue #76 ordering/current-state tests directly and within full continuity discovery. | Product stage, lifecycle table, chart/fallback when required, and navigation appear in that semantic order; navigation is the sole absolute final response element. | Passed: four named focused tests and both 344-test continuity runs; fresh independent exact-SHA verification pending. |
 | VAL-H1-76-010 | Prove conflicting chart-final language is absent. | Search the three governing files for every prohibited chart-final phrase and run the semantic regression test. | Zero conflicting chart-final instructions remain. | Passed: conflicting chart-final language count is zero; fresh independent exact-SHA verification pending. |
-| VAL-H1-76-011 | Reconcile active Issue #76 state. | Inspect the active ledger, validation section, phase report, decision log, risk register, and traceability rows. | PR #77 and the initial delivery are current facts; R1 findings, correction authority, limits, and fresh-review requirement are explicit. | Passed in deterministic current-state test and full record review; fresh independent exact-SHA verification pending. |
-| VAL-H1-76-012 | Verify the exact correction scope. | Compare working-tree and staged name-status to the ten-file correction allowlist. | Exactly ten existing files changed; zero new files, deletions, renames, workflow changes, or runtime/schema/fixture/product changes. | Passed in working-tree validation: exact ten existing files and all nine control/diff commands; staged verification remains required before commit. |
-| VAL-H1-76-013 | Validate one controlled PR-body replacement. | After the one correction push, derive one body-only proposal from the live body; validate hashes, exact head, commit/test counts, preserved sections, and marker counts before one update. | One validated body replacement; one final owner marker; zero red-team markers; no other PR metadata mutation. | Pending correction commit and push. |
-| VAL-H1-76-014 | Verify the fresh exact correction head and workflows. | Inspect the synchronize-event run and the edited-event run for the correction head; treat the edited-event run as final workflow evidence. | All pre-marker controls pass; red-team marker fails only because it is missing; post-marker checks skip. | Pending correction commit, push, body replacement, and exact-head workflow runs. |
+| VAL-H1-76-011 | Preserve historical R1 validation evidence. | Keep initial-delivery and R1 results distinct from R2 current-state assertions. | Historical initial and R1 facts remain explicit without asserting mutable post-R2 GitHub state. | Historical evidence retained. |
+| VAL-H1-76-012 | Verify event-invariant lifecycle fields across the five active project-control records. | Static regression tests require every current record to distinguish R2 implementation from mutable GitHub state. | All five records contain the required `THIS_COMMIT`, `LIVE_GITHUB_REQUIRED`, and next-gate fields. | This commit. |
+| VAL-H1-76-013 | Reject stale post-correction instructions. | Static regression tests search active/current Issue #76 sections case-insensitively for delivery, commit, push, body-replacement, and workflow instructions represented as repository facts. | No active record directs recreation of a mutable GitHub action; historical evidence remains separately classified. | This commit. |
+| VAL-H1-76-014 | Verify exact six-file R2 correction scope. | Compare working-tree and staged name-status to the R2 allowlist. | Exactly six existing files changed; zero new files, deletions, renames, navigation-governing-file, workflow, validator, runtime/schema/fixture, or product/production changes. | This commit. |
+| VAL-H1-76-015 | Preserve navigation-order governing documents. | Inspect the cumulative PR and correction diff. | No R2 modification to `RED_TEAM_OPERATING_PROTOCOL.md`, `PROMPT_CONVENTION.md`, `HANDOFF_PLAYBOOK.md`, or `RED_TEAM_STARTUP_PACKET_SPEC.md`. | This commit. |
+| VAL-H1-76-016 | Verify one controlled PR-body replacement only through live evidence. | Retrieve live PR body after correction delivery; validate a body-only proposal and its hashes before the single authorized update (documentation scope). | Mutable body state is `LIVE_GITHUB_REQUIRED`; one replacement is accepted only after live verification. | Live GitHub required. |
+| VAL-H1-76-017 | Verify the exact-head workflow only through live evidence. | Retrieve live workflow, review, and issue evidence for the live PR head after body verification. | Mutable workflow and review states are `LIVE_GITHUB_REQUIRED`; a fresh whole-PR review follows live verification. | Live GitHub required. |
