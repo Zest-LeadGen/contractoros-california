@@ -25,6 +25,9 @@ OPERATING_MODEL = ROOT / "docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md
 RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
 HANDOFF_PLAYBOOK = ROOT / "docs/project-control/HANDOFF_PLAYBOOK.md"
 STARTUP_PACKET_SPEC = ROOT / "docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"
+DEVELOPMENT_LEDGER = ROOT / "docs/project-control/DEVELOPMENT_LEDGER.md"
+VALIDATION_TASKS = ROOT / "docs/project-control/VALIDATION_TASKS.md"
+ISSUE76_PHASE_REPORT = ROOT / "docs/project-control/phase_h1_next_window_handoff_contract_gate_report.md"
 TRACKER = ROOT / "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md"
 SOURCE_REGISTER = ROOT / "docs/project-control/SOURCE_REGISTER.md"
 PHASE_REPORT = ROOT / "docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md"
@@ -1437,10 +1440,72 @@ class GovernanceHardeningTests(unittest.TestCase):
         ):
             self.assertIn(value, text)
 
-    def test_interactive_chart_is_actual_single_and_last_where_supported(self):
-        text = self.text(RED_TEAM_PROTOCOL)
-        self.assertIn("exactly one actual detailed interactive chart at the absolute bottom", text)
-        self.assertIn("Nothing may appear after the chart", text)
+    def test_next_window_navigation_is_absolute_final_output_element(self):
+        canonical_order = (
+            "1. `Product development stage`",
+            "2. `Current lifecycle`",
+            "3. Interactive chart or compact fallback when required.",
+            "4. Exact next-window navigation block as the absolute final response element.",
+        )
+        for path in (RED_TEAM_PROTOCOL, PROMPT_CONVENTION, HANDOFF_PLAYBOOK):
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                positions = [text.index(item) for item in canonical_order]
+                self.assertEqual(positions, sorted(positions))
+                self.assertIn(
+                    "navigation block is the sole absolute final response element", text
+                )
+                self.assertIn("nothing follows it", text)
+
+    def test_chart_or_fallback_is_penultimate_to_navigation(self):
+        for path in (RED_TEAM_PROTOCOL, PROMPT_CONVENTION, HANDOFF_PLAYBOOK):
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                self.assertIn("chart or compact fallback is penultimate", text)
+                self.assertIn("immediately before", text)
+        protocol = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn(
+            "interactive chart immediately before the exact next-window navigation block",
+            protocol,
+        )
+        self.assertIn(
+            "compact fallback table containing `Delivery progress`, `Evidence confidence`, "
+            "and `Operational readiness` immediately before the exact next-window navigation block",  # scope-bound reporting evidence
+            protocol,
+        )
+
+    def test_conflicting_nothing_after_chart_language_is_absent(self):
+        forbidden = (
+            "chart at the absolute bottom",
+            "place nothing after it",
+            "Nothing may appear after the chart",
+            "Nothing may appear after the chart or fallback table",
+        )
+        for path in (RED_TEAM_PROTOCOL, PROMPT_CONVENTION, HANDOFF_PLAYBOOK):
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                for phrase in forbidden:
+                    self.assertNotIn(phrase, text)
+
+    def test_issue76_active_records_do_not_claim_pre_pr_delivery(self):
+        ledger = self.text(DEVELOPMENT_LEDGER).split("## Historical Ledger Entries", 1)[0]
+        validation = self.text(VALIDATION_TASKS).split(
+            "## H1 Issue #76 Next-Window Handoff Contract Validation", 1
+        )[1]
+        report = self.text(ISSUE76_PHASE_REPORT)
+        for text in (ledger, validation, report):
+            self.assertNotIn("PR: Not created", text)
+            self.assertNotIn("pending developer delivery", text.lower())
+            self.assertNotIn(
+                "Create one developer commit, push once, open and verify the PR", text
+            )
+        self.assertIn("PR: #77 open; exact current head must be retrieved from live GitHub evidence.", ledger)
+        self.assertIn("INITIAL_DEVELOPER_DELIVERY=COMPLETED", ledger)
+        self.assertIn(
+            "INITIAL_DEVELOPER_DELIVERY=COMPLETED_AT_486a55dd17b578ad2dcbee1f05debb5337e7a32c",
+            validation,
+        )
+        self.assertIn("R1_RESULT=CHANGES_REQUESTED", report)
 
     def test_raw_chart_configuration_is_prohibited(self):
         text = self.text(RED_TEAM_PROTOCOL)
@@ -1978,12 +2043,9 @@ class CollectorCorrectionCluster3Tests(unittest.TestCase):
     def test_operational_readiness_cannot_inherit_governance_progress(self):  # scope-bound reporting evidence
         self.assertIn("Operational readiness must not inherit governance-only", RED_TEAM_PROTOCOL.read_text(encoding="utf-8"))  # scope-bound reporting evidence
 
-    def test_nothing_may_follow_the_chart(self):
-        self.assertIn("Nothing may appear after the chart or fallback table", RED_TEAM_PROTOCOL.read_text(encoding="utf-8"))
-
     def test_unsupported_chart_uses_one_combined_bottom_fallback(self):
         text = RED_TEAM_PROTOCOL.read_text(encoding="utf-8")
-        self.assertIn("exactly one compact bottom fallback table", text)
+        self.assertIn("exactly one compact fallback table", text)
         self.assertIn("INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE", text)
 
 

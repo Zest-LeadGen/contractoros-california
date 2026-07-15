@@ -190,7 +190,7 @@ If it is not recorded in durable evidence, it is not durable.
 
 ## Explicit Next-Window Navigation Contract
 
-Every substantive active-project red-team response must end with this navigation block after the lifecycle evidence, next action, command guidance when applicable, stop conditions, and progress reporting required elsewhere in this protocol:
+Every substantive active-project red-team response must end with this navigation block after the lifecycle evidence, next action, command guidance when applicable, stop conditions, and progress reporting required elsewhere in this protocol. This navigation block is the sole absolute final response element, and nothing may follow it:
 
 ```text
 NEXT_WINDOW_REQUIRED=<YES|NO>
@@ -225,7 +225,7 @@ NEXT_WINDOW_SURFACE=NONE
 NEXT_WINDOW_PROMPT=NOT_REQUIRED
 ```
 
-Brief acknowledgments and purely conversational replies may use a compact navigation block, but active project work must still identify one exact next action.
+Brief acknowledgments and purely conversational replies may use the documented compact path and omit the chart or fallback, but they still end with a compact navigation block. Active project work must use the explicit navigation block and identify one exact next action.
 
 The navigation block has this fixed classification:
 
@@ -279,11 +279,14 @@ Generated prompts must define a quota-aware atomic packet, exact permitted scope
 
 ## Compact Progress And Chart Protocol
 
-Every substantive Codex or red-team response must end with only this permanent layout:
+Every substantive Codex or red-team response must use this single canonical final response order:
 
 1. `Product development stage`: one concise evidence-based statement.
 2. `Current lifecycle`: one compact Markdown table naming the active lifecycle state, packet, issue, PR, exact current or reviewed head when material, and next gate.
-3. Exactly one actual interactive chart at the absolute bottom.
+3. Interactive chart or compact fallback when required.
+4. Exact next-window navigation block as the absolute final response element.
+
+The chart or compact fallback is penultimate, not the final response element. The exact next-window navigation block is the sole absolute final response element, and nothing follows it. The chart or compact fallback may be omitted only when this protocol explicitly permits the documented compact path for a brief acknowledgment or purely conversational reply. Active project work still requires the explicit final navigation block.
 
 A separate `Current readiness` section or table is prohibited by this reporting scope. Separate current-phase, phase-progression, program-capability, or percentage tables are also omitted unless the owner explicitly requests them for a particular response. Lifecycle information must remain structured and must not be flattened into delimiter-separated or compressed paragraph strings.
 
@@ -291,6 +294,6 @@ The detailed chart taxonomy materially includes durable intake/scope, implementa
 
 Percentages are evidence-based estimates, not proof. Use `NOT_PROVEN` when support is insufficient, avoid false precision, identify supporting evidence, and explain material changes. Documentation-only work must not increase product progress. Governance progress must not inflate workflow, product, content, runtime, backend, build, business, or overall-program capability. No gated phase is 100% until its required review, approval, merge, main verification, and closeout are proven.
 
-When the response surface supports interactive charts, render exactly one actual detailed interactive chart at the absolute bottom. It must use current verified details and grouped categories that materially cover the active correction, lifecycle gates, roadmap gates, and actual program capabilities. It must contain three separately calculated series: `Delivery progress`, `Evidence confidence`, and `Operational readiness`. Operational readiness must not inherit governance-only or documentation-only gains. Blocked, unauthorized, unimplemented, or unproven capabilities remain at zero readiness or `NOT_PROVEN`. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability. Nothing may appear after the chart.
+When the response surface supports interactive charts, render exactly one actual detailed interactive chart immediately before the exact next-window navigation block. It must use current verified details and grouped categories that materially cover the active correction, lifecycle gates, roadmap gates, and actual program capabilities. It must contain three separately calculated series: `Delivery progress`, `Evidence confidence`, and `Operational readiness`. Operational readiness must not inherit governance-only or documentation-only gains. Blocked, unauthorized, unimplemented, or unproven capabilities remain at zero readiness or `NOT_PROVEN`. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability.
 
-Raw chart JSON, widget arguments, terminal representations, and documentation specifications must never be presented as the chart. Within this reporting scope, if the surface cannot render an interactive chart, use compact Markdown tables only for the single fallback: state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE` and provide exactly one compact bottom fallback table containing `Delivery progress`, `Evidence confidence`, and `Operational readiness`. The fallback is not a separate readiness section. Nothing may appear after the chart or fallback table.
+Raw chart JSON, widget arguments, terminal representations, and documentation specifications must never be presented as the chart. Within this reporting scope, if the surface cannot render an interactive chart, use compact Markdown tables only for the single fallback: state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE` and provide exactly one compact fallback table containing `Delivery progress`, `Evidence confidence`, and `Operational readiness` immediately before the exact next-window navigation block. The fallback is not a separate readiness section. The navigation block remains `NAVIGATION_ONLY`, creates no authority, and authorizes no automatic continuation.

@@ -113,7 +113,14 @@ A reported level of 79% requires a new window before another broad implementatio
 
 Every substantive response follows the compact, structured progress requirements in `RED_TEAM_OPERATING_PROTOCOL.md`. Current-phase and program-capability values remain separate. Governance work must not inflate product, runtime, backend, build, content, business-validation, or overall-program progress.
 
-Where interactive charts are supported, render exactly one detailed chart at the absolute bottom and place nothing after it. Never expose raw chart JSON, widget arguments, terminal representations, or implementation configuration as the chart. Where unsupported, use compact Markdown tables and record `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`; do not flatten structured progress into a delimiter-separated paragraph.
+Every substantive response uses this single canonical final response order:
+
+1. `Product development stage`.
+2. `Current lifecycle` table.
+3. Interactive chart or compact fallback when required.
+4. Exact next-window navigation block as the absolute final response element.
+
+The chart or compact fallback is penultimate, not the final response element. The exact next-window navigation block is the sole absolute final response element, and nothing follows it. The chart or fallback may be omitted only when existing policy explicitly permits the documented compact path for a brief acknowledgment or purely conversational reply; active project work still requires the explicit final navigation block. Where interactive charts are supported, render exactly one detailed chart immediately before the navigation block. Never expose raw chart JSON, widget arguments, terminal representations, or implementation configuration as the chart. Where unsupported, record `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE` and use the compact fallback immediately before the navigation block; do not flatten structured progress into a delimiter-separated paragraph.
 
 Every substantive active-project red-team response and handoff must also identify the exact next actor, surface, action, direct GitHub targets, independently pasteable AI prompt when an AI window is next, and exact stop conditions using this block:
 
@@ -130,7 +137,7 @@ NEXT_WINDOW_PROMPT=<complete copyable prompt or NOT_REQUIRED>
 STOP_CONDITIONS=<exact stop conditions>
 ```
 
-An AI-window prompt must not be partial: it must be complete, self-contained, independently pasteable, and preserve the required ordered ten-field profile above when substantive. A GitHub action must include the direct issue or pull-request URL and exact UI steps, with `NEXT_WINDOW_PROMPT=NOT_REQUIRED`. When no new window is needed, use `NEXT_WINDOW_REQUIRED=NO` and `NEXT_WINDOW_SURFACE=CURRENT_WINDOW`. When no action remains, use role and surface `NONE` and the `NOT_REQUIRED` prompt sentinel.
+An AI-window prompt must not be partial: it must be complete, self-contained, independently pasteable, and preserve the required ordered ten-field profile above when substantive. A GitHub action must include the direct issue or pull-request URL and exact UI steps, with `NEXT_WINDOW_PROMPT=NOT_REQUIRED`. When no new window is needed, use `NEXT_WINDOW_REQUIRED=NO` and `NEXT_WINDOW_SURFACE=CURRENT_WINDOW`. When no action remains, use role and surface `NONE` and the `NOT_REQUIRED` prompt sentinel. This exact navigation block is the sole absolute final response element, and nothing follows it.
 
 The navigation block is classified only as follows:
 

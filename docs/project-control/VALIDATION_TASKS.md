@@ -377,13 +377,31 @@ FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
 
 ## H1 Issue #76 Next-Window Handoff Contract Validation
 
+The initial Developer validation below is preserved as historical delivery evidence. R1 reviewed the delivered head and required the bounded correction recorded here.
+
+```text
+INITIAL_DEVELOPER_DELIVERY=COMPLETED_AT_486a55dd17b578ad2dcbee1f05debb5337e7a32c
+R1_RESULT=CHANGES_REQUESTED
+R1_FINDING_1=R1-OUTPUT-ORDER-001
+R1_FINDING_2=R1-STATE-002
+BOUNDED_CORRECTION=OWNER_AUTHORIZED # documentation scope
+CORRECTION_AUTHORITY_COMMENT=4984310758 # documentation scope
+FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+```
+
 | ID | Task | Method | Expected result | Status |
 |---|---|---|---|---|
-| VAL-H1-76-001 | Verify exact authorized starting state. | Fetch `main`; compare local, origin, and fetched live SHA; inspect worktree, issues, target branch, and existing PRs. | All main refs equal `98aa418aca568eca0c98cedb017488c711bb50ed`; clean worktree; Issues #76 and #58 open; no target branch or Issue #76 PR. | Passed before mutation. |
+| VAL-H1-76-001 | Verify historical initial authorized starting state. | Documentation-scope fetch of `main`; compare local, origin, and fetched live SHA; inspect worktree, issues, target branch, and existing PRs. | All main refs equal `98aa418aca568eca0c98cedb017488c711bb50ed`; clean worktree; Issues #76 and #58 open; the initial delivery branch and PR had not yet been created. | Passed before the historical initial implementation mutation. |
 | VAL-H1-76-002 | Prove the ordered Codex prompt profile remains unchanged. | Existing and new governance tests plus exact field-order/count assertions. | Ten ordered prompt-profile fields remain in their prior order. | Passed in focused and complete continuity validation. |
 | VAL-H1-76-003 | Prove the explicit navigation contract remains in governing documents. | Focused static tests over the red-team protocol, prompt convention, handoff playbook, and startup-packet specification. | Ten field labels, role/surface enums, no-window sentinels, direct-link rule, navigation-only boundary, and private-chat limitation are present. | Passed in focused and complete continuity validation. |
 | VAL-H1-76-004 | Run the focused continuity module. | `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest scripts.continuity.tests.test_red_team_continuity` | All continuity tests pass without bytecode writes. | Passed: 342 tests. |
 | VAL-H1-76-005 | Run complete continuity discovery. | `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'` | All continuity tests pass without regression. | Passed: 342 tests. |
 | VAL-H1-76-006 | Run all required local control checks. | Nine named control/diff commands from Issue #76. | Every control passes without workflow or validator changes. | Passed: all nine commands returned zero. |
 | VAL-H1-76-007 | Verify exact bounded file and claim surface. | Name-status, allowlist, field counts, sentinel searches, and private-chat overclaim review. | Eleven authorized paths only; one new report; zero deletion, rename, workflow, product, runtime, schema, or fixture changes. | Passed: 10 modified paths, one new report, and zero forbidden paths or positive private-chat enforcement overclaims. |
-| VAL-H1-76-008 | Bind delivery to the exact PR head. | One normal commit with hooks, one push, one non-draft PR, exact live metadata and workflow inspection. | Pre-marker controls pass; missing red-team marker is the only expected workflow failure. | Pending developer delivery. |
+| VAL-H1-76-008 | Bind the initial delivery to the exact PR head. | Historical initial commit, push, non-draft PR, exact live metadata, and workflow inspection. | Initial delivery is bound to `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 findings govern subsequent correction work. | Initial Developer delivery completed at `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 returned `CHANGES_REQUESTED`. |
+| VAL-H1-76-009 | Validate canonical final response ordering. | Run the four named deterministic Issue #76 ordering/current-state tests directly and within full continuity discovery. | Product stage, lifecycle table, chart/fallback when required, and navigation appear in that semantic order; navigation is the sole absolute final response element. | Passed: four named focused tests and both 344-test continuity runs; fresh independent exact-SHA verification pending. |
+| VAL-H1-76-010 | Prove conflicting chart-final language is absent. | Search the three governing files for every prohibited chart-final phrase and run the semantic regression test. | Zero conflicting chart-final instructions remain. | Passed: conflicting chart-final language count is zero; fresh independent exact-SHA verification pending. |
+| VAL-H1-76-011 | Reconcile active Issue #76 state. | Inspect the active ledger, validation section, phase report, decision log, risk register, and traceability rows. | PR #77 and the initial delivery are current facts; R1 findings, correction authority, limits, and fresh-review requirement are explicit. | Passed in deterministic current-state test and full record review; fresh independent exact-SHA verification pending. |
+| VAL-H1-76-012 | Verify the exact correction scope. | Compare working-tree and staged name-status to the ten-file correction allowlist. | Exactly ten existing files changed; zero new files, deletions, renames, workflow changes, or runtime/schema/fixture/product changes. | Passed in working-tree validation: exact ten existing files and all nine control/diff commands; staged verification remains required before commit. |
+| VAL-H1-76-013 | Validate one controlled PR-body replacement. | After the one correction push, derive one body-only proposal from the live body; validate hashes, exact head, commit/test counts, preserved sections, and marker counts before one update. | One validated body replacement; one final owner marker; zero red-team markers; no other PR metadata mutation. | Pending correction commit and push. |
+| VAL-H1-76-014 | Verify the fresh exact correction head and workflows. | Inspect the synchronize-event run and the edited-event run for the correction head; treat the edited-event run as final workflow evidence. | All pre-marker controls pass; red-team marker fails only because it is missing; post-marker checks skip. | Pending correction commit, push, body replacement, and exact-head workflow runs. |

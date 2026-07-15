@@ -17,15 +17,26 @@ Phase issue: #76
 Parent issue: #58
 Starting main: 98aa418aca568eca0c98cedb017488c711bb50ed
 Historical reconciliation evidence: PR #75 merged at 98aa418aca568eca0c98cedb017488c711bb50ed
-PR: Not created; pending developer delivery
-Scope: Explicit navigation contract, static repository regression tests, and required project-control evidence only
+PR: #77 open; exact current head must be retrieved from live GitHub evidence.
+INITIAL_DEVELOPER_DELIVERY=COMPLETED
+R1_REVIEWED_HEAD=486a55dd17b578ad2dcbee1f05debb5337e7a32c
+R1_RESULT=CHANGES_REQUESTED
+R1_FINDING_1=R1-OUTPUT-ORDER-001
+R1_FINDING_2=R1-STATE-002
+CORRECTION_AUTHORITY=ISSUE_76_COMMENT_4984310758 # documentation scope
+CORRECTION_SCOPE=TEN_EXISTING_FILES
+CORRECTION_COMMIT_LIMIT=ONE
+PUSH_LIMIT=ONE
+PR_BODY_REPLACEMENT_LIMIT=ONE
+FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+Scope: Initial explicit navigation contract plus owner-authorized ten-file output-order and current-state correction
 Runtime/schema/fixture migration: Not required by the bounded impact analysis
 Private-chat enforcement: Behavioral obligation; universal technical enforcement is not proven
 Claim level: Project-control navigation hardening only
 Product work: Frozen
 Production: Blocked
 H1 bootstrap: Not authorized
-Next gate: Create one developer commit, push once, open and verify the PR, then obtain fresh independent exact-SHA review
+Documentation scope next gate: Deliver the authorized correction, verify the resulting exact head, and obtain fresh independent whole-PR exact-SHA review
 ```
 
 ## Historical Ledger Entries

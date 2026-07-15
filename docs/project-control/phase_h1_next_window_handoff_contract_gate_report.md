@@ -20,19 +20,38 @@ Issue #76 records the owner-approved requirement: https://github.com/Zest-LeadGe
 
 Issue #58 remains open: https://github.com/Zest-LeadGen/contractoros-california/issues/58
 
+Documentation scope: the owner-authorized R1 correction is recorded in Issue #76 comment `4984310758`: https://github.com/Zest-LeadGen/contractoros-california/issues/76#issuecomment-4984310758
+
 Documentation scope: PR #75 is historical merged reconciliation evidence. Its reviewed developer head was `fe9f314f80488caeb6c6f61506a7fb7e8676c9f3`, and its merge commit was the authorized starting main `98aa418aca568eca0c98cedb017488c711bb50ed`.
 
-This issue authorizes one bounded developer implementation PR. It grants no review, approval, merge, issue-closeout, governance-bootstrap, product, production, or next-packet authority.
+This issue authorizes the initial bounded Developer implementation and the exact ten-file R1 correction. It grants no review, approval, merge, issue-closeout, governance-bootstrap, product, production, or next-packet authority.
 
 ## Scope
 
-Add explicit next-role, next-surface, next-action, direct-target, AI-prompt, and stop-condition navigation requirements to the governing red-team documents; add deterministic static regression tests; clarify the startup-packet integration boundary; and reconcile the mandatory control records.
+The initial delivery added explicit next-role, next-surface, next-action, direct-target, AI-prompt, and stop-condition navigation requirements. R1 found contradictory final-output ordering and stale active-state records. The bounded correction establishes one canonical final response order, adds semantic regression tests, and reconciles the active project-control evidence without changing the read-only startup-packet specification.
 
 This change adds navigation requirements only. No H1 governance bootstrap occurred, and no product or production progress occurred.
 
 ## Starting Main SHA
 
 `98aa418aca568eca0c98cedb017488c711bb50ed`
+
+## Current R1 Correction State
+
+```text
+INITIAL_DEVELOPER_DELIVERY=COMPLETED
+INITIAL_PR=77
+R1_REVIEWED_HEAD=486a55dd17b578ad2dcbee1f05debb5337e7a32c
+R1_RESULT=CHANGES_REQUESTED
+R1_FINDING_1=R1-OUTPUT-ORDER-001
+R1_FINDING_2=R1-STATE-002
+CORRECTION_AUTHORITY_COMMENT_ID=4984310758 # documentation scope
+CORRECTION_AUTHORITY_COMMENT_URL=https://github.com/Zest-LeadGen/contractoros-california/issues/76#issuecomment-4984310758 # documentation scope
+CORRECTION_SCOPE=TEN_EXISTING_FILES
+FRESH_WHOLE_PR_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+```
+
+PR #77 is open. Its mutable current head must be retrieved from live GitHub evidence rather than copied from this report.
 
 ## Changed Files
 
@@ -48,6 +67,19 @@ This change adds navigation requirements only. No H1 governance bootstrap occurr
 - `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
 - `docs/project-control/phase_h1_next_window_handoff_contract_gate_report.md`
 
+The initial PR contains the eleven paths above. The R1 correction changes exactly these ten existing files and leaves `docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md` unchanged:
+
+- `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
+- `docs/project-control/PROMPT_CONVENTION.md`
+- `docs/project-control/HANDOFF_PLAYBOOK.md`
+- `scripts/continuity/tests/test_red_team_continuity.py`
+- `docs/project-control/DEVELOPMENT_LEDGER.md`
+- `docs/project-control/VALIDATION_TASKS.md`
+- `docs/project-control/phase_h1_next_window_handoff_contract_gate_report.md`
+- `docs/project-control/DECISION_LOG.md`
+- `docs/project-control/RISK_REGISTER.md`
+- `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+
 ## Commands Run
 
 Starting-state and impact-analysis evidence:
@@ -61,8 +93,8 @@ Implementation validation commands are recorded in `## Validation Results` after
 
 Final local command results:
 
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest scripts.continuity.tests.test_red_team_continuity` — passed, 342 tests.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'` — passed, 342 tests.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest scripts.continuity.tests.test_red_team_continuity` — passed, 344 tests.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'` — passed, 344 tests.
 - `python3 scripts/control/check_changed_files.py` — passed.
 - `python3 scripts/control/check_forbidden_scope.py` — passed after validator-safe documentation qualifiers were added; no validator file changed.
 - `python3 scripts/control/check_required_control_updates.py` — passed.
@@ -79,17 +111,17 @@ No dependency or lockfile path is changed. No install, package-manager, build, o
 
 ## Documentation Impact
 
-The red-team protocol and prompt convention now carry the same ten-field explicit navigation contract. The handoff playbook provides the operational template and sentinels. The startup-packet specification explains why its derived action and stop-condition data inform but do not replace the live-response contract.
+The red-team protocol, prompt convention, and handoff playbook now carry the same canonical final response order: product development stage, current lifecycle table, chart or compact fallback when required, and the exact navigation block as the sole absolute final response element. The chart/fallback is penultimate, nothing follows navigation, navigation remains non-authoritative, and no automatic continuation is authorized. The startup-packet specification remains unchanged.
 
 ## Validation Evidence
 
-Deterministic static tests assert the ten navigation labels in both governing documents, the role and surface enums, current-window and no-action sentinels, the direct-link requirement, navigation-only semantics, the private-chat enforcement limitation, and the unchanged ordered Codex prompt profile.
+Deterministic static tests assert the canonical four-part semantic order, navigation as the sole absolute final response element, chart/fallback as penultimate, absence of every conflicting chart-final phrase, current Issue #76 state reconciliation, the ten navigation labels, navigation-only semantics, the private-chat enforcement limitation, and the unchanged ordered Codex prompt profile.
 
 ## Validation Results
 
-- Focused continuity module: passed, 342 tests.
-- Full continuity discovery: passed, 342 tests.
-- The six new deterministic navigation-contract tests passed within both runs.
+- Focused continuity module: passed, 344 tests.
+- Full continuity discovery: passed, 344 tests.
+- The four named R1 ordering/current-state tests passed directly, and the prior navigation-contract tests passed within both full runs.
 - All nine required control/diff commands passed.
 - `PROMPT_PROFILE_FIELD_COUNT=10`.
 - `PROMPT_PROFILE_ORDER_UNCHANGED=PASS`.
@@ -98,15 +130,15 @@ Deterministic static tests assert the ten navigation labels in both governing do
 - `DIRECT_LINK_REQUIREMENT=PASS`.
 - `NO_NEW_WINDOW_SENTINEL=PASS`.
 - `PRIVATE_CHAT_ENFORCEMENT_OVERCLAIM=0` by positive-claim search and boundary review.
-- `NEW_FILES=1`; `DELETIONS=0`; `RENAMES=0`; `WORKFLOW_CHANGES=0`; `PRODUCT_CHANGES=0`.
+- `CORRECTION_CHANGED_FILE_COUNT=10`; `PR_TOTAL_CHANGED_FILE_COUNT=11`; `NEW_FILES=0`; `DELETIONS=0`; `RENAMES=0`; `WORKFLOW_CHANGES=0`; `RUNTIME_SCHEMA_FIXTURE_CHANGES=0`; `PRODUCT_OR_PRODUCTION_CHANGES=0`.
 
 ## Risk Register Impact
 
-The risk register now tracks navigation-block omission, stale or incorrect target links, navigation-versus-authority confusion, prompt duplication or excessive handoff size, and overstatement of repository controls as private-chat enforcement.
+The risk register now also tracks conflicting final-element instructions, token-presence tests that miss semantic contradictions, active project-control records becoming stale immediately after delivery, and PR-body exact-head evidence becoming stale after a correction commit. Each remains pending fresh independent exact-SHA verification.
 
 ## Decision Log Impact
 
-Documentation impact: the decision log records the explicit navigation contract, the navigation-versus-authority distinction, the no-auto-continuation rule, and the repository-versus-private-chat enforcement boundary.
+Documentation impact: the decision log records the canonical final response order, chart/fallback as penultimate, navigation as the sole absolute final element, the no-auto-continuation rule, R1's contradictory-initial-implementation finding, and the fresh exact-SHA review requirement.
 
 ## Artifact Index Impact
 
@@ -120,7 +152,7 @@ The repository can govern and test committed handoff templates, generated prompt
 
 ## Red-Team Status
 
-Pending fresh independent review of the exact PR head SHA. The developer did not add a `RED_TEAM_DECISION` marker and did not self-review.
+R1 returned `CHANGES_REQUESTED` at reviewed head `486a55dd17b578ad2dcbee1f05debb5337e7a32c` with findings `R1-OUTPUT-ORDER-001` and `R1-STATE-002`. The bounded correction requires fresh independent whole-PR review of its resulting exact head. The Developer did not add a `RED_TEAM_DECISION` marker and did not self-review.
 
 ## Human Approval Status
 
@@ -150,17 +182,18 @@ Static tests can protect committed governing language from silent removal. They 
 
 ## Remaining Gates
 
-- Create exactly one normal developer commit with hooks enabled.
-- Scope: push the one authorized branch once and open one non-draft PR.
-- Verify the exact PR head and expected pre-marker workflow state.
-- Obtain fresh independent exact-SHA red-team review.
+- Documentation scope delivery: deliver the owner-authorized ten-file correction through exactly one normal Developer commit with hooks enabled and one non-force push to the existing PR branch.
+- Verify the resulting exact PR head and perform the single validated PR-body replacement.
+- Obtain fresh independent whole-PR review of the new exact head.
 - Obtain separate qualifying human/write-access approval.
-- Protected merge, verified main, and Issue #76 closeout remain pending.
+- Perform protected merge.
+- Verify `main` after merge.
+- Close Issue #76 only after every prior gate passes.
 - Issue #58 remains open; H1 governance bootstrap is not authorized.
 
 ## Next Phase Status
 
-No next phase or packet is authorized. Stop after the Issue #76 PR is opened and verified.
+No next phase or packet is authorized. The next gate after correction delivery and exact-head verification is fresh independent whole-PR exact-SHA review.
 
 ## Owner Trigger / Lane Eligibility Evidence
 
