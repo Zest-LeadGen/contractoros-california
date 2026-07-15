@@ -8,6 +8,8 @@ Linked issue: #58
 
 Issue #58 comment `4975617497`; SHA-256 `b0ca1ccc2a4ba30d0de28900679dbe0ae8eddfb224023affaec178799c289cac`. Exact contract approval comment: `4975888920`.
 
+Owner correction decision — documentation scope: Issue #58 comment `4976669452`; SHA-256 `212272229de4ef683c7becfdbcfbe29f550df23fd0d800457e17f57bbb46ae44`.
+
 ## Phase
 
 H1 recovery project-control reconciliation, R4 only.
@@ -34,11 +36,11 @@ Issue #49 is closed. PR #50 is merged with merge SHA `7d00343c233e45185e6c4d77e5
 
 ## Current H1 State
 
-Issue #58 is open and comment `4975617497` controls recovery. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, the next allowed activity is this reconciliation PR only, and H1 bootstrap is not authorized.
+Issue #58 is open and comment `4975617497` controls recovery. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. Comment `4976669452` authorizes only the bounded status-record correction on existing PR #75; no merge, Issue #58 closeout, or next packet is authorized.
 
 ## Changed Files
 
-All 31 contract-allowlisted paths are changed: 27 reviewed existing records and four required new records. The exact list is verified before staging and after commit.
+Initial R4 checkpoint: all 31 contract-allowlisted paths changed, comprising 27 reviewed existing records and four required new records. The bounded status-record correction changes exactly four existing paths while preserving the original 31-path PR set.
 
 ## New Files
 
@@ -73,7 +75,7 @@ Twenty accessible artifact references are indexed by filename and SHA-256 with c
 
 ## Commands Run
 
-Documentation scope commands: attachment hashing and byte count; repository/branch/status/SHA reads; permitted `git fetch --prune origin main`; corrected authentication and push-permission checks; direct bounded GitHub API reads for issues, comments, PRs, reactions, branches, repository state, and open-PR overlap; allowlist existence checks; file review; required local validators; JSON parsing; diff checks; stage checks; one normal commit; authentication recheck; one push; one PR creation; and post-PR evidence reads. Exact outcomes are recorded at the validation checkpoint and final handoff.
+The initial R4 documentation-scope execution used attachment hashing and byte count; repository/branch/status/SHA reads; permitted `git fetch --prune origin main`; verified GitHub account identity and push-permission checks; direct bounded GitHub API reads for issues, comments, PRs, reactions, branches, repository state, and open-PR overlap; allowlist existence checks; file review; required local validators; JSON parsing; diff checks; stage checks; one normal commit; GitHub identity and push-permission verification; one push; one PR creation; and post-PR evidence reads. These are historical initial-R4 actions rather than pending correction actions.
 
 ## Dependency / Lockfile Handling
 
@@ -85,21 +87,29 @@ The 27 existing project-control records are reconciled to Issue #58 recovery aut
 
 ## Validation Evidence
 
-Pre-staging results: changed-file control passed; forbidden-scope and lockfile checks passed; required-control-update check passed; PR/report and claim-language checks passed; owner-trigger check passed; low-risk self-test and current-lane checks passed; all 336 continuity tests passed; owner-decision and canonical-state JSON parsing passed; exact canonical-state assertions passed; exact 31-path allowlist passed; ten-field profile order remained unchanged; all seven epistemic core literals and all 11 Issue #24 classifications were present; deletion and rename/move counts were zero; and `git diff --check` passed.
+Initial R4 pre-staging results: changed-file control passed; forbidden-scope and lockfile checks passed; required-control-update check passed; PR/report and claim-language checks passed; owner-trigger check passed; low-risk self-test and current-lane checks passed; all 336 continuity tests passed; owner-decision and canonical-state JSON parsing passed; exact canonical-state assertions passed; exact 31-path allowlist passed; ten-field profile order remained unchanged; all seven epistemic core literals and all 11 Issue #24 classifications were present; deletion and rename/move counts were zero; and `git diff --check` passed.
 
-Staged and post-commit checkpoints remain pending. No commit or push occurs unless the staged rerun passes.
+Initial R4 staged and post-commit checkpoints passed. Implementation commit `6a567366ed992ddb0f8b28ca28a43d874f53bc70` has the approved base as its parent, preserves the original 31-path PR diff with no deletion, rename, or move, and had a clean handoff worktree.
+
+Initial PR #75 and workflow run `29385059008` exist. On that historical initial head, workflow steps 4–9 passed, the mandatory exact-SHA red-team marker gate failed because the marker was missing, and the subsequent lockfile and claim-language steps were skipped.
+
+The exact current PR head is mutable live GitHub evidence and must be retrieved live. The bounded correction changes that head, and no prior exact-SHA ruling remains valid for the resulting head.
 
 ## Existing-Control Limitations
 
-The required GitHub workflow is expected to stop at the missing exact-SHA red-team marker gate because Codex is prohibited from adding that evidence. Any earlier failure is blocking. Current documentation validators also use lexical forbidden-scope checks, so wording must remain factual and validator-safe without weakening the contract.
+The initial required GitHub workflow stopped at the missing exact-SHA red-team marker gate because Codex was prohibited from adding that evidence. The resulting correction-head workflow is expected to retain that state until fresh independent review supplies valid evidence; any earlier or different failure is blocking. Current documentation validators also use lexical forbidden-scope checks, so wording must remain factual and validator-safe without weakening the contract.
 
 ## Risk Register Impact
 
 The risk register records circular trust as P0 plus local authority drift, role collapse, candidate-owned oracle, duplicate-key acceptance, stale state, mutable Action provenance, policy/runtime divergence, and broad-discovery risks. The nine unresolved H1 engineering decisions remain active; no candidate is accepted.
 
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
+
 ## Decision Log Impact
 
 Documentation scope: the decision log and design records add Issue #58 recovery authority, role separation, minimal inert bootstrap, epistemic policy, sanitation, artifact authority, ordered recovery, local-candidate rejection, and no-automatic-continuation decisions.
+
+docs/project-control/DECISION_LOG.md: reviewed, no update required
 
 ## Source Register Impact
 
@@ -128,11 +138,11 @@ Project-control reconciliation only. This report does not claim H1 implementatio
 
 ## Known Limitations
 
-Local artifact bytes were not accessed, archive provider/location are unknown, nine H1 engineering decisions remain unresolved, GitHub review/approval/merge remain external gates, and the current PR head does not exist until the one allowed commit and PR are created.
+Local artifact bytes were not accessed, archive provider/location are unknown, and nine H1 engineering decisions remain unresolved. PR #75 exists and is open, but its exact current head is mutable live GitHub evidence; fresh exact-SHA review, human approval, merge, verified-main evidence, and durable closeout remain external gates.
 
 ## Red-Team Status
 
-Pending fresh independent exact-SHA review after PR creation. Codex has not supplied final red-team decision evidence.
+Fresh independent whole-PR exact-SHA review is required for the resulting live correction head. No previous exact-SHA ruling applies after the head changes, and Codex has not supplied final red-team decision evidence.
 
 ## Human Approval Status
 
@@ -144,7 +154,7 @@ NO; auto-merge is not eligible or authorized within this blocked scope.
 
 ## Next Gate Status
 
-After PR creation, fresh independent exact-SHA review is the only next gate. No later packet is authorized.
+Fresh independent exact-SHA review of the live current PR head is the only next gate. No merge, Issue #58 closeout, or later packet is authorized.
 
 ## Next Phase Status
 

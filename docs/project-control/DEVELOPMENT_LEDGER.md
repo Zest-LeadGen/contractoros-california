@@ -15,15 +15,19 @@ Date: 2026-07-14
 Branch: h1-recovery-project-control-reconciliation
 Phase issue: #58
 Authority comment: 4975617497 (documentation scope)
+Owner correction decision: Issue #58 comment 4976669452, limited to documentation scope
 Starting main: 7d00343c233e45185e6c4d77e50eb870f408c01f
-PR: Pending creation after local validation and one implementation commit
+PR: #75 is open; its exact current head must be retrieved from live GitHub evidence
+Initial R4 implementation head: 6a567366ed992ddb0f8b28ca28a43d874f53bc70 (historical checkpoint)
+Initial workflow checkpoint: Run 29385059008; pre-marker steps passed and the missing-marker gate failed as expected
+Current correction: Bounded status-record reconciliation; the resulting head requires fresh whole-PR exact-SHA review
 Claim level: Project-control reconciliation only
 Product work: Frozen
 Production: Blocked
 Phase 4K-9 and downstream: Paused
 Phase 4I: Paused
 H1 bootstrap: Not authorized
-Next gate: Fresh independent exact-SHA review after PR creation
+Next gate: Fresh independent exact-SHA review of the live current PR head
 ```
 
 ## Historical Ledger Entries
