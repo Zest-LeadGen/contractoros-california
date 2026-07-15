@@ -26,6 +26,11 @@ Last reviewed:
 | R-H1-07 | Mutable third-party Action provenance changes reviewed behavior. | Full-SHA action pins and immutable reusable-workflow provenance remain required. | Active; unresolved. |
 | R-H1-08 | Policy and runtime resource limits diverge. | Policy-bound runtime-limit engineering decision and negative tests remain required. | Active; unresolved. |
 | R-H1-09 | Broad connector/resource discovery violates scope or exposes unrelated context. | Direct-tool-only rule, incident evidence, regression checks, and fail-closed stop. | Active. |
+| R-H1-10 | A substantive red-team response omits the explicit navigation block. | Issue #76 governing-document contract plus deterministic static regression tests; live compliance remains behavioral. | Active; reduced but not eliminated by repository controls. |
+| R-H1-11 | A handoff contains a stale or incorrect issue or pull-request target link. | Direct URL requirement, lifecycle reverification, and exact stop conditions before consequential action. | Active. |
+| R-H1-12 | Risk: navigation text is confused with implementation, review, approval, merge, closeout, or next-packet authority. | `NAVIGATION_ONLY`, no-authority, and no-auto-continuation declarations in every governing handoff contract. | Active. |
+| R-H1-13 | Repeated handoff prompts become oversized, duplicated, or harder to verify. | Require an independently pasteable prompt only when an AI window is next; use `NOT_REQUIRED` for GitHub and no-action paths. | Active. |
+| R-H1-14 | Repository static checks are overstated as technical enforcement of private chat responses. | Explicit behavioral-boundary language and tests that preserve the limitation without claiming universal runtime coverage. | Active. |
 
 Nine unresolved H1 engineering decisions remain: `P0_02` exact current product PR-head mechanism; `P0_03` trusted default-branch/main binding; `P1_01` immutable reusable-workflow provenance; `P1_03` strict YAML/schema strategy; `P1_04` deterministic evaluation time; `P1_05` GitHub-applicable ruleset payload; `RT_P0_04` external trusted file oracle; `RT_P1_06` policy-bound runtime limits; and `RT_P2_07` duplicate JSON-key rejection. No local H1 candidate is accepted.
 

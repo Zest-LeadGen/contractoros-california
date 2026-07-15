@@ -101,6 +101,25 @@ Where this state is recorded:
 Progress snapshot:
 ```
 
+Every substantive active-project handoff must follow that evidence summary with this explicit navigation block:
+
+```text
+NEXT_WINDOW_REQUIRED=<YES|NO>
+NEXT_WINDOW_ROLE=<RED_TEAM|DEVELOPER|HUMAN_APPROVER|OWNER|NONE>
+NEXT_WINDOW_SURFACE=<CHATGPT|CODEX|GITHUB|CURRENT_WINDOW|NONE>
+NEXT_REQUIRED_ACTION=<one exact action>
+TARGET_ISSUE=<number or NOT_APPLICABLE>
+TARGET_ISSUE_URL=<direct URL or NOT_APPLICABLE>
+TARGET_PR=<number or NOT_APPLICABLE>
+TARGET_PR_URL=<direct URL or NOT_APPLICABLE>
+NEXT_WINDOW_PROMPT=<complete copyable prompt or NOT_REQUIRED>
+STOP_CONDITIONS=<exact stop conditions>
+```
+
+Use `NEXT_WINDOW_REQUIRED=NO` with `NEXT_WINDOW_SURFACE=CURRENT_WINDOW` when the current conversation should continue. When no action remains, use `NEXT_WINDOW_ROLE=NONE`, `NEXT_WINDOW_SURFACE=NONE`, and `NEXT_WINDOW_PROMPT=NOT_REQUIRED`. When an AI window is next, its prompt must not be partial: it must be complete, self-contained, independently pasteable, and explicitly identify a `RED_TEAM` or `DEVELOPER` perspective. When GitHub is next, include the direct issue or pull-request URL plus exact UI steps and use `NEXT_WINDOW_PROMPT=NOT_REQUIRED`.
+
+The navigation block is `NAVIGATION_ONLY`; it creates no authority and permits no automatic continuation. It cannot substitute for durable GitHub intake, exact-SHA independent review, human approval, protected merge, verified main, or issue closeout. The repository can test committed handoff language, but it cannot inspect every private ChatGPT response.
+
 ## Progress Snapshot Template
 
 The old Phase 4J percentages are historical baseline only. Do not carry them forward as current estimates.

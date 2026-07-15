@@ -24,6 +24,7 @@ PROMPT_CONVENTION = ROOT / "docs/project-control/PROMPT_CONVENTION.md"
 OPERATING_MODEL = ROOT / "docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md"
 RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
 HANDOFF_PLAYBOOK = ROOT / "docs/project-control/HANDOFF_PLAYBOOK.md"
+STARTUP_PACKET_SPEC = ROOT / "docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"
 TRACKER = ROOT / "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md"
 SOURCE_REGISTER = ROOT / "docs/project-control/SOURCE_REGISTER.md"
 PHASE_REPORT = ROOT / "docs/project-control/phase_pre_4k_9_read_only_red_team_continuity_collector_startup_packet_gate_report.md"
@@ -1320,6 +1321,64 @@ class GovernanceHardeningTests(unittest.TestCase):
         self.assertEqual(positions, sorted(positions))
         self.assertEqual(len(set(positions)), 10)
         self.assertIn("exact ordered, non-empty fields", text)
+
+    def test_next_window_fields_are_present_in_both_governing_contracts(self):
+        fields = (
+            "NEXT_WINDOW_REQUIRED=",
+            "NEXT_WINDOW_ROLE=",
+            "NEXT_WINDOW_SURFACE=",
+            "NEXT_REQUIRED_ACTION=",
+            "TARGET_ISSUE=",
+            "TARGET_ISSUE_URL=",
+            "TARGET_PR=",
+            "TARGET_PR_URL=",
+            "NEXT_WINDOW_PROMPT=<complete copyable prompt or NOT_REQUIRED>",
+            "STOP_CONDITIONS=",
+        )
+        for path in (RED_TEAM_PROTOCOL, PROMPT_CONVENTION):
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                positions = [text.index(field) for field in fields]
+                self.assertEqual(positions, sorted(positions))
+                self.assertEqual(len(set(positions)), 10)
+
+    def test_next_window_role_and_surface_enums_are_closed_and_explicit(self):
+        text = self.text(RED_TEAM_PROTOCOL)
+        self.assertIn(
+            "NEXT_WINDOW_ROLE=<RED_TEAM|DEVELOPER|HUMAN_APPROVER|OWNER|NONE>", text
+        )
+        self.assertIn(
+            "NEXT_WINDOW_SURFACE=<CHATGPT|CODEX|GITHUB|CURRENT_WINDOW|NONE>", text
+        )
+
+    def test_handoff_playbook_documents_no_window_and_prompt_sentinels(self):
+        text = self.text(HANDOFF_PLAYBOOK)
+        self.assertIn("NEXT_WINDOW_REQUIRED=NO", text)
+        self.assertIn("NEXT_WINDOW_SURFACE=CURRENT_WINDOW", text)
+        self.assertIn("NEXT_WINDOW_ROLE=NONE", text)
+        self.assertIn("NEXT_WINDOW_SURFACE=NONE", text)
+        self.assertIn("NEXT_WINDOW_PROMPT=NOT_REQUIRED", text)
+        self.assertIn("direct issue or pull-request URL plus exact UI steps", text)
+
+    def test_next_window_navigation_has_no_authority_documentation(self):
+        for path in (RED_TEAM_PROTOCOL, PROMPT_CONVENTION):
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                self.assertIn("NEXT_WINDOW_HANDOFF_CLASSIFICATION=NAVIGATION_ONLY", text)
+                self.assertIn("AUTHORITY_CREATED_BY_HANDOFF=NO", text)  # documentation contract
+                self.assertIn("AUTO_CONTINUATION_AUTHORIZED=NO", text)  # documentation contract
+
+    def test_repository_boundary_does_not_claim_private_chat_enforcement(self):
+        for path in (RED_TEAM_PROTOCOL, PROMPT_CONVENTION, STARTUP_PACKET_SPEC):
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                self.assertIn("cannot inspect or technically enforce every private ChatGPT response", text)
+                self.assertIn("behavioral", text)
+
+    def test_startup_packet_integration_does_not_expand_runtime_or_schema_contract(self):
+        text = self.text(STARTUP_PACKET_SPEC)
+        self.assertIn("No generator, schema, or fixture migration is required for Issue #76", text)
+        self.assertIn("not a universal response renderer", text)
 
     def test_medium_and_standard_are_normal_defaults(self):
         text = self.text(PROMPT_CONVENTION)

@@ -188,6 +188,57 @@ If a new decision, feature, scope boundary, future roadmap item, payment/securit
 
 If it is not recorded in durable evidence, it is not durable.
 
+## Explicit Next-Window Navigation Contract
+
+Every substantive active-project red-team response must end with this navigation block after the lifecycle evidence, next action, command guidance when applicable, stop conditions, and progress reporting required elsewhere in this protocol:
+
+```text
+NEXT_WINDOW_REQUIRED=<YES|NO>
+NEXT_WINDOW_ROLE=<RED_TEAM|DEVELOPER|HUMAN_APPROVER|OWNER|NONE>
+NEXT_WINDOW_SURFACE=<CHATGPT|CODEX|GITHUB|CURRENT_WINDOW|NONE>
+NEXT_REQUIRED_ACTION=<one exact action>
+TARGET_ISSUE=<number or NOT_APPLICABLE>
+TARGET_ISSUE_URL=<direct URL or NOT_APPLICABLE>
+TARGET_PR=<number or NOT_APPLICABLE>
+TARGET_PR_URL=<direct URL or NOT_APPLICABLE>
+NEXT_WINDOW_PROMPT=<complete copyable prompt or NOT_REQUIRED>
+STOP_CONDITIONS=<exact stop conditions>
+```
+
+The role and surface enums are closed. The owner must not have to infer whether the next AI perspective is `RED_TEAM` or `DEVELOPER`, or whether the next surface is `CHATGPT`, `CODEX`, `GITHUB`, or the `CURRENT_WINDOW`.
+
+When an AI window is next, `NEXT_WINDOW_PROMPT` must not be partial: it must be complete, self-contained, independently pasteable, scoped to that exact perspective, and begin with the ordered prompt profile required by `PROMPT_CONVENTION.md` when the prompt is substantive. When GitHub is next, include the direct issue or pull-request URL and exact UI steps, and use `NEXT_WINDOW_PROMPT=NOT_REQUIRED`. Do not force a large prompt for a simple action.
+
+When the current conversation should continue, use:
+
+```text
+NEXT_WINDOW_REQUIRED=NO
+NEXT_WINDOW_SURFACE=CURRENT_WINDOW
+```
+
+When no action remains, use:
+
+```text
+NEXT_WINDOW_REQUIRED=NO
+NEXT_WINDOW_ROLE=NONE
+NEXT_WINDOW_SURFACE=NONE
+NEXT_WINDOW_PROMPT=NOT_REQUIRED
+```
+
+Brief acknowledgments and purely conversational replies may use a compact navigation block, but active project work must still identify one exact next action.
+
+The navigation block has this fixed classification:
+
+```text
+NEXT_WINDOW_HANDOFF_CLASSIFICATION=NAVIGATION_ONLY
+AUTHORITY_CREATED_BY_HANDOFF=NO # documentation contract
+AUTO_CONTINUATION_AUTHORIZED=NO # documentation contract
+```
+
+It does not authorize implementation, repository writes, approval, independent review, red-team decisions, merge, issue closeout, credentials, governance bootstrap, product or production work, or a next packet. Durable GitHub authority, exact-SHA review, human approval, protected merge, main verification, and issue closeout remain separate controls.
+
+Repository controls can govern and test committed handoff templates, generated prompts, startup guidance, and project-control artifacts. They cannot inspect or technically enforce every private ChatGPT response. Live red-team compliance is a behavioral operating obligation. Static repository tests reduce silent contract drift; they do not prove zero omission risk or universal runtime enforcement.
+
 ## Program Continuity Architecture
 
 Issue #47 defines a future five-layer continuity model: sanitized canonical state, append-only decisions/events, a derived startup packet, an unsynced-decision inbox, and separated private planes. This documentation does not implement the collector or replace current live GitHub verification. Issue #24 remains audit history; its original append-only marker example is historical and the Phase 4K-8 replacement-body procedure remains controlling.

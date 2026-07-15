@@ -6,42 +6,33 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entry
 
-### H1 Recovery — Project-Control Reconciliation
+### H1 Issue #76 — Explicit Next-Window Handoff Contract
 
 ```text
-Phase: H1 recovery project-control reconciliation
+Phase: H1 next-window handoff contract gate
 Lane: Control / Infrastructure
-Date: 2026-07-14
-Branch: h1-recovery-project-control-reconciliation
-Phase issue: #58
-Authority comment: 4975617497 (documentation scope)
-Controlling recovery authority: Issue #58 comment 4975617497 (documentation scope)
-R5 correction authorization (documentation scope): Issue #58 comment 4978245466
-R5 correction authorization URL (documentation scope): https://github.com/Zest-LeadGen/contractoros-california/issues/58#issuecomment-4978245466
-R5 correction authorization raw-body SHA-256 (documentation scope): 5486cd21cac3bc457e25d42f9c885dfa29e8f557788e9e1cfadc9f3c66aadbd2
-Starting main: 7d00343c233e45185e6c4d77e50eb870f408c01f
-PR: #75 is open; its exact current head must be retrieved from live GitHub evidence
-Initial R4 implementation head: 6a567366ed992ddb0f8b28ca28a43d874f53bc70 (historical checkpoint)
-Initial workflow checkpoint: Run 29385059008; pre-marker steps passed and the missing-marker gate failed as expected
-R5_RESULT=CHANGES_REQUESTED
-R5_REVIEWED_HEAD=572f25898d61a39d762f83bd0a17e9b40b0c5d1b
-R5_FINDING=R5-STATE-001
-CORRECTION_AUTHORITY=ISSUE_58_DISCOVERED_COMMENT # documentation scope
-CORRECTION_SCOPE=ELEVEN_EXISTING_PROJECT_CONTROL_FILES
-CORRECTION_COMMIT_LIMIT=ONE
-PUSH_LIMIT=ONE
-FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
-Current correction: Owner-authorized bounded eleven-file stale-state reconciliation; no future correction commit SHA is recorded before it exists
-Claim level: Project-control reconciliation only
+Date: 2026-07-15
+Branch: h1-next-window-handoff-contract
+Phase issue: #76
+Parent issue: #58
+Starting main: 98aa418aca568eca0c98cedb017488c711bb50ed
+Historical reconciliation evidence: PR #75 merged at 98aa418aca568eca0c98cedb017488c711bb50ed
+PR: Not created; pending developer delivery
+Scope: Explicit navigation contract, static repository regression tests, and required project-control evidence only
+Runtime/schema/fixture migration: Not required by the bounded impact analysis
+Private-chat enforcement: Behavioral obligation; universal technical enforcement is not proven
+Claim level: Project-control navigation hardening only
 Product work: Frozen
 Production: Blocked
-Phase 4K-9 and downstream: Paused
-Phase 4I: Paused
 H1 bootstrap: Not authorized
-Next gate: Fresh independent exact-SHA review of the live current PR head
+Next gate: Create one developer commit, push once, open and verify the PR, then obtain fresh independent exact-SHA review
 ```
 
 ## Historical Ledger Entries
+
+### Historical H1 Recovery Project-Control Reconciliation
+
+Issue #58 recovery reconciliation was delivered through PR #75. The PR head was `fe9f314f80488caeb6c6f61506a7fb7e8676c9f3`, and the PR merged at `98aa418aca568eca0c98cedb017488c711bb50ed` on 2026-07-15. This is historical merged evidence and grants no Issue #76 review, approval, merge, closeout, governance-bootstrap, product, production, or next-packet authority.
 
 ### Historical Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate
 
