@@ -315,7 +315,7 @@ Track by gates instead:
 | Content-currentness gate      | Legal/currentness/content review complete       | Not passed                             |
 | Public/production gate        | no release readiness proven or approved         | Not passed                             |
 | Source-of-truth reconciliation gate | Product/development current-state register exists | Passed by PR #36 merge at `196a48545285afdf8f5d5bc3f948395a5f289a4d` |
-| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Phase 4K-7 validator merged through PR #44; Phase 4K-8 documentation gate is active through Issue #45 and PR #46 |
+| Workflow automation policy gate | Target state, low-risk lane, owner-trigger boundaries, and roadmap are versioned | Phase 4K-7 validator merged through PR #44; historical Phase 4K-8 documentation gate completed through closed Issue #45 and merged PR #46 |
 
 Progress is measured by passed gates, not optimism.
 
@@ -417,7 +417,7 @@ Verified main controls phase advancement.
 | Phase 4K-9 | Not started |
 | Phase 4I | Paused |
 | Toolchain/npm | Deferred, not rejected |
-| Continuity collector | Not implemented |
+| Continuity collector | Historical snapshot: not implemented at that checkpoint; later merged through closed Issue #49 and merged PR #50 |
 
 The next gate recorded by this historical snapshot was the Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate.
 
@@ -431,9 +431,9 @@ The next gate recorded by this historical snapshot was the Read-Only Red-Team Co
 | PR #50 | Historical snapshot recorded it as open; live recovery evidence now proves it merged. |
 | Phase 4K-9 | Not started |
 | Phase 4I | Paused |
-| Continuity collector | Implementation in review; merged capability not yet proven |
+| Continuity collector | Historical snapshot recorded implementation in review; live recovery evidence now proves merged capability through PR #50 |
 
-## Issue #49 Governance Hardening Progress Contract
+## Historical Issue #49 Governance Hardening Progress Contract
 
 Current-phase reporting must remain separate from program-capability reporting.
 
@@ -461,7 +461,7 @@ Current-phase reporting must remain separate from program-capability reporting.
 | Business/market validation | Requires measured market evidence |
 | Overall program | Must not inherit governance-only gains as product delivery |
 
-Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and documentation-only Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress.
+Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and historical Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress.
 
 ## Current H1 Recovery Gate
 

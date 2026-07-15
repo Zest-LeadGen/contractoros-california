@@ -109,7 +109,7 @@ Phase 4J-5 preserves the same behavior using the explicit labels in this file:
 
 Canonical state is a public-safe snapshot, not a substitute for lifecycle classification. If canonical state and live GitHub evidence differ, classify the state as blocked, mark the snapshot stale or quarantined, and stop consequential guidance. A future generated startup packet must derive from both versioned state and live read-only evidence.
 
-Issue #47 itself remains a documentation implementation gate until its PR is externally reviewed, human-approved, merged, main-verified, and closed. Phase 4K-9 remains not started.
+Historical lifecycle record: Issue #47 was the documentation implementation gate until PR #48 was externally reviewed, human-approved, merged, main-verified, and Issue #47 closed. Issue #58 comment `4975617497` now controls the current H1 recovery reconciliation, and PR #75 is the current open reconciliation PR whose exact head must be retrieved from live GitHub evidence. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. The exact-SHA review, separate human approval, protected merge, main verification, and durable closeout gates remain unchanged.
 
 ## Collector Consistency Statuses
 

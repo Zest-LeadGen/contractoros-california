@@ -2,7 +2,9 @@
 
 Purpose: record validation tasks for ContractorOS California governance and phase-control work.
 
-## Phase 4J-0 Tasks
+## Historical Phase 4J-0 Tasks
+
+The status cells in this section preserve the original Phase 4J-0 checkpoint. PR #15 correction, push, body-update, workflow, review, approval, merge, and verification statements are historical execution state and are not current H1 lifecycle claims.
 
 | Task ID | Task | Command or check | Expected result | Status |
 |---|---|---|---|---|
@@ -246,7 +248,9 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-PRE4K9-005 | Run existing controls. | Required eleven-command control sequence. | All local controls pass before commit. | First and final full sequences passed. |
 | VAL-PRE4K9-006 | Verify pre-marker PR behavior. | GitHub Actions after PR creation and after every correction head. | Pre-marker checks pass; mandatory exact-SHA marker fails; later checks may skip. | Initial run `29172467406` observed: steps before the marker passed, marker failed as expected, and later steps skipped. A fresh run is required for the correction head. |
 
-## Issue #49 Validation Tasks
+## Historical Issue #49 Validation Tasks
+
+The status cells in this section preserve successive Issue #49 / PR #50 implementation checkpoints. Any pending commit, push, exact-head workflow, collector, review, approval, merge, or closeout statement is `HISTORICAL_LIFECYCLE_STATE`; Issue #49 is closed and PR #50 is merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
 | Task ID | Task | Command or check | Expected result | Status |
 |---|---|---|---|---|
@@ -329,7 +333,7 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-I49-077 | Run C3.8 local and pull-request-context controls. | Eleven local controls, three Issue #49 PR-context reproductions and both diff checks. | All controls pass with only the 17 authorized paths changed and no workflow/control-script edit. | Passed after validator-safe scope labeling: all eleven local controls, all three PR-context reproductions and both diff checks pass; cumulative PR file count remains 32. |
 | VAL-I49-078 | Inspect and collect exact-new-head C3.8 evidence. | Push one normal commit, inspect the exact-head workflow, run the collector outside the repository and reconcile PR #50. | Expected absent-marker matrix; exit `0`; `requires_live_verification`; exact canonical ref; zero command returns; clean unchanged worktree; PR body bound to C3.8 exact head and live packet hash. | Pending commit and push. |
 
-## H1 Project-Control Reconciliation Validation Tasks
+## H1 Project-Control Reconciliation — Historical Initial R4 Validation Tasks
 
 | ID | Task | Method | Expected result | Status |
 |---|---|---|---|---|
@@ -346,6 +350,27 @@ Validation task status must be updated by repo evidence, not memory.
 | VAL-H1-R3-011 | Verify canonical state. | JSON parse and exact targeted assertions. | Main, Issue #58, null PR, completed Issue #49/PR #50, consistency status, and evidence identifiers match contract. | Passed before staging. |
 | VAL-H1-R3-012 | Verify decision register. | `python3 -m json.tool`. | JSON-compatible YAML parses and record count equals decision count. | Passed with 32 declared and actual decisions. |
 | VAL-H1-R3-013 | Run existing control suite. | Every contract-listed control, continuity test, parse, and diff command. | Every local and pre-marker control passes without validator or workflow edits. | Passed before staging; 336 continuity tests passed. |
-| VAL-H1-R3-014 | Verify manual claim boundaries. | Targeted searches and file review. | No stale current Issue #49/PR #50 claim, product-direction change, local-artifact promotion, H1 acceptance, invented storage, perfect-truth claim, deletion, or forbidden path. | Passed before staging; historical classifications remain explicit. |
+| VAL-H1-R3-014 | Verify manual claim boundaries. | Targeted searches and file review. | No stale current Issue #49/PR #50 claim, product-direction change, local-artifact promotion, H1 acceptance, invented storage, perfect-truth claim, deletion, or forbidden path. | `INITIAL_R4_STALE_STATE_SEARCH=PASSED_WITH_LATER_MISSED_DEFECTS`; R5 later found incomplete current-state reconciliation in `R5-STATE-001`. |
 | VAL-H1-R3-015 | Verify staged and committed state. | Historical initial R4 checkpoint: cached diff checks; one commit; parent/base; post-commit diff; clean status. | Exact original 31-path PR diff, no deletion/rename/move, one initial implementation commit above the approved base, clean handoff worktree. | Passed for initial R4 implementation commit `6a567366ed992ddb0f8b28ca28a43d874f53bc70`; its parent was the approved base and the initial handoff worktree was clean. |
 | VAL-H1-R3-016 | Verify remote branch and PR. | Historical initial R4 checkpoint: GitHub account-identity and push-permission verification, one push, one PR, remote-head equality, PR files/commits/checks. | Initial remote head and PR metadata agree; pre-marker checks pass; missing exact-SHA red-team marker is the only expected gate failure. | Passed for the initial branch, PR #75, and workflow run `29385059008`: steps 4–9 passed, the missing-marker gate failed as expected, and later checks skipped. Resulting correction-head evidence must be retrieved live. |
+
+## H1 R5 Whole-PR Stale-State Correction Validation
+
+```text
+INITIAL_R4_STALE_STATE_SEARCH=PASSED_WITH_LATER_MISSED_DEFECTS
+R5_DECISION=CHANGES_REQUESTED
+R5_FINDING=R5-STATE-001
+R5_REVIEWED_HEAD=572f25898d61a39d762f83bd0a17e9b40b0c5d1b
+R5_FINDING_CLASS=INCOMPLETE_CURRENT_STATE_RECONCILIATION
+CURRENT_CORRECTION=OWNER_AUTHORIZED_BOUNDED_ELEVEN_FILE_CORRECTION # documentation scope
+FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+```
+
+| ID | Task | Method | Expected result | Status |
+|---|---|---|---|---|
+| VAL-H1-R5-001 | Verify documentation-scope correction authorization identity and controls. | Discover the unique Issue #58 comment containing the exact authorization ID; hash the raw UTF-8 body; verify author, controls, exact eleven-file allowlist, subject, one-commit/one-push limits, and absence of later contradiction. | Comment `4978245466`; SHA-256 `5486cd21cac3bc457e25d42f9c885dfa29e8f557788e9e1cfadc9f3c66aadbd2`; 4103 bytes; exact controls pass. | Passed before mutation. |
+| VAL-H1-R5-002 | Inspect the complete whole-PR stale-state surface before correction. | Review complete current contents and base-to-head diff for all 31 PR paths; search all required lifecycle terms in context. | No required correction outside the authorized eleven paths; historical evidence remains explicit. | Passed before mutation; no twelfth-file conflict found. |
+| VAL-H1-R5-003 | Verify the correction changed exactly eleven existing paths. | Compare working-tree paths to the exact correction allowlist; inspect status and name-status. | Exact eleven-file match; zero new, deleted, renamed, or moved files. | Passed: exact eleven existing modified paths; zero additions, deletions, renames, or moves. |
+| VAL-H1-R5-004 | Re-run deterministic whole-PR stale-state assertions. | Reinspect all 31 paths after correction; evaluate each required entity in its complete heading, row, paragraph, or record context. | Zero current-active claims for Issue #47, Issue #45, PR #46, Phase 4K-8, Issue #49, PR #50, or PR #15; history preserved; Issue #58/PR #75 recovery and all stop boundaries remain explicit. | Passed: every required legacy lifecycle reference is explicitly historical or a non-authorizing technical-risk record; Issue #58/PR #75 and all stop boundaries remain current. |
+| VAL-H1-R5-005 | Run focused and complete local validation. | Required seven focused commands plus the full continuity/control/parse/diff sequence from the owner packet. | All non-tolerated commands pass; continuity count is 336. | Passed before staging: all focused and complete commands passed; continuity count is 336. |
+| VAL-H1-R5-006 | Bind later acceptance to the resulting exact head. | One normal commit, one non-force push, exact-new-head workflow inspection, and fresh independent whole-PR review. | Pre-marker checks pass; marker fails only because absent; later steps skip; fresh exact-SHA review remains required. | Developer delivery pending; no marker, approval, merge, closeout, or H1 bootstrap authorized. |

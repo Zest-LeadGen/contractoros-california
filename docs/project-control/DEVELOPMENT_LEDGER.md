@@ -15,12 +15,23 @@ Date: 2026-07-14
 Branch: h1-recovery-project-control-reconciliation
 Phase issue: #58
 Authority comment: 4975617497 (documentation scope)
-Owner correction decision: Issue #58 comment 4976669452, limited to documentation scope
+Controlling recovery authority: Issue #58 comment 4975617497 (documentation scope)
+R5 correction authorization (documentation scope): Issue #58 comment 4978245466
+R5 correction authorization URL (documentation scope): https://github.com/Zest-LeadGen/contractoros-california/issues/58#issuecomment-4978245466
+R5 correction authorization raw-body SHA-256 (documentation scope): 5486cd21cac3bc457e25d42f9c885dfa29e8f557788e9e1cfadc9f3c66aadbd2
 Starting main: 7d00343c233e45185e6c4d77e50eb870f408c01f
 PR: #75 is open; its exact current head must be retrieved from live GitHub evidence
 Initial R4 implementation head: 6a567366ed992ddb0f8b28ca28a43d874f53bc70 (historical checkpoint)
 Initial workflow checkpoint: Run 29385059008; pre-marker steps passed and the missing-marker gate failed as expected
-Current correction: Bounded status-record reconciliation; the resulting head requires fresh whole-PR exact-SHA review
+R5_RESULT=CHANGES_REQUESTED
+R5_REVIEWED_HEAD=572f25898d61a39d762f83bd0a17e9b40b0c5d1b
+R5_FINDING=R5-STATE-001
+CORRECTION_AUTHORITY=ISSUE_58_DISCOVERED_COMMENT # documentation scope
+CORRECTION_SCOPE=ELEVEN_EXISTING_PROJECT_CONTROL_FILES
+CORRECTION_COMMIT_LIMIT=ONE
+PUSH_LIMIT=ONE
+FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+Current correction: Owner-authorized bounded eleven-file stale-state reconciliation; no future correction commit SHA is recorded before it exists
 Claim level: Project-control reconciliation only
 Product work: Frozen
 Production: Blocked
@@ -316,7 +327,7 @@ Commands run:
 Claim level:
 ```
 
-## Pre-4K-9 Program Constitution Reconciliation
+## Historical Pre-4K-9 Program Constitution Reconciliation
 
 ```text
 Phase: Pre-4K-9 Program Constitution and Red-Team Continuity Reconciliation
@@ -326,8 +337,8 @@ Branch: pre-4k-9-program-constitution-reconciliation
 Issue: #47
 Base SHA: b99fc7d1fe0882380fc53041be42bb0aad35c02e
 PR: #48
-Head SHA: live GitHub evidence required; static ledger values do not authorize review
-Merge SHA: pending
+Head SHA: historical PR-head evidence is preserved in GitHub; static ledger values do not authorize a current review
+Merge SHA: 01b90ab8b12416101b4be067794bf543a3488779
 Changed files: public-safe governance, schemas, ADRs, and current-state records only
-Claim level: documentation and architecture direction; operational continuity not implemented
+Claim level: historical documentation and architecture direction; the later Issue #49 / PR #50 collector implementation is merged evidence and the Issue #58 recovery lane is current
 ```

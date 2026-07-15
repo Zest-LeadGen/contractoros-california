@@ -6,13 +6,15 @@ Linked issue: #58
 
 ## Authority Comment — Documentation Scope
 
-Issue #58 comment `4975617497`; SHA-256 `b0ca1ccc2a4ba30d0de28900679dbe0ae8eddfb224023affaec178799c289cac`. Exact contract approval comment: `4975888920`.
+Issue #58 comment `4975617497`; SHA-256 `b0ca1ccc2a4ba30d0de28900679dbe0ae8eddfb224023affaec178799c289cac`. Exact initial R4 contract approval comment: `4975888920`.
 
-Owner correction decision — documentation scope: Issue #58 comment `4976669452`; SHA-256 `212272229de4ef683c7becfdbcfbe29f550df23fd0d800457e17f57bbb46ae44`.
+Historical first correction decision — documentation scope: Issue #58 comment `4976669452`; SHA-256 `212272229de4ef683c7becfdbcfbe29f550df23fd0d800457e17f57bbb46ae44`.
+
+Current R5 whole-PR stale-state correction authorization — documentation scope: Issue #58 comment `4978245466`; URL `https://github.com/Zest-LeadGen/contractoros-california/issues/58#issuecomment-4978245466`; raw-body SHA-256 `5486cd21cac3bc457e25d42f9c885dfa29e8f557788e9e1cfadc9f3c66aadbd2`; UTF-8 bytes `4103`.
 
 ## Phase
 
-H1 recovery project-control reconciliation, R4 only.
+H1 recovery project-control reconciliation: historical initial R4 implementation plus owner-authorized documentation-scope R5 stale-state correction only.
 
 ## Lane
 
@@ -20,7 +22,7 @@ Control / Infrastructure
 
 ## Scope
 
-Review and reconcile the exact 27 existing allowlisted records, create four required project-control records, preserve history, and stop after opening one protected PR. No product, workflow, validator, dependency, build, governance-repository, merge, or H1-bootstrap scope is included.
+Historical initial R4 scope reviewed 27 existing allowlisted records and created four required project-control records. The current correction may modify exactly eleven existing project-control files, create one normal commit, push once to the existing PR #75 branch, inspect read-only GitHub evidence, and stop. No PR-body, comment, review, marker, approval, merge, Issue #58 closeout, product, production, workflow, validator, dependency, build, governance-repository, H1-bootstrap, or automatic-next-packet scope is included.
 
 ## Starting Main SHA
 
@@ -36,11 +38,11 @@ Issue #49 is closed. PR #50 is merged with merge SHA `7d00343c233e45185e6c4d77e5
 
 ## Current H1 State
 
-Issue #58 is open and comment `4975617497` controls recovery. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. Comment `4976669452` authorizes only the bounded status-record correction on existing PR #75; no merge, Issue #58 closeout, or next packet is authorized.
+Issue #58 is open and comment `4975617497` controls recovery. PR #75 is the current open reconciliation PR and its exact head is mutable live GitHub evidence. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. Comment `4978245466` authorizes only the bounded eleven-file stale-state correction on existing PR #75; no PR-body/comment/review mutation, marker, approval, merge, Issue #58 closeout, governance-repository mutation, product or production mutation, H1 bootstrap, or next packet is authorized.
 
 ## Changed Files
 
-Initial R4 checkpoint: all 31 contract-allowlisted paths changed, comprising 27 reviewed existing records and four required new records. The bounded status-record correction changes exactly four existing paths while preserving the original 31-path PR set.
+Historical initial R4 checkpoint: all 31 contract-allowlisted paths changed, comprising 27 reviewed existing records and four required new records. The first bounded correction changed four existing paths. The documentation-scope R5 correction changes exactly eleven existing authorized paths while preserving the original 31-path PR set.
 
 ## New Files
 
@@ -55,7 +57,7 @@ Historical phase reports, prior decisions, Issue #24 comments, Issue #49 collect
 
 ## Supersession Reconciliation
 
-Stale Issue #47 and Issue #49 / PR #50 current-state claims are marked historical or replaced with the Issue #58 recovery state. Issue #24 classifications and named supersessions are explicit. The historical Google Drive archive assumption, blanket hook-bypass wording, Packet 1E, local packet-chain authority, full-executable-first-governance-commit alternative, and rejected local candidates are explicitly superseded or withdrawn.
+Initial R4 claimed that stale Issue #47 and Issue #49 / PR #50 current-state statements were reconciled. R5 disproved the completeness of that claim with `R5-STATE-001` at reviewed head `572f25898d61a39d762f83bd0a17e9b40b0c5d1b`. The current bounded correction explicitly historical-classifies the remaining Issue #47, Issue #45, PR #46, Phase 4K-8, Issue #49, PR #50, and PR #15 lifecycle statements while retaining Issue #58 comment `4975617497` and PR #75 as the current recovery lifecycle. Issue #24 classifications and named supersessions remain explicit. The historical Google Drive archive assumption, blanket hook-bypass wording, Packet 1E, local packet-chain authority, full-executable-first-governance-commit alternative, and rejected local candidates remain superseded or withdrawn.
 
 ## Epistemic Integrity Standard
 
@@ -83,11 +85,11 @@ No package manifest, package-manager configuration, dependency, lockfile, depend
 
 ## Documentation Impact
 
-The 27 existing project-control records are reconciled to Issue #58 recovery authority and the four required records are added. Long-term product direction is unchanged. Documentation does not prove H1 implementation, product progress, workflow automation, production, or operational governance controls.
+Initial R4 changed 27 existing project-control records and added four required records, but its claim of complete stale-state reconciliation was later disproven by R5. This bounded eleven-file correction addresses `R5-STATE-001`; it does not claim independent acceptance. Long-term product direction is unchanged. Documentation does not prove H1 implementation, product progress, workflow automation, production, or operational governance controls.
 
 ## Validation Evidence
 
-Initial R4 pre-staging results: changed-file control passed; forbidden-scope and lockfile checks passed; required-control-update check passed; PR/report and claim-language checks passed; owner-trigger check passed; low-risk self-test and current-lane checks passed; all 336 continuity tests passed; owner-decision and canonical-state JSON parsing passed; exact canonical-state assertions passed; exact 31-path allowlist passed; ten-field profile order remained unchanged; all seven epistemic core literals and all 11 Issue #24 classifications were present; deletion and rename/move counts were zero; and `git diff --check` passed.
+Historical initial R4 pre-staging results: changed-file control passed; forbidden-scope and lockfile checks passed; required-control-update check passed; PR/report and claim-language checks passed; owner-trigger check passed; low-risk self-test and current-lane checks passed; all 336 continuity tests passed; owner-decision and canonical-state JSON parsing passed; exact canonical-state assertions passed; exact 31-path allowlist passed; ten-field profile order remained unchanged; all seven epistemic core literals and all 11 Issue #24 classifications were present; deletion and rename/move counts were zero; and `git diff --check` passed. The manual stale-state completeness result is now classified `INITIAL_R4_STALE_STATE_SEARCH=PASSED_WITH_LATER_MISSED_DEFECTS`; R5 found `R5-STATE-001`, so the initial search is not conclusive acceptance evidence.
 
 Initial R4 staged and post-commit checkpoints passed. Implementation commit `6a567366ed992ddb0f8b28ca28a43d874f53bc70` has the approved base as its parent, preserves the original 31-path PR diff with no deletion, rename, or move, and had a clean handoff worktree.
 
@@ -95,15 +97,29 @@ Initial PR #75 and workflow run `29385059008` exist. On that historical initial 
 
 The exact current PR head is mutable live GitHub evidence and must be retrieved live. The bounded correction changes that head, and no prior exact-SHA ruling remains valid for the resulting head.
 
+```text
+R5_RESULT=CHANGES_REQUESTED
+R5_FINDING=R5-STATE-001
+R5_REVIEWED_HEAD=572f25898d61a39d762f83bd0a17e9b40b0c5d1b
+R5_FINDING_CLASS=INCOMPLETE_CURRENT_STATE_RECONCILIATION
+CORRECTION_AUTHORIZATION_COMMENT_ID=4978245466 # documentation scope
+CORRECTION_AUTHORIZATION_COMMENT_URL=https://github.com/Zest-LeadGen/contractoros-california/issues/58#issuecomment-4978245466 # documentation scope
+CORRECTION_AUTHORIZATION_COMMENT_SHA256=5486cd21cac3bc457e25d42f9c885dfa29e8f557788e9e1cfadc9f3c66aadbd2 # documentation scope
+CORRECTION_AUTHORIZATION_COMMENT_UTF8_BYTES=4103 # documentation scope
+CORRECTION_SCOPE=ELEVEN_EXISTING_PROJECT_CONTROL_FILES
+DOCUMENTATION_ONLY_SCOPE=YES
+FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
+```
+
+Current R5 pre-staging evidence: the correction changes exactly eleven existing authorized files with zero additions, deletions, renames, or moves; all focused controls pass; all 336 continuity tests pass; both required JSON records parse; every remaining complete-suite command passes; and `git diff --check` passes. Contextual review of all 31 PR paths found zero current-active lifecycle claims for Issue #47, Issue #45, PR #46, Phase 4K-8, Issue #49, PR #50, or PR #15. Historical records remain preserved, Issue #58 and PR #75 remain the current recovery lifecycle, product work remains frozen, production remains blocked, Phase 4K-9 and downstream progression remain paused, Phase 4I remains paused, and H1 bootstrap remains unauthorized.
+
 ## Existing-Control Limitations
 
 The initial required GitHub workflow stopped at the missing exact-SHA red-team marker gate because Codex was prohibited from adding that evidence. The resulting correction-head workflow is expected to retain that state until fresh independent review supplies valid evidence; any earlier or different failure is blocking. Current documentation validators also use lexical forbidden-scope checks, so wording must remain factual and validator-safe without weakening the contract.
 
 ## Risk Register Impact
 
-The risk register records circular trust as P0 plus local authority drift, role collapse, candidate-owned oracle, duplicate-key acceptance, stale state, mutable Action provenance, policy/runtime divergence, and broad-discovery risks. The nine unresolved H1 engineering decisions remain active; no candidate is accepted.
-
-docs/project-control/RISK_REGISTER.md: reviewed, no update required
+The risk register distinguishes historical lifecycle states from current unresolved technical risks, corrects stale Phase 4K-8, Issue #49 / PR #50, and PR #15 lifecycle wording, and preserves circular trust as P0 plus local authority drift, role collapse, candidate-owned oracle, duplicate-key acceptance, stale state, mutable Action provenance, policy/runtime divergence, and broad-discovery risks. The nine unresolved H1 engineering decisions remain active; no candidate is accepted.
 
 ## Decision Log Impact
 
@@ -125,7 +141,7 @@ Obsolete Phase 4J assumptions are historical. Current unknowns cover archive loc
 
 ## Model Run Log Impact
 
-The model-run log records R1, R1A, R2A, R2B, the red-team posting action, broad-discovery deviations, PR #56 metadata incident and correction, exact mutation/no-mutation outcomes, R3B scope, and no next-packet authority.
+The model-run log preserves R1, R1A, R2A, R2B, the red-team posting action, broad-discovery deviations, PR #56 metadata incident and correction, exact mutation/no-mutation outcomes, and R3B scope. Phase 4J-0 PR #15 correction, push, body-update, review, approval, merge, and verification statements are explicitly historical and grant no current lifecycle effect or next-packet authority.
 
 ## Forbidden Scope Confirmation
 
@@ -138,7 +154,7 @@ Project-control reconciliation only. This report does not claim H1 implementatio
 
 ## Known Limitations
 
-Local artifact bytes were not accessed, archive provider/location are unknown, and nine H1 engineering decisions remain unresolved. PR #75 exists and is open, but its exact current head is mutable live GitHub evidence; fresh exact-SHA review, human approval, merge, verified-main evidence, and durable closeout remain external gates.
+Local artifact bytes were not accessed, archive provider/location are unknown, and nine H1 engineering decisions remain unresolved. R5 found incomplete current-state reconciliation at `572f25898d61a39d762f83bd0a17e9b40b0c5d1b`. PR #75 exists and is open, but its exact resulting correction head is mutable live GitHub evidence; fresh whole-PR exact-SHA review, human approval, merge, verified-main evidence, and durable closeout remain separate external gates.
 
 ## Red-Team Status
 

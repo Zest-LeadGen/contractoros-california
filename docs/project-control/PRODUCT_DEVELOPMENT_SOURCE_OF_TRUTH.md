@@ -28,9 +28,9 @@ Law & Business remains the first controlled domain.
 
 C10, C46, and C39 remain future/deferred roadmap domains until separate durable GitHub issues and content-currentness/safety gates approve them.
 
-## Current Implemented State
+## Historical Phase 4K-8 Implemented-State Snapshot
 
-Current implemented state is limited to repository source and project-control evidence on main at `8d443310cf006b82966163f8e486d1f52d8d4e6c`, the Phase 4K-7 merge/current-main SHA and Phase 4K-8 starting SHA.
+Historical snapshot: implemented state at that checkpoint was limited to repository source and project-control evidence on main at `8d443310cf006b82966163f8e486d1f52d8d4e6c`, the Phase 4K-7 merge SHA and Phase 4K-8 starting SHA. It is not the current repository anchor.
 
 Implemented source-level surfaces:
 
@@ -136,13 +136,13 @@ Development-model items not proven by durable evidence:
 - Any replacement for external red-team review.
 - Any durable product/platform decision that exists only in chat memory.
 
-## Active Phase State
+## Historical Phase 4K-8 Active-Phase State
 
-Current active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate.
+Historical active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate; it is now completed through closed Issue #45 and merged PR #46.
 
-Active issue and pull request: Issue #45 and PR #46.
+Historical issue and pull request: Issue #45 and PR #46; neither is the current recovery lifecycle.
 
-Starting main SHA: `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
+Historical starting main SHA: `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
 
 Prior phase state:
 
@@ -170,10 +170,10 @@ Phase sequence rules:
 - Do not start dependency/lockfile baseline implementation from Issue #34 because Issue #34 is closed/not planned.
 - Do not start dependency/lockfile baseline implementation inside Phase 4K-4 because Phase 4K-4 is decision documentation only.
 - Treat Phase 4K-5 as historical blocked-before-mutation evidence; no dependency baseline was implemented.
-- The owner-approved immediate path is Phase 4K-8 command-pack and operator-runbook documentation through Issue #45 and PR #46.
+- Historical immediate path: Phase 4K-8 command-pack and operator-runbook documentation proceeded through Issue #45 and PR #46 and is now closed/merged.
 - Phase 4K-9 through Phase 4K-12 are planning targets only and each requires its own future durable GitHub issue after the prior phase is merged, main-verified, and closed.
-- Do not retry dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, or build work from Phase 4K-8. The toolchain/npm path is deferred, not rejected.
-- Do not start Phase 4K-9 inside Phase 4K-8. Phase 4I remains paused.
+- Historical Phase 4K-8 boundary: dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, and build work were excluded. The toolchain/npm path remains deferred, not rejected.
+- Historical Phase 4K-8 did not start Phase 4K-9. Under the current Issue #58 recovery boundary, Phase 4K-9 and downstream progression are paused and Phase 4I remains paused.
 
 Dependency rules:
 
@@ -314,11 +314,11 @@ Historical records should be preserved as evidence, not rewritten into false cur
 - Phase 4K-8: completed.
 - PR #46: merged at `b99fc7d1fe0882380fc53041be42bb0aad35c02e`.
 - Issue #45: closed/completed.
-- Issue #47: active Program Constitution and continuity documentation gate.
+- Issue #47: historical Program Constitution and continuity documentation gate; now closed/completed through merged PR #48.
 - Phase 4K-9: not started.
 - Phase 4I: paused.
 - Toolchain/npm path: deferred, not rejected.
-- Continuity collector: not implemented.
+- Continuity collector: historical snapshot recorded it as not implemented; Issue #49 later closed and PR #50 merged the collector at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
 Law & Business is the first governed product/content priority and C-10 is a priority follow-on condition. This direction does not authorize public content, source ingestion, a database, product implementation, or release.
 

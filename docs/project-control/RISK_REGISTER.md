@@ -29,29 +29,29 @@ Last reviewed:
 
 Nine unresolved H1 engineering decisions remain: `P0_02` exact current product PR-head mechanism; `P0_03` trusted default-branch/main binding; `P1_01` immutable reusable-workflow provenance; `P1_03` strict YAML/schema strategy; `P1_04` deterministic evaluation time; `P1_05` GitHub-applicable ruleset payload; `RT_P0_04` external trusted file oracle; `RT_P1_06` policy-bound runtime limits; and `RT_P2_07` duplicate JSON-key rejection. No local H1 candidate is accepted.
 
-## Historical Issue #49 Continuity Collector Risks
+## Historical Issue #49 Lifecycle And Current Technical Risks
 
-Issue #49 is closed and PR #50 merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`. Any row wording below that says “implementation review” records the historical review state; it is superseded by merged status. Remaining technical limitations stay active only as operational risks and grant no current-phase authority.
+Issue #49 is closed and PR #50 merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`. Each row distinguishes `HISTORICAL_LIFECYCLE_STATE` from `CURRENT_UNRESOLVED_TECHNICAL_RISK`. Historical implementation-review and exact-head conditions are superseded by merged status; remaining technical limitations stay active only as operational risks and grant no current-phase authority.
 
 | Risk ID | Risk | Control | Validation task | Status |
 |---|---|---|---|---|
-| R-I49-01 | Stale-state false negative | Compare canonical, local and live main plus issue/PR lifecycle evidence; fail closed. | Stale-main and starting-main baseline runs. | Controlled in implementation review. |
-| R-I49-02 | Command allowlist bypass | Positive executable, subcommand, flag and shape validation. | Unknown executable/subcommand and prohibited Git/GitHub command tests. | Controlled in implementation review. |
-| R-I49-03 | Shell execution | Argument arrays with `shell=False` and finite timeout. | Mocked subprocess call inspection. | Controlled in implementation review. |
-| R-I49-04 | Output path or symlink escape | Resolve the nearest existing ancestor and prospective suffix before creation; recheck after creation and before atomic writes. | Nonexistent/nested repository descendants, output/ancestor/target symlinks, non-regular targets, valid external creation and cleanup tests. | Controlled in C3 implementation review. |
-| R-I49-05 | Secret or private evidence leakage | Avoid broad collection and reject private-looking patterns. | Unsafe fixture and absolute-home-path tests. | Controlled in implementation review. |
-| R-I49-06 | Moved-head approval reuse | Compare observed and marker-bound SHA with current PR head; quarantine mismatch. | Moved-head and stale-marker tests. | Controlled in implementation review. |
-| R-I49-07 | Misleading derived packet authority | Derived notice, prohibited-action section and no write permission. | Packet-content and raw-chat rejection tests. | Controlled in implementation review. |
-| R-I49-08 | Inaccessible required live evidence | Executable, timeout, nonzero, output-bound, malformed-live-JSON and missing-field failures use `EvidenceUnavailableError` and exit `3`; no safe classification is inferred. | C3 inaccessible-evidence exit tests. | Controlled in C3 implementation review. |
-| R-I49-09 | Deterministic-output drift | Stable ordering, normalized line endings and explicit packet-hash rule. | Identical-run comparison, expected packet and hash recomputation. | Controlled in implementation review. |
-| R-I49-10 | Contradictory lifecycle or active auto-merge | Quarantine protected-boundary contradictions. | Contradictory lifecycle and auto-merge tests. | Controlled in implementation review. |
-| R-I49-11 | Hidden metadata fabrication, quota/context loss, or governance-progress inflation | Exact honest fallbacks, proportional routing, atomic packets, context bands, compact structured tables, capability separation, and chart-output prohibitions. | Governance profile, routing, context, progress, chart, and non-inflation tests. | Controlled in governance-hardening review; exact-SHA external review pending. |
-| R-I49-12 | Wrong local root or contradictory origin accepted as the requested repository | Strict root/top-level/control-file binding and four-form normalized GitHub origin verification; persist no raw path or URL. | C3 repository identity and private-path exclusion tests plus live collector. | Controlled in C3 implementation review. |
-| R-I49-13 | Lifecycle categories collapse external review, human approval, merge and closeout into a false readiness claim | Separate active, externally approved, merge-ready and closed-gate matrices; contradictions quarantine and inaccessible evidence blocks. | C3 lifecycle matrix tests. | Controlled in C3 implementation review. |
-| R-I49-14 | Operational readiness inherits documentation or governance progress | Permanent three-series chart contract and explicit non-inheritance rule; blocked capabilities stay zero or not proven. | C3 reporting-layout tests. | Controlled in C3 governance reconciliation review. |
-| R-I49-15 | Missing authoritative GitHub repository/default-branch values are represented by local or requested fallback evidence | Require exact live repository identity, default-branch object/name/target and lowercase target SHA before evidence construction; permit no substitution. | Eight C3.1 authoritative-live-field tests plus live collector. | Controlled in C3.1 implementation review. |
-| R-I49-16 | Permission read rejection or unsafe evidence is misclassified as unavailable, or malformed permission data creates an empty normalized record | Catch only unavailable-evidence exceptions and structurally validate the response before normalization. | Six C3.1 exception-boundary and permission-response tests. | Controlled in C3.1 implementation review. |
-| R-I49-17 | Malformed nested canonical state escapes the documented CLI exit contract or loses linked-PR identity | Validate bounded linked objects, required identity, supported state and exact observed-head SHA before comparison. | Eight C3.1 canonical and CLI tests. | Controlled in C3.1 implementation review. |
+| R-I49-01 | Stale-state false negative | Compare canonical, local and live main plus issue/PR lifecycle evidence; fail closed. | Stale-main and starting-main baseline runs. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: stale-state false negatives remain controlled by merged source and tests. |
+| R-I49-02 | Command allowlist bypass | Positive executable, subcommand, flag and shape validation. | Unknown executable/subcommand and prohibited Git/GitHub command tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: allowlist bypass remains controlled by merged source and tests. |
+| R-I49-03 | Shell execution | Argument arrays with `shell=False` and finite timeout. | Mocked subprocess call inspection. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: shell execution remains prohibited and test-controlled. |
+| R-I49-04 | Output path or symlink escape | Resolve the nearest existing ancestor and prospective suffix before creation; recheck after creation and before atomic writes. | Nonexistent/nested repository descendants, output/ancestor/target symlinks, non-regular targets, valid external creation and cleanup tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: path escape remains controlled by merged source and tests. |
+| R-I49-05 | Secret or private evidence leakage | Avoid broad collection and reject private-looking patterns. | Unsafe fixture and absolute-home-path tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: evidence leakage remains controlled by merged source and tests. |
+| R-I49-06 | Moved-head approval reuse | Compare observed and marker-bound SHA with current PR head; quarantine mismatch. | Moved-head and stale-marker tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: moved-head reuse remains controlled by exact-SHA checks. |
+| R-I49-07 | Misleading derived packet authority | Derived notice, prohibited-action section and no write permission. | Packet-content and raw-chat rejection tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: derived-packet authority confusion remains controlled by policy and tests. |
+| R-I49-08 | Inaccessible required live evidence | Executable, timeout, nonzero, output-bound, malformed-live-JSON and missing-field failures use `EvidenceUnavailableError` and exit `3`; no safe classification is inferred. | C3 inaccessible-evidence exit tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: unavailable evidence remains fail-closed. |
+| R-I49-09 | Deterministic-output drift | Stable ordering, normalized line endings and explicit packet-hash rule. | Identical-run comparison, expected packet and hash recomputation. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: deterministic-output drift remains controlled by merged tests. |
+| R-I49-10 | Contradictory lifecycle or active auto-merge | Quarantine protected-boundary contradictions. | Contradictory lifecycle and auto-merge tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: contradictory lifecycle evidence remains quarantined. |
+| R-I49-11 | Hidden metadata fabrication, quota/context loss, or governance-progress inflation | Exact honest fallbacks, proportional routing, atomic packets, context bands, compact structured tables, capability separation, and chart-output prohibitions. | Governance profile, routing, context, progress, chart, and non-inflation tests. | `HISTORICAL_LIFECYCLE_STATE`: governance-hardening review and its pending exact-SHA condition were historical Issue #49 states. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: fabrication, context loss, and progress inflation remain controlled by policy and tests. |
+| R-I49-12 | Wrong local root or contradictory origin accepted as the requested repository | Strict root/top-level/control-file binding and four-form normalized GitHub origin verification; persist no raw path or URL. | C3 repository identity and private-path exclusion tests plus live collector. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: repository-identity mismatch remains fail-closed. |
+| R-I49-13 | Lifecycle categories collapse external review, human approval, merge and closeout into a false readiness claim | Separate active, externally approved, merge-ready and closed-gate matrices; contradictions quarantine and inaccessible evidence blocks. | C3 lifecycle matrix tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: lifecycle-category collapse remains controlled by separate gates. |
+| R-I49-14 | Operational readiness inherits documentation or governance progress | Permanent three-series chart contract and explicit non-inheritance rule; blocked capabilities stay zero or not proven. | C3 reporting-layout tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3 governance reconciliation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: progress inheritance remains prohibited. |
+| R-I49-15 | Missing authoritative GitHub repository/default-branch values are represented by local or requested fallback evidence | Require exact live repository identity, default-branch object/name/target and lowercase target SHA before evidence construction; permit no substitution. | Eight C3.1 authoritative-live-field tests plus live collector. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3.1 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: authoritative-field substitution remains prohibited. |
+| R-I49-16 | Permission read rejection or unsafe evidence is misclassified as unavailable, or malformed permission data creates an empty normalized record | Catch only unavailable-evidence exceptions and structurally validate the response before normalization. | Six C3.1 exception-boundary and permission-response tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3.1 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: permission-evidence misclassification remains test-controlled. |
+| R-I49-17 | Malformed nested canonical state escapes the documented CLI exit contract or loses linked-PR identity | Validate bounded linked objects, required identity, supported state and exact observed-head SHA before comparison. | Eight C3.1 canonical and CLI tests. | `HISTORICAL_LIFECYCLE_STATE`: controlled during C3.1 implementation review. `CURRENT_UNRESOLVED_TECHNICAL_RISK`: malformed canonical state remains fail-closed. |
 
 ## Active Risks
 
@@ -81,7 +81,7 @@ Last reviewed: 2026-07-10
 
 ```text
 Risk: workflow command misuse
-Status: Active / controlled by Phase 4K-8 command-pack stop conditions
+Status: `CURRENT_UNRESOLVED_TECHNICAL_RISK`; controlled by the historical merged Phase 4K-8 command-pack stop conditions
 Evidence: Copy/paste lifecycle commands can affect branch, PR, marker, merge, and issue-closeout evidence if placeholders, repository identity, or SHA values are wrong. A dirty worktree or branch synchronization before exact local/origin starting-SHA proof can also mutate or misclassify the starting state.
 Owner: ContractorOS development lead / red-team gate / project owner
 Resolution condition: Future operator use follows the command pack, proves a clean worktree before synchronization, fetches without pulling, verifies exact local and `origin/main` starting SHAs before branch creation, and stops on unresolved placeholders, ref mismatch, or unexpected output.
@@ -92,8 +92,8 @@ Last reviewed: 2026-07-10
 
 ```text
 Risk: marker assembly ambiguity
-Status: Active / controlled by Phase 4K-8 PR-body assembly rule
-Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Multiline review values or embedded reserved marker/field text can inject contradictory decisions while superficial marker counts still pass. Active Phase 4K-8 through Issue #45 and PR #46 supersedes the historical append-only procedure with replacement-body assembly and generated-body validation.
+Status: `CURRENT_UNRESOLVED_TECHNICAL_RISK`; controlled by the historical merged Phase 4K-8 PR-body assembly rule
+Evidence: Phase 4K-7 exposed that live marker ordering and duplicate fields can affect parser behavior. Multiline review values or embedded reserved marker/field text can inject contradictory decisions while superficial marker counts still pass. Historical Phase 4K-8 completed through closed Issue #45 and merged PR #46 and superseded the append-only procedure with replacement-body assembly and generated-body validation.
 Owner: ContractorOS development lead / red-team gate / project owner
 Resolution condition: Future PR evidence keeps templates fenced or commented; rejects empty, multiline, placeholder, marker-token, heading, and reserved-field values; validates supported formats and exactly one of every decision field; rejects unknown fields; rechecks the live PR head immediately before body replacement; and leaves exactly one owner marker final.
 Last reviewed: 2026-07-10
@@ -103,7 +103,7 @@ Last reviewed: 2026-07-10
 
 ```text
 Risk: pre-marker workflow ordering visibility
-Status: Active / documented limitation; no workflow change authorized in Phase 4K-8
+Status: `CURRENT_UNRESOLVED_TECHNICAL_RISK`; historical Phase 4K-8 documented the limitation and made no workflow change
 Evidence: Changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, and low-risk-lane checks run before the mandatory red-team marker. While the marker is missing, later GitHub lockfile-only and claim-language steps are skipped even though their local equivalents remain mandatory. Main protection is proven with strict `contractoros-control-gates`, required review controls, conversation resolution, and admin enforcement.
 Owner: ContractorOS development lead / red-team gate / project owner
 Resolution condition: Operators report the ordering accurately, run the equivalent local checks, and do not claim every GitHub step passed before marker insertion. Any workflow reordering requires a separate authorized phase.
@@ -125,8 +125,8 @@ Last reviewed: 2026-07-09
 
 ```text
 Risk: public canonical state becomes stale or exposes private evidence
-Status: Active / architecture documented; collector not implemented
-Evidence: Issue #47 defines schema validation, exact-SHA comparison, sanitization, quarantine, opaque private references, and serialized canonical-state changes.
+Status: `CURRENT_UNRESOLVED_TECHNICAL_RISK`; collector merged through closed Issue #49 and merged PR #50, while canonical-state drift or leakage remains an operational risk
+Evidence: Historical Issue #47 defined schema validation, exact-SHA comparison, sanitization, quarantine, opaque private references, and serialized canonical-state changes; Issue #49 and PR #50 later implemented and merged the collector at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 Owner: ContractorOS owner / future continuity gate
 Resolution condition: read-only collector gate proves stale detection, deterministic derived packets, leak controls, and rollback without write authority.
 Last reviewed: 2026-07-11
@@ -330,12 +330,12 @@ Resolution condition: Phase 4J-1 is merged and future phase PRs link GitHub phas
 Last reviewed: 2026-07-08
 ```
 
-### local commit not yet in GitHub source of truth
+### Historical Phase 4J-0 local-to-GitHub handoff risk
 
 ```text
-Risk: local commit not yet in GitHub source of truth
-Status: Mitigated for initial branch/PR creation; final resolution pending
-Evidence: Owner installed/authenticated GitHub CLI for documentation PR setup, pushed branch, and opened PR #15. The correction commit still must be pushed, PR body updated, checks run, red-team review completed, approval obtained, merge completed, and main verified.
+Risk: historical Phase 4J-0 local commit was not yet in GitHub source of truth at the recorded checkpoint
+Status: `HISTORICAL_LIFECYCLE_STATE`; no current H1 lifecycle effect
+Evidence: Historical Phase 4J-0 risk checkpoint: the owner installed/authenticated GitHub CLI, pushed the branch, and opened PR #15; the then-pending correction push, PR-body update, checks, review, approval, merge, and main verification statements are preserved as chronology only and are not current work.
 Owner: ContractorOS development lead / red-team gate / project owner
 Resolution condition: Branch pushed to GitHub, PR opened, GitHub Actions run, red-team review completed, human/write-access approval or approved automation lane rule satisfied, and main verified after merge.
 Last reviewed: 2026-07-08

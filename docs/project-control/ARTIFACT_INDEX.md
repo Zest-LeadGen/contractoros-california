@@ -42,13 +42,13 @@ No storage URL, Drive ID, archive provider, or approved folder is inferred by th
 - Phase 4K-6 is source/text workflow-automation policy, low-risk lane policy, and roadmap documentation only.
 - Phase 4K-7 creates no artifact, ZIP, binary, build output, lockfile artifact, dependency archive, dependency directory, Drive artifact, hosted artifact, runtime artifact, automation artifact, release artifact, install artifact, device QA artifact, or archive artifact.
 - Phase 4K-7 is source/text control-gate validator implementation and project-control evidence only.
-- Pre-4K-9 Issue #47 creates public-safe Markdown and JSON-compatible YAML source records only.
+- Historical Pre-4K-9 Issue #47 created public-safe Markdown and JSON-compatible YAML source records only.
 - No raw PDF, DOCX, ZIP, binary, build output, private archive, hosted artifact, credential, service, or release artifact is added.
 - The canonical state and schemas are governance source files, not operational collector output.
 
-## Issue #49 Source And Test Artifacts
+## Historical Issue #49 Source And Test Artifacts
 
-- `scripts/continuity/red_team_continuity.py` is the bounded standard-library source implementation in review.
+- `scripts/continuity/red_team_continuity.py` is the historical bounded standard-library source implementation merged through closed Issue #49 and merged PR #50 at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 - `scripts/continuity/README.md` and `docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md` define the interface and security boundary.
 - `docs/project-control/state/red-team-continuity-evidence.schema.json` and `docs/project-control/state/red-team-startup-packet.schema.json` define public-safe structured output.
 - The listed fixture JSON files and `expected_startup_packet.md` are deterministic test artifacts.
