@@ -142,7 +142,7 @@ Tooling should support evidence, auditability, and controlled publishing. Toolin
 - Historical Phase 4K-5: blocked-before-mutation dependency/toolchain evidence merged through PR #40 at `e531c4d8bc1904c231be1f43114f16f652c4ec52`
 - Historical Phase 4K-6: owner-trigger / low-risk lane automation policy gate merged through PR #42 at `4315c943b6210f023849592213882bc8983c31d2`
 - Completed Phase 4K-7: Issue #43 closed/completed and PR #44 merged; reviewed head `a519ef5579c130181ac1b25f74bb48f481478378`, merge/current-main SHA `8d443310cf006b82966163f8e486d1f52d8d4e6c`
-- Current active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate through Issue #45 and PR #46
+- Historical active-phase snapshot: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate through Issue #45 and PR #46; now closed/merged
 - Later planning targets: Phase 4K-9 intake/handoff automation, Phase 4K-10 post-marker/closeout automation, Phase 4K-11 dry run, and Phase 4K-12 workflow automation decision gate; none is started
 - Deferred, not rejected: toolchain availability / npm bootstrap governance decision path before any dependency-resolution retry
 - Later: content governance
@@ -185,15 +185,15 @@ Issue #39 is closed/completed and PR #40 merged Phase 4K-5 blocked-before-mutati
 
 The owner-approved immediate path is redirected to Phase 4K-6 workflow-automation policy and the planning sequence through Phase 4K-12. The toolchain availability / npm bootstrap governance path remains valid but deferred, not rejected.
 
-Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 is active through Issue #45 and PR #46 for command-pack and operator-runbook documentation only. Phase 4K-9 through Phase 4K-12 remain planning targets. Each later phase requires its own future durable GitHub issue and must not start before its prerequisite phase is merged, main-verified, and closed.
+Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 completed through closed Issue #45 and merged PR #46 for command-pack and operator-runbook documentation only. Phase 4K-9 through Phase 4K-12 are paused planning history under Issue #58 recovery authority.
 
 Phase 4I remains paused and is not authorized for resumption unless a later durable GitHub issue records future authorization.
 
-## 19. Current Phase Constraint
+## 19. Historical Phase 4K-8 Constraint
 
-Current Phase 4K-8 work is project-control documentation only. It does not change control scripts, workflows, PR templates, app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
+Phase 4K-8 work was project-control documentation only. It did not change control scripts, workflows, PR templates, app source, dependencies, packages, lockfiles, npmrc files, dependency directories, build, runtime, backend, or public content.
 
-Phase 4K-8 does not activate workflow automation, reduce current human approval or external red-team requirements, activate auto-merge, resume the deferred toolchain/npm path, start Phase 4K-9, or resume Phase 4I.
+Historical Phase 4K-8 did not activate workflow automation, reduce human approval or external red-team requirements, activate auto-merge, resume the deferred toolchain/npm path, start Phase 4K-9, or resume Phase 4I.
 
 ## 20. Final Rule
 
@@ -205,14 +205,16 @@ Verified GitHub evidence controls the claim level.
 
 `PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md` controls current product/development source-of-truth.
 
-## 21. Pre-4K-9 Constitution And Continuity Gate
+## 21. Historical Pre-4K-9 Constitution And Continuity Gate
 
-Phase 4K-8 is completed. Issue #47 is active at starting main `b99fc7d1fe0882380fc53041be42bb0aad35c02e` for documentation, schema, ADR, and source-of-truth reconciliation only. Phase 4K-9 remains not started, Phase 4I remains paused, and the toolchain path remains deferred.
+Historical lifecycle record: Phase 4K-8 completed, then Issue #47 was active at starting main `b99fc7d1fe0882380fc53041be42bb0aad35c02e` for documentation, schema, ADR, and source-of-truth reconciliation only. Issue #47 is now closed/completed through merged PR #48. At that checkpoint Phase 4K-9 had not started, Phase 4I was paused, and the toolchain path was deferred.
 
-The next permissible implementation gate after Issue #47 closeout is the read-only continuity evidence collector/startup-packet gate. Product modules, source ingestion, database construction, public content, private infrastructure, and paid services require separate later gates.
+The next permissible implementation gate recorded by that historical lifecycle was the read-only continuity evidence collector/startup-packet gate, later completed through closed Issue #49 and merged PR #50. Product modules, source ingestion, database construction, public content, private infrastructure, and paid services still require separate later gates.
 
 ## 22. Issue #49 Read-Only Continuity Collector Gate
 
-Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 and PR #50 contain the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation in review.
+Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be067794bf543a3488779`. Issue #49 is closed and PR #50 merged the read-only collector, deterministic derived packet, schemas, fixtures, tests, and project-control reconciliation at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
-This gate precedes Phase 4K-9. Phase 4K-9 is not started, Phase 4I remains paused, and no later product, source-ingestion, database, private-infrastructure, paid-service, release, or production work is included.
+## 23. H1 Recovery Reconciliation Gate
+
+Issue #58 comment `4975617497` is the active recovery authority. The only current activity is the protected project-control reconciliation PR. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. After merge and verified-main durable closeout, the next possible activity is preparation of a minimal inert governance-bootstrap decision packet; preparation grants no implementation authority.

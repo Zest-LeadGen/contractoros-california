@@ -2,7 +2,9 @@
 
 Purpose: record assumptions that affect ContractorOS California control, delivery, or review.
 
-## Active Assumptions
+## Historical Phase 4J-0 Assumptions
+
+Documentation scope: the status cells in this first table record their original Phase 4J-0 state. Starting SHAs, missing-file observations, initial tool availability, initial authentication, PR #15 correction state, and bootstrap-path assumptions are historical or closed by later GitHub evidence. They are not current H1 assumptions and cannot authorize work.
 
 | ID | Assumption | Evidence | Risk if wrong | Control | Status |
 |---|---|---|---|---|---|
@@ -21,6 +23,18 @@ Purpose: record assumptions that affect ContractorOS California control, deliver
 ## Register Rule
 
 Assumptions must remain versioned here until confirmed, replaced by a design decision, or closed by evidence.
+
+## Current H1 Recovery Assumptions And Unknowns
+
+| ID | Assumption or unknown | Evidence | Control | Status |
+|---|---|---|---|---|
+| ASM-H1-001 | External archive provider and location are not durably selected. | Issue #58 comment `4975617497`. | Record no provider, folder, URL, or Drive ID until later verified owner authority exists. | Open unknown. |
+| ASM-H1-002 | Mac-local artifacts outside the recovery inventory are inaccessible in this packet. | Issue #58 recovery inventory. | Classify as `NOT_ACCESSIBLE`; do not infer bytes, hashes, contents, or acceptance. | Open unknown. |
+| ASM-H1-003 | The nine H1 engineering decisions listed in the risk register are unresolved. | Issue #58 comment `4975617497`. | Keep them as requirements/risks; do not convert them into implementation facts. | Open unknown. |
+| ASM-H1-004 | Exact future minimal inert bootstrap bytes, actor, mechanism, mutation window, rollback point, and protections are undecided. | D29 and Issue #58 recovery authority. | Require a later separate owner decision packet and exact authorization. | Open unknown. |
+| ASM-H1-005 | Local artifact byte sizes are unproven where Issue #58 records only filenames and hashes. | Recovery authority inventory; documentation scope only. | Artifact index records `NOT_PROVEN` size rather than inferring it. | Open unknown. |
+
+Verified owner decisions D27-D32 are decisions, not assumptions.
 
 ## Pre-4K-9 Assumptions
 

@@ -1,45 +1,40 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "01b90ab8b12416101b4be067794bf543a3488779",
-  "active_gate": "Pre-4K-9 — Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate",
-  "linked_issue": {"number":49,"state":"active"},
-  "linked_pr": {
-    "number":50,
-    "state":"open",
-    "url":"https://github.com/Zest-LeadGen/contractoros-california/pull/50",
-    "head_sha_source":"live_github_required",
-    "observed_head_sha":null
-  },
-  "lifecycle_state":"developer_implementation_in_review",
-  "paused_phases":["Phase 4I"],
+  "current_main_sha": "7d00343c233e45185e6c4d77e50eb870f408c01f",
+  "active_gate": "H1 Project-Control Recovery Reconciliation",
+  "linked_issue": {"number":58,"state":"open"},
+  "linked_pr": null,
+  "lifecycle_state":"project_control_reconciliation_pr_only",
+  "paused_phases":["Phase 4I","Phase 4K-9 and downstream"],
   "completed_prior_phase": {
-    "phase":"Pre-4K-9 Program Constitution and Red-Team Continuity Reconciliation",
-    "issue_number":47,
+    "phase":"Pre-4K-9 Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate",
+    "issue_number":49,
     "issue_state":"closed_completed",
-    "pr_number":48,
+    "pr_number":50,
     "pr_state":"merged",
-    "merge_sha":"01b90ab8b12416101b4be067794bf543a3488779"
+    "merge_sha":"7d00343c233e45185e6c4d77e50eb870f408c01f"
   },
   "blockers": [
-    "External exact-SHA red-team review is required for the current PR #50 head",
-    "Human/write-access approval remains required before merge",
-    "Merge, main verification and Issue #49 closeout remain pending",
-    "Phase 4K-9 remains not started"
+    "Product work is frozen",
+    "Production is blocked",
+    "Phase 4K-9 and downstream progression remain paused",
+    "Phase 4I remains paused",
+    "H1 bootstrap is not authorized",
+    "Fresh independent exact-SHA review and human/write-access approval are required for the reconciliation PR"
   ],
-  "next_authorized_planning_target":"No scope expansion; Issue #49 review, protected merge, main verification and closeout only",
+  "next_authorized_planning_target":"Project-control reconciliation PR only; no H1 bootstrap or automatic next packet",
   "documentation_scope":"public_safe",
-  "evidence_timestamps":{"github_verified_at":"2026-07-12T03:00:00Z","state_recorded_on":"2026-07-11"},
+  "evidence_timestamps":{"github_verified_at":"2026-07-15T02:30:00Z","state_recorded_on":"2026-07-14"},
   "evidence_identifiers": [
-    "issue:49",
-    "issue:47:closed_completed",
-    "pr:48:merged",
-    "reviewed-head:8a81d429a93a342527e0efe7962f9bfef22d22d4",
-    "actions-run:29176103821:success",
-    "merge:01b90ab8b12416101b4be067794bf543a3488779",
-    "pr:50:open",
-    "implementation-head:ee0ffc7c17072543cf818849252a8c07d2019538",
-    "actions-run:29177537570:expected_pre_marker_failure"
+    "issue:58:comment:4975617497",
+    "issue:58:comment:4975617497:sha256:b0ca1ccc2a4ba30d0de28900679dbe0ae8eddfb224023affaec178799c289cac",
+    "issue:24:comments:sha256:925024201b7b357cc75471fb8a87d6fc25def983feac4237a3be07c2a8f786e5",
+    "issue:49:closed_completed",
+    "pr:50:merged",
+    "merge:7d00343c233e45185e6c4d77e50eb870f408c01f",
+    "issue:58:open",
+    "governance-repository:Zest-ContractorOS/contractoros-governance:public-empty-size-0"
   ],
   "public_private_references": {
     "public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml","docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"],

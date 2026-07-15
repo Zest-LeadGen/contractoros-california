@@ -73,9 +73,9 @@ No automation may weaken branch protection or treat a skipped, unavailable, pend
 
 For Phase 4K-7, `FUTURE_LOW_RISK_CANDIDATE` is limited to documentation-only `docs/project-control/*.md` changed-file patterns and requires owner interruption `NO`, trigger categories exactly `NONE`, human approval `YES`, and auto-merge `NO`. Workflow/control enforcement files, control scripts, app source, package manifests, lockfiles, dependency/toolchain paths, backend or identity-system scope, and unknown paths fail closed as low-risk candidates.
 
-Phase 4K-8 command-pack and operator-runbook work is not itself a low-risk automation candidate because it changes future lifecycle procedures and marker assembly guidance. It remains `NOT_AUTOMATION_ELIGIBLE` and requires owner interruption, external red-team review, and human approval.
+Historical Phase 4K-8 command-pack and operator-runbook work was not itself a low-risk automation candidate because it changed future lifecycle procedures and marker assembly guidance. The current H1 reconciliation is also `NOT_AUTOMATION_ELIGIBLE` because `ARCHITECTURE_THRESHOLD` applies; owner interruption, external exact-SHA review, and human approval remain required.
 
-Phase 4K-7 completed through Issue #43 and merged PR #44. Its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`. Phase 4K-8 is active through Issue #45 and PR #46. Phase 4K-9 is not started, Phase 4I remains paused, and the toolchain/npm path remains deferred rather than rejected.
+Phase 4K-7 completed through Issue #43 and merged PR #44. Phase 4K-8 completed through closed Issue #45 and merged PR #46. Issue #49 is closed and PR #50 is merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`. Issue #58 is active; Phase 4K-9 and downstream progression are paused, Phase 4I remains paused, and the toolchain/npm path remains deferred rather than rejected.
 
 ## Human Approval Policy
 

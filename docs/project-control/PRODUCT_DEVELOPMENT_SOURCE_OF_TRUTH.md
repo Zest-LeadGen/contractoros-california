@@ -28,9 +28,9 @@ Law & Business remains the first controlled domain.
 
 C10, C46, and C39 remain future/deferred roadmap domains until separate durable GitHub issues and content-currentness/safety gates approve them.
 
-## Current Implemented State
+## Historical Phase 4K-8 Implemented-State Snapshot
 
-Current implemented state is limited to repository source and project-control evidence on main at `8d443310cf006b82966163f8e486d1f52d8d4e6c`, the Phase 4K-7 merge/current-main SHA and Phase 4K-8 starting SHA.
+Historical snapshot: implemented state at that checkpoint was limited to repository source and project-control evidence on main at `8d443310cf006b82966163f8e486d1f52d8d4e6c`, the Phase 4K-7 merge SHA and Phase 4K-8 starting SHA. It is not the current repository anchor.
 
 Implemented source-level surfaces:
 
@@ -136,13 +136,13 @@ Development-model items not proven by durable evidence:
 - Any replacement for external red-team review.
 - Any durable product/platform decision that exists only in chat memory.
 
-## Active Phase State
+## Historical Phase 4K-8 Active-Phase State
 
-Current active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate.
+Historical active phase: Phase 4K-8 - Workflow Automation Command-Pack / Operator Runbook Gate; it is now completed through closed Issue #45 and merged PR #46.
 
-Active issue and pull request: Issue #45 and PR #46.
+Historical issue and pull request: Issue #45 and PR #46; neither is the current recovery lifecycle.
 
-Starting main SHA: `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
+Historical starting main SHA: `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
 
 Prior phase state:
 
@@ -159,7 +159,7 @@ Prior phase state:
 - PR #42 / Phase 4K-6 merged at `4315c943b6210f023849592213882bc8983c31d2`.
 - Issue #43 / Phase 4K-7 is closed/completed.
 - PR #44 merged Phase 4K-7. Its reviewed head was `a519ef5579c130181ac1b25f74bb48f481478378`, and its merge/current-main SHA is `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
-- Issue #45 / Phase 4K-8 is open/active through PR #46.
+- Historical snapshot: Issue #45 / Phase 4K-8 was open through PR #46; it is now closed/merged.
 
 ## Phase Sequence and Dependency Rules
 
@@ -170,10 +170,10 @@ Phase sequence rules:
 - Do not start dependency/lockfile baseline implementation from Issue #34 because Issue #34 is closed/not planned.
 - Do not start dependency/lockfile baseline implementation inside Phase 4K-4 because Phase 4K-4 is decision documentation only.
 - Treat Phase 4K-5 as historical blocked-before-mutation evidence; no dependency baseline was implemented.
-- The owner-approved immediate path is Phase 4K-8 command-pack and operator-runbook documentation through Issue #45 and PR #46.
+- Historical immediate path: Phase 4K-8 command-pack and operator-runbook documentation proceeded through Issue #45 and PR #46 and is now closed/merged.
 - Phase 4K-9 through Phase 4K-12 are planning targets only and each requires its own future durable GitHub issue after the prior phase is merged, main-verified, and closed.
-- Do not retry dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, or build work from Phase 4K-8. The toolchain/npm path is deferred, not rejected.
-- Do not start Phase 4K-9 inside Phase 4K-8. Phase 4I remains paused.
+- Historical Phase 4K-8 boundary: dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, and build work were excluded. The toolchain/npm path remains deferred, not rejected.
+- Historical Phase 4K-8 did not start Phase 4K-9. Under the current Issue #58 recovery boundary, Phase 4K-9 and downstream progression are paused and Phase 4I remains paused.
 
 Dependency rules:
 
@@ -247,14 +247,14 @@ This register does not authorize:
 - Issue #39 - Phase 4K-5 Web Dependency / Lockfile Baseline Implementation Gate.
 - Issue #41 - Phase 4K-6 Owner-Trigger / Low-Risk Lane Automation Policy Gate.
 - Issue #43 - completed Phase 4K-7 Low-Risk Lane Validator / Control-Gate Implementation Gate.
-- Issue #45 - active Phase 4K-8 Workflow Automation Command-Pack / Operator Runbook Gate.
+- Issue #45 - historical closed Phase 4K-8 Workflow Automation Command-Pack / Operator Runbook Gate.
 - PR #30 - Phase 4K-1 merged at `07226b7ebed4661a425aab72799d307df1c296ac`.
 - PR #33 - Phase 4K-2 merged at `4bb9fedb5648ea1b7185667948256276ad04d3b9`.
 - PR #36 - Phase 4K-3 merged at `196a48545285afdf8f5d5bc3f948395a5f289a4d`.
 - PR #38 - Phase 4K-4 merged at `61f5354ea55f7de9d0e88fd82031bacd94a9bf60`.
 - PR #40 - Phase 4K-5 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`.
 - PR #44 - Phase 4K-7 reviewed head `a519ef5579c130181ac1b25f74bb48f481478378`, merged at `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
-- PR #46 - active Phase 4K-8 pull request.
+- PR #46 - historical merged Phase 4K-8 pull request.
 - `docs/project-control/phase_4k_1_internal_scaffold_product_qa_hardening_report.md`.
 - `docs/project-control/phase_4k_2_internal_runtime_smoke_qa_feasibility_gate_report.md`.
 - `docs/project-control/WORKFLOW_AUTOMATION_TARGET_STATE.md`.
@@ -291,12 +291,12 @@ Resolved by this register:
 - Which runtime QA path should be used after dependency governance is implemented and verified.
 - Which build/distribution route, if any, should be used after runtime and install gates are approved.
 
-## Validation Tasks
+## Historical Phase 4K-8 Validation Tasks
 
-Current validation tasks for Phase 4K-8:
+The following validation tasks were current for historical Phase 4K-8:
 
 - verify starting main SHA `8d443310cf006b82966163f8e486d1f52d8d4e6c`;
-- verify Issue #43 closed/completed, PR #44 merged, and Issue #45 / PR #46 active;
+- historically verify Issue #43 closed/completed, PR #44 merged, and the then-active Issue #45 / PR #46 state;
 - verify changed files stay inside the Issue #45 project-control allowlist;
 - run changed-file, forbidden-scope, required-control-update, PR-contract, owner-trigger, low-risk lane self-test, low-risk lane local evidence, lockfile-only, claims-only, and whitespace checks;
 - verify no workflow, control-script, PR-template, app source, package, lockfile, dependency/toolchain mutation, dependency directory, runtime launch, build, artifact, backend or identity-system implementation, public content, automation activation, Phase 4I, Phase 4K-9, merge, or auto-merge scope is added.
@@ -309,15 +309,31 @@ Roadmap and tracker files may summarize or link to this register, but they must 
 
 Historical records should be preserved as evidence, not rewritten into false current-state claims.
 
-## Verified State After Phase 4K-8
+## Historical Verified State After Phase 4K-8
 
 - Phase 4K-8: completed.
 - PR #46: merged at `b99fc7d1fe0882380fc53041be42bb0aad35c02e`.
 - Issue #45: closed/completed.
-- Issue #47: active Program Constitution and continuity documentation gate.
+- Issue #47: historical Program Constitution and continuity documentation gate; now closed/completed through merged PR #48.
 - Phase 4K-9: not started.
 - Phase 4I: paused.
 - Toolchain/npm path: deferred, not rejected.
-- Continuity collector: not implemented.
+- Continuity collector: historical snapshot recorded it as not implemented; Issue #49 later closed and PR #50 merged the collector at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 
 Law & Business is the first governed product/content priority and C-10 is a priority follow-on condition. This direction does not authorize public content, source ingestion, a database, product implementation, or release.
+
+## Current H1 Recovery State
+
+- Current main: `7d00343c233e45185e6c4d77e50eb870f408c01f`.
+- Issue #49: closed.
+- PR #50: merged at the current main SHA.
+- Active H1 issue: #58.
+- Active recovery authority: comment `4975617497` for documentation scope; no product authority.
+- Product work: frozen.
+- Production: blocked.
+- Phase 4K-9 and downstream progression: paused.
+- Phase 4I: paused.
+- Next allowed activity: project-control reconciliation PR only.
+- H1 bootstrap: not authorized.
+
+The long-term Law & Business and C-10 direction remains unchanged. This current-state correction grants no product, content, runtime, build, backend, release, or H1 implementation authority.

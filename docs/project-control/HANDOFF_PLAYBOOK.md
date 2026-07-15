@@ -9,14 +9,14 @@ Give future ContractorOS California red-team windows a durable startup sequence 
 At the start of a red-team window:
 
 1. Read the active phase issue.
-2. Read Issue #24 as the handoff/protocol anchor.
-3. Read the Issue #24 protocol addenda:
+2. Read `AUTHORITY_AND_SUPERSESSION_INDEX.md` and the active Issue #58 recovery authority comment `4975617497` when H1 recovery is in scope.
+3. Read Issue #24 as audit/protocol history where incorporated, including these addenda:
    - Red-Team Operating Protocol Addendum
    - CLI Expected Output Requirement
    - Progress Snapshot Requirement
    - Red-Team Operator State Machine Addendum
    - Consolidated owner direction, while treating it as future program direction that does not expand the active phase
-4. Read the committed project-control protocol files:
+4. Read the committed project-control protocol files, including `EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md`:
    - `docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md`
    - `docs/project-control/RED_TEAM_STATE_MACHINE.md`
    - `docs/project-control/HANDOFF_PLAYBOOK.md`
@@ -36,7 +36,7 @@ Never rely on chat memory as source of truth.
 
 ## Current Marker Handoff Rule
 
-Issue #24 remains the policy anchor, but its historical append-only marker procedure is superseded. Current handoffs must use the Phase 4K-8 replacement-body rule: preserve report content outside stale red-team and owner-marker sections, remove those existing sections, append exactly one current-SHA `RED_TEAM_DECISION`, and append exactly one matching `OWNER_TRIGGER_REVIEW` section last. Validate counts, ordering, the full current 40-character head SHA, stale pending-status removal, and resolved runtime values before any PR-body update.
+Issue #24 remains audit/protocol history where incorporated, but its historical append-only marker procedure is superseded. Current handoffs must use the committed Phase 4K-8 replacement-body rule: preserve report content outside stale red-team and owner-marker sections, remove those existing sections, append exactly one current-SHA `RED_TEAM_DECISION`, and append exactly one matching `OWNER_TRIGGER_REVIEW` section last. Validate counts, ordering, the full current 40-character head SHA, stale pending-status removal, and resolved runtime values before any PR-body update.
 
 This rule does not let Codex add red-team evidence. External exact-SHA review and human/write-access approval remain separate, auto-merge remains prohibited, and no memory-only authority is valid.
 
@@ -135,18 +135,18 @@ Only then may red-team prepare next-phase issue guidance or implementation promp
 
 - Do not ask the owner to choose next-phase options before current phase closeout.
 - Do not resume Phase 4I unless explicitly authorized.
-- Do not start Phase 4K-9 until Phase 4K-8 is merged, main-verified, and Issue #45 is closed.
+- Phase 4K-8, Issue #45, Issue #49, and PR #50 are historical closed-gate evidence. Do not start Phase 4K-9 or H1 bootstrap work; both remain paused or unauthorized under Issue #58 recovery authority.
 - Do not treat chat memory, sandbox state, connector state, or local scratch files as durable evidence.
 - Do not invent Google Drive artifacts, branch state, PR state, GitHub Actions state, validation results, approvals, merge state, or issue state.
 - Do not merge, approve, self-review, bypass branch protection, or activate auto-merge.
 
-## Future Generated Startup Packet
+## Historical Generated Startup Packet Gate
 
-After Issue #47 closeout, a dedicated read-only gate may implement a deterministic `RED_TEAM_STARTUP_PACKET.md` generator from canonical state and live GitHub reads. The packet is derived, never authoritative by itself, and must disclose source SHAs, timestamps, stale checks, and missing evidence. Until that gate passes, use this playbook and live evidence; do not manually maintain a packet and call it canonical.
+Issue #49 and PR #50 implemented the deterministic `RED_TEAM_STARTUP_PACKET.md` generator and merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`. The packet remains derived, never authoritative by itself, and must disclose source SHAs, timestamps, stale checks, and missing evidence. Use this playbook and live evidence; do not manually maintain a packet and call it canonical.
 
-## Issue #49 Collector Handoff Procedure
+## Historical Issue #49 Collector Handoff Procedure
 
-Issue #49 implements the collector in review. After the gate is merged, main-verified and closed, a future red-team window may create an external temporary directory and invoke:
+Issue #49 is closed and PR #50 is merged. A later separately authorized red-team window may use the historical collector procedure with current identifiers and an external temporary directory; this reconciliation does not invoke it or grant downstream authority:
 
 ```text
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/continuity/red_team_continuity.py live \
@@ -178,3 +178,7 @@ Context thresholds control handoff behavior:
 A reported 79% requires a new Codex window before another broad implementation packet. If percentage is unavailable, record that fact and use visible compaction warnings or context-loss symptoms without inventing a value.
 
 The final handoff records `ACTUAL_CODEX_MODEL`, `ACTUAL_REASONING_EFFORT`, `SPEED_MODE`, `AGENT_STRATEGY`, context-window state, lifecycle evidence, validation, changed files, and the single next packet. It also follows the compact tables, percentage-integrity, and chart rules in `RED_TEAM_OPERATING_PROTOCOL.md`.
+
+## Current H1 Recovery Handoff
+
+The current durable state is Issue #58 recovery reconciliation at main `7d00343c233e45185e6c4d77e50eb870f408c01f`: Issue #49 is closed, PR #50 is merged, product work is frozen, production is blocked, Phase 4K-9 and downstream work are paused, and Phase 4I remains paused. The only next gate after developer PR creation is fresh independent exact-SHA review. No local output or handoff text authorizes H1 bootstrap.

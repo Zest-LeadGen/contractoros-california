@@ -2,7 +2,9 @@
 
 ## Status And Decision Boundary
 
-This specification governs the Issue #49 implementation in review. A generated `RED_TEAM_STARTUP_PACKET.md` is derived, non-authoritative, point-in-time evidence. It grants no write, approval, review, merge, release, spending, credential, policy, Phase 4K-9, or Phase 4I decision power.
+This specification records the Issue #49 implementation merged through PR #50 at `7d00343c233e45185e6c4d77e50eb870f408c01f`. A generated `RED_TEAM_STARTUP_PACKET.md` is derived, non-authoritative, point-in-time evidence. It grants no write, approval, review, merge, release, spending, credential, policy, Phase 4K-9, or Phase 4I decision power.
+
+Issue #58 comment `4975617497` is the active recovery authority. This specification is technical historical evidence and cannot authorize the current reconciliation, a later packet, or H1 bootstrap. Claims derived from a packet must follow the Epistemic Integrity and Non-Fabrication Standard and current live GitHub verification.
 
 The packet supplements versioned public-safe state with live read-only evidence. It does not replace GitHub, exact-SHA external review, human/write-access approval, branch protection, merge verification, or issue closeout.
 

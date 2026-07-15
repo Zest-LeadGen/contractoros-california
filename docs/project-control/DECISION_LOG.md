@@ -22,7 +22,7 @@ Purpose: record durable architectural and process decisions.
 - The developer connector implementation path is currently blocked after repeated api_tool.list_resources violations.
 - Bootstrap Codex use for Phase 4J-0 is allowed only because this phase creates AGENTS.md and the AI governance files.
 - GitHub is source of truth for code and text project-control records.
-- Google Drive is for archive artifacts.
+- Historical archive assumption: Google Drive was named for archive artifacts. This is superseded by the Issue #58 recovery decision: the GitHub artifact index is authoritative, external archive bytes are non-authoritative, and no archive provider or location is durably selected.
 - Local files are temporary scratch/testing only.
 - Controlled Milestone Development Model v3 is active.
 - Clean public provenance is required before committing lock records.
@@ -86,7 +86,7 @@ Purpose: record durable architectural and process decisions.
 - Phase 4K-7 merged through PR #44, Issue #43 is closed/completed, and the merge/current starting SHA for Phase 4K-8 is `8d443310cf006b82966163f8e486d1f52d8d4e6c`.
 - Phase 4K-7 permits `FUTURE_LOW_RISK_CANDIDATE` only when owner interruption is `NO`, trigger categories are exactly `NONE`, human approval remains `YES`, auto-merge remains `NO`, and changed files stay inside the current documentation-only low-risk pattern.
 - Phase 4K-7 treats workflow/control enforcement changes, control scripts, dependency/package/lockfile paths, app source, product claims, and owner-triggered categories as not low-risk candidates.
-- Phase 4K-8 is active through Issue #45 to document a copy-safe command pack and operator runbook for the protected lifecycle without implementing automation.
+- Historical decision: Phase 4K-8 was active through Issue #45 to document a copy-safe command pack and operator runbook for the protected lifecycle without implementing automation; it is now closed/merged.
 - Phase 4K-8 records that safe PR-body marker assembly places `RED_TEAM_DECISION` before the final live `OWNER_TRIGGER_REVIEW` marker and does not put live markers in comments or fenced code.
 - Phase 4K-8 supersedes the historical Issue #24 append-only marker procedure with replacement-body assembly that removes stale red-team status and existing owner-marker sections before adding exactly one current-SHA decision and one final owner marker.
 - Main branch protection is proven by GitHub repository evidence: strict `contractoros-control-gates`, one approving review, code-owner review, stale-review dismissal, conversation resolution, and admin enforcement are required; force pushes and deletions are disabled; signatures, last-push approval, and linear history are not enabled.
@@ -116,3 +116,16 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Treat every generated packet as derived evidence with no authority by itself.
 - Fail closed with `consistent`, `requires_live_verification`, `stale`, `blocked`, or `quarantined` classification and the documented exit contract.
 - Do not update canonical state automatically and grant no write, review, approval, merge, release, spending, credential, or policy decision power.
+
+## H1 Recovery Decisions
+
+- Documentation scope: Issue #58 comment `4975617497` is the active H1 recovery authority; Issue #49 is closed and PR #50 merged at `7d00343c233e45185e6c4d77e50eb870f408c01f`.
+- Preserve the long-term product direction while freezing product work, blocking production, pausing Phase 4K-9 and downstream progression, and keeping Phase 4I paused.
+- Preserve owner decision authority, red-team Lead Engineer/Architect and independent audit duties, Codex developer-executor-only duties, and fresh exact-SHA independent final review as separate roles; this documentation grants no role expansion.
+- Reject the complete-first-governance-commit alternative. A future first governance commit must be a minimal inert trust root and requires a separate exact owner authorization.
+- Adopt the Epistemic Integrity and Non-Fabrication Standard; no perfect non-hallucination guarantee is claimed.
+- Preserve historical evidence, explicitly supersede contradictions, correct stale current state, and prohibit broad deletion in the first reconciliation.
+- Make the GitHub artifact index authoritative for identity, accepted hash, classification, status, retention, review, supersession, and storage reference. External archive bytes are non-authoritative and no provider or location is yet selected.
+- Withdraw Packet 1E and reject Control Plane Seed v0 and prior local H1 candidates as project authority. Local outputs remain evidence or donor material only; local implementation authority is not authorized.
+- Require hook execution by default. Hook bypass is prohibited unless a later exact owner authorization names the command and scope; prior blanket bypass language is superseded.
+- Follow recovery order R4 reconciliation, R5 fresh review, R6 owner merge decision, and R7 verified-main durable closeout. No automatic next packet or H1 bootstrap is authorized.

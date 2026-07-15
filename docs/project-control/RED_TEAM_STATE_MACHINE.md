@@ -81,6 +81,19 @@ If the issue is closed before merge or before main verification, classify as `RE
 
 ## Compatibility Notes
 
+## H1 Recovery Lifecycle Mapping
+
+Issue #58 comment `4975617497` controls the H1 recovery sequence without replacing the lifecycle states above:
+
+| Recovery step | State-machine treatment | Next allowed action |
+|---|---|---|
+| R4 project-control reconciliation implementation | `WAITING_FOR_CODEX_RESPONSE` or `CODEX_RESPONSE_RECEIVED_NEEDS_REVIEW` | Developer may implement the exact approved contract and open one PR. |
+| R5 fresh independent exact-SHA review | `RED_TEAM_REVIEW_IN_PROGRESS`, then one of the allowed decision outcomes | Independently retrieve the current head and evidence; use only `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED`. |
+| R6 owner merge decision | `CHECKS_PASSED_WAITING_FOR_HUMAN_APPROVAL` or `HUMAN_APPROVED_WAITING_FOR_MERGE` | Obtain separate qualifying human/write-access approval and protected merge decision. |
+| R7 verified main and durable closeout | `MERGED_WAITING_FOR_MAIN_VERIFICATION` then the applicable closeout state | Verify main and record durable closeout; do not close Issue #58 absent later exact authority. |
+
+Conflicting recovery evidence is `RED_TEAM_BLOCKED`. A local report, generated packet, chat instruction, or stale snapshot cannot advance the lifecycle. The Epistemic Integrity and Non-Fabrication Standard controls claim classification and freshness at every state.
+
 Issue #24 originally listed legacy state labels such as `PR_OPEN_MARKER_MISSING`, `MARKER_ADDED_CHECKS_PENDING`, `CHECKS_PASSED_HUMAN_APPROVAL_NEEDED`, `APPROVED_MERGE_READY`, `MERGED_MAIN_NOT_VERIFIED`, and `MAIN_VERIFIED_ISSUE_OPEN`.
 
 Phase 4J-5 preserves the same behavior using the explicit labels in this file:
@@ -96,7 +109,7 @@ Phase 4J-5 preserves the same behavior using the explicit labels in this file:
 
 Canonical state is a public-safe snapshot, not a substitute for lifecycle classification. If canonical state and live GitHub evidence differ, classify the state as blocked, mark the snapshot stale or quarantined, and stop consequential guidance. A future generated startup packet must derive from both versioned state and live read-only evidence.
 
-Issue #47 itself remains a documentation implementation gate until its PR is externally reviewed, human-approved, merged, main-verified, and closed. Phase 4K-9 remains not started.
+Historical lifecycle record: Issue #47 was the documentation implementation gate until PR #48 was externally reviewed, human-approved, merged, main-verified, and Issue #47 closed. Issue #58 comment `4975617497` now controls the current H1 recovery reconciliation, and PR #75 is the current open reconciliation PR whose exact head must be retrieved from live GitHub evidence. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. The exact-SHA review, separate human approval, protected merge, main verification, and durable closeout gates remain unchanged.
 
 ## Collector Consistency Statuses
 

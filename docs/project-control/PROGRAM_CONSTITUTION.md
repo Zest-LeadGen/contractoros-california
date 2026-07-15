@@ -40,6 +40,12 @@ The public repository may contain public-safe code, schemas, sanitized state, AD
 
 Historical decisions are append-only evidence. Corrections add explicit supersession links; they do not silently rewrite history. Obsolete labels such as 4K-7A through 4K-7E do not overwrite repository phase history. Any valid concepts from those labels may be remapped only after Phase 4K-12 through a later gate.
 
-## Current Gate Boundary
+## H1 Recovery Amendment And Current Gate Boundary
 
-Issue #47 implements documentation, schemas, ADRs, and source-of-truth reconciliation only. The continuity collector, startup-packet generator, private control plane, legal-intelligence system, product modules, agents, credentials, paid services, Phase 4K-9, and Phase 4I are not implemented or authorized by this gate.
+Issue #58 comment `4975617497` is the current owner-approved recovery amendment. It explicitly supersedes stale current-state claims from Issue #47 and the former Issue #49 / PR #50 review window while preserving those records as history. The long-term product direction above is unchanged.
+
+The Epistemic Integrity and Non-Fabrication Standard is constitutional policy for claims, evidence freshness, assumptions, contradictions, and authorization boundaries. The Authority and Supersession Index records current precedence and the complete Issue #24 classification.
+
+The first governance-repository commit, if separately authorized later, must be a minimal inert trust root rather than the executable H1 system. The exact file list, hashes, actor, mechanism, rollback point, mutation window, and protections require a separate owner decision. This reconciliation grants no H1 implementation or governance-repository mutation authority.
+
+Owner authority, exact-SHA independent red-team review, separate human/write-access approval, branch protection, and no-auto-merge remain mandatory. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, and Phase 4I remains paused. The only current activity authorized by the approved contract is the protected project-control reconciliation PR linked to Issue #58.

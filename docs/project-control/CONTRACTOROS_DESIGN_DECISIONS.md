@@ -2,6 +2,38 @@
 
 Purpose: record ContractorOS California design and operating decisions that must be preserved as repo evidence.
 
+## H1 Recovery Design Decisions
+
+### CDR-H1-001 — Recovery authority and role separation documentation
+
+```text
+Status: Approved recovery direction
+Decision: Documentation scope records Issue #58 comment 4975617497 as controlling H1 recovery. Owner decision authority, red-team architecture and independent audit, Codex developer execution, and fresh exact-SHA review remain separate.
+Rejected alternative: local packet strings, chat, or role-collapsed self-review as authority; no local authority is valid.
+Risk: local authority drift or developer/red-team collapse could bypass independent challenge.
+Control: exact contract, exact allowlist, fresh exact-SHA review, separate human approval, protected merge, and durable closeout.
+```
+
+### CDR-H1-002 — Minimal inert trust-root bootstrap
+
+```text
+Status: Approved planning direction; implementation not authorized
+Decision: A future first governance commit must be a minimal inert trust root; the executable H1 system belongs in a later protected PR.
+Rejected alternative: a complete executable first commit or installation of Control Plane Seed v0.
+Risk: an oversized first commit creates circular trust and executable blast radius before protections exist.
+Control: later separate owner authorization must bind exact files, bytes, hashes, actor, mechanism, rollback, mutation window, and protections; this documentation is not authorization.
+```
+
+### CDR-H1-003 — Epistemic integrity and artifact authority documentation
+
+```text
+Status: Approved policy
+Decision: Evidence-bound claims, explicit uncertainty, freshness checks, contradiction blocking, anti-echo-chamber review, and provider-independent machine controls govern project work. GitHub artifact indexing is authoritative; external archives store non-authoritative bytes only.
+Rejected alternative: perfect-truth guarantees, candidate-owned evidence oracles, inferred storage authority, or Google Drive as an automatic archive authority; no such claim is valid.
+Risk: unsupported claims or local artifacts could become circular authority.
+Control: Epistemic Integrity Standard, Authority and Supersession Index, accepted hashes, independent sources, and no invented storage references.
+```
+
 ## Active Decisions
 
 ### CDR-4J-001 — GitHub source of truth
