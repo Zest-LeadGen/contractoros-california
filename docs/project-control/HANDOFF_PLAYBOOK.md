@@ -101,6 +101,32 @@ Where this state is recorded:
 Progress snapshot:
 ```
 
+Every substantive active-project handoff must follow that evidence summary with this explicit navigation block. The canonical final response order is exactly:
+
+1. `Product development stage`.
+2. `Current lifecycle` table.
+3. Interactive chart or compact fallback when required.
+4. Exact next-window navigation block as the absolute final response element.
+
+The chart or compact fallback is penultimate and appears immediately before the navigation block. The navigation block is the sole absolute final response element, and nothing follows it. The chart or fallback may be omitted only for the documented compact path; active project work still requires the explicit final navigation block.
+
+```text
+NEXT_WINDOW_REQUIRED=<YES|NO>
+NEXT_WINDOW_ROLE=<RED_TEAM|DEVELOPER|HUMAN_APPROVER|OWNER|NONE>
+NEXT_WINDOW_SURFACE=<CHATGPT|CODEX|GITHUB|CURRENT_WINDOW|NONE>
+NEXT_REQUIRED_ACTION=<one exact action>
+TARGET_ISSUE=<number or NOT_APPLICABLE>
+TARGET_ISSUE_URL=<direct URL or NOT_APPLICABLE>
+TARGET_PR=<number or NOT_APPLICABLE>
+TARGET_PR_URL=<direct URL or NOT_APPLICABLE>
+NEXT_WINDOW_PROMPT=<complete copyable prompt or NOT_REQUIRED>
+STOP_CONDITIONS=<exact stop conditions>
+```
+
+Use `NEXT_WINDOW_REQUIRED=NO` with `NEXT_WINDOW_SURFACE=CURRENT_WINDOW` when the current conversation should continue. When no action remains, use `NEXT_WINDOW_ROLE=NONE`, `NEXT_WINDOW_SURFACE=NONE`, and `NEXT_WINDOW_PROMPT=NOT_REQUIRED`. When an AI window is next, its prompt must not be partial: it must be complete, self-contained, independently pasteable, and explicitly identify a `RED_TEAM` or `DEVELOPER` perspective. When GitHub is next, include the direct issue or pull-request URL plus exact UI steps and use `NEXT_WINDOW_PROMPT=NOT_REQUIRED`.
+
+The navigation block is `NAVIGATION_ONLY`; it creates no authority and permits no automatic continuation. It cannot substitute for durable GitHub intake, exact-SHA independent review, human approval, protected merge, verified main, or issue closeout. The repository can test committed handoff language, but it cannot inspect every private ChatGPT response. Brief acknowledgments may use the documented compact path, but active project work still ends with the explicit navigation block.
+
 ## Progress Snapshot Template
 
 The old Phase 4J percentages are historical baseline only. Do not carry them forward as current estimates.
@@ -181,4 +207,4 @@ The final handoff records `ACTUAL_CODEX_MODEL`, `ACTUAL_REASONING_EFFORT`, `SPEE
 
 ## Current H1 Recovery Handoff
 
-The current durable state is Issue #58 recovery reconciliation at main `7d00343c233e45185e6c4d77e50eb870f408c01f`: Issue #49 is closed, PR #50 is merged, product work is frozen, production is blocked, Phase 4K-9 and downstream work are paused, and Phase 4I remains paused. The only next gate after developer PR creation is fresh independent exact-SHA review. No local output or handoff text authorizes H1 bootstrap.
+The current documentation-scope state is Issue #76 / PR #77. Initial Developer delivery completed at `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 returned `CHANGES_REQUESTED` with `R1-OUTPUT-ORDER-001` and `R1-STATE-002`; Issue #76 comment `4984310758` authorizes one bounded ten-file correction. PR #77 remains open, and its mutable current head must be retrieved from live GitHub evidence. The next gates are correction delivery, resulting exact-head verification, and fresh independent whole-PR exact-SHA review. Product work remains frozen, production remains blocked, Phase 4K-9 and downstream work remain paused, and Phase 4I remains paused. No local output or handoff text authorizes H1 bootstrap.

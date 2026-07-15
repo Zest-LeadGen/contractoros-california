@@ -309,3 +309,42 @@ This section preserves Phase 4J-0 requirements and their original execution chec
 | RTM-I49-071 | Canonical source provenance must be a mandatory exact committed ref. | Collector, fixtures, packet rendering, both schemas and C3.8 tests | Null, missing, abbreviated, uppercase and malformed refs reject; active and closed output require and render an exact lowercase 40-character SHA. |
 | RTM-I49-072 | Persisted command-result schema semantics must match runtime success semantics. | Collector, evidence schema and standard-library contract tests | Runtime accepts only integer zero; the schema fixes `return_code` to zero; nonzero and malformed values fail closed. |
 | RTM-I49-073 | The C3.8 contract migration must be coherent and bounded. | Generator, fixtures, expected packet, both schemas and governance records | Current fixture, evidence, packet and generator contracts are version `1.3.8`; historical C3.6 and C3.7 records remain historical. |
+
+## H1 Issue #76 Next-Window Handoff Contract
+
+```text
+INITIAL_IMPLEMENTATION_HEAD=486a55dd17b578ad2dcbee1f05debb5337e7a32c
+R1_RESULT=CHANGES_REQUESTED
+R1_FINDING_1=R1-OUTPUT-ORDER-001
+R1_FINDING_2=R1-STATE-002
+R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_RESULT=CHANGES_REQUESTED
+R2_FINDING_1=R2-STATE-001
+R2_FINDING_2=R2-TEST-001
+R2_CORRECTION_AUTHORITY_COMMENT=4984934461 # documentation scope
+R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
+PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
+EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
+```
+
+| Requirement ID | Requirement | Evidence files | Validation | Status |
+|---|---|---|---|---|
+| RTM-H1-76-001 | Historical navigation-contract requirements remain distinct from R2 lifecycle state. | Read-only governing documents and five active records. | R1 ordering tests remain unchanged; active R2 records use event-invariant fields. | Historical initial/R1 evidence retained; mutable GitHub state is `LIVE_GITHUB_REQUIRED`. |
+| RTM-H1-76-002 | The next role and surface use closed explicit enums. | Protocol, prompt convention, handoff playbook, continuity tests. | Existing enum assertions pass without governing-document change. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-003 | An AI-window handoff supplies a self-contained independently pasteable prompt for the exact perspective. | Protocol, prompt convention, handoff playbook. | Existing prompt sentinel assertions pass without governing-document change. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-004 | A GitHub handoff supplies direct issue or PR URLs and exact UI steps with `NOT_REQUIRED` prompt sentinel. | Protocol, prompt convention, handoff playbook, continuity tests. | Existing direct-link and sentinel assertions pass without governing-document change. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-005 | Current-window and no-action paths are explicit. | Protocol, prompt convention, handoff playbook, continuity tests. | Existing `CURRENT_WINDOW`, `NONE`, and `NOT_REQUIRED` assertions pass. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-006 | Navigation creates no authority and permits no automatic continuation. | Protocol, prompt convention, handoff playbook, decision log, continuity tests. | Existing no-authority assertions pass without governing-document change. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-007 | Repository enforcement and private-chat behavioral compliance remain distinct. | Protocol, prompt convention, startup-packet specification, risk register, continuity tests. | Limitation language assertions; no universal runtime enforcement claim. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-008 | Existing ordered ten-field Codex prompt profile remains unchanged. | `PROMPT_CONVENTION.md`, continuity tests. | Prior order test and count/order verification remain unchanged. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-009 | Startup-packet integration does not widen the runtime/schema/fixture contract. | `RED_TEAM_STARTUP_PACKET_SPEC.md`, impact analysis, changed-file evidence. | No generator, schema, fixture, or startup-packet-spec R2 change. | Historical requirement retained; R2 scope excludes navigation documents. |
+| RTM-H1-76-010 | Issue #76 remains bounded to project-control navigation hardening. | Phase report, ledger, risk, decision, validation, traceability. | Exact six-existing-file R2 allowlist; no product or production mutation. | R2 authority is Issue #76 comment `4984934461`; mutable state is `LIVE_GITHUB_REQUIRED`. |
+| RTM-H1-76-011 | `EVENT_INVARIANT_LIFECYCLE_RECORDS` is enforced. | Ledger, validation tasks, phase report, risk register, traceability, continuity tests. | Five active records require `THIS_COMMIT`, all mutable-state fields, and the live-verification next gate. | This commit; mutable GitHub state is `LIVE_GITHUB_REQUIRED`. |
+| RTM-H1-76-012 | `STALE_POST_CORRECTION_INSTRUCTIONS_REJECTED` is enforced. | Five active records and continuity tests. | Case-insensitive tests reject post-correction delivery, commit, push, body, and workflow instructions in active sections. | This commit; historical evidence remains separately classified. |
+| RTM-H1-76-013 | `MUTABLE_GITHUB_STATE_REQUIRES_LIVE_RETRIEVAL` is enforced. | Five active records and continuity tests. | Remote delivery, PR-body, workflow, and review claims must use `LIVE_GITHUB_REQUIRED`. | This commit; live GitHub verification is required. |
+| RTM-H1-76-014 | `FRESH_EXACT_SHA_REVIEW_AFTER_LIVE_VERIFICATION` is enforced. | Five active records and continuity tests. | Acceptance binds to a fresh whole-PR review of the exact head live GitHub reports after correction delivery. | This commit; `NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION`. |

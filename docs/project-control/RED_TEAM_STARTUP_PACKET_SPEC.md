@@ -92,6 +92,14 @@ The rendered packet contains generator and schema versions, observation timestam
 
 The packet contains no write permission. It must be revalidated against live evidence before consequential action.
 
+## Explicit Navigation Integration Boundary
+
+The generated startup packet's existing `next_action`, `stop_conditions`, prohibited-actions section, direct issue and pull-request URLs, and derived no-authority notice may inform a later red-team response. They do not themselves satisfy the complete live-response navigation contract in `RED_TEAM_OPERATING_PROTOCOL.md`, `PROMPT_CONVENTION.md`, and `HANDOFF_PLAYBOOK.md`.
+
+No generator, schema, or fixture migration is required for Issue #76 because the generated packet remains historical derived evidence and is not a universal response renderer. A live red-team operator must classify current lifecycle evidence and add the required `NEXT_WINDOW_*`, target, prompt, and stop-condition fields for the current perspective. The packet grants no implementation, review, approval, merge, closeout, product, production, governance-bootstrap, or next-packet authority.
+
+Repository tests can prevent the governing navigation language from silently disappearing from committed project-control files. The repository cannot inspect or technically enforce every private ChatGPT response; live compliance remains a behavioral operating obligation, and zero omission risk is not proven.
+
 ## Schemas And Runtime Validation
 
 `docs/project-control/state/red-team-continuity-evidence.schema.json` and `docs/project-control/state/red-team-startup-packet.schema.json` use Draft 2020-12, required properties, bounded enums, SHA patterns, date-time and URI formats, typed arrays, unique items where applicable, and nested `additionalProperties: false`.

@@ -15,6 +15,21 @@ Last reviewed:
 
 ## H1 Recovery Risks
 
+```text
+R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_RESULT=CHANGES_REQUESTED
+R2_FINDING_1=R2-STATE-001
+R2_FINDING_2=R2-TEST-001
+R2_CORRECTION_AUTHORITY=ISSUE_76_COMMENT_4984934461 # documentation scope
+R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
+PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
+EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
+```
+
 | Risk ID | Risk | Current control | Status |
 |---|---|---|---|
 | R-H1-P0-01 | Circular trust: a candidate policy or first commit defines the oracle that accepts itself. | Minimal inert first commit, external trusted evidence, protected later PR, fresh independent review. | P0 active; unresolved. |
@@ -26,6 +41,15 @@ Last reviewed:
 | R-H1-07 | Mutable third-party Action provenance changes reviewed behavior. | Full-SHA action pins and immutable reusable-workflow provenance remain required. | Active; unresolved. |
 | R-H1-08 | Policy and runtime resource limits diverge. | Policy-bound runtime-limit engineering decision and negative tests remain required. | Active; unresolved. |
 | R-H1-09 | Broad connector/resource discovery violates scope or exposes unrelated context. | Direct-tool-only rule, incident evidence, regression checks, and fail-closed stop. | Active. |
+| R-H1-10 | A substantive red-team response omits the explicit navigation block. | Issue #76 governing-document contract plus deterministic static regression tests; live compliance remains behavioral. | Active; reduced but not eliminated by repository controls. |
+| R-H1-11 | A handoff contains a stale or incorrect issue or pull-request target link. | Direct URL requirement, lifecycle reverification, and exact stop conditions before consequential action. | Active. |
+| R-H1-12 | Risk: navigation text is confused with implementation, review, approval, merge, closeout, or next-packet authority. | `NAVIGATION_ONLY`, no-authority, and no-auto-continuation declarations in every governing handoff contract. | Active. |
+| R-H1-13 | Repeated handoff prompts become oversized, duplicated, or harder to verify. | Require an independently pasteable prompt only when an AI window is next; use `NOT_REQUIRED` for GitHub and no-action paths. | Active. |
+| R-H1-14 | Repository static checks are overstated as technical enforcement of private chat responses. | Explicit behavioral-boundary language and tests that preserve the limitation without claiming universal runtime coverage. | Active. |
+| R-H1-15 | Conflicting final-element instructions can require both the chart and navigation to be last. | One canonical four-part order across the protocol, prompt convention, and handoff playbook; deterministic absence checks for conflicting chart-final language. | Correction implemented; fresh independent exact-SHA verification pending. |
+| R-H1-16 | Static tests validate token presence while missing semantic contradictions between complete governing documents. | Tests evaluate the ordered semantic contract, sole-final-element rule, penultimate chart/fallback rule, and prohibited contradictory phrases across all three files. | Correction implemented; fresh independent exact-SHA verification pending. |
+| R-H1-17 | Current project-control records can misdirect the next actor by representing mutable GitHub actions as durable local state. | Event-invariant mitigation implemented in this commit: historical initial/R1/R2 evidence is distinct from `LIVE_GITHUB_REQUIRED` remote, PR-body, workflow, and review state. | Active until fresh exact-SHA review, human approval, protected merge, verified `main`, and Issue #76 closeout are proven. |
+| R-H1-18 | PR-body exact-head and commit-count evidence can become stale after the correction commit. | Event-invariant mitigation implemented in this commit; current remote delivery, PR-body, workflow, and review state require live GitHub verification before the next gate. | Active until fresh exact-SHA review, human approval, protected merge, verified `main`, and Issue #76 closeout are proven. |
 
 Nine unresolved H1 engineering decisions remain: `P0_02` exact current product PR-head mechanism; `P0_03` trusted default-branch/main binding; `P1_01` immutable reusable-workflow provenance; `P1_03` strict YAML/schema strategy; `P1_04` deterministic evaluation time; `P1_05` GitHub-applicable ruleset payload; `RT_P0_04` external trusted file oracle; `RT_P1_06` policy-bound runtime limits; and `RT_P2_07` duplicate JSON-key rejection. No local H1 candidate is accepted.
 

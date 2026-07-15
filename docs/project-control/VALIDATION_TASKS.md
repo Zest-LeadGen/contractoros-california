@@ -374,3 +374,47 @@ FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
 | VAL-H1-R5-004 | Re-run deterministic whole-PR stale-state assertions. | Reinspect all 31 paths after correction; evaluate each required entity in its complete heading, row, paragraph, or record context. | Zero current-active claims for Issue #47, Issue #45, PR #46, Phase 4K-8, Issue #49, PR #50, or PR #15; history preserved; Issue #58/PR #75 recovery and all stop boundaries remain explicit. | Passed: every required legacy lifecycle reference is explicitly historical or a non-authorizing technical-risk record; Issue #58/PR #75 and all stop boundaries remain current. |
 | VAL-H1-R5-005 | Run focused and complete local validation. | Required seven focused commands plus the full continuity/control/parse/diff sequence from the owner packet. | All non-tolerated commands pass; continuity count is 336. | Passed before staging: all focused and complete commands passed; continuity count is 336. |
 | VAL-H1-R5-006 | Bind later acceptance to the resulting exact head. | One normal commit, one non-force push, exact-new-head workflow inspection, and fresh independent whole-PR review. | Pre-marker checks pass; marker fails only because absent; later steps skip; fresh exact-SHA review remains required. | Developer delivery pending; no marker, approval, merge, closeout, or H1 bootstrap authorized. |
+
+## H1 Issue #76 Next-Window Handoff Contract Validation
+
+The initial Developer validation and R1 correction evidence below are historical. R2 reviewed the R1 correction head and required this separately authorized six-file, event-invariant lifecycle correction (documentation scope).
+
+```text
+INITIAL_DEVELOPER_DELIVERY=COMPLETED_AT_486a55dd17b578ad2dcbee1f05debb5337e7a32c
+R1_RESULT=CHANGES_REQUESTED
+R1_FINDING_1=R1-OUTPUT-ORDER-001
+R1_FINDING_2=R1-STATE-002
+R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92
+R2_RESULT=CHANGES_REQUESTED
+R2_FINDING_1=R2-STATE-001
+R2_FINDING_2=R2-TEST-001
+R2_CORRECTION_AUTHORITY_COMMENT=4984934461 # documentation scope
+R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
+PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
+EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
+```
+
+| ID | Task | Method | Expected result | Status |
+|---|---|---|---|---|
+| VAL-H1-76-001 | Verify historical initial authorized starting state. | Documentation-scope fetch of `main`; compare local, origin, and fetched live SHA; inspect worktree, issues, target branch, and existing PRs. | All main refs equal `98aa418aca568eca0c98cedb017488c711bb50ed`; clean worktree; Issues #76 and #58 open; the initial delivery branch and PR had not yet been created. | Passed before the historical initial implementation mutation. |
+| VAL-H1-76-002 | Prove the ordered Codex prompt profile remains unchanged. | Existing and new governance tests plus exact field-order/count assertions. | Ten ordered prompt-profile fields remain in their prior order. | Passed in focused and complete continuity validation. |
+| VAL-H1-76-003 | Prove the explicit navigation contract remains in governing documents. | Focused static tests over the red-team protocol, prompt convention, handoff playbook, and startup-packet specification. | Ten field labels, role/surface enums, no-window sentinels, direct-link rule, navigation-only boundary, and private-chat limitation are present. | Passed in focused and complete continuity validation. |
+| VAL-H1-76-004 | Run the focused continuity module. | `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest scripts.continuity.tests.test_red_team_continuity` | All continuity tests pass without bytecode writes. | Passed: 342 tests. |
+| VAL-H1-76-005 | Run complete continuity discovery. | `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'` | All continuity tests pass without regression. | Passed: 342 tests. |
+| VAL-H1-76-006 | Run all required local control checks. | Nine named control/diff commands from Issue #76. | Every control passes without workflow or validator changes. | Passed: all nine commands returned zero. |
+| VAL-H1-76-007 | Verify exact bounded file and claim surface. | Name-status, allowlist, field counts, sentinel searches, and private-chat overclaim review. | Eleven authorized paths only; one new report; zero deletion, rename, workflow, product, runtime, schema, or fixture changes. | Passed: 10 modified paths, one new report, and zero forbidden paths or positive private-chat enforcement overclaims. |
+| VAL-H1-76-008 | Bind the initial delivery to the exact PR head. | Historical initial commit, push, non-draft PR, exact live metadata, and workflow inspection. | Initial delivery is bound to `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 findings govern subsequent correction work. | Initial Developer delivery completed at `486a55dd17b578ad2dcbee1f05debb5337e7a32c`; R1 returned `CHANGES_REQUESTED`. |
+| VAL-H1-76-009 | Validate canonical final response ordering. | Run the four named deterministic Issue #76 ordering/current-state tests directly and within full continuity discovery. | Product stage, lifecycle table, chart/fallback when required, and navigation appear in that semantic order; navigation is the sole absolute final response element. | Passed: four named focused tests and both 344-test continuity runs; fresh independent exact-SHA verification pending. |
+| VAL-H1-76-010 | Prove conflicting chart-final language is absent. | Search the three governing files for every prohibited chart-final phrase and run the semantic regression test. | Zero conflicting chart-final instructions remain. | Passed: conflicting chart-final language count is zero; fresh independent exact-SHA verification pending. |
+| VAL-H1-76-011 | Preserve historical R1 validation evidence. | Keep initial-delivery and R1 results distinct from R2 current-state assertions. | Historical initial and R1 facts remain explicit without asserting mutable post-R2 GitHub state. | Historical evidence retained. |
+| VAL-H1-76-012 | Verify event-invariant lifecycle fields across the five active project-control records. | Static regression tests require every current record to distinguish R2 implementation from mutable GitHub state. | All five records contain the required `THIS_COMMIT`, `LIVE_GITHUB_REQUIRED`, and next-gate fields. | This commit. |
+| VAL-H1-76-013 | Reject stale post-correction instructions. | Static regression tests search active/current Issue #76 sections case-insensitively for delivery, commit, push, body-replacement, and workflow instructions represented as repository facts. | No active record directs recreation of a mutable GitHub action; historical evidence remains separately classified. | This commit. |
+| VAL-H1-76-014 | Verify exact six-file R2 correction scope. | Compare working-tree and staged name-status to the R2 allowlist. | Exactly six existing files changed; zero new files, deletions, renames, navigation-governing-file, workflow, validator, runtime/schema/fixture, or product/production changes. | This commit. |
+| VAL-H1-76-015 | Preserve navigation-order governing documents. | Inspect the cumulative PR and correction diff. | No R2 modification to `RED_TEAM_OPERATING_PROTOCOL.md`, `PROMPT_CONVENTION.md`, `HANDOFF_PLAYBOOK.md`, or `RED_TEAM_STARTUP_PACKET_SPEC.md`. | This commit. |
+| VAL-H1-76-016 | Verify one controlled PR-body replacement only through live evidence. | Retrieve live PR body after correction delivery; validate a body-only proposal and its hashes before the single authorized update (documentation scope). | Mutable body state is `LIVE_GITHUB_REQUIRED`; one replacement is accepted only after live verification. | Live GitHub required. |
+| VAL-H1-76-017 | Verify the exact-head workflow only through live evidence. | Retrieve live workflow, review, and issue evidence for the live PR head after body verification. | Mutable workflow and review states are `LIVE_GITHUB_REQUIRED`; a fresh whole-PR review follows live verification. | Live GitHub required. |

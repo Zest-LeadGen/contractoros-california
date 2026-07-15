@@ -55,6 +55,15 @@ Purpose: record durable architectural and process decisions.
 - Red-team must classify lifecycle state before giving next steps, commands, options, next-phase prompts, or implementation guidance.
 - Red-team command guidance must include expected success output, failure indicators, stop conditions, and the next allowed action after confirmation.
 - Future red-team responses must include the project progress snapshot unless the response is only a brief acknowledgment or the owner explicitly asks for no progress section.
+- Issue #76 requires every substantive active-project red-team response and handoff to end with an explicit next-window navigation block naming the next role, surface, action, direct GitHub targets, independently pasteable AI prompt when applicable, and exact stop conditions.
+- The Issue #76 navigation block is navigation only. It creates no implementation, repository-write, review, approval, red-team-decision, merge, closeout, credential, governance-bootstrap, product, production, or next-packet authority and permits no automatic continuation.
+- Repository tests may protect committed handoff templates, generated prompts, startup guidance, and project-control artifacts from silent drift, but cannot inspect or technically enforce every private ChatGPT response; live compliance remains behavioral.
+- The canonical final response order is exactly: product development stage; current lifecycle table; interactive chart or compact fallback when required; exact next-window navigation block as the absolute final response element.
+- The chart or compact fallback is penultimate. The navigation block is the sole absolute final response element, and nothing follows navigation.
+- The chart or fallback may be omitted only under the documented compact path. Active project work still requires the explicit final navigation block.
+- The navigation block remains `NAVIGATION_ONLY`, creates no authority, and authorizes no automatic continuation.
+- R1 review of PR #77 at `486a55dd17b578ad2dcbee1f05debb5337e7a32c` found the initial implementation internally contradictory and returned `CHANGES_REQUESTED` through `R1-OUTPUT-ORDER-001` and `R1-STATE-002`.
+- Documentation scope: Issue #76 comment `4984310758` authorizes one bounded ten-file correction; the resulting exact PR head requires a fresh independent whole-PR exact-SHA review before any later gate.
 - The Phase 4J-4 progress snapshot baseline is a governance estimate only and does not make product-readiness, exam-readiness, public-launch, pass/fail, production, build, backend, Firebase, auth, cloud, or distribution claims.
 - Phase 4K-0 is a control/planning re-entry gate only and does not authorize product implementation.
 - The durable no-memory-only owner directive from Issue #24 applies to Phase 4K-0 and future ContractorOS work: if a material approval, decision, scope, condition, closeout, protocol update, or operating rule is not recorded in GitHub/project-control evidence, it is not durable.
