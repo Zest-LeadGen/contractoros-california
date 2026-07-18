@@ -16,7 +16,7 @@ Control / Infrastructure
 
 ## Scope
 
-One exact child issue, one exact branch, twelve cumulative documentation paths, one original implementation commit, one bounded eight-file correction commit, normal pushes, and one existing draft pull request. This scope grants no H0 closeout, H1, H7A, H8, product, production, settings, connector, security-feature, approval, review, merge, issue-close, or automatic-continuation authority.
+One exact child issue, one exact branch, an original twelve-document Issue #80 intake allowlist, a later owner-authorized one-file continuity-test expansion, thirteen cumulative PR paths, one nine-file R1 correction commit, one four-file R2 correction commit, normal pushes, and one existing draft pull request. This scope grants no H0 closeout, H1, H7A, H8, product, production, settings, connector, security-feature, approval, review, merge, issue-close, or automatic-continuation authority.
 
 ```text
 PACKET_ID=H0-DURABLE-FINDINGS-DOCS-R2
@@ -29,6 +29,13 @@ AI_DECISION_ID=OD-H0-AI-001
 OWNER_AMENDMENT_ID=OD-H0-GOV-001-A1
 EVIDENCE_ARCHIVE_SHA256=e7e1e141f2691c4f8782e64afc74dce39dba799908de84afb94891ecb139b0b2
 EVIDENCE_MANIFEST_SHA256=9e8292380b16db689cc8351d4e1674c73a787d19faa553cf5a511483af9b24a3
+INITIAL_ISSUE80_ALLOWLIST_COUNT=12
+R1_ORIGINAL_DOCUMENT_CORRECTION_FILE_COUNT=8
+R1_AUTHORIZED_ADDITIONAL_TEST_FILE_COUNT=1 # documentation scope
+R1_CORRECTION_CHANGED_FILE_COUNT=9
+CUMULATIVE_PR_CHANGED_FILE_COUNT=13
+R2_CORRECTION_CHANGED_FILE_COUNT=4
+AUTHORIZED_ADDITIONAL_PATH=scripts/continuity/tests/test_red_team_continuity.py # documentation scope
 ```
 
 Base authority (documentation scope): https://github.com/Zest-LeadGen/contractoros-california/issues/70#issuecomment-5008937720
@@ -67,7 +74,11 @@ Updated:
 - `docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md`
 - `docs/project-control/DEVELOPMENT_LEDGER.md`
 
-No other path may differ from the starting main.
+Later owner-authorized R1 expansion (documentation scope):
+
+- `scripts/continuity/tests/test_red_team_continuity.py`
+
+The original Issue #80 intake contained twelve documentation paths. R1-A3 later added the continuity test only for the bounded correction, producing nine changed files in the R1 correction commit and thirteen cumulative PR paths. R2 did not classify that test mutation as unauthorized; it found that the durable records omitted the complete lineage and resulting counts. No other path may differ from the starting main or the later exact authority chain.
 
 ## Commands Run
 
@@ -105,24 +116,46 @@ The historical observations remain preserved: 1 open PR, 27 open issues, 28 tota
 
 For `RT-H0-APP-002`, review-thread evidence is historical observation only and `PERMISSION_EVIDENCE=NO`. `VAL-H8-AI-004` requires live application and OAuth permission-detail evidence, while `VAL-H8-AI-003` remains reserved for future revocation and least-privilege implementation testing. Issue #79 controls deferral requirements; `VAL-H0-DEFER-001` validates the seven-field extension recorded by the findings register, which does not replace the master roadmap.
 
-## Independent Red Team R1 Correction
+## Independent Red Team R1 And R2 Correction History
 
 ```text
 R1_REVIEW_ID=RT-PR81-R1
 R1_REVIEWED_HEAD=b53efedca558993ecbd8abd11de16c4ff86ad1f1
 R1_DECISION=CHANGES_REQUESTED
+R1_BASE_COMMENT_ID=5009524634
+R1_A1_COMMENT_ID=5009601637
 R1_BASE_AUTHORITY_COMMENT_ID=5009524634 # documentation scope
 R1_AUTHORITY_AMENDMENT_COMMENT_ID=5009601637 # documentation scope
+R1_A2_COMMENT_ID=5009689695
+R1_A3_COMMENT_ID=5009759690
+R1_A4_COMMENT_ID=5009887710
+R1_A5_COMMENT_ID=5009952109
+R1_A6_BODY_ONLY_COMMENT_ID=5012831025
+R1_ORIGINAL_DOCUMENT_CORRECTION_FILE_COUNT=8
+R1_AUTHORIZED_ADDITIONAL_TEST_FILE_COUNT=1 # documentation scope
+R1_CORRECTION_CHANGED_FILE_COUNT=9
+CUMULATIVE_PR_CHANGED_FILE_COUNT=13
+AUTHORIZED_ADDITIONAL_PATH=scripts/continuity/tests/test_red_team_continuity.py # documentation scope
 R1_FINDING_1=R1-AUTH-STATE-001 # documentation scope
 R1_FINDING_2=R1-FRESHNESS-001
 R1_FINDING_3=R1-TRACE-001
 R1_FINDING_4=R1-DEFER-001
 R1_CORRECTION_STATE=IMPLEMENTED_IN_THIS_CORRECTION_COMMIT
+R2_REVIEW_ID=RT-PR81-R2
+R2_REVIEWED_HEAD=74d2c76c1b9b63fea6238f587de347eaca450c7a
+R2_DECISION=CHANGES_REQUESTED
+R2_FINDING=R2-AUTH-SCOPE-001
+R2_FINDING_CLASSIFICATION=IMPLEMENTED_PENDING_FRESH_R3_REVIEW_AFTER_DELIVERY # documentation scope
+R2_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
+R2_CORRECTION_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
+R2_CORRECTION_FILE_COUNT_AUTHORIZED=4 # documentation scope
 CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
-CURRENT_RED_TEAM_REVIEW_STATE=FRESH_R2_REQUIRED
+CURRENT_RED_TEAM_REVIEW=FRESH_R3_REQUIRED_AFTER_DELIVERY
+CURRENT_RED_TEAM_REVIEW_STATE=FRESH_R3_REQUIRED_AFTER_DELIVERY
+MERGE_ELIGIBLE=NO
 ```
 
-R1 did not pass. No R2 review exists in this correction record, and no machine-checkable Red-Team decision marker is added. The only next action after live delivery readback is fresh independent whole-PR R2 review of the exact new head.
+R1 and R2 are historical `CHANGES_REQUESTED` evidence bound to their reviewed heads. R2 found only the durable authority-lineage and path-count defect; it did not classify the earlier continuity-test mutation as unauthorized and did not change any underlying durable finding. No machine-checkable Red-Team decision marker is added. The only next action after live delivery readback is fresh independent whole-PR R3 review of the exact new head.
 
 ## Validation Evidence
 
@@ -174,6 +207,10 @@ Executed validation commands:
 
 Added `R-H0-AUTH-001`, `R-H0-DISP-001`, `R-H0-BRANCH-001`, `R-H8-AI-001`, `R-H7A-SEC-001`, `R-H7A-SUPPLY-001`, and `R-H8-AI-002`, each with current control, status, owner, evidence, resolution condition, and review date. No underlying risk is represented as resolved.
 
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
+
+The R2 correction changes authority-lineage documentation and its regression coverage only. It creates no new underlying risk and changes no existing risk ID, status, owner, evidence, resolution condition, or review date. Therefore, no `RISK_REGISTER.md` file mutation is required or authorized.
+
 ## Decision Log Impact
 
 `docs/project-control/DECISION_LOG.md: reviewed, no update required`
@@ -198,10 +235,10 @@ Rationale: P0 H0 findings remain unresolved and the durable lifecycle and supers
 
 ## Red-Team Status
 
-R1 returned `CHANGES_REQUESTED` against `b53efedca558993ecbd8abd11de16c4ff86ad1f1`. The four bounded corrections are implemented in this correction commit. Fresh independent R2 whole-PR review is required against the exact new live draft-PR head. The developer has not acted as Red Team, has not added review-decision evidence, and has not approved any finding, PR, or lifecycle transition.
+R1 returned `CHANGES_REQUESTED` against `b53efedca558993ecbd8abd11de16c4ff86ad1f1`; its semantic corrections remain preserved. R2 returned `CHANGES_REQUESTED` against `74d2c76c1b9b63fea6238f587de347eaca450c7a` for `R2-AUTH-SCOPE-001`. This four-file correction implements only that lineage and scope reconciliation. Fresh independent R3 whole-PR review is required against the exact new live draft-PR head. The developer has not acted as Red Team, has not added review-decision evidence, and has not approved or resolved any underlying finding, PR, or lifecycle transition.
 
 ```text
-CURRENT_RED_TEAM_REVIEW_STATE=FRESH_R2_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=FRESH_R3_REQUIRED_AFTER_DELIVERY
 NEXT_ACTOR=INDEPENDENT_RED_TEAM
 ```
 
@@ -235,7 +272,7 @@ Documentation and traceability only. This report proves neither resolution of an
 - Private raw UI evidence is represented only by owner-accepted public-safe identifiers and hashes; it is not committed.
 - The H0 findings schema and validation contracts are Markdown documentation; H1-B1A-G machine enforcement is not implemented by this packet.
 - Underlying H0, H7A, and H8 findings remain unresolved, deferred, or accepted for roadmap as recorded.
-- The correction commit, remote branch, exact draft-PR head, checks, and PR body remain `LIVE_GITHUB_REQUIRED` until correction delivery is read back; R2, merge, and closeout are not authorized.
+- Documentation scope: the R2 correction commit, remote branch, exact draft-PR head, checks, and PR body remain `LIVE_GITHUB_REQUIRED` until correction delivery is read back; R3 review, merge, and closeout remain pending or unauthorized.
 
 ## Branch, Commit, And Draft-PR Evidence
 
@@ -244,6 +281,7 @@ BRANCH_NAME=h0-durable-red-team-findings
 BRANCH_BASE_SHA=306ffff91521da849ac5207c6afe67afed1f889b
 IMPLEMENTATION_COMMIT=LIVE_GITHUB_REQUIRED
 R1_CORRECTION_COMMIT=LIVE_GITHUB_REQUIRED
+R2_CORRECTION_COMMIT=LIVE_GITHUB_REQUIRED
 DRAFT_PR=LIVE_GITHUB_REQUIRED
 PR_HEAD_SHA=LIVE_GITHUB_REQUIRED
 PR_CHECKS=LIVE_GITHUB_REQUIRED
@@ -255,7 +293,7 @@ This event-invariant record is resolved only through post-event live GitHub read
 
 ## Next Phase Status
 
-No next phase is authorized. After correction delivery and live readback, the only next action is fresh independent R2 review of the exact live PR head and durable finding records.
+No next phase is authorized. After correction delivery and live readback, the only next action is fresh independent R3 review of the exact live PR head and durable finding records.
 
 ```text
 H0_CLOSEOUT_AUTHORITY=NONE # documentation scope

@@ -77,7 +77,7 @@ The former Issue #58 project-control reconciliation boundary is historical. Prod
 
 ## H0 Durable Finding Authority — Documentation Scope
 
-The following owner decisions jointly authorize only Issue #80 and its bounded twelve-path documentation pull request:
+The original Issue #80 intake authority covered exactly twelve documentation paths. The later additive R1-A3 authority added one continuity-test path for the bounded R1 correction; that expansion produced a nine-file R1 correction commit and thirteen cumulative PR paths. R2 did not classify the continuity-test mutation as unauthorized. Its finding is that the durable committed records did not preserve the complete authority chain and actual resulting path counts.
 
 ```text
 OWNER_DECISION_ID=OD-H0-GOV-001
@@ -85,8 +85,30 @@ AI_DECISION_ID=OD-H0-AI-001
 OWNER_AMENDMENT_ID=OD-H0-GOV-001-A1
 BASE_OWNER_COMMENT_ID=5008937720
 AMENDMENT_COMMENT_ID=5009133733
+INITIAL_ISSUE80_ALLOWLIST_COUNT=12
+R1_BASE_COMMENT_ID=5009524634
+R1_A1_COMMENT_ID=5009601637
 R1_BASE_CORRECTION_COMMENT_ID=5009524634
 R1_CORRECTION_AMENDMENT_COMMENT_ID=5009601637
+R1_A2_COMMENT_ID=5009689695
+R1_A3_COMMENT_ID=5009759690
+R1_A4_COMMENT_ID=5009887710
+R1_A5_COMMENT_ID=5009952109
+R1_A6_BODY_ONLY_COMMENT_ID=5012831025
+R1_ORIGINAL_DOCUMENT_CORRECTION_FILE_COUNT=8
+R1_AUTHORIZED_ADDITIONAL_TEST_FILE_COUNT=1 # documentation scope
+R1_CORRECTION_CHANGED_FILE_COUNT=9
+CUMULATIVE_PR_CHANGED_FILE_COUNT=13
+AUTHORIZED_ADDITIONAL_PATH=scripts/continuity/tests/test_red_team_continuity.py # documentation scope
+R2_REVIEW_ID=RT-PR81-R2
+R2_REVIEWED_HEAD=74d2c76c1b9b63fea6238f587de347eaca450c7a
+R2_DECISION=CHANGES_REQUESTED
+R2_FINDING=R2-AUTH-SCOPE-001
+R2_FINDING_CLASSIFICATION=IMPLEMENTED_PENDING_FRESH_R3_REVIEW_AFTER_DELIVERY # documentation scope
+R2_CORRECTION_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
+R2_CORRECTION_FILE_COUNT_AUTHORIZED=4 # documentation scope
+CURRENT_RED_TEAM_REVIEW=FRESH_R3_REQUIRED_AFTER_DELIVERY
+MERGE_ELIGIBLE=NO
 AUTHORITY_EXPANSION=NO # documentation scope
 H0_CLOSEOUT_AUTHORITY=NONE # documentation scope
 H1_AUTHORITY=NONE # documentation scope
@@ -97,7 +119,7 @@ MERGE_AUTHORITY=NONE # documentation scope
 AUTOMATIC_CONTINUATION=NO
 ```
 
-The base comment remains binding and the amendment adds machine-readable aliases without superseding or expanding it. The canonical finding records are in `RED_TEAM_FINDINGS_REGISTER.md`.
+The base owner decision and amendment remain binding. R1 comments A1 through A5 are additive correction history; A3 alone adds the single test path, while A2, A4, and A5 preserve or refine execution predicates without broader scope. A6 is body-only repair history. R2 comment `5012982298` authorizes only the four-file correction recorded above and requires a fresh independent R3 review of the resulting exact head. The canonical seven finding records remain unchanged in `RED_TEAM_FINDINGS_REGISTER.md`.
 
 For this finding set, Issue #79 controls sequence, dependencies, conflicts, deferrals, and exit criteria. The findings register records finding status, version, and history subject to Issue #79; it does not outrank or replace the master roadmap. Issue #67 controls H0 evidence disposition and closeout. Exact child issues and pull requests implement only their allowlists within owner authority. Independent exact-head review classifies only the reviewed implementation. Live GitHub controls mutable facts but creates no authority.
 

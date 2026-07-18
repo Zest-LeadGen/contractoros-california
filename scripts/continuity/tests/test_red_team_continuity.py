@@ -26,6 +26,10 @@ RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
 HANDOFF_PLAYBOOK = ROOT / "docs/project-control/HANDOFF_PLAYBOOK.md"
 STARTUP_PACKET_SPEC = ROOT / "docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"
 DEVELOPMENT_LEDGER = ROOT / "docs/project-control/DEVELOPMENT_LEDGER.md"
+AUTHORITY_INDEX = ROOT / "docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md"  # documentation scope
+H0_DURABLE_FINDING_REPORT = (
+    ROOT / "docs/project-control/phase_h0_durable_red_team_finding_governance_report.md"
+)
 VALIDATION_TASKS = ROOT / "docs/project-control/VALIDATION_TASKS.md"
 ISSUE76_PHASE_REPORT = ROOT / "docs/project-control/phase_h1_next_window_handoff_contract_gate_report.md"
 RISK_REGISTER = ROOT / "docs/project-control/RISK_REGISTER.md"
@@ -1476,6 +1480,36 @@ class GovernanceHardeningTests(unittest.TestCase):
             protocol,
         )
 
+    def test_pr81_r2_authority_lineage_and_scope_are_reconciled(self):
+        required = (
+            "5009689695",
+            "5009759690",
+            "5009887710",
+            "5009952109",
+            "5012831025",
+            "5012982298",
+            "INITIAL_ISSUE80_ALLOWLIST_COUNT=12",
+            "R1_CORRECTION_CHANGED_FILE_COUNT=9",
+            "CUMULATIVE_PR_CHANGED_FILE_COUNT=13",
+            "scripts/continuity/tests/test_red_team_continuity.py",
+            "RT-PR81-R2",
+            "R2-AUTH-SCOPE-001",
+            "FRESH_R3_REQUIRED",
+        )
+        stale_current_scope_claims = (
+            "twelve cumulative documentation paths",
+            "one bounded eight-file correction commit",
+            "Exact twelve-path Issue #80 documentation allowlist",
+            "bounded twelve-path documentation pull request",
+        )
+        for path in (AUTHORITY_INDEX, DEVELOPMENT_LEDGER, H0_DURABLE_FINDING_REPORT):  # documentation scope
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                for value in required:
+                    self.assertIn(value, text)
+                for phrase in stale_current_scope_claims:
+                    self.assertNotIn(phrase, text)
+
     def test_conflicting_nothing_after_chart_language_is_absent(self):
         forbidden = (
             "chart at the absolute bottom",
@@ -1596,7 +1630,7 @@ class GovernanceHardeningTests(unittest.TestCase):
         self.assertIn("Implementation commit: LIVE_GITHUB_REQUIRED", ledger)
         self.assertIn("Pull request head: LIVE_GITHUB_REQUIRED", ledger)
         self.assertIn("Merge and closeout: LIVE_GITHUB_REQUIRED", ledger)
-        self.assertIn("FRESH_R2_REQUIRED_AFTER_LIVE_DELIVERY_READBACK", ledger)
+        self.assertIn("FRESH_R3_REQUIRED_AFTER_LIVE_DELIVERY_READBACK", ledger)
         traceability = current["REQUIREMENTS_TRACEABILITY_MATRIX.md"]
         self.assertIn("current totals are `LIVE_GITHUB_REQUIRED`", traceability)
         self.assertIn("pagination-complete live H0 refresh", traceability)
