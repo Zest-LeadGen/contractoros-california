@@ -45,14 +45,25 @@ Validation task status must be updated by repo evidence, not memory.
 | `VAL-H0-DELETE-001` | No silent deletion | Diff register IDs and versions against the prior protected main. | Removed finding without exact preserved supersession evidence blocks. | Documented manual contract; not automated. |
 | `VAL-H0-RESOLVE-001` | Resolution evidence | Verify issue, PR, reviewed head, tests, independent result, human approval, protected merge, current main, closeout, and fresh live evidence where applicable. | Missing applicable evidence prevents `COMPLETED_AND_VERIFIED`. | Documented manual contract; not automated. |
 | `VAL-H0-STALE-001` | Stale evidence detection | Compare observation date, expiry, registered retest triggers, and live GitHub. | Triggered or expired evidence becomes `EVIDENCE_STALE_REVERIFICATION_REQUIRED`. | Documented manual contract; not automated. |
+| `VAL-H0-DEFER-001` | Valid deferral extension contract | Find every record with `CURRENT_STATUS=VALIDLY_DEFERRED`; require all seven extension fields; reject empty, placeholder, circular, or unresolvable values; require a responsible gate, revisit trigger, expiry or maximum review date, preservation evidence, and explicit prohibited interim actions; fail when Issue #79 requirements are not satisfied. | `INVALID_OR_INCOMPLETE_DEFERRAL=BLOCK` | Documented manual contract; not automated. |
 | `VAL-H0-STARTUP-001` | Startup-packet finding coverage | Verify all seven startup fields and all affected IDs against the exact register ref/main SHA. | Omitted, stale, conflicting, or unauthorized finding evidence blocks the affected gate within documentation scope. | Documented manual contract; collector automation not implemented for this schema. |
 | `VAL-H0-HANDOFF-001` | Handoff finding coverage | Verify all seven handoff fields and exact IDs/classifications. | No affected finding silently disappears between windows. | Documented manual contract; not automated. |
 | `VAL-H8-AI-001` | App-permission drift review | Re-read connector scope, repositories, permission grants, principals, provider roles, and organization policy. | Drift is recorded as a changed or new finding before H8 action. | Manual; required on registered triggers. |
 | `VAL-H8-AI-002` | Repository-transfer revalidation | Compare pre-transfer and post-transfer app installations, access scope, permissions, principals, and organization policy. | Any unreviewed difference blocks H8 closeout and H9 assurance. | Manual; transfer is not authorized by this packet. |
 | `VAL-H8-AI-003` | H8 revocation and least-privilege tests | Test selected-repository restriction, separate developer/reviewer principals, revocation, denied unauthorized repositories, and audit attribution. | All owner-approved least-privilege and revocation cases pass with independent evidence. | Not started; H8 implementation not authorized. |
+| `VAL-H8-AI-004` | AI and OAuth permission detail evidence capture | For `CLAUDE`, `COPILOT_CHAT_APP`, `COPILOT_SWE_AGENT`, and `GITHUB_DESKTOP_OAUTH`, capture exact application name, application type, exact permissions or OAuth scopes, repository or organization access where applicable, observation timestamp, evidence source, and reviewer classification; infer nothing from application presence alone. | `MISSING_PERMISSION_DETAILS_BLOCK_H8_IMPLEMENTATION` | Not started; live evidence is required before H8 implementation or any permission change. |
 | `VAL-H7A-SEC-001` | H7A security-setting revalidation | Live-read each named security setting and prove operative dependencies such as CodeQL before relying on downstream features. | Dated values and operative/inoperative status are explicit; discrepancies block. | Not started; H7A implementation not authorized. |
 | `VAL-H7A-SUPPLY-001` | Full-SHA action reference | Inspect workflow at exact head and verify each governed third-party action reference against the approved full commit SHA. | Mutable tags fail the H7A contract. | Not started; workflow change not authorized. |
 | `VAL-H9-FIND-001` | Permission drift and finding-closure assurance | Re-run all finding freshness, resolution, permission, security, supply-chain, and supersession contracts against current main and live GitHub. | No known unresolved blocking finding is represented as closed; residual risks have exact owner acceptance and expiry. | Not started; H9 assurance not authorized. |
+
+```text
+VALIDATION_ID=VAL-H8-AI-004
+TITLE=AI_AND_OAUTH_PERMISSION_DETAIL_EVIDENCE_CAPTURE # documentation scope
+VALIDATION_ID=VAL-H0-DEFER-001
+TITLE=VALID_DEFERRAL_EXTENSION_CONTRACT
+```
+
+`VAL-H8-AI-003` is reserved only for future revocation and least-privilege implementation testing. Issue #79 controls deferral requirements; the findings register records compliance and does not replace the master roadmap.
 
 ## Phase 4K-7 Tasks
 

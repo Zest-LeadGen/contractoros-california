@@ -1489,42 +1489,79 @@ class GovernanceHardeningTests(unittest.TestCase):
                 for phrase in forbidden:
                     self.assertNotIn(phrase, text)
 
-    def issue76_active_records(self):
-        ledger = self.text(DEVELOPMENT_LEDGER).split("## Historical Ledger Entries", 1)[0]
-        validation = self.text(VALIDATION_TASKS).split(
-            "## H1 Issue #76 Next-Window Handoff Contract Validation", 1
-        )[1]
-        report = self.text(ISSUE76_PHASE_REPORT)
-        risk = self.text(RISK_REGISTER).split(
-            "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
-        )[0]
-        traceability = self.text(REQUIREMENTS_TRACEABILITY_MATRIX).split(
-            "## H1 Issue #76 Next-Window Handoff Contract", 1
-        )[1]
+    def issue76_lifecycle_records(self):
+        ledger = self.text(DEVELOPMENT_LEDGER)
+        risk = self.text(RISK_REGISTER)
         return {
-            "DEVELOPMENT_LEDGER.md": ledger,
-            "VALIDATION_TASKS.md": validation,
-            "phase_h1_next_window_handoff_contract_gate_report.md": report,
-            "RISK_REGISTER.md": risk,
-            "REQUIREMENTS_TRACEABILITY_MATRIX.md": traceability,
+            "current": {
+                "DEVELOPMENT_LEDGER.md": ledger.split(
+                    "## Historical Ledger Entries", 1
+                )[0],
+                "RISK_REGISTER.md": risk.split(
+                    "## Historical Issue #76 Lifecycle And Continuing H1 Technical Risks",
+                    1,
+                )[0],
+                "REQUIREMENTS_TRACEABILITY_MATRIX.md": self.text(
+                    REQUIREMENTS_TRACEABILITY_MATRIX
+                ).split("## Historical Phase 4J-0 Traceability", 1)[0],
+            },
+            "terminal": {
+                "DEVELOPMENT_LEDGER.md": ledger.split(
+                    "### Historical H1 Issue #76 — Explicit Next-Window Handoff Contract",
+                    1,
+                )[1].split("### Historical H1 Recovery Project-Control Reconciliation", 1)[0],
+                "RISK_REGISTER.md": risk.split(
+                    "## Historical Issue #76 Lifecycle And Continuing H1 Technical Risks",
+                    1,
+                )[1].split(
+                    "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
+                )[0],
+            },
+            "historical": {
+                "DEVELOPMENT_LEDGER.md": ledger.split(
+                    "### Historical H1 Issue #76 — Explicit Next-Window Handoff Contract",
+                    1,
+                )[1].split("### Historical H1 Recovery Project-Control Reconciliation", 1)[0],
+                "VALIDATION_TASKS.md": self.text(VALIDATION_TASKS).split(
+                    "## H1 Issue #76 Next-Window Handoff Contract Validation", 1
+                )[1],
+                "phase_h1_next_window_handoff_contract_gate_report.md": self.text(
+                    ISSUE76_PHASE_REPORT
+                ),
+                "RISK_REGISTER.md": risk.split(
+                    "## Historical Issue #76 Lifecycle And Continuing H1 Technical Risks",
+                    1,
+                )[1].split(
+                    "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
+                )[0],
+                "REQUIREMENTS_TRACEABILITY_MATRIX.md": self.text(
+                    REQUIREMENTS_TRACEABILITY_MATRIX
+                ).split("## H1 Issue #76 Next-Window Handoff Contract", 1)[1],
+            },
         }
 
-    def test_issue76_active_records_use_event_invariant_lifecycle_fields(self):
-        required = (
-            "R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT",
-            "CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED",
-            "REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED",
-            "PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED",
-            "EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED",
-            "CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED",
-            "NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION",
-        )
-        for path, text in self.issue76_active_records().items():
-            with self.subTest(path=path):
-                for field in required:
-                    self.assertIn(field, text)
+    def test_issue76_terminal_records_preserve_completed_lifecycle_evidence(self):
+        terminal = self.issue76_lifecycle_records()["terminal"]
+        ledger = terminal["DEVELOPMENT_LEDGER.md"]
+        for field in (
+            "ISSUE_76_STATE=closed",
+            "ISSUE_76_STATE_REASON=completed",
+            "ISSUE_76_CLOSED_AT=2026-07-15T21:11:51Z",
+            "PR_77_STATE=closed",
+            "PR_77_MERGED=true",
+            "PR_77_HEAD_SHA=9831c2ddbba61e7e2c9a5f35534dc9c967bfb289",
+            "PR_77_MERGE_SHA=306ffff91521da849ac5207c6afe67afed1f889b",
+            "PR_77_MERGED_AT=2026-07-15T21:11:13Z",
+        ):
+            self.assertIn(field, ledger)
+        risk = terminal["RISK_REGISTER.md"]
+        self.assertIn("Issue #76 is `closed/completed`", risk)
+        self.assertIn("ISSUE_76_LIFECYCLE=COMPLETED", risk)
+        self.assertIn("PR_77_LIFECYCLE=MERGED_AND_MAIN_VERIFIED", risk)
+        self.assertIn("9831c2ddbba61e7e2c9a5f35534dc9c967bfb289", risk)
+        self.assertIn("306ffff91521da849ac5207c6afe67afed1f889b", risk)
 
-    def test_issue76_active_records_reject_post_correction_pending_actions(self):
+    def test_issue76_current_active_records_reject_stale_pending_actions(self):
         forbidden = (
             "pr: not created",
             "pending developer delivery",
@@ -1539,33 +1576,58 @@ class GovernanceHardeningTests(unittest.TestCase):
             "pr-body replacement pending",
             "workflow verification pending",
         )
-        for path, text in self.issue76_active_records().items():
+        current = self.issue76_lifecycle_records()["current"]
+        for path, text in current.items():
             with self.subTest(path=path):
                 lowered = text.lower()
                 for phrase in forbidden:
                     self.assertNotIn(phrase, lowered)
+                self.assertNotIn("Phase issue: #76", text)
+        self.assertIn("Phase issue: #80", current["DEVELOPMENT_LEDGER.md"])
+        self.assertIn("Pull request: #81", current["DEVELOPMENT_LEDGER.md"])
+        for path in ("RISK_REGISTER.md", "REQUIREMENTS_TRACEABILITY_MATRIX.md"):
+            self.assertIn("Issue #80", current[path])
+            self.assertIn("PR #81", current[path])
 
     def test_issue76_mutable_github_state_requires_live_verification(self):
-        for path, text in self.issue76_active_records().items():
+        records = self.issue76_lifecycle_records()
+        current = records["current"]
+        ledger = current["DEVELOPMENT_LEDGER.md"]
+        self.assertIn("Implementation commit: LIVE_GITHUB_REQUIRED", ledger)
+        self.assertIn("Pull request head: LIVE_GITHUB_REQUIRED", ledger)
+        self.assertIn("Merge and closeout: LIVE_GITHUB_REQUIRED", ledger)
+        self.assertIn("FRESH_R2_REQUIRED_AFTER_LIVE_DELIVERY_READBACK", ledger)
+        traceability = current["REQUIREMENTS_TRACEABILITY_MATRIX.md"]
+        self.assertIn("current totals are `LIVE_GITHUB_REQUIRED`", traceability)
+        self.assertIn("pagination-complete live H0 refresh", traceability)
+        self.assertIn(
+            "current totals require pagination-complete live H0 refresh",
+            current["RISK_REGISTER.md"],
+        )
+        for path, text in records["terminal"].items():
             with self.subTest(path=path):
-                self.assertIn("LIVE_GITHUB_REQUIRED", text)
-                self.assertIn(
+                self.assertNotIn("CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED", text)
+                self.assertNotIn(
                     "NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION",
                     text,
                 )
 
     def test_issue76_historical_evidence_remains_distinct_from_current_state(self):
-        ledger = self.issue76_active_records()["DEVELOPMENT_LEDGER.md"]
-        validation = self.issue76_active_records()["VALIDATION_TASKS.md"]
-        report = self.issue76_active_records()[
-            "phase_h1_next_window_handoff_contract_gate_report.md"
-        ]
-        for text in (ledger, validation, report):
+        historical = self.issue76_lifecycle_records()["historical"]
+        ledger = historical["DEVELOPMENT_LEDGER.md"]
+        validation = historical["VALIDATION_TASKS.md"]
+        report = historical["phase_h1_next_window_handoff_contract_gate_report.md"]
+        traceability = historical["REQUIREMENTS_TRACEABILITY_MATRIX.md"]
+        for text in (ledger, validation, report, traceability):
             self.assertIn("R1_RESULT=CHANGES_REQUESTED", text)
             self.assertIn("R2_RESULT=CHANGES_REQUESTED", text)
             self.assertIn("R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92", text)
+        for text in (validation, report, traceability):
             self.assertIn("R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT", text)
             self.assertIn("CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED", text)
+        risk = historical["RISK_REGISTER.md"]
+        self.assertIn("R2_RESULT=CHANGES_REQUESTED", risk)
+        self.assertIn("R2_CORRECTION_IMPLEMENTATION=HISTORICAL", risk)
         self.assertIn("INITIAL_DEVELOPER_DELIVERY=COMPLETED", ledger)
         self.assertIn("R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92", ledger)
         self.assertIn(

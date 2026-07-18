@@ -16,7 +16,7 @@ Control / Infrastructure
 
 ## Scope
 
-One exact child issue, one exact branch, twelve documentation paths, one commit, one push, and one draft pull request. This scope grants no H0 closeout, H1, H7A, H8, product, production, settings, connector, security-feature, approval, review, merge, issue-close, or automatic-continuation authority.
+One exact child issue, one exact branch, twelve cumulative documentation paths, one original implementation commit, one bounded eight-file correction commit, normal pushes, and one existing draft pull request. This scope grants no H0 closeout, H1, H7A, H8, product, production, settings, connector, security-feature, approval, review, merge, issue-close, or automatic-continuation authority.
 
 ```text
 PACKET_ID=H0-DURABLE-FINDINGS-DOCS-R2
@@ -101,6 +101,29 @@ RT-H0-APP-002=REMAINING_AI_AND_OAUTH_PERMISSION_DETAILS_NOT_PROVEN # documentati
 
 Point-in-time counts, permissions, settings, branch state, PR state, checks, reviews, and merge state are explicitly freshness-bound and are not promoted to permanent policy.
 
+The historical observations remain preserved: 1 open PR, 27 open issues, 28 total open work items, and 37 non-default branches. Evidence for `RT-H0-DISP-001` and `RT-H0-BRANCH-001` is `OUTDATED`, the current Red-Team classification is `EVIDENCE_STALE_REVERIFICATION_REQUIRED`, and current totals are `LIVE_GITHUB_REQUIRED`. Issue #80 creation, PR #81 opening, and branch `h0-durable-red-team-findings` creation are recorded retest trigger events. A pagination-complete live H0 refresh is required; this correction performs no disposition, branch deletion, H0 closeout, or inventory completion.
+
+For `RT-H0-APP-002`, review-thread evidence is historical observation only and `PERMISSION_EVIDENCE=NO`. `VAL-H8-AI-004` requires live application and OAuth permission-detail evidence, while `VAL-H8-AI-003` remains reserved for future revocation and least-privilege implementation testing. Issue #79 controls deferral requirements; `VAL-H0-DEFER-001` validates the seven-field extension recorded by the findings register, which does not replace the master roadmap.
+
+## Independent Red Team R1 Correction
+
+```text
+R1_REVIEW_ID=RT-PR81-R1
+R1_REVIEWED_HEAD=b53efedca558993ecbd8abd11de16c4ff86ad1f1
+R1_DECISION=CHANGES_REQUESTED
+R1_BASE_AUTHORITY_COMMENT_ID=5009524634 # documentation scope
+R1_AUTHORITY_AMENDMENT_COMMENT_ID=5009601637 # documentation scope
+R1_FINDING_1=R1-AUTH-STATE-001 # documentation scope
+R1_FINDING_2=R1-FRESHNESS-001
+R1_FINDING_3=R1-TRACE-001
+R1_FINDING_4=R1-DEFER-001
+R1_CORRECTION_STATE=IMPLEMENTED_IN_THIS_CORRECTION_COMMIT
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=FRESH_R2_REQUIRED
+```
+
+R1 did not pass. No R2 review exists in this correction record, and no machine-checkable Red-Team decision marker is added. The only next action after live delivery readback is fresh independent whole-PR R2 review of the exact new head.
+
 ## Validation Evidence
 
 ```text
@@ -120,6 +143,10 @@ H1_MACHINE_ENFORCEMENT_DEPENDENCY_PRESENT=YES
 NO_COMPETING_ROADMAP_CREATED=YES
 NO_STALE_MUTABLE_STATE_PROMOTED_TO_POLICY=YES
 NO_RED_TEAM_DECISION_MARKER_ADDED=YES
+R1_AUTH_STATE_CORRECTION=PASS # documentation scope
+R1_FRESHNESS_CORRECTION=PASS
+R1_TRACE_CORRECTION=PASS
+R1_DEFERRAL_CORRECTION=PASS
 NO_PRODUCT_FILE_CHANGED=YES
 NO_WORKFLOW_FILE_CHANGED=YES
 NO_CONTROL_SCRIPT_CHANGED=YES
@@ -171,10 +198,10 @@ Rationale: P0 H0 findings remain unresolved and the durable lifecycle and supers
 
 ## Red-Team Status
 
-Independent Red-Team review is required against the exact live draft-PR head. The developer has not acted as Red Team, has not added review-decision evidence, and has not approved any finding, PR, or lifecycle transition.
+R1 returned `CHANGES_REQUESTED` against `b53efedca558993ecbd8abd11de16c4ff86ad1f1`. The four bounded corrections are implemented in this correction commit. Fresh independent R2 whole-PR review is required against the exact new live draft-PR head. The developer has not acted as Red Team, has not added review-decision evidence, and has not approved any finding, PR, or lifecycle transition.
 
 ```text
-CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
+CURRENT_RED_TEAM_REVIEW_STATE=FRESH_R2_REQUIRED
 NEXT_ACTOR=INDEPENDENT_RED_TEAM
 ```
 
@@ -208,7 +235,7 @@ Documentation and traceability only. This report proves neither resolution of an
 - Private raw UI evidence is represented only by owner-accepted public-safe identifiers and hashes; it is not committed.
 - The H0 findings schema and validation contracts are Markdown documentation; H1-B1A-G machine enforcement is not implemented by this packet.
 - Underlying H0, H7A, and H8 findings remain unresolved, deferred, or accepted for roadmap as recorded.
-- Commit, remote branch, draft PR, checks, review, merge, and closeout evidence remain `LIVE_GITHUB_REQUIRED` until the applicable event occurs and is read back.
+- The correction commit, remote branch, exact draft-PR head, checks, and PR body remain `LIVE_GITHUB_REQUIRED` until correction delivery is read back; R2, merge, and closeout are not authorized.
 
 ## Branch, Commit, And Draft-PR Evidence
 
@@ -216,6 +243,7 @@ Documentation and traceability only. This report proves neither resolution of an
 BRANCH_NAME=h0-durable-red-team-findings
 BRANCH_BASE_SHA=306ffff91521da849ac5207c6afe67afed1f889b
 IMPLEMENTATION_COMMIT=LIVE_GITHUB_REQUIRED
+R1_CORRECTION_COMMIT=LIVE_GITHUB_REQUIRED
 DRAFT_PR=LIVE_GITHUB_REQUIRED
 PR_HEAD_SHA=LIVE_GITHUB_REQUIRED
 PR_CHECKS=LIVE_GITHUB_REQUIRED
@@ -227,7 +255,7 @@ This event-invariant record is resolved only through post-event live GitHub read
 
 ## Next Phase Status
 
-No next phase is authorized. After the one draft PR exists, the only next action is independent review of its exact live head and durable finding records.
+No next phase is authorized. After correction delivery and live readback, the only next action is fresh independent R2 review of the exact live PR head and durable finding records.
 
 ```text
 H0_CLOSEOUT_AUTHORITY=NONE # documentation scope

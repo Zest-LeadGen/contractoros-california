@@ -18,9 +18,18 @@ Purpose: record sources used for ContractorOS California control decisions.
 | `SRC-H0-AI-001` | ChatGPT Codex Connector configuration review | Private UI-observed evidence represented by public-safe status fields | `RT-H0-APP-001` repository scope and permission profile | Point-in-time owner-accepted review; raw capture not committed | Time-sensitive; retest on every registered app/transfer/provider/principal trigger. |
 | `SRC-H0-AI-002` | Personal authorized-app list | Private UI-observed evidence represented by public-safe identifiers | Connector and OAuth authorization coverage | Point-in-time review; no private raw list committed | Time-sensitive and incomplete for providers named in `RT-H0-APP-002`. |
 | `SRC-H0-AI-003` | Organization app review | Private UI-observed evidence represented by public-safe findings | Organization-level application coverage and scope | Point-in-time review; no private raw capture committed | Revalidate after transfer, organization-policy change, or new app installation. |
-| `SRC-H0-AI-004` | Independent review-thread verification | Independent review evidence referenced by the accepted H0 packet | Cross-check of app/security findings and unresolved details | Owner accepted through `OD-H0-GOV-001`; exact private thread contents not committed | Does not substitute for live permission evidence or human approval. |
+| `SRC-H0-AI-004` | Historical misclassified label for independent review-thread verification | Historical source-label record only | Preserves the former label and points to `SRC-H0-REVIEW-001` for its accurate meaning | Misclassified for application/OAuth permission evidence; exact private thread contents not committed | Not application or OAuth permission evidence; do not use in permission-detail findings or risks. |
+| `SRC-H0-REVIEW-001` | Independent review-thread verification | Independent review-thread verification | Historical cross-check and reviewer observation only | Preserved historically; `PERMISSION_EVIDENCE=NO` | Does not prove application type, permissions, OAuth scopes, repository access, organization access, or human approval. |
 | `SRC-H0-AI-005` | Issue #68 and Issue #79 durable roadmap contracts | GitHub planning evidence | H8 least-privilege scope, H7A dependencies, enforcement assignment, and roadmap separation | Read live 2026-07-18 | Planning evidence; creates no implementation or settings authority. |
 | `SRC-H0-SUPPLY-001` | Product workflow reference observation | Repository/UI point-in-time evidence | `RT-H0-SUPPLY-001` observed `actions/checkout@v4` reference | Owner-accepted observation at main anchor; current workflow must be re-read before H7A action | This packet does not modify the workflow. |
+
+```text
+SOURCE_ID=SRC-H0-REVIEW-001
+SOURCE_CLASS=INDEPENDENT_REVIEW_THREAD_VERIFICATION
+PERMISSION_EVIDENCE=NO
+```
+
+`SRC-H0-AI-004` preserves a former misclassified label; its accurate historical meaning is `SRC-H0-REVIEW-001`. Neither source proves application or OAuth permission details, and application presence alone proves no permission grant or scope.
 
 ## Sources
 

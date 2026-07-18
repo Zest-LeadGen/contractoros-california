@@ -9,14 +9,18 @@ Future implementation identities remain `NOT_AUTHORIZED`, `NOT_STARTED`, or `NOT
 | Finding | Owner decision | Amendment | Roadmap gate | Controlling issue | Risk | Source | Validation | Implementation issue | Implementation PR | Review state | Resolution evidence |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | `RT-H0-AUTH-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H0 | #67, #70, #79 | `R-H0-AUTH-001` | `SRC-H0-PR56-001`, `SRC-H0-OWNER-001`, `SRC-H0-OWNER-002` | `VAL-H0-FIND-001`, `VAL-H0-RESOLVE-001` | `NOT_AUTHORIZED` | `NOT_AUTHORIZED` | `CONFLICTING_EVIDENCE_BLOCKED` | `NOT_PROVEN` |
-| `RT-H0-DISP-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H0 | #67, #70, #79 | `R-H0-DISP-001` | `SRC-H0-EVIDENCE-001`, `SRC-H0-EVIDENCE-002` | `VAL-H0-STALE-001`, `VAL-H0-HANDOFF-001` | `NOT_AUTHORIZED` | `NOT_AUTHORIZED` | `STILL_APPLICABLE` | `NOT_PROVEN`; documentation scope |
-| `RT-H0-BRANCH-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H0 | #67, #70, #79 | `R-H0-BRANCH-001` | `SRC-H0-EVIDENCE-001`, `SRC-H0-EVIDENCE-002` | `VAL-H0-STALE-001`, `VAL-H0-HANDOFF-001` | `NOT_AUTHORIZED` | `NOT_AUTHORIZED` | `STILL_APPLICABLE` | `NOT_PROVEN`; documentation scope |
-| `RT-H0-APP-001` | `OD-H0-AI-001` | `OD-H0-GOV-001-A1` | H8 with H7A coordination | #68, #70, #79 | `R-H8-AI-001` | `SRC-H0-AI-001` through `SRC-H0-AI-005` | `VAL-H8-AI-001`, `VAL-H8-AI-002`, `VAL-H9-FIND-001` | `NOT_STARTED` | `NOT_STARTED` | `STILL_APPLICABLE` | `NOT_PROVEN` |
+| `RT-H0-DISP-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H0 | #67, #70, #79 | `R-H0-DISP-001` | `SRC-H0-EVIDENCE-001`, `SRC-H0-EVIDENCE-002` | `VAL-H0-STALE-001`, `VAL-H0-HANDOFF-001` | `NOT_AUTHORIZED` | `NOT_AUTHORIZED` | `EVIDENCE_STALE_REVERIFICATION_REQUIRED` | `NOT_PROVEN`; documentation scope |
+| `RT-H0-BRANCH-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H0 | #67, #70, #79 | `R-H0-BRANCH-001` | `SRC-H0-EVIDENCE-001`, `SRC-H0-EVIDENCE-002` | `VAL-H0-STALE-001`, `VAL-H0-HANDOFF-001` | `NOT_AUTHORIZED` | `NOT_AUTHORIZED` | `EVIDENCE_STALE_REVERIFICATION_REQUIRED` | `NOT_PROVEN`; documentation scope |
+| `RT-H0-APP-001` | `OD-H0-AI-001` | `OD-H0-GOV-001-A1` | H8 with H7A coordination | #68, #70, #79 | `R-H8-AI-001` | `SRC-H0-AI-001`, `SRC-H0-AI-002`, `SRC-H0-AI-003`, `SRC-H0-OWNER-001`, `SRC-H0-OWNER-002` | `VAL-H8-AI-001`, `VAL-H8-AI-002`, `VAL-H9-FIND-001` | `NOT_STARTED` | `NOT_STARTED` | `STILL_APPLICABLE` | `NOT_PROVEN` |
 | `RT-H0-SEC-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H7A | #67, #70, #79 | `R-H7A-SEC-001` | `SRC-H0-SEC-001` | `VAL-H7A-SEC-001`, `VAL-H9-FIND-001` | `NOT_STARTED` | `NOT_STARTED` | `STILL_APPLICABLE` | `NOT_PROVEN` |
 | `RT-H0-SUPPLY-001` | `OD-H0-GOV-001` | `OD-H0-GOV-001-A1` | H7A | #67, #70, #79 | `R-H7A-SUPPLY-001` | `SRC-H0-SUPPLY-001` | `VAL-H7A-SUPPLY-001`, `VAL-H9-FIND-001` | `NOT_STARTED` | `NOT_STARTED` | `STILL_APPLICABLE` | `NOT_PROVEN` |
-| `RT-H0-APP-002` | `OD-H0-AI-001` | `OD-H0-GOV-001-A1` | H8 | #68, #70, #79 | `R-H8-AI-002` | `SRC-H0-AI-003`, `SRC-H0-AI-004`, `SRC-H0-AI-005` | `VAL-H8-AI-003`, `VAL-H9-FIND-001` | `NOT_STARTED` | `NOT_STARTED` | `VALIDLY_DEFERRED` | `NOT_PROVEN` |
+| `RT-H0-APP-002` | `OD-H0-AI-001` | `OD-H0-GOV-001-A1` | H8 | #68, #70, #79 | `R-H8-AI-002` | `SRC-H0-AI-002`, `SRC-H0-OWNER-001`, `SRC-H0-OWNER-002` | `VAL-H8-AI-001`, `VAL-H8-AI-004`, `VAL-H0-DEFER-001`, `VAL-H9-FIND-001` | `NOT_STARTED` | `NOT_STARTED` | `VALIDLY_DEFERRED` | `NOT_PROVEN` |
 
 Issue #80 implements only the durable documentation and traceability layer shared by all seven findings. It is not the implementation issue for resolving any underlying finding.
+
+The `RT-H0-DISP-001` counts of 1 open PR, 27 open issues, and 28 total open work items and the `RT-H0-BRANCH-001` count of 37 non-default branches are preserved historical observations. Their evidence is `OUTDATED`, current totals are `LIVE_GITHUB_REQUIRED`, and the Issue #80, PR #81, and branch-creation trigger events require a pagination-complete live H0 refresh. This correction performs no disposition, branch deletion, inventory completion, or H0 closeout.
+
+Issue #79 controls deferral requirements. The findings register records compliance and does not replace the master roadmap. `RT-H0-APP-002` remains validly deferred only while its seven-field extension and `VAL-H0-DEFER-001` remain satisfied; missing live permission details block H8 implementation.
 
 ## Historical Phase 4J-0 Traceability
 

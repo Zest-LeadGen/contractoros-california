@@ -20,11 +20,16 @@ H8 issue: #68
 Master roadmap issue: #79
 Base owner comment: 5008937720
 Owner amendment comment: 5009133733
+R1 base correction comment: 5009524634
+R1 additive correction amendment: 5009601637
 Starting main: 306ffff91521da849ac5207c6afe67afed1f889b
 Implementation commit: LIVE_GITHUB_REQUIRED
-Pull request: LIVE_GITHUB_REQUIRED
+Pull request: #81
 Pull request head: LIVE_GITHUB_REQUIRED
-Checks and review: LIVE_GITHUB_REQUIRED
+R1 reviewed head: b53efedca558993ecbd8abd11de16c4ff86ad1f1
+R1 decision: CHANGES_REQUESTED
+R1 correction state: IMPLEMENTED_IN_THIS_CORRECTION_COMMIT
+Checks and current review: FRESH_R2_REQUIRED_AFTER_LIVE_DELIVERY_READBACK
 Merge and closeout: LIVE_GITHUB_REQUIRED
 Changed files: Exact twelve-path Issue #80 documentation allowlist
 Claim level: Documentation and traceability only; Markdown is not H1-B1A-G machine enforcement
@@ -36,7 +41,9 @@ Next gate: Independent Red-Team review of the exact live draft-PR head
 Automatic continuation: No
 ```
 
-### H1 Issue #76 — Explicit Next-Window Handoff Contract
+## Historical Ledger Entries
+
+### Historical H1 Issue #76 — Explicit Next-Window Handoff Contract
 
 ```text
 Phase: H1 next-window handoff contract gate
@@ -59,14 +66,16 @@ R2_FINDING_1=R2-STATE-001
 R2_FINDING_2=R2-TEST-001
 R2_CORRECTION_AUTHORITY=ISSUE_76_COMMENT_4984934461 # documentation scope
 R2_CORRECTION_SCOPE=SIX_EXISTING_FILES
-R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
-CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
-REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
-PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
-EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
-CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
-NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
-Scope: Historical initial delivery and R1 correction; this commit applies the owner-authorized six-file R2 lifecycle correction
+R2_CORRECTION_IMPLEMENTATION=HISTORICAL
+ISSUE_76_STATE=closed
+ISSUE_76_STATE_REASON=completed
+ISSUE_76_CLOSED_AT=2026-07-15T21:11:51Z
+PR_77_STATE=closed
+PR_77_MERGED=true
+PR_77_HEAD_SHA=9831c2ddbba61e7e2c9a5f35534dc9c967bfb289
+PR_77_MERGE_SHA=306ffff91521da849ac5207c6afe67afed1f889b
+PR_77_MERGED_AT=2026-07-15T21:11:13Z
+Scope: Historical initial delivery, R1 correction, R2 correction, completed review lifecycle, protected merge, main verification, and Issue #76 closeout
 Runtime/schema/fixture migration: Not required by the bounded impact analysis
 Private-chat enforcement: Behavioral obligation; universal technical enforcement is not proven
 Claim level: Project-control navigation hardening only
@@ -74,8 +83,6 @@ Product work: Frozen
 Production: Blocked
 H1 bootstrap: Not authorized
 ```
-
-## Historical Ledger Entries
 
 ### Historical H1 Recovery Project-Control Reconciliation
 
