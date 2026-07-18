@@ -6,6 +6,36 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entry
 
+### H0 Durable Red-Team Finding Governance — Documentation Implementation
+
+```text
+Phase: H0 durable Red-Team finding governance documentation
+Lane: Control / Infrastructure
+Date: 2026-07-17
+Branch: h0-durable-red-team-findings
+Phase issue: #80
+Parent H0 issue: #67
+Owner decision issue: #70
+H8 issue: #68
+Master roadmap issue: #79
+Base owner comment: 5008937720
+Owner amendment comment: 5009133733
+Starting main: 306ffff91521da849ac5207c6afe67afed1f889b
+Implementation commit: LIVE_GITHUB_REQUIRED
+Pull request: LIVE_GITHUB_REQUIRED
+Pull request head: LIVE_GITHUB_REQUIRED
+Checks and review: LIVE_GITHUB_REQUIRED
+Merge and closeout: LIVE_GITHUB_REQUIRED
+Changed files: Exact twelve-path Issue #80 documentation allowlist
+Claim level: Documentation and traceability only; Markdown is not H1-B1A-G machine enforcement
+Product work: Prohibited by this packet
+GitHub settings, connector permissions, and security features: No change authorized
+H0 closeout: Not authorized
+H1, H7A, and H8 implementation: Not authorized
+Next gate: Independent Red-Team review of the exact live draft-PR head
+Automatic continuation: No
+```
+
 ### H1 Issue #76 — Explicit Next-Window Handoff Contract
 
 ```text

@@ -92,6 +92,24 @@ The rendered packet contains generator and schema versions, observation timestam
 
 The packet contains no write permission. It must be revalidated against live evidence before consequential action.
 
+## Durable Finding Startup Contract
+
+Every future startup packet that can affect a registered finding must include:
+
+```text
+APPLICABLE_FINDING_IDS
+FINDING_REGISTER_REF
+FINDING_REGISTER_MAIN_SHA
+FINDING_STATUS_AT_START
+EVIDENCE_FRESHNESS
+SUPERSESSION_CHECK
+UNRESOLVED_BLOCKING_FINDINGS
+```
+
+`FINDING_REGISTER_REF` must identify the exact committed register evidence being read. `FINDING_REGISTER_MAIN_SHA` must be an exact verified main commit or be classified `NOT_PROVEN`; it must not be inferred from a local checkout. Point-in-time permission, setting, branch, issue, PR, check, review, merge, or integration evidence must be re-read live at the applicable trigger.
+
+A packet must not omit a relevant finding, silently mark it resolved, or accept chronology as supersession. Missing, stale, conflicting, or unauthorized finding evidence blocks the affected next action. The packet remains derived evidence with no write or decision authority, and Markdown finding coverage is not H1-B1A-G machine enforcement.
+
 ## Explicit Navigation Integration Boundary
 
 The generated startup packet's existing `next_action`, `stop_conditions`, prohibited-actions section, direct issue and pull-request URLs, and derived no-authority notice may inform a later red-team response. They do not themselves satisfy the complete live-response navigation contract in `RED_TEAM_OPERATING_PROTOCOL.md`, `PROMPT_CONVENTION.md`, and `HANDOFF_PLAYBOOK.md`.

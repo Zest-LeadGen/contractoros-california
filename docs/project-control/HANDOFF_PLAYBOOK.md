@@ -101,6 +101,20 @@ Where this state is recorded:
 Progress snapshot:
 ```
 
+Every implementation or review handoff that affects a durable finding must additionally include:
+
+```text
+ACTIVE_FINDINGS
+NEW_FINDINGS
+CHANGED_FINDINGS
+RESOLVED_AND_VERIFIED_FINDINGS
+SUPERSEDED_FINDINGS
+STALE_FINDINGS_REQUIRING_RECHECK
+FINDING_FAILURE_EFFECT_ON_NEXT_GATE
+```
+
+Within documentation scope, each nonempty field must name exact finding IDs. Resolution and supersession must cite the applicable evidence and authority from `RED_TEAM_FINDINGS_REGISTER.md`; silence, omission, a later date, or developer assertion is invalid. Mutable state must be refreshed from live GitHub before the handoff permits a consequential next gate.
+
 Every substantive active-project handoff must follow that evidence summary with this explicit navigation block. The canonical final response order is exactly:
 
 1. `Product development stage`.

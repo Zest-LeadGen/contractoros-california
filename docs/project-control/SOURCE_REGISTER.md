@@ -2,6 +2,26 @@
 
 Purpose: record sources used for ContractorOS California control decisions.
 
+## H0 Durable Finding Sources
+
+`SOURCE_GROUP_ID=SRC-H0-AI-001` groups the owner-approved H0 durable-finding evidence. Private raw UI captures and screenshots are not committed. Hashes identify the accepted external evidence package but do not by themselves prove current mutable state.
+
+| Source ID | Source | Type | Used for | Verification status | Notes |
+|---|---|---|---|---|---|
+| `SRC-H0-OWNER-001` | Issue #70 comment `5008937720` | Exact owner GitHub authority; documentation scope | `OD-H0-GOV-001`, `OD-H0-AI-001`, finding set, lifecycle, evidence hashes, allowlist, and prohibitions | Verified live 2026-07-18; body SHA-256 `7ae4c3b402e1e0bd96ac713f6428e87a4e00e4eca9bd1c008b7f16a6fc8702d3` | https://github.com/Zest-LeadGen/contractoros-california/issues/70#issuecomment-5008937720 |
+| `SRC-H0-OWNER-002` | Issue #70 comment `5009133733` | Additive owner GitHub amendment | Exact machine-readable aliases and unchanged prohibitions | Verified live 2026-07-18; body SHA-256 `5427de970669a500aa76e01ec531edeb0f4b5e5b6e321043796d4373288f50c8` | https://github.com/Zest-LeadGen/contractoros-california/issues/70#issuecomment-5009133733; no authority expansion |
+| `SRC-H0-EVIDENCE-001` | H0 evidence archive | External hashed evidence package | Accepted H0 findings and point-in-time observations | Owner-accepted hash `e7e1e141f2691c4f8782e64afc74dce39dba799908de84afb94891ecb139b0b2`; raw archive not committed | Hash identity does not make mutable observations timeless. |
+| `SRC-H0-EVIDENCE-002` | H0 evidence manifest | External hashed evidence manifest | Evidence membership and integrity | Owner-accepted hash `9e8292380b16db689cc8351d4e1674c73a787d19faa553cf5a511483af9b24a3`; raw manifest not committed | Requires the corresponding archive for evidence interpretation. |
+| `SRC-H0-MAIN-001` | Product repository main `306ffff91521da849ac5207c6afe67afed1f889b` | Live Git and GitHub evidence | Documentation implementation starting main and observation anchor | Local `origin/main` and GitHub API matched on 2026-07-18 before mutation | Future use requires live reverification. |
+| `SRC-H0-PR56-001` | PR #56 closure and event evidence | Live/historical GitHub evidence | `RT-H0-AUTH-001` closure event, actor, timestamp, state, merged flag, and preserved head | Accepted by owner finding; closure timestamp `2026-07-15T02:14:59Z`, event `27994087588`, head `221b11eb7db76ad83c17893f9ba9f8f0eddfce1d` | Proves the event, not valid closure authority; no reopen authority. |
+| `SRC-H0-SEC-001` | Product repository Advanced Security UI review | Private UI-observed evidence represented by public-safe status fields | `RT-H0-SEC-001` security-setting observations | Point-in-time owner-accepted review; raw capture not committed | Time-sensitive; retest on setting, transfer, organization-policy, H7A, or H9 trigger. |
+| `SRC-H0-AI-001` | ChatGPT Codex Connector configuration review | Private UI-observed evidence represented by public-safe status fields | `RT-H0-APP-001` repository scope and permission profile | Point-in-time owner-accepted review; raw capture not committed | Time-sensitive; retest on every registered app/transfer/provider/principal trigger. |
+| `SRC-H0-AI-002` | Personal authorized-app list | Private UI-observed evidence represented by public-safe identifiers | Connector and OAuth authorization coverage | Point-in-time review; no private raw list committed | Time-sensitive and incomplete for providers named in `RT-H0-APP-002`. |
+| `SRC-H0-AI-003` | Organization app review | Private UI-observed evidence represented by public-safe findings | Organization-level application coverage and scope | Point-in-time review; no private raw capture committed | Revalidate after transfer, organization-policy change, or new app installation. |
+| `SRC-H0-AI-004` | Independent review-thread verification | Independent review evidence referenced by the accepted H0 packet | Cross-check of app/security findings and unresolved details | Owner accepted through `OD-H0-GOV-001`; exact private thread contents not committed | Does not substitute for live permission evidence or human approval. |
+| `SRC-H0-AI-005` | Issue #68 and Issue #79 durable roadmap contracts | GitHub planning evidence | H8 least-privilege scope, H7A dependencies, enforcement assignment, and roadmap separation | Read live 2026-07-18 | Planning evidence; creates no implementation or settings authority. |
+| `SRC-H0-SUPPLY-001` | Product workflow reference observation | Repository/UI point-in-time evidence | `RT-H0-SUPPLY-001` observed `actions/checkout@v4` reference | Owner-accepted observation at main anchor; current workflow must be re-read before H7A action | This packet does not modify the workflow. |
+
 ## Sources
 
 | Source ID | Source | Type | Used for | Verification status | Notes |

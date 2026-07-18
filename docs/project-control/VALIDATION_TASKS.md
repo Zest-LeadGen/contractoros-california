@@ -32,6 +32,28 @@ The status cells in this section preserve the original Phase 4J-0 checkpoint. PR
 
 Validation task status must be updated by repo evidence, not memory.
 
+## H0 Durable Finding Validation Contracts
+
+`VALIDATION_GROUP_ID=VAL-H8-AI-001` identifies the cross-gate AI permission and drift contracts. Unless a row explicitly names an existing script, these are documented manual contracts; automation is not claimed. H1-B1A-G remains responsible for future machine-readable schema enforcement.
+
+| Task ID | Contract | Method | Expected result | Current status |
+|---|---|---|---|---|
+| `VAL-H0-FIND-001` | Required finding fields | Parse every finding record against the 24-field register schema. | Every record has one nonempty value for each required field. | Documented manual contract; not automated. |
+| `VAL-H0-FIND-002` | Unique finding IDs | Enumerate `FINDING_ID` values and reject duplicates or reuse. | Seven unique accepted H0 IDs; any duplicate blocks. | Documented manual contract; not automated. |
+| `VAL-H0-FIND-003` | Allowed lifecycle values | Compare `CURRENT_STATUS` with the exact register lifecycle enum. | Unknown or misspelled values block. | Documented manual contract; not automated. |
+| `VAL-H0-SUPER-001` | Exact supersession edges | For each superseded record, require replacement ID, exact owner authority, conflict/premise, preserved evidence, and dependency revalidation. | Silence, chronology, UI change, PR creation, developer claim, or docs-only edit cannot supersede. | Documented manual contract; not automated. |
+| `VAL-H0-DELETE-001` | No silent deletion | Diff register IDs and versions against the prior protected main. | Removed finding without exact preserved supersession evidence blocks. | Documented manual contract; not automated. |
+| `VAL-H0-RESOLVE-001` | Resolution evidence | Verify issue, PR, reviewed head, tests, independent result, human approval, protected merge, current main, closeout, and fresh live evidence where applicable. | Missing applicable evidence prevents `COMPLETED_AND_VERIFIED`. | Documented manual contract; not automated. |
+| `VAL-H0-STALE-001` | Stale evidence detection | Compare observation date, expiry, registered retest triggers, and live GitHub. | Triggered or expired evidence becomes `EVIDENCE_STALE_REVERIFICATION_REQUIRED`. | Documented manual contract; not automated. |
+| `VAL-H0-STARTUP-001` | Startup-packet finding coverage | Verify all seven startup fields and all affected IDs against the exact register ref/main SHA. | Omitted, stale, conflicting, or unauthorized finding evidence blocks the affected gate within documentation scope. | Documented manual contract; collector automation not implemented for this schema. |
+| `VAL-H0-HANDOFF-001` | Handoff finding coverage | Verify all seven handoff fields and exact IDs/classifications. | No affected finding silently disappears between windows. | Documented manual contract; not automated. |
+| `VAL-H8-AI-001` | App-permission drift review | Re-read connector scope, repositories, permission grants, principals, provider roles, and organization policy. | Drift is recorded as a changed or new finding before H8 action. | Manual; required on registered triggers. |
+| `VAL-H8-AI-002` | Repository-transfer revalidation | Compare pre-transfer and post-transfer app installations, access scope, permissions, principals, and organization policy. | Any unreviewed difference blocks H8 closeout and H9 assurance. | Manual; transfer is not authorized by this packet. |
+| `VAL-H8-AI-003` | H8 revocation and least-privilege tests | Test selected-repository restriction, separate developer/reviewer principals, revocation, denied unauthorized repositories, and audit attribution. | All owner-approved least-privilege and revocation cases pass with independent evidence. | Not started; H8 implementation not authorized. |
+| `VAL-H7A-SEC-001` | H7A security-setting revalidation | Live-read each named security setting and prove operative dependencies such as CodeQL before relying on downstream features. | Dated values and operative/inoperative status are explicit; discrepancies block. | Not started; H7A implementation not authorized. |
+| `VAL-H7A-SUPPLY-001` | Full-SHA action reference | Inspect workflow at exact head and verify each governed third-party action reference against the approved full commit SHA. | Mutable tags fail the H7A contract. | Not started; workflow change not authorized. |
+| `VAL-H9-FIND-001` | Permission drift and finding-closure assurance | Re-run all finding freshness, resolution, permission, security, supply-chain, and supersession contracts against current main and live GitHub. | No known unresolved blocking finding is represented as closed; residual risks have exact owner acceptance and expiry. | Not started; H9 assurance not authorized. |
+
 ## Phase 4K-7 Tasks
 
 | Task ID | Task | Command or check | Expected result | Status |

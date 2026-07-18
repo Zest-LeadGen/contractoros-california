@@ -72,3 +72,37 @@ The nonexistence claim concerning comment `4953096532` is disproven by the compl
 ## Current Recovery Boundary
 
 Product work is frozen. Production is blocked. Phase 4K-9 and downstream progression are paused. Phase 4I is paused. The current allowed activity is the exact project-control reconciliation PR only. Fresh independent exact-SHA review, separate human approval, protected merge, main verification, and durable closeout remain pending gates. No H1 bootstrap or governance-repository mutation is authorized.
+
+## H0 Durable Finding Authority — Documentation Scope
+
+The following owner decisions jointly authorize only Issue #80 and its bounded twelve-path documentation pull request:
+
+```text
+OWNER_DECISION_ID=OD-H0-GOV-001
+AI_DECISION_ID=OD-H0-AI-001
+OWNER_AMENDMENT_ID=OD-H0-GOV-001-A1
+BASE_OWNER_COMMENT_ID=5008937720
+AMENDMENT_COMMENT_ID=5009133733
+AUTHORITY_EXPANSION=NO # documentation scope
+H0_CLOSEOUT_AUTHORITY=NONE # documentation scope
+H1_AUTHORITY=NONE # documentation scope
+H7A_IMPLEMENTATION_AUTHORITY=NONE # documentation scope
+H8_IMPLEMENTATION_AUTHORITY=NONE # documentation scope
+PRODUCT_AUTHORITY=NONE # documentation scope
+MERGE_AUTHORITY=NONE # documentation scope
+AUTOMATIC_CONTINUATION=NO
+```
+
+The base comment remains binding and the amendment adds machine-readable aliases without superseding or expanding it. The canonical finding records are in `RED_TEAM_FINDINGS_REGISTER.md`.
+
+Within lawful scope, precedence for this finding set is:
+
+1. exact owner decisions and exact additive amendments;
+2. the canonical findings register as the durable status and history record;
+3. Issue #79 as the master hardening sequence, dependency, and conflict roadmap;
+4. exact implementation issues and allowlists;
+5. exact implementation pull requests and their immutable commits;
+6. independent exact-head review evidence and required human approval;
+7. live GitHub for current mutable issue, PR, head, check, review, merge, branch, settings, integration, and permission state.
+
+Implementation issues and pull requests cannot broaden owner authority. Review evidence cannot change scope. Live GitHub controls mutable facts but does not create owner authority. A later record supersedes an earlier record only when it identifies the earlier record, the conflict or changed premise, the exact owner authority, and the preserved historical evidence. Mutable state must not be encoded here as permanent authority.

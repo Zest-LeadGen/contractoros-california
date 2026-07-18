@@ -130,3 +130,11 @@ The Phase 4J-0 bootstrap exception is historical and cannot authorize H1 work. H
 `docs/project-control/PROGRAM_CONSTITUTION.md` is the top-level public-safe program-direction authority. It does not replace phase issues, exact file allowlists, external exact-SHA red-team review, current human/write-access approval, branch protection, merge verification, or issue closeout. `OWNER_DECISION_REGISTER.yaml`, linked ADRs, risk and assumption registers, and canonical state provide subordinate evidence. Chat-only direction is not authority.
 
 Canonical-state files must be changed by one active pull request at a time. No more than three non-overlapping active pull requests may be considered, and no lane may assume unmerged canonical state.
+
+## Durable Red-Team Finding Controls
+
+Before planning, implementation, review preparation, or handoff, agents must read `docs/project-control/RED_TEAM_FINDINGS_REGISTER.md` and classify every finding affected by the proposed work. Finding IDs, versions, evidence provenance, and historical records must be preserved.
+
+Within documentation scope, agents must never infer that a finding is resolved or superseded. A finding update requires exact owner authority, an explicit path allowlist, and the register's resolution or supersession evidence. Implementation handoffs must name affected findings and their failure effect on the next gate.
+
+Stop when a relevant finding has stale or conflicting evidence, lacks required authority, or lacks a valid dependency or supersession record. Live GitHub must be re-read for mutable state; chat memory and documentation alone do not prove resolution or machine enforcement.

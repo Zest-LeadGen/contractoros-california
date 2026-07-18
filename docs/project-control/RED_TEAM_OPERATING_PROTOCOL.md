@@ -188,6 +188,14 @@ If a new decision, feature, scope boundary, future roadmap item, payment/securit
 
 If it is not recorded in durable evidence, it is not durable.
 
+## Durable Finding Review Protocol
+
+Every future independent Red-Team window must read `RED_TEAM_FINDINGS_REGISTER.md` before review, identify every affected finding, verify evidence freshness against live GitHub when state is mutable, and classify each affected finding using exactly one register classification.
+
+The review must identify new, changed, implemented-but-unverified, resolved-and-verified, validly deferred, stale, conflicting, and exactly superseded findings. Silence is never a resolution. Resolution requires the applicable implementation issue, implementation pull request, exact reviewed head, validation, independent result, human approval, protected merge, current-main verification, issue closeout, and fresh mutable-state evidence.
+
+Final handoff evidence must include each affected finding's ID, classification, remaining dependencies, and failure effect on the next gate. When evidence is stale or conflicting, or an exact supersession edge is absent, the review is blocked for the affected gate. Documentation edits alone never prove implementation or machine enforcement; H1-B1A-G owns later machine-readable schema enforcement.
+
 ## Explicit Next-Window Navigation Contract
 
 Every substantive active-project red-team response must end with this navigation block after the lifecycle evidence, next action, command guidance when applicable, stop conditions, and progress reporting required elsewhere in this protocol. This navigation block is the sole absolute final response element, and nothing may follow it:
