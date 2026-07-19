@@ -26,6 +26,10 @@ RED_TEAM_PROTOCOL = ROOT / "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md"
 HANDOFF_PLAYBOOK = ROOT / "docs/project-control/HANDOFF_PLAYBOOK.md"
 STARTUP_PACKET_SPEC = ROOT / "docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"
 DEVELOPMENT_LEDGER = ROOT / "docs/project-control/DEVELOPMENT_LEDGER.md"
+AUTHORITY_INDEX = ROOT / "docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md"  # documentation scope
+H0_DURABLE_FINDING_REPORT = (
+    ROOT / "docs/project-control/phase_h0_durable_red_team_finding_governance_report.md"
+)
 VALIDATION_TASKS = ROOT / "docs/project-control/VALIDATION_TASKS.md"
 ISSUE76_PHASE_REPORT = ROOT / "docs/project-control/phase_h1_next_window_handoff_contract_gate_report.md"
 RISK_REGISTER = ROOT / "docs/project-control/RISK_REGISTER.md"
@@ -1476,6 +1480,64 @@ class GovernanceHardeningTests(unittest.TestCase):
             protocol,
         )
 
+    def test_pr81_r2_authority_lineage_and_scope_are_reconciled(self):
+        required = (
+            "5009689695",
+            "5009759690",
+            "5009887710",
+            "5009952109",
+            "5012831025",
+            "5012982298",
+            "INITIAL_ISSUE80_ALLOWLIST_COUNT=12",
+            "R1_CORRECTION_CHANGED_FILE_COUNT=9",
+            "CUMULATIVE_PR_CHANGED_FILE_COUNT=13",
+            "scripts/continuity/tests/test_red_team_continuity.py",
+            "RT-PR81-R2",
+            "R2-AUTH-SCOPE-001",
+            "R3_REVIEW_ID=RT-PR81-R3",
+            "R3_REVIEWED_HEAD=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834",
+            "R3_DECISION=CHANGES_REQUESTED",
+            "R3_FINDING=R3-REPORT-EVIDENCE-001",
+            "FRESH_R4_REQUIRED",
+        )
+        stale_current_scope_claims = (
+            "twelve cumulative documentation paths",
+            "one bounded eight-file correction commit",
+            "Exact twelve-path Issue #80 documentation allowlist",
+            "bounded twelve-path documentation pull request",
+        )
+        for path in (AUTHORITY_INDEX, DEVELOPMENT_LEDGER, H0_DURABLE_FINDING_REPORT):  # documentation scope
+            with self.subTest(path=path.name):
+                text = self.text(path)
+                for value in required:
+                    self.assertIn(value, text)
+                for phrase in stale_current_scope_claims:
+                    self.assertNotIn(phrase, text)
+                self.assertNotRegex(
+                    text,
+                    r"(?m)^CURRENT_RED_TEAM_REVIEW(?:_STATE)?=FRESH_R3_REQUIRED",
+                )
+
+        phase_report = self.text(H0_DURABLE_FINDING_REPORT)
+        for value in (
+            "HISTORICAL_R1_CONTINUITY_TEST_COUNT=347",
+            "CURRENT_R2_CORRECTION_CONTINUITY_TEST_COUNT=348",
+            "INITIAL_IMPLEMENTATION_COMMIT=b53efedca558993ecbd8abd11de16c4ff86ad1f1",
+            "R1_CORRECTION_COMMIT=74d2c76c1b9b63fea6238f587de347eaca450c7a",
+            "R2_CORRECTION_COMMIT=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834",
+            "R3_CORRECTION_COMMIT=THIS_COMMIT_PENDING_LIVE_DELIVERY_READBACK",
+        ):
+            self.assertIn(value, phase_report)
+        for stale_claim in (
+            "Authorized mutation commands are limited to child Issue #80 creation, exact branch "  # documentation scope test literal
+            "creation, narrow documentation edits, one commit, one non-force push, and one "
+            "draft-PR creation.",
+            "must pass before the one authorized documentation-scope commit.",
+            "(`347` tests passed)",
+            "CURRENT_R2_CORRECTION_CONTINUITY_TEST_COUNT=347",
+        ):
+            self.assertNotIn(stale_claim, phase_report)
+
     def test_conflicting_nothing_after_chart_language_is_absent(self):
         forbidden = (
             "chart at the absolute bottom",
@@ -1489,42 +1551,79 @@ class GovernanceHardeningTests(unittest.TestCase):
                 for phrase in forbidden:
                     self.assertNotIn(phrase, text)
 
-    def issue76_active_records(self):
-        ledger = self.text(DEVELOPMENT_LEDGER).split("## Historical Ledger Entries", 1)[0]
-        validation = self.text(VALIDATION_TASKS).split(
-            "## H1 Issue #76 Next-Window Handoff Contract Validation", 1
-        )[1]
-        report = self.text(ISSUE76_PHASE_REPORT)
-        risk = self.text(RISK_REGISTER).split(
-            "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
-        )[0]
-        traceability = self.text(REQUIREMENTS_TRACEABILITY_MATRIX).split(
-            "## H1 Issue #76 Next-Window Handoff Contract", 1
-        )[1]
+    def issue76_lifecycle_records(self):
+        ledger = self.text(DEVELOPMENT_LEDGER)
+        risk = self.text(RISK_REGISTER)
         return {
-            "DEVELOPMENT_LEDGER.md": ledger,
-            "VALIDATION_TASKS.md": validation,
-            "phase_h1_next_window_handoff_contract_gate_report.md": report,
-            "RISK_REGISTER.md": risk,
-            "REQUIREMENTS_TRACEABILITY_MATRIX.md": traceability,
+            "current": {
+                "DEVELOPMENT_LEDGER.md": ledger.split(
+                    "## Historical Ledger Entries", 1
+                )[0],
+                "RISK_REGISTER.md": risk.split(
+                    "## Historical Issue #76 Lifecycle And Continuing H1 Technical Risks",
+                    1,
+                )[0],
+                "REQUIREMENTS_TRACEABILITY_MATRIX.md": self.text(
+                    REQUIREMENTS_TRACEABILITY_MATRIX
+                ).split("## Historical Phase 4J-0 Traceability", 1)[0],
+            },
+            "terminal": {
+                "DEVELOPMENT_LEDGER.md": ledger.split(
+                    "### Historical H1 Issue #76 — Explicit Next-Window Handoff Contract",
+                    1,
+                )[1].split("### Historical H1 Recovery Project-Control Reconciliation", 1)[0],
+                "RISK_REGISTER.md": risk.split(
+                    "## Historical Issue #76 Lifecycle And Continuing H1 Technical Risks",
+                    1,
+                )[1].split(
+                    "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
+                )[0],
+            },
+            "historical": {
+                "DEVELOPMENT_LEDGER.md": ledger.split(
+                    "### Historical H1 Issue #76 — Explicit Next-Window Handoff Contract",
+                    1,
+                )[1].split("### Historical H1 Recovery Project-Control Reconciliation", 1)[0],
+                "VALIDATION_TASKS.md": self.text(VALIDATION_TASKS).split(
+                    "## H1 Issue #76 Next-Window Handoff Contract Validation", 1
+                )[1],
+                "phase_h1_next_window_handoff_contract_gate_report.md": self.text(
+                    ISSUE76_PHASE_REPORT
+                ),
+                "RISK_REGISTER.md": risk.split(
+                    "## Historical Issue #76 Lifecycle And Continuing H1 Technical Risks",
+                    1,
+                )[1].split(
+                    "## Historical Issue #49 Lifecycle And Current Technical Risks", 1
+                )[0],
+                "REQUIREMENTS_TRACEABILITY_MATRIX.md": self.text(
+                    REQUIREMENTS_TRACEABILITY_MATRIX
+                ).split("## H1 Issue #76 Next-Window Handoff Contract", 1)[1],
+            },
         }
 
-    def test_issue76_active_records_use_event_invariant_lifecycle_fields(self):
-        required = (
-            "R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT",
-            "CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED",
-            "REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED",
-            "PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED",
-            "EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED",
-            "CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED",
-            "NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION",
-        )
-        for path, text in self.issue76_active_records().items():
-            with self.subTest(path=path):
-                for field in required:
-                    self.assertIn(field, text)
+    def test_issue76_terminal_records_preserve_completed_lifecycle_evidence(self):
+        terminal = self.issue76_lifecycle_records()["terminal"]
+        ledger = terminal["DEVELOPMENT_LEDGER.md"]
+        for field in (
+            "ISSUE_76_STATE=closed",
+            "ISSUE_76_STATE_REASON=completed",
+            "ISSUE_76_CLOSED_AT=2026-07-15T21:11:51Z",
+            "PR_77_STATE=closed",
+            "PR_77_MERGED=true",
+            "PR_77_HEAD_SHA=9831c2ddbba61e7e2c9a5f35534dc9c967bfb289",
+            "PR_77_MERGE_SHA=306ffff91521da849ac5207c6afe67afed1f889b",
+            "PR_77_MERGED_AT=2026-07-15T21:11:13Z",
+        ):
+            self.assertIn(field, ledger)
+        risk = terminal["RISK_REGISTER.md"]
+        self.assertIn("Issue #76 is `closed/completed`", risk)
+        self.assertIn("ISSUE_76_LIFECYCLE=COMPLETED", risk)
+        self.assertIn("PR_77_LIFECYCLE=MERGED_AND_MAIN_VERIFIED", risk)
+        self.assertIn("9831c2ddbba61e7e2c9a5f35534dc9c967bfb289", risk)
+        self.assertIn("306ffff91521da849ac5207c6afe67afed1f889b", risk)
 
-    def test_issue76_active_records_reject_post_correction_pending_actions(self):
+    def test_issue76_current_active_records_reject_stale_pending_actions(self):
         forbidden = (
             "pr: not created",
             "pending developer delivery",
@@ -1539,33 +1638,58 @@ class GovernanceHardeningTests(unittest.TestCase):
             "pr-body replacement pending",
             "workflow verification pending",
         )
-        for path, text in self.issue76_active_records().items():
+        current = self.issue76_lifecycle_records()["current"]
+        for path, text in current.items():
             with self.subTest(path=path):
                 lowered = text.lower()
                 for phrase in forbidden:
                     self.assertNotIn(phrase, lowered)
+                self.assertNotIn("Phase issue: #76", text)
+        self.assertIn("Phase issue: #80", current["DEVELOPMENT_LEDGER.md"])
+        self.assertIn("Pull request: #81", current["DEVELOPMENT_LEDGER.md"])
+        for path in ("RISK_REGISTER.md", "REQUIREMENTS_TRACEABILITY_MATRIX.md"):
+            self.assertIn("Issue #80", current[path])
+            self.assertIn("PR #81", current[path])
 
     def test_issue76_mutable_github_state_requires_live_verification(self):
-        for path, text in self.issue76_active_records().items():
+        records = self.issue76_lifecycle_records()
+        current = records["current"]
+        ledger = current["DEVELOPMENT_LEDGER.md"]
+        self.assertIn("Implementation commit: LIVE_GITHUB_REQUIRED", ledger)
+        self.assertIn("Pull request head: LIVE_GITHUB_REQUIRED", ledger)
+        self.assertIn("Merge and closeout: LIVE_GITHUB_REQUIRED", ledger)
+        self.assertIn("FRESH_R3_REQUIRED_AFTER_LIVE_DELIVERY_READBACK", ledger)
+        traceability = current["REQUIREMENTS_TRACEABILITY_MATRIX.md"]
+        self.assertIn("current totals are `LIVE_GITHUB_REQUIRED`", traceability)
+        self.assertIn("pagination-complete live H0 refresh", traceability)
+        self.assertIn(
+            "current totals require pagination-complete live H0 refresh",
+            current["RISK_REGISTER.md"],
+        )
+        for path, text in records["terminal"].items():
             with self.subTest(path=path):
-                self.assertIn("LIVE_GITHUB_REQUIRED", text)
-                self.assertIn(
+                self.assertNotIn("CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED", text)
+                self.assertNotIn(
                     "NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION",
                     text,
                 )
 
     def test_issue76_historical_evidence_remains_distinct_from_current_state(self):
-        ledger = self.issue76_active_records()["DEVELOPMENT_LEDGER.md"]
-        validation = self.issue76_active_records()["VALIDATION_TASKS.md"]
-        report = self.issue76_active_records()[
-            "phase_h1_next_window_handoff_contract_gate_report.md"
-        ]
-        for text in (ledger, validation, report):
+        historical = self.issue76_lifecycle_records()["historical"]
+        ledger = historical["DEVELOPMENT_LEDGER.md"]
+        validation = historical["VALIDATION_TASKS.md"]
+        report = historical["phase_h1_next_window_handoff_contract_gate_report.md"]
+        traceability = historical["REQUIREMENTS_TRACEABILITY_MATRIX.md"]
+        for text in (ledger, validation, report, traceability):
             self.assertIn("R1_RESULT=CHANGES_REQUESTED", text)
             self.assertIn("R2_RESULT=CHANGES_REQUESTED", text)
             self.assertIn("R2_REVIEWED_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92", text)
+        for text in (validation, report, traceability):
             self.assertIn("R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT", text)
             self.assertIn("CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED", text)
+        risk = historical["RISK_REGISTER.md"]
+        self.assertIn("R2_RESULT=CHANGES_REQUESTED", risk)
+        self.assertIn("R2_CORRECTION_IMPLEMENTATION=HISTORICAL", risk)
         self.assertIn("INITIAL_DEVELOPER_DELIVERY=COMPLETED", ledger)
         self.assertIn("R1_CORRECTION_HEAD=5ac454ae2ce2c12dd144ab688dfdb02f5202cb92", ledger)
         self.assertIn(

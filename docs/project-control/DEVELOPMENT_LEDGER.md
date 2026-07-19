@@ -6,7 +6,90 @@ Historical details remain in existing phase reports and GitHub PR history.
 
 ## Active Ledger Entry
 
-### H1 Issue #76 — Explicit Next-Window Handoff Contract
+### H0 Durable Red-Team Finding Governance — Documentation Implementation
+
+```text
+Phase: H0 durable Red-Team finding governance documentation
+Lane: Control / Infrastructure
+Date: 2026-07-17
+Branch: h0-durable-red-team-findings
+Phase issue: #80
+Parent H0 issue: #67
+Owner decision issue: #70
+H8 issue: #68
+Master roadmap issue: #79
+Base owner comment: 5008937720
+Owner amendment comment: 5009133733
+R1 base correction comment: 5009524634
+R1 additive correction amendment: 5009601637
+R1 preserved-worktree comment: 5009689695
+R1 continuity-test expansion comment: 5009759690
+R1 failure-distribution comment: 5009887710
+R1 deterministic-log comment: 5009952109
+R1 body-only repair comment: 5012831025
+R3 correction authority comment: 5013596728 # documentation scope
+Starting main: 306ffff91521da849ac5207c6afe67afed1f889b
+Implementation commit: LIVE_GITHUB_REQUIRED
+R2 correction commit: LIVE_GITHUB_REQUIRED
+R3 correction commit: LIVE_GITHUB_REQUIRED
+Pull request: #81
+Pull request head: LIVE_GITHUB_REQUIRED
+R1 reviewed head: b53efedca558993ecbd8abd11de16c4ff86ad1f1
+R1 decision: CHANGES_REQUESTED
+R1 correction state: IMPLEMENTED_IN_THIS_CORRECTION_COMMIT
+R2 reviewed head: 74d2c76c1b9b63fea6238f587de347eaca450c7a
+R2 decision: CHANGES_REQUESTED
+R2 finding: R2-AUTH-SCOPE-001
+R2 correction authority comment: 5012982298 # documentation scope
+R2 correction state: AUTHORIZED_AND_IMPLEMENTED_PENDING_LIVE_DELIVERY_READBACK # documentation scope
+R3 reviewed head: 4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834
+R3 decision: CHANGES_REQUESTED
+R3 finding: R3-REPORT-EVIDENCE-001
+R3 correction state: AUTHORIZED_AND_IMPLEMENTED_PENDING_LIVE_DELIVERY_READBACK # documentation scope
+Historical R3 review gate before the R3 decision: FRESH_R3_REQUIRED_AFTER_LIVE_DELIVERY_READBACK
+Checks and current review: FRESH_R4_REQUIRED_AFTER_LIVE_DELIVERY_READBACK
+Merge and closeout: LIVE_GITHUB_REQUIRED
+Changed files (documentation scope): original twelve-document Issue #80 intake, later owner-authorized continuity-test expansion, nine-file R1 correction, four-file R2 correction, thirteen cumulative PR paths, and current four-file R3 correction
+INITIAL_ISSUE80_ALLOWLIST_COUNT=12
+R1_BASE_COMMENT_ID=5009524634
+R1_A1_COMMENT_ID=5009601637
+R1_A2_COMMENT_ID=5009689695
+R1_A3_COMMENT_ID=5009759690
+R1_A4_COMMENT_ID=5009887710
+R1_A5_COMMENT_ID=5009952109
+R1_A6_BODY_ONLY_COMMENT_ID=5012831025
+R1_ORIGINAL_DOCUMENT_CORRECTION_FILE_COUNT=8
+R1_AUTHORIZED_ADDITIONAL_TEST_FILE_COUNT=1 # documentation scope
+R1_CORRECTION_CHANGED_FILE_COUNT=9
+CUMULATIVE_PR_CHANGED_FILE_COUNT=13
+AUTHORIZED_ADDITIONAL_PATH=scripts/continuity/tests/test_red_team_continuity.py # documentation scope
+R2_REVIEW_ID=RT-PR81-R2
+R2_REVIEWED_HEAD=74d2c76c1b9b63fea6238f587de347eaca450c7a
+R2_DECISION=CHANGES_REQUESTED
+R2_FINDING=R2-AUTH-SCOPE-001
+R2_FINDING_CLASSIFICATION=IMPLEMENTED_PENDING_FRESH_R3_REVIEW_AFTER_DELIVERY # documentation scope
+R2_CORRECTION_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
+R2_CORRECTION_FILE_COUNT_AUTHORIZED=4 # documentation scope
+R3_REVIEW_ID=RT-PR81-R3
+R3_REVIEWED_HEAD=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834
+R3_DECISION=CHANGES_REQUESTED
+R3_FINDING=R3-REPORT-EVIDENCE-001
+R3_CORRECTION_AUTHORITY_COMMENT_ID=5013596728 # documentation scope
+R3_CORRECTION_STATE=AUTHORIZED_AND_IMPLEMENTED_PENDING_LIVE_DELIVERY_READBACK # documentation scope
+CURRENT_RED_TEAM_REVIEW=FRESH_R4_REQUIRED_AFTER_DELIVERY
+MERGE_ELIGIBLE=NO
+Claim level: Documentation and traceability only; Markdown is not H1-B1A-G machine enforcement
+Product work: Prohibited by this packet
+GitHub settings, connector permissions, and security features: No change authorized
+H0 closeout: Not authorized
+H1, H7A, and H8 implementation: Not authorized
+Next gate: Fresh independent R4 review of the exact live draft-PR head after delivery readback
+Automatic continuation: No
+```
+
+## Historical Ledger Entries
+
+### Historical H1 Issue #76 — Explicit Next-Window Handoff Contract
 
 ```text
 Phase: H1 next-window handoff contract gate
@@ -29,14 +112,16 @@ R2_FINDING_1=R2-STATE-001
 R2_FINDING_2=R2-TEST-001
 R2_CORRECTION_AUTHORITY=ISSUE_76_COMMENT_4984934461 # documentation scope
 R2_CORRECTION_SCOPE=SIX_EXISTING_FILES
-R2_CORRECTION_IMPLEMENTATION=THIS_COMMIT
-CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
-REMOTE_DELIVERY_STATE=LIVE_GITHUB_REQUIRED
-PR_BODY_REPLACEMENT_STATE=LIVE_GITHUB_REQUIRED
-EXACT_HEAD_WORKFLOW_STATE=LIVE_GITHUB_REQUIRED
-CURRENT_RED_TEAM_REVIEW_STATE=LIVE_GITHUB_REQUIRED
-NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
-Scope: Historical initial delivery and R1 correction; this commit applies the owner-authorized six-file R2 lifecycle correction
+R2_CORRECTION_IMPLEMENTATION=HISTORICAL
+ISSUE_76_STATE=closed
+ISSUE_76_STATE_REASON=completed
+ISSUE_76_CLOSED_AT=2026-07-15T21:11:51Z
+PR_77_STATE=closed
+PR_77_MERGED=true
+PR_77_HEAD_SHA=9831c2ddbba61e7e2c9a5f35534dc9c967bfb289
+PR_77_MERGE_SHA=306ffff91521da849ac5207c6afe67afed1f889b
+PR_77_MERGED_AT=2026-07-15T21:11:13Z
+Scope: Historical initial delivery, R1 correction, R2 correction, completed review lifecycle, protected merge, main verification, and Issue #76 closeout
 Runtime/schema/fixture migration: Not required by the bounded impact analysis
 Private-chat enforcement: Behavioral obligation; universal technical enforcement is not proven
 Claim level: Project-control navigation hardening only
@@ -44,8 +129,6 @@ Product work: Frozen
 Production: Blocked
 H1 bootstrap: Not authorized
 ```
-
-## Historical Ledger Entries
 
 ### Historical H1 Recovery Project-Control Reconciliation
 

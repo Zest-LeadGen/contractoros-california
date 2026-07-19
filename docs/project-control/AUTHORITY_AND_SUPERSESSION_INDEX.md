@@ -4,34 +4,36 @@
 
 This documentation index makes current precedence and explicit supersession visible. It preserves audit history and does not grant implementation, merge, production, H1 bootstrap, or next-packet authority.
 
-## Current Precedence
+## Role-Specific Authority Model (documentation scope)
 
-For a claim within its lawful scope, use this order:
-
-1. applicable law and binding obligations;
-2. Issue #58 comment `4975617497`, the owner-approved H1 recovery amendment;
-3. `PROGRAM_CONSTITUTION.md` and `OWNER_DECISION_REGISTER.yaml`, including D27-D32;
-4. active committed policies, including the Epistemic Integrity and Non-Fabrication Standard;
-5. live GitHub issue, PR, SHA, check, review, merge, and repository evidence for mutable state;
-6. historical phase reports and earlier issue comments as audit evidence, subject to explicit supersession;
-7. local files, chat, generated packets, connector state, and AI output as non-authoritative input or evidence only until independently verified and durably incorporated; this is a documentation claim.
-
-Later records supersede earlier records only when they name the conflict and preserve history. Live mutable evidence controls current lifecycle facts, but it does not create owner authorization by itself.
-
-## Active H1 Recovery Authority — Documentation Scope
+Authority is role-specific; it is not one total precedence list. Applicable law and binding obligations remain controlling within their lawful scope. For this documentation activity, the following records have distinct roles and cannot acquire another role through chronology or repetition:
 
 ```text
-ACTIVE_H1_ISSUE=58
-ACTIVE_RECOVERY_AUTHORITY_COMMENT=4975617497 # documentation scope
+OWNER_AUTHORITY_ROLE=EXACT_OWNER_DECISIONS_AND_ADDITIVE_AMENDMENTS_CONTROL_AUTHORIZATION # documentation scope
+MASTER_ROADMAP_ROLE=ISSUE_79_CONTROLS_SEQUENCE_DEPENDENCIES_CONFLICTS_DEFERRALS_AND_EXIT_CRITERIA
+H0_GATE_ROLE=ISSUE_67_CONTROLS_H0_EVIDENCE_DISPOSITION_AND_CLOSEOUT
+FINDING_REGISTER_ROLE=RED_TEAM_FINDINGS_REGISTER_CONTROLS_FINDING_STATUS_VERSION_AND_HISTORY_SUBJECT_TO_ISSUE_79
+IMPLEMENTATION_ROLE=EXACT_CHILD_ISSUES_ALLOWLISTS_AND_PULL_REQUESTS_IMPLEMENT_WITHIN_OWNER_AUTHORITY # documentation scope
+REVIEW_ROLE=INDEPENDENT_EXACT_HEAD_REVIEW_CLASSIFIES_THE_REVIEWED_IMPLEMENTATION
+LIVE_GITHUB_ROLE=LIVE_GITHUB_CONTROLS_MUTABLE_FACTS_BUT_CREATES_NO_AUTHORITY # documentation scope
+```
+
+`PROGRAM_CONSTITUTION.md`, `OWNER_DECISION_REGISTER.yaml`, and active committed policies constrain work within their scopes. Historical phase reports and earlier comments remain audit evidence subject to explicit supersession. Local files, chat, generated packets, connector state, and AI output are non-authoritative input or evidence until independently verified and durably incorporated. Later records supersede earlier records only when they name the conflict and preserve history.
+
+## Historical H1 Recovery Authority — Documentation Scope
+
+```text
+HISTORICAL_H1_RECOVERY_ISSUE=58
+HISTORICAL_RECOVERY_AUTHORITY_COMMENT=4975617497 # documentation scope
 RECOVERY_COMMENT_SHA256=b0ca1ccc2a4ba30d0de28900679dbe0ae8eddfb224023affaec178799c289cac
 APPROVED_CONTRACT_SHA256=52df643dbd5fcce2b1d8b018730c8762b60900a806bf97f5a2c9c2b5946e4726
-CURRENT_MAIN_SHA=7d00343c233e45185e6c4d77e50eb870f408c01f
+HISTORICAL_MAIN_SHA_AT_RECOVERY=7d00343c233e45185e6c4d77e50eb870f408c01f
 ISSUE_49=CLOSED
 PR_50=MERGED
 H1_BOOTSTRAP_AUTHORIZED=NO # blocked scope
 ```
 
-Issue #58 recovery supersedes stale current-gate assertions in Issue #47-era and Issue #49-in-review records. It preserves the implemented collector as historical merged capability and preserves the long-term product vision unchanged.
+Issue #58 recovery superseded stale Issue #47-era and Issue #49-in-review assertions. Its project-control reconciliation boundary is historical; it preserves the implemented collector as historical merged capability and preserves the long-term product vision unchanged. It does not describe the current Issue #80 / PR #81 activity.
 
 ## Complete Issue #24 Classification
 
@@ -69,6 +71,61 @@ The nonexistence claim concerning comment `4953096532` is disproven by the compl
 | Blanket hook-bypass instruction | Superseded | Normal hooks run unless a later exact owner authorization names an exception; documentation scope |
 | Local prompt, ledger, sandbox, generated packet, or chat string as phase authority | Prohibited | Durable GitHub authority and protected lifecycle; local implementation authority is not authorized |
 
-## Current Recovery Boundary
+## Historical Recovery Boundary And Current Bounded Activity
 
-Product work is frozen. Production is blocked. Phase 4K-9 and downstream progression are paused. Phase 4I is paused. The current allowed activity is the exact project-control reconciliation PR only. Fresh independent exact-SHA review, separate human approval, protected merge, main verification, and durable closeout remain pending gates. No H1 bootstrap or governance-repository mutation is authorized.
+The former Issue #58 project-control reconciliation boundary is historical. Product work remains frozen, production remains blocked, Phase 4K-9 and downstream progression remain paused, and Phase 4I remains paused. The only current bounded documentation activity recorded here is Issue #80 and draft PR #81 on `h0-durable-red-team-findings`, including its owner-authorized R1, R2, and R3 correction history. No H0 closeout, H1 bootstrap, H7A, H8, product, production, approval, merge, issue closeout, or next-packet authority follows from this activity.
+
+## H0 Durable Finding Authority — Documentation Scope
+
+The original Issue #80 intake authority covered exactly twelve documentation paths. The later additive R1-A3 authority added one continuity-test path for the bounded R1 correction; that expansion produced a nine-file R1 correction commit and thirteen cumulative PR paths. R2 did not classify the continuity-test mutation as unauthorized. Its finding is that the durable committed records did not preserve the complete authority chain and actual resulting path counts. R3 later found only an execution-history and validation-evidence contradiction in the phase report; it changed no underlying durable-finding semantic.
+
+```text
+OWNER_DECISION_ID=OD-H0-GOV-001
+AI_DECISION_ID=OD-H0-AI-001
+OWNER_AMENDMENT_ID=OD-H0-GOV-001-A1
+BASE_OWNER_COMMENT_ID=5008937720
+AMENDMENT_COMMENT_ID=5009133733
+INITIAL_ISSUE80_ALLOWLIST_COUNT=12
+R1_BASE_COMMENT_ID=5009524634
+R1_A1_COMMENT_ID=5009601637
+R1_BASE_CORRECTION_COMMENT_ID=5009524634
+R1_CORRECTION_AMENDMENT_COMMENT_ID=5009601637
+R1_A2_COMMENT_ID=5009689695
+R1_A3_COMMENT_ID=5009759690
+R1_A4_COMMENT_ID=5009887710
+R1_A5_COMMENT_ID=5009952109
+R1_A6_BODY_ONLY_COMMENT_ID=5012831025
+R1_ORIGINAL_DOCUMENT_CORRECTION_FILE_COUNT=8
+R1_AUTHORIZED_ADDITIONAL_TEST_FILE_COUNT=1 # documentation scope
+R1_CORRECTION_CHANGED_FILE_COUNT=9
+CUMULATIVE_PR_CHANGED_FILE_COUNT=13
+AUTHORIZED_ADDITIONAL_PATH=scripts/continuity/tests/test_red_team_continuity.py # documentation scope
+R2_REVIEW_ID=RT-PR81-R2
+R2_REVIEWED_HEAD=74d2c76c1b9b63fea6238f587de347eaca450c7a
+R2_DECISION=CHANGES_REQUESTED
+R2_FINDING=R2-AUTH-SCOPE-001
+R2_FINDING_CLASSIFICATION=IMPLEMENTED_PENDING_FRESH_R3_REVIEW_AFTER_DELIVERY # documentation scope
+R2_CORRECTION_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
+R2_CORRECTION_FILE_COUNT_AUTHORIZED=4 # documentation scope
+R3_REVIEW_ID=RT-PR81-R3
+R3_REVIEWED_HEAD=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834
+R3_DECISION=CHANGES_REQUESTED
+R3_FINDING=R3-REPORT-EVIDENCE-001
+R3_CORRECTION_AUTHORITY_COMMENT_ID=5013596728 # documentation scope
+CURRENT_RED_TEAM_REVIEW=FRESH_R4_REQUIRED_AFTER_DELIVERY
+MERGE_ELIGIBLE=NO
+AUTHORITY_EXPANSION=NO # documentation scope
+H0_CLOSEOUT_AUTHORITY=NONE # documentation scope
+H1_AUTHORITY=NONE # documentation scope
+H7A_IMPLEMENTATION_AUTHORITY=NONE # documentation scope
+H8_IMPLEMENTATION_AUTHORITY=NONE # documentation scope
+PRODUCT_AUTHORITY=NONE # documentation scope
+MERGE_AUTHORITY=NONE # documentation scope
+AUTOMATIC_CONTINUATION=NO
+```
+
+The base owner decision and amendment remain binding. R1 comments A1 through A5 are additive correction history; A3 alone adds the single test path, while A2, A4, and A5 preserve or refine execution predicates without broader scope. A6 is body-only repair history. R2 comment `5012982298` authorized only its recorded four-file correction. R3 review `RT-PR81-R3` is historical `CHANGES_REQUESTED` evidence for exact head `4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834`; owner comment `5013596728` authorizes only the current four-file evidence reconciliation and requires fresh independent R4 review after delivery. The canonical seven finding records remain unchanged in `RED_TEAM_FINDINGS_REGISTER.md`.
+
+For this finding set, Issue #79 controls sequence, dependencies, conflicts, deferrals, and exit criteria. The findings register records finding status, version, and history subject to Issue #79; it does not outrank or replace the master roadmap. Issue #67 controls H0 evidence disposition and closeout. Exact child issues and pull requests implement only their allowlists within owner authority. Independent exact-head review classifies only the reviewed implementation. Live GitHub controls mutable facts but creates no authority.
+
+Implementation issues and pull requests cannot broaden owner authority. Review evidence cannot change scope. A later record supersedes an earlier record only when it identifies the earlier record, the conflict or changed premise, the exact owner authority, and the preserved historical evidence. Mutable state must not be encoded here as permanent authority.
