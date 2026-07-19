@@ -1494,7 +1494,11 @@ class GovernanceHardeningTests(unittest.TestCase):
             "scripts/continuity/tests/test_red_team_continuity.py",
             "RT-PR81-R2",
             "R2-AUTH-SCOPE-001",
-            "FRESH_R3_REQUIRED",
+            "R3_REVIEW_ID=RT-PR81-R3",
+            "R3_REVIEWED_HEAD=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834",
+            "R3_DECISION=CHANGES_REQUESTED",
+            "R3_FINDING=R3-REPORT-EVIDENCE-001",
+            "FRESH_R4_REQUIRED",
         )
         stale_current_scope_claims = (
             "twelve cumulative documentation paths",
@@ -1509,6 +1513,30 @@ class GovernanceHardeningTests(unittest.TestCase):
                     self.assertIn(value, text)
                 for phrase in stale_current_scope_claims:
                     self.assertNotIn(phrase, text)
+                self.assertNotRegex(
+                    text,
+                    r"(?m)^CURRENT_RED_TEAM_REVIEW(?:_STATE)?=FRESH_R3_REQUIRED",
+                )
+
+        phase_report = self.text(H0_DURABLE_FINDING_REPORT)
+        for value in (
+            "HISTORICAL_R1_CONTINUITY_TEST_COUNT=347",
+            "CURRENT_R2_CORRECTION_CONTINUITY_TEST_COUNT=348",
+            "INITIAL_IMPLEMENTATION_COMMIT=b53efedca558993ecbd8abd11de16c4ff86ad1f1",
+            "R1_CORRECTION_COMMIT=74d2c76c1b9b63fea6238f587de347eaca450c7a",
+            "R2_CORRECTION_COMMIT=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834",
+            "R3_CORRECTION_COMMIT=THIS_COMMIT_PENDING_LIVE_DELIVERY_READBACK",
+        ):
+            self.assertIn(value, phase_report)
+        for stale_claim in (
+            "Authorized mutation commands are limited to child Issue #80 creation, exact branch "  # documentation scope test literal
+            "creation, narrow documentation edits, one commit, one non-force push, and one "
+            "draft-PR creation.",
+            "must pass before the one authorized documentation-scope commit.",
+            "(`347` tests passed)",
+            "CURRENT_R2_CORRECTION_CONTINUITY_TEST_COUNT=347",
+        ):
+            self.assertNotIn(stale_claim, phase_report)
 
     def test_conflicting_nothing_after_chart_language_is_absent(self):
         forbidden = (

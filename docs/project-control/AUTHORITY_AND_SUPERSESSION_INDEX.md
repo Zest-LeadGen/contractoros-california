@@ -73,11 +73,11 @@ The nonexistence claim concerning comment `4953096532` is disproven by the compl
 
 ## Historical Recovery Boundary And Current Bounded Activity
 
-The former Issue #58 project-control reconciliation boundary is historical. Product work remains frozen, production remains blocked, Phase 4K-9 and downstream progression remain paused, and Phase 4I remains paused. The only current bounded documentation activity recorded here is Issue #80 and draft PR #81 on `h0-durable-red-team-findings`, including its owner-authorized R1 correction. No H0 closeout, H1 bootstrap, H7A, H8, product, production, approval, merge, issue closeout, or next-packet authority follows from this activity.
+The former Issue #58 project-control reconciliation boundary is historical. Product work remains frozen, production remains blocked, Phase 4K-9 and downstream progression remain paused, and Phase 4I remains paused. The only current bounded documentation activity recorded here is Issue #80 and draft PR #81 on `h0-durable-red-team-findings`, including its owner-authorized R1, R2, and R3 correction history. No H0 closeout, H1 bootstrap, H7A, H8, product, production, approval, merge, issue closeout, or next-packet authority follows from this activity.
 
 ## H0 Durable Finding Authority — Documentation Scope
 
-The original Issue #80 intake authority covered exactly twelve documentation paths. The later additive R1-A3 authority added one continuity-test path for the bounded R1 correction; that expansion produced a nine-file R1 correction commit and thirteen cumulative PR paths. R2 did not classify the continuity-test mutation as unauthorized. Its finding is that the durable committed records did not preserve the complete authority chain and actual resulting path counts.
+The original Issue #80 intake authority covered exactly twelve documentation paths. The later additive R1-A3 authority added one continuity-test path for the bounded R1 correction; that expansion produced a nine-file R1 correction commit and thirteen cumulative PR paths. R2 did not classify the continuity-test mutation as unauthorized. Its finding is that the durable committed records did not preserve the complete authority chain and actual resulting path counts. R3 later found only an execution-history and validation-evidence contradiction in the phase report; it changed no underlying durable-finding semantic.
 
 ```text
 OWNER_DECISION_ID=OD-H0-GOV-001
@@ -107,7 +107,12 @@ R2_FINDING=R2-AUTH-SCOPE-001
 R2_FINDING_CLASSIFICATION=IMPLEMENTED_PENDING_FRESH_R3_REVIEW_AFTER_DELIVERY # documentation scope
 R2_CORRECTION_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
 R2_CORRECTION_FILE_COUNT_AUTHORIZED=4 # documentation scope
-CURRENT_RED_TEAM_REVIEW=FRESH_R3_REQUIRED_AFTER_DELIVERY
+R3_REVIEW_ID=RT-PR81-R3
+R3_REVIEWED_HEAD=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834
+R3_DECISION=CHANGES_REQUESTED
+R3_FINDING=R3-REPORT-EVIDENCE-001
+R3_CORRECTION_AUTHORITY_COMMENT_ID=5013596728 # documentation scope
+CURRENT_RED_TEAM_REVIEW=FRESH_R4_REQUIRED_AFTER_DELIVERY
 MERGE_ELIGIBLE=NO
 AUTHORITY_EXPANSION=NO # documentation scope
 H0_CLOSEOUT_AUTHORITY=NONE # documentation scope
@@ -119,7 +124,7 @@ MERGE_AUTHORITY=NONE # documentation scope
 AUTOMATIC_CONTINUATION=NO
 ```
 
-The base owner decision and amendment remain binding. R1 comments A1 through A5 are additive correction history; A3 alone adds the single test path, while A2, A4, and A5 preserve or refine execution predicates without broader scope. A6 is body-only repair history. R2 comment `5012982298` authorizes only the four-file correction recorded above and requires a fresh independent R3 review of the resulting exact head. The canonical seven finding records remain unchanged in `RED_TEAM_FINDINGS_REGISTER.md`.
+The base owner decision and amendment remain binding. R1 comments A1 through A5 are additive correction history; A3 alone adds the single test path, while A2, A4, and A5 preserve or refine execution predicates without broader scope. A6 is body-only repair history. R2 comment `5012982298` authorized only its recorded four-file correction. R3 review `RT-PR81-R3` is historical `CHANGES_REQUESTED` evidence for exact head `4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834`; owner comment `5013596728` authorizes only the current four-file evidence reconciliation and requires fresh independent R4 review after delivery. The canonical seven finding records remain unchanged in `RED_TEAM_FINDINGS_REGISTER.md`.
 
 For this finding set, Issue #79 controls sequence, dependencies, conflicts, deferrals, and exit criteria. The findings register records finding status, version, and history subject to Issue #79; it does not outrank or replace the master roadmap. Issue #67 controls H0 evidence disposition and closeout. Exact child issues and pull requests implement only their allowlists within owner authority. Independent exact-head review classifies only the reviewed implementation. Live GitHub controls mutable facts but creates no authority.
 

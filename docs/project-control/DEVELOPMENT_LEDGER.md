@@ -27,9 +27,11 @@ R1 continuity-test expansion comment: 5009759690
 R1 failure-distribution comment: 5009887710
 R1 deterministic-log comment: 5009952109
 R1 body-only repair comment: 5012831025
+R3 correction authority comment: 5013596728 # documentation scope
 Starting main: 306ffff91521da849ac5207c6afe67afed1f889b
 Implementation commit: LIVE_GITHUB_REQUIRED
 R2 correction commit: LIVE_GITHUB_REQUIRED
+R3 correction commit: LIVE_GITHUB_REQUIRED
 Pull request: #81
 Pull request head: LIVE_GITHUB_REQUIRED
 R1 reviewed head: b53efedca558993ecbd8abd11de16c4ff86ad1f1
@@ -40,9 +42,14 @@ R2 decision: CHANGES_REQUESTED
 R2 finding: R2-AUTH-SCOPE-001
 R2 correction authority comment: 5012982298 # documentation scope
 R2 correction state: AUTHORIZED_AND_IMPLEMENTED_PENDING_LIVE_DELIVERY_READBACK # documentation scope
-Checks and current review: FRESH_R3_REQUIRED_AFTER_LIVE_DELIVERY_READBACK
+R3 reviewed head: 4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834
+R3 decision: CHANGES_REQUESTED
+R3 finding: R3-REPORT-EVIDENCE-001
+R3 correction state: AUTHORIZED_AND_IMPLEMENTED_PENDING_LIVE_DELIVERY_READBACK # documentation scope
+Historical R3 review gate before the R3 decision: FRESH_R3_REQUIRED_AFTER_LIVE_DELIVERY_READBACK
+Checks and current review: FRESH_R4_REQUIRED_AFTER_LIVE_DELIVERY_READBACK
 Merge and closeout: LIVE_GITHUB_REQUIRED
-Changed files (documentation scope): original twelve-document Issue #80 intake, later owner-authorized continuity-test expansion, nine-file R1 correction, thirteen cumulative PR paths, and current four-file R2 correction
+Changed files (documentation scope): original twelve-document Issue #80 intake, later owner-authorized continuity-test expansion, nine-file R1 correction, four-file R2 correction, thirteen cumulative PR paths, and current four-file R3 correction
 INITIAL_ISSUE80_ALLOWLIST_COUNT=12
 R1_BASE_COMMENT_ID=5009524634
 R1_A1_COMMENT_ID=5009601637
@@ -63,14 +70,20 @@ R2_FINDING=R2-AUTH-SCOPE-001
 R2_FINDING_CLASSIFICATION=IMPLEMENTED_PENDING_FRESH_R3_REVIEW_AFTER_DELIVERY # documentation scope
 R2_CORRECTION_AUTHORITY_COMMENT_ID=5012982298 # documentation scope
 R2_CORRECTION_FILE_COUNT_AUTHORIZED=4 # documentation scope
-CURRENT_RED_TEAM_REVIEW=FRESH_R3_REQUIRED_AFTER_DELIVERY
+R3_REVIEW_ID=RT-PR81-R3
+R3_REVIEWED_HEAD=4bb20d292d5c4bd154dbc6a4fc8c6b8626e48834
+R3_DECISION=CHANGES_REQUESTED
+R3_FINDING=R3-REPORT-EVIDENCE-001
+R3_CORRECTION_AUTHORITY_COMMENT_ID=5013596728 # documentation scope
+R3_CORRECTION_STATE=AUTHORIZED_AND_IMPLEMENTED_PENDING_LIVE_DELIVERY_READBACK # documentation scope
+CURRENT_RED_TEAM_REVIEW=FRESH_R4_REQUIRED_AFTER_DELIVERY
 MERGE_ELIGIBLE=NO
 Claim level: Documentation and traceability only; Markdown is not H1-B1A-G machine enforcement
 Product work: Prohibited by this packet
 GitHub settings, connector permissions, and security features: No change authorized
 H0 closeout: Not authorized
 H1, H7A, and H8 implementation: Not authorized
-Next gate: Fresh independent R3 review of the exact live draft-PR head after delivery readback
+Next gate: Fresh independent R4 review of the exact live draft-PR head after delivery readback
 Automatic continuation: No
 ```
 
