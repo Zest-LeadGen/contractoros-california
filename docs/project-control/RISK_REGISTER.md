@@ -737,3 +737,41 @@ Owner: ContractorOS development lead / external red-team gate
 Resolution condition: C3.4 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
 Last reviewed: 2026-07-12
 ```
+
+## H0 Terminal-Disposition Implementation Risks
+
+### R-H0-TD-001 — Post-capture open-work delta
+
+```text
+Risk: Issue #82 and the implementation PR are created after the checksum-bound 28-record capture, so treating the capture as current pre-closeout inventory would be stale.
+Status: Active / blocked from H0 closeout
+Evidence: SRC-H0-TD-001,SRC-H0-TD-004; Issue #82
+Mitigation: Preserve the 28 captured records, disclose the delta, and require a fresh pagination recheck after protected merge and before any H0 closeout decision.
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Fresh pre-closeout inventory reconciles every post-capture object with no unclassified record.
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-002 — Disposition records mistaken for execution permission
+
+```text
+Risk: A recorded close or preservation disposition could be mistaken for permission to close an issue or PR, delete a branch, merge, or continue automatically.
+Status: Active / controlled by documentation scope boundaries
+Evidence: Issue #70 comment 5017555554; H0 terminal-disposition manifest and report
+Mitigation: Every record states its dependency, responsible gate, revisit trigger, prohibited interim actions, and no-mutation boundary.
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Separate exact future authority and required protected lifecycle evidence exist for each consequential action. # documentation scope
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-003 — Unique branch commits lost or silently rewritten
+
+```text
+Risk: PR #9, PR #56 replacement-chain, or Phase 4I-A hotfix commits could be lost if branch containment is generalized from the 35 ahead-by-zero non-default branches.
+Status: Active / blocked from branch deletion
+Evidence: SRC-H0-TD-005; branch matrix at main 564fe30cd0e7e11896ef01ef4117940e1d42c2a3
+Mitigation: Preserve all branches; separately classify the three ahead-by-positive branches; require separate deletion permission. # documentation scope
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Exact preservation/replacement evidence and separate owner decision exist for each unique-commit branch.
+Last reviewed: 2026-07-21
+```

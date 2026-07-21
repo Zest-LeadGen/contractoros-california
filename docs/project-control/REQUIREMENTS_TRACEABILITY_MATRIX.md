@@ -368,3 +368,16 @@ NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
 | RTM-H1-76-012 | `STALE_POST_CORRECTION_INSTRUCTIONS_REJECTED` is enforced. | Five active records and continuity tests. | Case-insensitive tests reject post-correction delivery, commit, push, body, and workflow instructions in active sections. | This commit; historical evidence remains separately classified. |
 | RTM-H1-76-013 | `MUTABLE_GITHUB_STATE_REQUIRES_LIVE_RETRIEVAL` is enforced. | Five active records and continuity tests. | Remote delivery, PR-body, workflow, and review claims must use `LIVE_GITHUB_REQUIRED`. | This commit; live GitHub verification is required. |
 | RTM-H1-76-014 | `FRESH_EXACT_SHA_REVIEW_AFTER_LIVE_VERIFICATION` is enforced. | Five active records and continuity tests. | Acceptance binds to a fresh whole-PR review of the exact head live GitHub reports after correction delivery. | This commit; `NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION`. |
+
+## H0 Terminal-Disposition Traceability
+
+| Requirement ID | Requirement | Source | Target records | Validation | Status |
+|---|---|---|---|---|---|
+| RTM-H0-TD-001 | Bind implementation to exact decision, issue, branch, SHA, and ten paths. | Issue #70 comment `5017555554`; Issue #82 | All ten authorized paths; documentation scope | Authority preflight, SHA checks, changed-path assertion | Implemented pending independent review. |
+| RTM-H0-TD-002 | Preserve one record for each of 28 captured open work items. | SRC-H0-TD-001,SRC-H0-TD-004 | Derived manifest; final disposition report | Count, uniqueness, required-field, and allowed-disposition checks | Implemented pending independent review. |
+| RTM-H0-TD-003 | Preserve one record for each of 39 captured branches. | SRC-H0-TD-001,SRC-H0-TD-005 | Derived manifest; final disposition report | Count, uniqueness, live-tip match, comparison, preservation, and no-deletion checks | Implemented pending independent review. |
+| RTM-H0-TD-004 | Reconcile PR #56 without retroactive permission or reopening. | Comments `5017079421`, `5017555554` | Findings register; authority index; reports; documentation scope | Exact event, actor, timestamp, head, merged flag, and no-reopen assertions | `RT_H0_AUTH_001=RESOLVED_AND_VERIFIED`; documentation scope. |
+| RTM-H0-TD-005 | Preserve Issue #55 pending a valid replacement chain. | Comments `5017079421`, `5017555554` | Manifest; final report; risk/findings records | Replacement dependency, preserved head, no reuse/merge/reopen/close permission | Implemented pending independent review. |
+| RTM-H0-TD-006 | Publish only sanitized derived evidence. | Private-source restriction in comment `5017555554` | Derived manifest; reports; source record | Hash match; JSON parse; email/local-path/secret-like zero-match scans | Pending final scans. |
+| RTM-H0-TD-007 | Keep H0 and H1 blocked after implementation. | Issue #67; Issue #79; comment `5017555554` | Findings, risks, ledger, reports; documentation scope | Exact `H0_MAY_CLOSE=NO`, no H0/H1 permission, next actor Red Team | Implemented pending independent review. |
+| RTM-H0-TD-008 | Stop after one PR and live readback. | Comment `5017555554` | PR body and developer handoff | Exact title/base/head, ten files, hashes, no later mutation | Pending PR creation. |
