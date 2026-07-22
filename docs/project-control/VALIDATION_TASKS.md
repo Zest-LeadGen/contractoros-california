@@ -459,7 +459,32 @@ NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
 | VAL-H0-TD-001 | Verify exact owner decision and starting state; documentation scope. | Live Issue #70 comments; identity/permission read; fetch; four-way SHA comparison; clean-tree check | Exact comment `5017555554`, owner identity, write permission, exact repo, clean tree, and all main views at `564fe30cd0e7e11896ef01ef4117940e1d42c2a3` | Passed before mutation. |
 | VAL-H0-TD-002 | Verify the open-work matrix. | Strict JSON parse and ID/count checks | 28 records, zero duplicate IDs, every required field nonempty, only Issue #79 dispositions | Passed: 28 records, zero duplicates, required fields present, and disposition enum accepted. |
 | VAL-H0-TD-003 | Verify the branch matrix. | Strict JSON parse, name/count checks, capture/live tip comparison, and branch-class assertions | 39 records, zero duplicate names, all live tips match capture, three unique-commit branches separated, deletion permission none | Passed: 39 records, zero duplicates, tips matched, special branches separated, deletion permission none. |
-| VAL-H0-TD-004 | Verify evidence checksum and privacy. | SHA-256 check; JSON parse; email, local-path, and secret-like scans | Source checksum match; derived JSON parses; zero prohibited matches | Passed: source checksum matched; JSON parsed; all three prohibited-match counts are zero. |
-| VAL-H0-TD-005 | Run the required local control suite. | Nine commands named by Issue #70 comment `5017555554` | Every command returns zero without editing controls | Passed in the current worktree; final post-recording rerun required before commit. |
-| VAL-H0-TD-006 | Verify exact changed paths and hashes; documentation scope. | `git diff --name-only`, allowlist comparison, `git diff --check`, SHA-256 | Exactly ten authorized paths; deterministic derived-manifest and report hashes recorded | Passed: ten paths; derived hash `cbeb47d17b4ee6321ec27a4f6bb29c9bd4b84697b815556dd1b626d22082865b`; report hash `36ec102cbcdbbe6dd6fc9752f94bb372356e3f7d3c25c70e218952d2a28b46d6`. |
-| VAL-H0-TD-007 | Verify post-PR live state. | PR readback, exact head SHA, changed-file listing, checks readback | One PR with exact title/base/head, exact ten paths, no review/approval/merge/close/delete action | Pending PR creation. |
+| VAL-H0-TD-004 | Verify evidence checksum and privacy. | SHA-256 check; JSON parse; email, local-path, secret-value, and raw-payload scans | Source checksum match; derived JSON parses; zero prohibited matches | Initial implementation passed; R1 final rerun required after all correction content and hashes are finalized. |
+| VAL-H0-TD-005 | Run the required local control suite. | Nine commands named by Issue #70 comment `5017555554` | Every command returns zero without editing controls | Initial implementation passed locally; R1 full suite must rerun from the beginning after correction finalization. |
+| VAL-H0-TD-006 | Verify exact changed paths and canonical hashes; documentation scope. | Correction/cumulative diff checks, canonical recomputation, raw SHA-256 | Exactly nine correction paths, ten cumulative paths, deterministic manifest/report canonical hashes, and raw hashes for handoff | R1 correction implementation in progress until live delivery. |
+| VAL-H0-TD-007 | Verify initial post-PR live state. | PR readback, exact head SHA, changed-file listing, review and checks readback | PR #83 at initial head, one commit, exact ten paths, no approval/merge/close/delete action; hosted result represented honestly | Historically completed: initial head `887c88b4f3ad82dde3e5b6901636601612785920`, workflow run `29869266686`, R1 `CHANGES_REQUESTED`. |
+| VAL-H0-TD-R1-001 | Validate all six R1 correction groups. | Exact-field assertions across the nine allowed files and cumulative diff | `R1-STATE-001`, `R1-FINDING-LIFECYCLE-001`, `R1-DISPOSITION-LINK-001`, `R1-DELTA-001`, `R1-HASH-001`, and `R1-VALIDATION-001` all pass | Passed locally: exact scope, counts, links, deltas, lifecycle fields, canonical/raw hash computation, stale-state rejection, and privacy assertions; live delivery remains pending. |
+| VAL-H0-TD-R1-002 | Bind acceptance to the corrected exact head. | One normal push, exact-head workflow inspection, one PR-body replacement, live readback, and fresh independent whole-PR review | Pre-marker controls pass; marker is the expected failure; later checks skip; fresh exact-head review remains required | Live GitHub required after correction delivery; developer adds no decision, approval, merge, or closeout. |
+
+```text
+INITIAL_WORKFLOW_RUN=29869266686
+INITIAL_CHANGED_FILE_ALLOWLIST=PASS
+INITIAL_FORBIDDEN_SCOPE=PASS
+INITIAL_REQUIRED_CONTROL_UPDATES=PASS
+INITIAL_PR_CONTRACT=PASS
+INITIAL_OWNER_TRIGGER=PASS
+INITIAL_LOW_RISK_LANE=PASS
+INITIAL_RED_TEAM_MARKER=EXPECTED_FAILURE
+INITIAL_LOCKFILE_CHECK=SKIPPED
+INITIAL_CLAIM_LANGUAGE_CHECK=SKIPPED
+R1_REVIEW=RT_PR83_R1_CHANGES_REQUESTED
+CORRECTION_AUTHORITY_COMMENT=5041407565 # documentation scope
+CORRECTION_IMPLEMENTATION=IN_PROGRESS_UNTIL_LIVE_DELIVERY
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+CURRENT_HOSTED_WORKFLOW=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_EXACT_HEAD_REVIEW_AFTER_CORRECTION_DELIVERY
+HUMAN_APPROVAL_ELIGIBLE=NO
+MERGE_ELIGIBLE=NO
+H0_MAY_CLOSE=NO
+H1_IMPLEMENTATION_AUTHORIZED=NO # documentation scope
+```

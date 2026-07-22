@@ -6,6 +6,26 @@ Phase issue: #82
 
 This documentation-scope report implements Issue #70 comment `5017555554` under `OD-H0-TERMINAL-DISPOSITION-IMPLEMENTATION-001`. The PR #56 reconciliation basis is Issue #70 comment `5017079421`. No closure, branch deletion, H0 closeout, H1 implementation, approval, merge, or automatic continuation is authorized by this report.
 
+Documentation scope: the initial PR #83 proposal was reviewed as `RT-PR83-R1` at exact head `887c88b4f3ad82dde3e5b6901636601612785920` and received `CHANGES_REQUESTED`. Issue #70 comment `5041407565`, decision `OD-H0-PR83-R1-CORRECTION-001`, authorizes only the bounded nine-file correction recorded here. Mutable post-delivery state remains live-GitHub evidence, not committed current fact.
+
+```text
+PR_NUMBER=83
+INITIAL_IMPLEMENTATION_COMMIT=887c88b4f3ad82dde3e5b6901636601612785920
+INITIAL_PR_HEAD_SHA=887c88b4f3ad82dde3e5b6901636601612785920
+INITIAL_WORKFLOW_RUN=29869266686
+INITIAL_PRE_MARKER_CONTROLS=PASS
+INITIAL_RED_TEAM_MARKER_CHECK=EXPECTED_FAILURE_PENDING_REVIEW
+INITIAL_POST_MARKER_CONTROLS=SKIPPED
+INITIAL_RED_TEAM_REVIEW=RT_PR83_R1
+INITIAL_RED_TEAM_RESULT=CHANGES_REQUESTED
+OWNER_CORRECTION_COMMENT_ID=5041407565
+OWNER_CORRECTION_DECISION_ID=OD-H0-PR83-R1-CORRECTION-001
+CURRENT_PR_HEAD_SHA=LIVE_GITHUB_REQUIRED
+CORRECTION_COMMIT_SHA=LIVE_GITHUB_REQUIRED
+CURRENT_WORKFLOW_STATUS=LIVE_GITHUB_REQUIRED
+CURRENT_REVIEW_STATUS=FRESH_EXACT_HEAD_REVIEW_REQUIRED_AFTER_CORRECTION_DELIVERY
+```
+
 | Verification | Evidence | Result |
 |---|---|---|
 | Repository | `Zest-LeadGen/contractoros-california` | PASS |
@@ -38,7 +58,19 @@ SECRET_OR_TOKEN_PUBLICATION=PROHIBITED
 | `open_issues_excluding_pull_requests` | PASS | 1 | 27 | 2026-07-19T21:33:35Z |
 | `branches` | PASS | 1 | 39 | 2026-07-19T21:31:10Z |
 
-The source snapshot contains 28 open-work records and 39 branch records. Issue #82 was created after that capture by this exact documentation lifecycle; it is a disclosed delta, not a member of the checksum-bound 28-record set. The later PR is another expected post-capture delta. Both require a fresh H0 pre-closeout recheck.
+The source snapshot contains 28 open-work records and 39 branch records. Issue #82, branch `h0-terminal-disposition-report`, and PR #83 were created after that capture by this exact documentation lifecycle. They are three disclosed deltas, not members of the checksum-bound 28-work-item or 39-branch source sets, and require a fresh H0 pre-closeout recheck.
+
+```text
+CAPTURED_OPEN_PULL_REQUEST_RECORDS=1
+CAPTURED_OPEN_ISSUE_RECORDS=27
+CAPTURED_OPEN_WORK_RECORD_COUNT=28
+CAPTURED_BRANCH_RECORD_COUNT=39
+POST_CAPTURE_ISSUE=82
+POST_CAPTURE_BRANCH=h0-terminal-disposition-report
+POST_CAPTURE_PR=83
+CURRENT_INVENTORY_STATUS=STALE_BY_EXPECTED_IMPLEMENTATION_DELTA
+FRESH_PRECLOSEOUT_INVENTORY_REQUIRED=YES
+```
 
 ## Captured Open-Work Disposition Matrix
 
@@ -80,6 +112,20 @@ OPEN_WORK_RECORD_COUNT=28
 DUPLICATE_OPEN_WORK_IDS=0
 ISSUE_OR_PR_CLOSURE_AUTHORITY=NONE # documentation scope
 ```
+
+### Exact Owner-Approved Disposition Mapping Matrix
+
+The generic Issue #79 dispositions above do not replace these exact owner-selected terminal reasons, successor links, destination links, preservation requirements, or replacement-chain condition.
+
+| Record | Exact owner-approved mapping | Existing preservation/dependency/gate/revisit/prohibition fields remain controlling |
+|---|---|---|
+| PR-9 | `PR_9_TERMINAL_REASON=SUPERSEDED_OR_NOT_PLANNED_WITH_COMMITS_PRESERVED`; `PRESERVE_COMMITS=YES` | YES |
+| ISSUE-24 | `ISSUE_24_TERMINAL_REASON=COMPLETED_HISTORICAL_HANDOFF` | YES |
+| ISSUE-31 | `ISSUE_31_TERMINAL_REASON=SUPERSEDED_OR_NOT_PLANNED` | YES |
+| ISSUE-52 | `ISSUE_52_SUCCESSORS=57,68,72` | YES |
+| ISSUE-53 | `ISSUE_53_SUCCESSORS=59,72` | YES |
+| ISSUE-54 | `ISSUE_54_METRICS_DESTINATIONS=68,69` | YES |
+| ISSUE-55 | `ISSUE_55_TARGET=KEEP_BLOCKED_UNTIL_VALID_PR56_REPLACEMENT_CHAIN_THEN_CLOSE_SUPERSEDED`; `REPLACEMENT_CHAIN_REQUIREMENT=VALID_PR56_REPLACEMENT_CHAIN` | YES |
 
 ## Branch Preservation And Disposition Matrix
 
@@ -193,12 +239,18 @@ These observations do not grant settings, integration, workflow, security-featur
 ## Findings, Deferrals, And Remaining Gates
 
 ```text
-RT_H0_AUTH_001=RESOLVED_AND_VERIFIED # documentation scope
-RT_H0_DISP_001=IMPLEMENTATION_IN_REVIEW
-RT_H0_BRANCH_001=IMPLEMENTATION_IN_REVIEW
+RT_H0_AUTH_001_UNDERLYING_FINDING_CLASSIFICATION=RESOLVED_AND_VERIFIED # documentation scope
+RT_H0_AUTH_001_RECORD_IMPLEMENTATION_STATUS=IMPLEMENTED_PENDING_REVIEW # documentation scope
+RT_H0_AUTH_001_CURRENT_RED_TEAM_CLASSIFICATION=IMPLEMENTED_BUT_NOT_VERIFIED # documentation scope
+RT_H0_DISP_001_CURRENT_STATUS=IMPLEMENTED_PENDING_REVIEW
+RT_H0_DISP_001_CURRENT_RED_TEAM_CLASSIFICATION=IMPLEMENTED_BUT_NOT_VERIFIED
+RT_H0_BRANCH_001_CURRENT_STATUS=IMPLEMENTED_PENDING_REVIEW
+RT_H0_BRANCH_001_CURRENT_RED_TEAM_CLASSIFICATION=IMPLEMENTED_BUT_NOT_VERIFIED
+CURRENT_RED_TEAM_REVIEW=RT_PR83_R1_CHANGES_REQUESTED
+REVIEWED_HEAD_SHA=NOT_PROVEN
 ```
 
-`RT-H0-DISP-001` and `RT-H0-BRANCH-001` are implemented but not independently verified. They must not be marked resolved until exact-current-head Red Team review, separate human approval, protected merge, main verification, a fresh pre-closeout inventory, and applicable durable closeout evidence exist.
+Documentation scope: the underlying PR #56 authority-event contradiction is resolved and verified, but the repository implementation record for `RT-H0-AUTH-001` is not independently verified. All three Version 2.1.0 records require a fresh exact-head review after correction delivery. `RT-H0-DISP-001` and `RT-H0-BRANCH-001` continue to block H0 closeout.
 
 Valid deferrals in the 28-record matrix identify their controlling owner decision, exact dependency, responsible gate, revisit trigger, review-date sentinel, preservation reference, and prohibited interim actions. The sentinel means the owner must set or affirm the future review date before consequential use.
 
@@ -221,24 +273,39 @@ H1_IMPLEMENTATION_AUTHORITY=NONE # documentation scope
 ISSUE_67_CLOSE_AUTHORITY=NONE # documentation scope
 ```
 
-Issue #67 remains open because the two disposition findings are still in review, post-capture Issue #82 and the implementation PR require a fresh pagination recheck, unresolved capture surfaces remain `NOT_PROVEN`, no immediate closure/deletion actions are authorized, exact-current-head Red Team review is pending, human approval is pending, protected merge and main verification have not occurred, and no separate H0 closeout decision exists.
+Issue #67 remains open because all three corrected repository finding records require fresh exact-head review, the three post-capture deltas require a fresh pagination recheck, unresolved capture surfaces remain `NOT_PROVEN`, no immediate closure/deletion actions are authorized, human approval is not present, protected merge and main verification have not occurred, and no separate H0 closeout decision exists.
 
 ## Next Actor And Gate
 
 ```text
 NEXT_ACTOR=INDEPENDENT_READ_ONLY_RED_TEAM
-NEXT_GATE=EXACT_CURRENT_PR_HEAD_SHA_REVIEW
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_EXACT_HEAD_REVIEW_AFTER_CORRECTION_DELIVERY
+R1_REVIEW=RT_PR83_R1_CHANGES_REQUESTED
+CORRECTION_AUTHORITY_COMMENT=5041407565 # documentation scope
+CORRECTION_IMPLEMENTATION=IN_PROGRESS_UNTIL_LIVE_DELIVERY
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+CURRENT_HOSTED_WORKFLOW=LIVE_GITHUB_REQUIRED
+HUMAN_APPROVAL_ELIGIBLE=NO
+MERGE_ELIGIBLE=NO
 RED_TEAM_DECISION_ADDED=NO
 HUMAN_APPROVAL_ADDED=NO
 AUTO_MERGE_ENABLED=NO
 AUTOMATIC_CONTINUATION=NO
 ```
 
-## Deterministic Hashes
+## Deterministic Canonical Hash Contract
+
+The two artifact hashes are non-circular. Canonicalization uses UTF-8, LF newlines, exactly one terminal LF, and sentinel `SELF_HASH_SENTINEL`. For this Markdown report, both digest lines below are replaced with the sentinel before hashing. For the JSON manifest, both values under `hashes` are set to the sentinel and the object is serialized with sorted keys, compact separators, and exactly one terminal LF before hashing.
 
 ```text
 STARTING_MAIN_SHA=564fe30cd0e7e11896ef01ef4117940e1d42c2a3
 SOURCE_MANIFEST_SHA256=bfe3ad4b710a38a577912625a25f02b0cfa425eddf409979aece8c3426483dfc
-DERIVED_MANIFEST_SHA256=cbeb47d17b4ee6321ec27a4f6bb29c9bd4b84697b815556dd1b626d22082865b
-FINAL_REPORT_SHA256=RECORDED_IN_PR_BODY_AND_DEVELOPER_HANDOFF_TO_AVOID_SELF_REFERENTIAL_FILE_HASH
+HASH_CONTRACT_VERSION=1
+HASH_ALGORITHM=SHA-256
+TEXT_ENCODING=UTF-8
+NEWLINE_NORMALIZATION=LF
+TERMINAL_NEWLINE=EXACTLY_ONE
+HASH_SENTINEL=SELF_HASH_SENTINEL
+DERIVED_MANIFEST_CANONICAL_SHA256=f985468dce977c068857ca6c3ca1b27fa197f04b229b1fd96f507b6f723a5f39
+FINAL_REPORT_CANONICAL_SHA256=4812e3088ac2805f0e6314a2998a30243ea6d2e3c2c2a0114642cb3b424fd732
 ```

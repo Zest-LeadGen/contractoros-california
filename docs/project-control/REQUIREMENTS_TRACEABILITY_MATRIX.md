@@ -373,11 +373,30 @@ NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_REVIEW_AFTER_LIVE_VERIFICATION
 
 | Requirement ID | Requirement | Source | Target records | Validation | Status |
 |---|---|---|---|---|---|
-| RTM-H0-TD-001 | Bind implementation to exact decision, issue, branch, SHA, and ten paths. | Issue #70 comment `5017555554`; Issue #82 | All ten authorized paths; documentation scope | Authority preflight, SHA checks, changed-path assertion | Implemented pending independent review. |
+| RTM-H0-TD-001 | Bind implementation to exact decision, issue, branch, initial SHA, and ten cumulative paths. | Issue #70 comments `5017555554`, `5041407565`; Issue #82; PR #83 | Ten cumulative paths and nine-file R1 correction; documentation scope | Authority preflight, live state, parent/head and changed-path assertions | Initial delivery verified at `887c88b4f3ad82dde3e5b6901636601612785920`; R1 changes requested. |
 | RTM-H0-TD-002 | Preserve one record for each of 28 captured open work items. | SRC-H0-TD-001,SRC-H0-TD-004 | Derived manifest; final disposition report | Count, uniqueness, required-field, and allowed-disposition checks | Implemented pending independent review. |
 | RTM-H0-TD-003 | Preserve one record for each of 39 captured branches. | SRC-H0-TD-001,SRC-H0-TD-005 | Derived manifest; final disposition report | Count, uniqueness, live-tip match, comparison, preservation, and no-deletion checks | Implemented pending independent review. |
-| RTM-H0-TD-004 | Reconcile PR #56 without retroactive permission or reopening. | Comments `5017079421`, `5017555554` | Findings register; authority index; reports; documentation scope | Exact event, actor, timestamp, head, merged flag, and no-reopen assertions | `RT_H0_AUTH_001=RESOLVED_AND_VERIFIED`; documentation scope. |
+| RTM-H0-TD-004 | Reconcile the underlying PR #56 authority event without overstating repository-record lifecycle. | Comments `5017079421`, `5017555554`, `5041407565` | Findings register; reports; manifest; documentation scope | Underlying classification separated from Version 2.1.0 implementation/review status | Underlying event resolved and verified; repository record implemented but not verified; R1 changes requested. |
 | RTM-H0-TD-005 | Preserve Issue #55 pending a valid replacement chain. | Comments `5017079421`, `5017555554` | Manifest; final report; risk/findings records | Replacement dependency, preserved head, no reuse/merge/reopen/close permission | Implemented pending independent review. |
-| RTM-H0-TD-006 | Publish only sanitized derived evidence. | Private-source restriction in comment `5017555554` | Derived manifest; reports; source record | Hash match; JSON parse; email/local-path/secret-like zero-match scans | Pending final scans. |
+| RTM-H0-TD-006 | Publish only sanitized derived evidence. | Private-source restrictions in comments `5017555554`, `5041407565` | Derived manifest; reports; source record | Source hash; JSON parse; email/local-path/secret/raw-payload zero-match scans | Correction implementation in progress until final scans. |
 | RTM-H0-TD-007 | Keep H0 and H1 blocked after implementation. | Issue #67; Issue #79; comment `5017555554` | Findings, risks, ledger, reports; documentation scope | Exact `H0_MAY_CLOSE=NO`, no H0/H1 permission, next actor Red Team | Implemented pending independent review. |
-| RTM-H0-TD-008 | Stop after one PR and live readback. | Comment `5017555554` | PR body and developer handoff | Exact title/base/head, ten files, hashes, no later mutation | Pending PR creation. |
+| RTM-H0-TD-008 | Stop after correction delivery, workflow inspection, one PR-body replacement, and live readback. | Comment `5041407565`; PR #83 | PR body and developer handoff | Exact corrected head, nine correction files, ten cumulative files, canonical/raw hashes, hosted step matrix, no later mutation | Acceptance requires fresh independent exact-head review after correction delivery. |
+| RTM-H0-TD-R1-STATE-001 | Replace stale post-creation state with immutable initial facts and live-required mutable fields. | R1-STATE-001; comment `5041407565` | Report, manifest, findings, ledger, validation, traceability, source, phase report | Exact initial head/run/review fields; current head/workflow use `LIVE_GITHUB_REQUIRED` | Correction implementation in progress until live delivery. |
+| RTM-H0-TD-R1-FINDING-LIFECYCLE-001 | Correct all three finding records to Version 2.1.0 without conflating underlying and repository lifecycle. | R1-FINDING-LIFECYCLE-001 | Findings register, manifest, report, phase report | Three Version 2.1.0 records; exact statuses; base main never used as reviewed implementation head | Acceptance requires fresh exact-head review. |
+| RTM-H0-TD-R1-DISPOSITION-LINK-001 | Preserve exact owner terminal reasons, successor links, metrics destinations, commit preservation, and replacement chain. | R1-DISPOSITION-LINK-001 | Report matrix, manifest records | Exact PR #9, Issues #24/#31/#52/#53/#54/#55 fields | Acceptance requires deterministic assertions and fresh exact-head review. |
+| RTM-H0-TD-R1-DELTA-001 | Preserve capture counts while recording Issue #82, branch, and PR #83 as three separate deltas. | R1-DELTA-001 | Report, manifest, risks, source, phase report | Counts 28/39 unchanged; delta count 3; fresh pre-closeout inventory required | Acceptance requires deterministic assertions and fresh exact-head review. |
+| RTM-H0-TD-R1-HASH-001 | Implement deterministic non-circular canonical hashes for both artifacts. | R1-HASH-001 | Report, manifest, phase report, PR body, handoff | Sentinel contract, canonical recomputation equality, raw-byte hashes outside self-referencing artifacts | Correction implementation in progress until hashes and live body are verified. |
+| RTM-H0-TD-R1-VALIDATION-001 | Preserve initial hosted history honestly and rerun the complete correction validation sequence. | R1-VALIDATION-001 | Validation tasks, report, manifest, phase report, PR body, handoff | Initial marker expected failure and skipped later checks are not passes; corrected exact-head pre-marker controls pass | Acceptance requires fresh independent whole-PR exact-head review. |
+
+```text
+R1_REVIEW=RT_PR83_R1_CHANGES_REQUESTED
+CORRECTION_AUTHORITY_COMMENT=5041407565 # documentation scope
+CORRECTION_IMPLEMENTATION=IN_PROGRESS_UNTIL_LIVE_DELIVERY
+CURRENT_PR_HEAD=LIVE_GITHUB_REQUIRED
+CURRENT_HOSTED_WORKFLOW=LIVE_GITHUB_REQUIRED
+NEXT_GATE=FRESH_INDEPENDENT_WHOLE_PR_EXACT_HEAD_REVIEW_AFTER_CORRECTION_DELIVERY
+HUMAN_APPROVAL_ELIGIBLE=NO
+MERGE_ELIGIBLE=NO
+H0_MAY_CLOSE=NO
+H1_IMPLEMENTATION_AUTHORIZED=NO # documentation scope
+```
