@@ -129,3 +129,26 @@ The base owner decision and amendment remain binding. R1 comments A1 through A5 
 For this finding set, Issue #79 controls sequence, dependencies, conflicts, deferrals, and exit criteria. The findings register records finding status, version, and history subject to Issue #79; it does not outrank or replace the master roadmap. Issue #67 controls H0 evidence disposition and closeout. Exact child issues and pull requests implement only their allowlists within owner authority. Independent exact-head review classifies only the reviewed implementation. Live GitHub controls mutable facts but creates no authority.
 
 Implementation issues and pull requests cannot broaden owner authority. Review evidence cannot change scope. A later record supersedes an earlier record only when it identifies the earlier record, the conflict or changed premise, the exact owner authority, and the preserved historical evidence. Mutable state must not be encoded here as permanent authority.
+
+## H0 Terminal-Disposition Implementation Authority — Documentation Scope
+
+| Record | Classification | Controlling effect |
+|---|---|---|
+| Issue #70 comment `5017079421` | Prospective PR #56 reconciliation; documentation scope | Preserves the historical closure event, grants no retroactive permission and no reopen action, and requires an exact replacement chain for Issue #55. |
+| Issue #70 comment `5017555554` | Current bounded implementation decision; documentation scope | Authorizes Issue #82, branch `h0-terminal-disposition-report`, exactly ten documentation paths, one normal push, and one PR; no closure, deletion, H0 closeout, H1 work, approval, or merge. |
+| Issue #82 | Child implementation issue; documentation scope | Durable intake for the 28-record open-work matrix, 39-record branch matrix, sanitized evidence, and pre-closeout ruling. |
+
+```text
+OWNER_DECISION_ID=OD-H0-TERMINAL-DISPOSITION-IMPLEMENTATION-001
+OWNER_AUTHORITY_COMMENT_ID=5017555554 # documentation scope
+RECONCILIATION_COMMENT_ID=5017079421
+AUTHORIZED_STARTING_MAIN_SHA=564fe30cd0e7e11896ef01ef4117940e1d42c2a3 # documentation scope
+AUTHORIZED_CHILD_ISSUE=82 # documentation scope
+AUTHORIZED_BRANCH=h0-terminal-disposition-report # documentation scope
+AUTHORIZED_CHANGED_PATH_COUNT=10 # documentation scope
+H0_CLOSEOUT_AUTHORITY=NONE # documentation scope
+H1_IMPLEMENTATION_AUTHORITY=NONE # documentation scope
+BRANCH_DELETION_AUTHORITY=NONE # documentation scope
+ISSUE_OR_PR_CLOSURE_AUTHORITY=NONE # documentation scope
+AUTOMATIC_CONTINUATION=NO
+```

@@ -433,3 +433,53 @@ Merge SHA: 01b90ab8b12416101b4be067794bf543a3488779
 Changed files: public-safe governance, schemas, ADRs, and current-state records only
 Claim level: historical documentation and architecture direction; the later Issue #49 / PR #50 collector implementation is merged evidence and the Issue #58 recovery lane is current
 ```
+
+## H0 Terminal-Disposition Report
+
+```text
+Phase: H0 Terminal-Disposition Report
+Lane: Control / Infrastructure
+Date: 2026-07-21
+Branch: h0-terminal-disposition-report
+Issue: #82
+Parent issue: #67
+Base SHA: 564fe30cd0e7e11896ef01ef4117940e1d42c2a3
+PR: #83
+Initial implementation commit: 887c88b4f3ad82dde3e5b6901636601612785920
+Initial PR head SHA: 887c88b4f3ad82dde3e5b6901636601612785920
+Initial workflow run: 29869266686
+Initial workflow result: Pre-marker controls passed; red-team marker expected failure; post-marker controls skipped; overall workflow failed as expected pending review
+Initial Red Team review: RT_PR83_R1
+Initial Red Team result: CHANGES_REQUESTED
+Owner correction comment: 5041407565
+Owner correction decision: OD-H0-PR83-R1-CORRECTION-001
+Correction scope: Exactly nine existing documentation paths; cumulative PR remains ten paths
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Correction commit SHA: LIVE_GITHUB_REQUIRED
+Current workflow status: LIVE_GITHUB_REQUIRED
+Current merge state: LIVE_GITHUB_REQUIRED
+Current review status: FRESH_EXACT_HEAD_REVIEW_REQUIRED_AFTER_CORRECTION_DELIVERY
+Claim level: Checksum-bound public-safe derived documentation and developer validation only; independent acceptance not proven
+Next actor: Independent read-only Red Team after correction delivery
+H0 closeout: Not authorized
+H1 implementation: Not authorized
+```
+
+```text
+INITIAL_IMPLEMENTATION_COMMIT=887c88b4f3ad82dde3e5b6901636601612785920
+INITIAL_PR_HEAD_SHA=887c88b4f3ad82dde3e5b6901636601612785920
+INITIAL_WORKFLOW_RUN=29869266686
+INITIAL_PRE_MARKER_CONTROLS=PASS
+INITIAL_RED_TEAM_MARKER_CHECK=EXPECTED_FAILURE_PENDING_REVIEW
+INITIAL_POST_MARKER_CONTROLS=SKIPPED
+INITIAL_RED_TEAM_REVIEW=RT_PR83_R1
+INITIAL_RED_TEAM_RESULT=CHANGES_REQUESTED
+OWNER_CORRECTION_COMMENT_ID=5041407565
+OWNER_CORRECTION_DECISION_ID=OD-H0-PR83-R1-CORRECTION-001
+CURRENT_PR_HEAD_SHA=LIVE_GITHUB_REQUIRED
+CORRECTION_COMMIT_SHA=LIVE_GITHUB_REQUIRED
+CURRENT_WORKFLOW_STATUS=LIVE_GITHUB_REQUIRED
+CURRENT_MERGE_STATUS=LIVE_GITHUB_REQUIRED
+CURRENT_REVIEW_STATUS=FRESH_EXACT_HEAD_REVIEW_REQUIRED_AFTER_CORRECTION_DELIVERY
+NEXT_ACTOR=INDEPENDENT_READ_ONLY_RED_TEAM
+```
