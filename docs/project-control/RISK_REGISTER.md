@@ -737,3 +737,106 @@ Owner: ContractorOS development lead / external red-team gate
 Resolution condition: C3.4 exact head passes focused and complete tests, deterministic/schema checks, all controls, live collection, new-head workflow inspection and fresh whole-PR exact-SHA review.
 Last reviewed: 2026-07-12
 ```
+
+## H0 Terminal-Disposition Implementation Risks
+
+### R-H0-TD-001 — Post-capture open-work delta
+
+```text
+Risk: Issue #82 and the implementation PR are created after the checksum-bound 28-record capture, so treating the capture as current pre-closeout inventory would be stale.
+Status: Active / blocked from H0 closeout
+Evidence: SRC-H0-TD-001,SRC-H0-TD-004; Issue #82
+Mitigation: Preserve the 28 captured records, disclose the delta, and require a fresh pagination recheck after protected merge and before any H0 closeout decision.
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Fresh pre-closeout inventory reconciles every post-capture object with no unclassified record.
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-002 — Disposition records mistaken for execution permission
+
+```text
+Risk: A recorded close or preservation disposition could be mistaken for permission to close an issue or PR, delete a branch, merge, or continue automatically.
+Status: Active / controlled by documentation scope boundaries
+Evidence: Issue #70 comment 5017555554; H0 terminal-disposition manifest and report
+Mitigation: Every record states its dependency, responsible gate, revisit trigger, prohibited interim actions, and no-mutation boundary.
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Separate exact future authority and required protected lifecycle evidence exist for each consequential action. # documentation scope
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-003 — Unique branch commits lost or silently rewritten
+
+```text
+Risk: PR #9, PR #56 replacement-chain, or Phase 4I-A hotfix commits could be lost if branch containment is generalized from the 35 ahead-by-zero non-default branches.
+Status: Active / blocked from branch deletion
+Evidence: SRC-H0-TD-005; branch matrix at main 564fe30cd0e7e11896ef01ef4117940e1d42c2a3
+Mitigation: Preserve all branches; separately classify the three ahead-by-positive branches; require separate deletion permission. # documentation scope
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Exact preservation/replacement evidence and separate owner decision exist for each unique-commit branch.
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-R1-001 — STALE_MUTABLE_STATE_COMMITTED_AS_CURRENT
+
+```text
+Risk: A committed record can misstate the current PR head, workflow, review, approval, merge, or closeout state after GitHub changes.
+Status: Active / blocked from fresh Red Team acceptance
+Evidence: RT-PR83-R1; Issue #70 comment 5041407565; initial PR head 887c88b4f3ad82dde3e5b6901636601612785920
+Mitigation: Preserve immutable initial facts and use LIVE_GITHUB_REQUIRED for mutable current state inside committed records.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: Live corrected-head readback, hosted-run inspection, PR-body verification, and fresh exact-head independent review agree.
+Current blocked effect: HUMAN_APPROVAL_ELIGIBLE=NO; MERGE_ELIGIBLE=NO; H0_MAY_CLOSE=NO
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-R1-002 — EXACT_OWNER_SUCCESSOR_LINKS_LOST_BY_GENERIC_NORMALIZATION
+
+```text
+Risk: Generic Issue #79 disposition enums can erase exact owner terminal reasons, successor issue numbers, metrics destinations, commit-preservation requirements, or the PR #56 replacement-chain condition.
+Status: Active / blocked from H0 disposition acceptance
+Evidence: R1-DISPOSITION-LINK-001; Issue #70 comment 5041407565
+Mitigation: Preserve exact machine-readable fields in the manifest and an exact owner-mapping matrix in the final report while retaining dependency, responsible gate, revisit trigger, preservation reference, and prohibited actions.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: Deterministic exact-link assertions pass and fresh exact-head review verifies all seven affected records.
+Current blocked effect: RT-H0-DISP-001 blocks H0 closeout.
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-R1-003 — POST_CAPTURE_BRANCH_AND_PR_DELTA_OMISSION
+
+```text
+Risk: Recording only Issue #82 as a post-capture delta falsely presents the checksum-bound 39-branch and open-work capture as current.
+Status: Active / blocked from H0 closeout
+Evidence: R1-DELTA-001; live branch h0-terminal-disposition-report; PR #83
+Mitigation: Keep captured counts at 28 open-work records and 39 branches, record Issue #82, the implementation branch, and PR #83 as exactly three separate deltas, and require a fresh pre-closeout inventory.
+Owner: ContractorOS owner / independent Red Team
+Resolution condition: Pagination-complete pre-closeout inventory reconciles every post-capture object with no unclassified delta.
+Current blocked effect: H0_MAY_CLOSE=NO.
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-R1-004 — AMBIGUOUS_OR_SELF_REFERENTIAL_HASH_CONTRACT
+
+```text
+Risk: Raw or self-referential digest language can make the final report and derived manifest impossible to reproduce or compare deterministically.
+Status: Active / blocked from correction acceptance until recomputation passes
+Evidence: R1-HASH-001; Issue #70 comment 5041407565
+Mitigation: Use Hash Contract Version 1 with UTF-8, LF, exactly one terminal newline, fixed SELF_HASH_SENTINEL normalization for both cross-artifact digest fields, sorted compact JSON, and separate raw-byte hashes in live handoff evidence only.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: Both canonical hashes recompute exactly from committed content and both raw hashes are recorded in the PR body and handoff.
+Current blocked effect: Fresh exact-head review cannot begin until canonical and raw hash evidence passes.
+Last reviewed: 2026-07-21
+```
+
+### R-H0-TD-R1-005 — SKIPPED_CHECKS_MISREPRESENTED_AS_PASSING
+
+```text
+Risk: The expected red-team-marker failure can cause later hosted checks to skip, and calling the overall workflow or skipped checks passing would fabricate validation evidence.
+Status: Active / blocked from correction acceptance if any step is misstated
+Evidence: Initial workflow run 29869266686; R1-VALIDATION-001
+Mitigation: Record each initial and corrected hosted step separately; classify the marker as EXPECTED_FAILURE and post-marker checks as SKIPPED; never classify the overall expected-failure workflow as success.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: Exact corrected-head run shows all pre-marker steps passing, marker-only expected failure, later steps skipped, and PR body/readback states that matrix exactly.
+Current blocked effect: Any pre-marker failure blocks delivery success and H0 closeout.
+Last reviewed: 2026-07-21
+```
