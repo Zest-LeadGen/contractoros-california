@@ -506,3 +506,22 @@ Next actor: Independent read-only Red Team after delivery
 H1-B1A-G implementation: Not authorized by this entry
 Automatic continuation: NO
 ```
+
+### T2 Web Dependency Baseline and Hosted CI — Implementation
+
+```text
+Phase: T2-A dependency/lockfile baseline (separate Product/QA PR) and T2-B hosted web CI (this Control PR)
+Lane: Control / Infrastructure + Dependency + Product / QA (web package files only)
+Date: 2026-08-08
+Branch: phase-t2a-web-lockfile-baseline then phase-t2b-web-ci-workflow
+Phase issue: #89
+Parent roadmap issue: #79
+Premise correction: Issue #89 comment records that Phase 4K-5 created no lockfile; this phase completes that blocked work
+Dependency evidence: react 19.2.8, react-dom 19.2.8, vite 8.2.1, @vitejs/plugin-react 6.0.5; registry https://registry.npmjs.org/; npm ci reproduced 20-package tree in 292ms; vite build succeeded (29 modules)
+Scope: T2-A carries the two web package files with a companion report; T2-B carries the workflow and durable control records; no product source file changed in either PR
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Current workflow status: LIVE_GITHUB_REQUIRED
+Claim level: Local install/build proof and lockfile baseline only; hosted CI proof pending first run; no production or release claim
+Next actor: Hosted control gates and web-ci, then owner-directed review flow
+Automatic continuation: NO
+```
