@@ -65,7 +65,7 @@ Out of scope:
 
 Pre-branch and source-of-truth checks:
 
-- `sed -n '1,320p' /Users/adnankhan/.codex/attachments/f916b751-47bb-4d92-8df4-ff11db3c26b5/pasted-text.txt` - passed; read the owner prompt with model/effort header.
+- `sed -n '1,320p' <OWNER_HOME>/.codex/attachments/f916b751-47bb-4d92-8df4-ff11db3c26b5/pasted-text.txt` - passed; read the owner prompt with model/effort header.
 - `git status --short --branch` - passed; showed clean `main` before branch creation.
 - `git fetch origin main` - passed; documentation source sync only.
 - `git rev-parse HEAD` - passed; returned `07226b7ebed4661a425aab72799d307df1c296ac`.

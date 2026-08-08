@@ -123,12 +123,23 @@ def resolve_changed_files(payload):
     return changed_files_local(), None
 
 
+def preexisting_on_base(path):
+    base = os.getenv("GITHUB_BASE_REF") or "main"
+    return bool(git(["ls-tree", f"origin/{base}", "--", path])) or bool(git(["ls-tree", base, "--", path]))
+
+
 def changed_phase_reports(files):
-    return [
+    reports = [
         path
         for path in files or []
         if path.startswith("docs/project-control/phase_") and path.endswith("_report.md")
     ]
+    # Sanitation-companion rule (H1-B1A-P): when the change set carries a
+    # sanitation manifest, pre-existing phase reports are historical text
+    # being sanitized, not the current phase report.
+    if any((p or "").startswith("docs/project-control/sanitation/") for p in files or []):
+        reports = [p for p in reports if not preexisting_on_base(p)]
+    return reports
 
 
 def read_file(path):

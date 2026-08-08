@@ -163,3 +163,10 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Owner decision (Issue #85 comment 5228047389): CRM/user-account work, including planning, waits for the H10 restart decision. Repetition of the request does not constitute authorization.
 - Issue #89 closed: T2 delivered (PRs #90/#91 merged; first web-ci run on main succeeded), T1/T3/T4 policies recorded. The weekly verified-increment rule activates at H1 closeout.
 - Execution-model record (documentation scope): all owner-authority acts today (merges, authorizations, activation, code-owner approval) were executed by the owner in the terminal; session-agent both-keys approvals on product-repo PRs carry disclosed non-independence per the owner-selected flow.
+
+## H1-B1A-P Sanitation Decisions — 2026-08-08
+
+- Owner decision H1B1-OD-007 (documentation scope, resolved by the Issue #96 phase authorization): sanitize historical report text in the current tree by token replacement (<OWNER_HOME>, <TEMP_DIRECTORY>) per SAN-001; original bytes remain accessible through prior SHAs per SAN-006; no deletion, no history rewrite.
+- Owner decision H1B1-OD-008 (documentation scope, resolved by the Issue #96 phase authorization): sanitation covers main only; the three preserved non-main branches remain untouched historical evidence under SAN-003/004/005.
+- Sequence-deviation record (documentation scope): gates H1_B1C and H1_B1B_G were executed before H1_B1A_P under explicit owner continuation instructions of 2026-08-08, deviating from the H1B1-GATE-001 canonical order; the deviation is owner-accepted and disclosed on Issue #96. Remaining gates resume canonical order: B1B_P, B2, B3, B4, B5.
+- Exemption record: the single /Users/example synthetic fixture value in scripts/continuity/tests is classified EXEMPT in the sanitation manifest and unchanged.

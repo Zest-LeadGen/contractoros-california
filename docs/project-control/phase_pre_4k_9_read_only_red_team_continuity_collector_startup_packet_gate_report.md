@@ -266,7 +266,7 @@ Command:
 
 ```text
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/continuity/red_team_continuity.py live \
-  --repo-root '/Users/adnankhan/Documents/ContractorOS workspace' \
+  --repo-root '<OWNER_HOME>/Documents/ContractorOS workspace' \
   --repository Zest-LeadGen/contractoros-california \
   --issue-number 47 \
   --pr-number 48 \
@@ -289,7 +289,7 @@ Observed findings:
 - canonical PR #48 open differs from live merged;
 - canonical lifecycle `red_team_changes_requested` differs from the closed gate.
 
-Repository status before and after the collector run was unchanged. Output resolved to `/private/tmp/contractoros-issue49-baseline`, outside the repository. The stale baseline was not suppressed.
+Repository status before and after the collector run was unchanged. Output resolved to `<TEMP_DIRECTORY>/contractoros-issue49-baseline`, outside the repository. The stale baseline was not suppressed.
 
 ## Live Read-Only Evidence
 
@@ -312,7 +312,7 @@ Observed intermediate result:
 - qualifying human approvals `0` and pending;
 - auto-merge `false`;
 - packet hash `4dcf61157d2ca1a6c2b4deb90666c67110aa1802f283ebeb93d6f7d7aca4f3f8`;
-- output `/private/tmp/contractoros-issue49-intermediate`;
+- output `<TEMP_DIRECTORY>/contractoros-issue49-intermediate`;
 - repository status unchanged.
 
 This intermediate run is bound only to the implementation head. The final evidence-reconciliation commit creates a new head and therefore requires a fresh external exact-SHA collector run, fresh external review, and a new SHA-bound marker only after external approval.

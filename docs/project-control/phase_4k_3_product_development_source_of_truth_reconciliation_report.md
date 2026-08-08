@@ -75,7 +75,7 @@ Out of scope:
 
 Pre-edit checks and issue evidence:
 
-- `sed -n '1,360p' /Users/adnankhan/.codex/attachments/ba42cc36-91be-49a2-ace6-0de98a2a1bbd/pasted-text.txt` - passed; read the owner prompt with model/effort header.
+- `sed -n '1,360p' <OWNER_HOME>/.codex/attachments/ba42cc36-91be-49a2-ace6-0de98a2a1bbd/pasted-text.txt` - passed; read the owner prompt with model/effort header.
 - `git status --short --branch` - passed; showed clean `codex/phase-4k-3-source-of-truth` at intake.
 - `git fetch origin main` - passed; documentation source sync only.
 - `git rev-parse HEAD` - passed; returned `4bb9fedb5648ea1b7185667948256276ad04d3b9`.
