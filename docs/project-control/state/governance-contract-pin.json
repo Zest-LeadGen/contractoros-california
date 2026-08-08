@@ -37,7 +37,7 @@
   "consumption_rules": {
     "parallel_format_creation": "PROHIBITED",
     "contract_text_duplication": "PROHIBITED",
-    "pin_update_authority": "OWNER_DECISION_REQUIRED",
+    "pin_update_control": "OWNER_DECISION_REQUIRED",
     "verification_command": "python3 scripts/control/check_contract_consumption.py --live"
   }
 }

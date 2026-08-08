@@ -42,7 +42,7 @@ No other path is changed.
 
 - Read-only scope: verified governance main equals the pin target e907a76…; computed the five SHA-256 digests from the verified clone.
 - `python3 scripts/control/check_contract_consumption.py` — structural PASS.
-- `python3 scripts/control/check_contract_consumption.py --live` — fetched all five pinned blobs from the pinned commit; 5/5 digest MATCH.
+- `python3 scripts/control/check_contract_consumption.py --live` — read-only scope: fetched all five pinned blobs from the pinned commit; 5/5 digest MATCH.
 - Negative test: corrupted digest in a scratch copy — correctly failed exit 1 with LIVE DIGEST MISMATCH.
 - JSON Schema validation of the refreshed state snapshot — passed.
 - Control validators, continuity tests, and `git diff --check` — results in Validation Results.

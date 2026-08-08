@@ -71,8 +71,8 @@ def main():
     for key in ("parallel_format_creation", "contract_text_duplication"):
         if rules.get(key) != "PROHIBITED":
             failures.append(f"consumption_rules.{key} must be PROHIBITED")
-    if rules.get("pin_update_authority") != "OWNER_DECISION_REQUIRED":
-        failures.append("consumption_rules.pin_update_authority must be OWNER_DECISION_REQUIRED")  # documentation scope
+    if rules.get("pin_update_control") != "OWNER_DECISION_REQUIRED":
+        failures.append("consumption_rules.pin_update_control must be OWNER_DECISION_REQUIRED")
 
     live_results = []
     if args.live and not failures:
