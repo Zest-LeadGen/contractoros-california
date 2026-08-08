@@ -38,7 +38,7 @@ No other path is changed.
 
 ## Commands Run
 
-- Read-only scope: harvested the complete 2026-08-08 hosted-run history from live GitHub (39 runs across three workflows) and classified every failure into the baseline ledger classes.
+- Read-only scope: harvested the full-inventory 2026-08-08 hosted-run history (39 of 39 listed runs) from live GitHub (39 runs across three workflows) and classified every failure into the baseline ledger classes.
 - Workflow YAML review: continue-on-error on the observed step; the job cannot block any merge.
 - JSON Schema validation of the refreshed state snapshot — passed.
 - Control validators, continuity tests, and `git diff --check` — results in Validation Results.
