@@ -1,0 +1,52 @@
+name: contractoros-web-ci
+
+on:
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/web-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/web-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  web-build:
+    name: Web install + build from lockfile
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Registry provenance check
+        run: |
+          test "$(npm config get registry)" = "https://registry.npmjs.org/"
+          test ! -f .npmrc
+
+      - name: Clean install from lockfile only
+        run: npm ci --no-audit --no-fund
+
+      - name: Lockfile drift check
+        run: git diff --exit-code package.json package-lock.json
+
+      - name: Build
+        run: npm run build
+
+      - name: Build output sanity check
+        run: |
+          test -f dist/index.html
+          ls dist/assets/*.js >/dev/null

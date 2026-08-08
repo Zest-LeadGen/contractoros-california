@@ -864,3 +864,15 @@ Owner: ContractorOS developer executor / independent Red Team
 Resolution condition: The next gate closeout produces its durable main record within one PR cycle of the closing event.
 Last reviewed: 2026-08-08
 ```
+
+### R-T2-DEP-001 — FLOATING_LATEST_DEPENDENCIES_SUPERSEDED
+
+```text
+Risk: apps/web dependencies were declared as "latest" with no lockfile, so any two installs could resolve different dependency trees, making every historical build claim environment-dependent and unreproducible.
+Status: Mitigated in this phase; residual risk active until CI proves the gate on main
+Evidence: Phase 4K-5 gate report (no lockfile created); this phase's pinned package.json and committed package-lock.json; local npm ci + build proof
+Mitigation: Exact-version pins plus committed lockfile; CI performs npm ci from the lockfile only, fails on lockfile drift, and checks registry provenance; future dependency changes remain Dependency-lane gated.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: web-ci workflow passes on main after merge and on the next dependency-touching PR.
+Last reviewed: 2026-08-08
+```
