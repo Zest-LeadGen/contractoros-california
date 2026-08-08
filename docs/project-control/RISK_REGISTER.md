@@ -895,3 +895,15 @@ Owner: ContractorOS developer executor / independent Red Team
 Resolution condition: Next repository-wide scan (H1_B2 adversarial validation) finds zero new absolute-path occurrences in the current tree.
 Last reviewed: 2026-08-08
 ```
+
+### R-PROV-001 — COLLABORATOR_AUTHORED_OWNER_DECISION_RECORD_SUPERSEDED <!-- risk documentation scope -->
+
+```text
+Risk: A record titled OWNER DECISION RECORD was posted by the collaborator account (Issue #85 comment 5228047389), creating owner authority in permanent history without an owner-authored trace — the exact silence-as-yes pattern the program prohibits.
+Status: Corrected same-day; recurrence control adopted
+Evidence: Hourly grounding audit finding of 2026-08-08; owner ratification comment 5228512217 (Zest-LeadGen)
+Mitigation: Standing rule (decision log, this date): owner-decision records are posted from the owner account or explicitly ratified by one; the independent hourly audit continues to verify authority provenance every cycle (documentation scope).
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Two consecutive audit cycles with zero provenance findings.
+Last reviewed: 2026-08-08
+```
