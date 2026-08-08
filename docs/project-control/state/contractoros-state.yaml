@@ -1,40 +1,41 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "7d00343c233e45185e6c4d77e50eb870f408c01f",
-  "active_gate": "H1 Project-Control Recovery Reconciliation",
+  "current_main_sha": "5ce15a55fb8dcfc3c68a7631999a22c3df569659",
+  "active_gate": "H1 Trusted Policy Root (post-H0)",
   "linked_issue": {"number":58,"state":"open"},
   "linked_pr": null,
-  "lifecycle_state":"project_control_reconciliation_pr_only",
+  "lifecycle_state":"h1_planning_after_h0_closeout",
   "paused_phases":["Phase 4I","Phase 4K-9 and downstream"],
   "completed_prior_phase": {
-    "phase":"Pre-4K-9 Read-Only Red-Team Continuity Evidence Collector / Startup Packet Gate",
-    "issue_number":49,
+    "phase":"H0 Terminal Disposition Gate",
+    "issue_number":82,
     "issue_state":"closed_completed",
-    "pr_number":50,
+    "pr_number":84,
     "pr_state":"merged",
-    "merge_sha":"7d00343c233e45185e6c4d77e50eb870f408c01f"
+    "merge_sha":"5ce15a55fb8dcfc3c68a7631999a22c3df569659"
   },
   "blockers": [
     "Product work is frozen",
     "Production is blocked",
     "Phase 4K-9 and downstream progression remain paused",
     "Phase 4I remains paused",
-    "H1 bootstrap is not authorized",
-    "Fresh independent exact-SHA review and human/write-access approval are required for the reconciliation PR"
+    "H1-B1A-G implementation is not authorized pending a separate owner authorization decision",
+    "Fresh independent exact-SHA review and human/write-access approval are required for any open PR"
   ],
-  "next_authorized_planning_target":"Project-control reconciliation PR only; no H1 bootstrap or automatic next packet",
+  "next_authorized_planning_target":"H1 trusted policy root per Issue #58; H1-B1A-G local packet R11 awaits a separate owner authorization decision; no automatic continuation",
   "documentation_scope":"public_safe",
-  "evidence_timestamps":{"github_verified_at":"2026-07-15T02:30:00Z","state_recorded_on":"2026-07-14"},
+  "evidence_timestamps":{"github_verified_at":"2026-08-08T18:35:00Z","state_recorded_on":"2026-08-08"},
   "evidence_identifiers": [
-    "issue:58:comment:4975617497",
-    "issue:58:comment:4975617497:sha256:b0ca1ccc2a4ba30d0de28900679dbe0ae8eddfb224023affaec178799c289cac",
-    "issue:24:comments:sha256:925024201b7b357cc75471fb8a87d6fc25def983feac4237a3be07c2a8f786e5",
-    "issue:49:closed_completed",
-    "pr:50:merged",
-    "merge:7d00343c233e45185e6c4d77e50eb870f408c01f",
+    "issue:82:closed_completed:2026-07-31T23:26:41Z",
+    "issue:67:closed_completed:2026-07-31T23:30:36Z",
+    "pr:84:merged",
+    "merge:5ce15a55fb8dcfc3c68a7631999a22c3df569659",
     "issue:58:open",
-    "governance-repository:Zest-ContractorOS/contractoros-governance:public-empty-size-0"
+    "issue:85:open:planning_reservation",
+    "issue:86:open:reconciliation_phase",
+    "governance-repository:Zest-ContractorOS/contractoros-governance:inert-bootstrap-commit-pushed:2026-08-01T00:11:50Z",
+    "pr:9:open:disposition_close_after_dependency_pending_owner_decision"
   ],
   "public_private_references": {
     "public":["docs/project-control/PROGRAM_CONSTITUTION.md","docs/project-control/OWNER_DECISION_REGISTER.yaml","docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md"],

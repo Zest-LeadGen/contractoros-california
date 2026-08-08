@@ -840,3 +840,27 @@ Resolution condition: Exact corrected-head run shows all pre-marker steps passin
 Current blocked effect: Any pre-marker failure blocks delivery success and H0 closeout.
 Last reviewed: 2026-07-21
 ```
+
+### R-H1-REC-001 — STALE_CANONICAL_STATE_SNAPSHOT
+
+```text
+Risk: The canonical machine-readable state snapshot lagged live GitHub by four merges (recorded 2026-07-14 against main 7d00343…; live main 5ce15a5…), so any consumer trusting the committed snapshot without live verification would reconstruct a state three gates old, including a governance-repository record that was no longer true.
+Status: Mitigated by the 2026-08-08 reconciliation; recurrence risk remains active
+Evidence: Issue #86; state file evidence_timestamps before and after this change
+Mitigation: Refresh the snapshot in this reconciliation; require every future gate-closing or closeout-affecting merge to include a same-PR state-snapshot refresh, or an immediately following reconciliation PR, before the next phase intake.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: Two consecutive gate closures whose merged PRs contain same-PR or immediately-following state refreshes.
+Last reviewed: 2026-08-08
+```
+
+### R-H1-REC-002 — DURABLE_CLOSEOUT_RECORD_GAP
+
+```text
+Risk: H0 closed on live GitHub on 2026-07-31, but no durable record landed on main, so the committed repository continued to read as if H0 closeout were unauthorized, contradicting the recovery-order requirement for verified-main durable closeout.
+Status: Mitigated by the 2026-08-08 reconciliation; recurrence risk remains active
+Evidence: Issue #82 closed 2026-07-31T23:26:41Z; Issue #67 closed 2026-07-31T23:30:36Z; PR #84 merge 5ce15a55fb8dcfc3c68a7631999a22c3df569659; Issue #86
+Mitigation: Record the durable closeout in the decision log and ledger in this reconciliation; treat issue-closeout events as triggering a durable-record obligation on main.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: The next gate closeout produces its durable main record within one PR cycle of the closing event.
+Last reviewed: 2026-08-08
+```
