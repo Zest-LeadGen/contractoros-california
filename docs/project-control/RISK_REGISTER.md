@@ -876,3 +876,10 @@ Owner: ContractorOS developer executor / independent Red Team
 Resolution condition: web-ci workflow passes on main after merge and on the next dependency-touching PR.
 Last reviewed: 2026-08-08
 ```
+
+### R-H1-REC-001 / R-H1-REC-002 — resolution progress record (2026-08-08)
+
+```text
+Record: This reconciliation is the second consecutive gate-closing event (after PR #87) delivered with a same-cycle state refresh and durable closeout records. Per the stated resolution conditions, both recurrence risks move to RESOLUTION_CONDITION_MET_PENDING_INDEPENDENT_CONFIRMATION. They remain listed until an independent review concurs; no self-declared closure.
+Last reviewed: 2026-08-08
+```
