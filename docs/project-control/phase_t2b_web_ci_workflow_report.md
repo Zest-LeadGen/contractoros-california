@@ -130,8 +130,8 @@ No next phase is authorized by this report. `NEXT_GATE=HOSTED_CI_PROOF_THEN_OWNE
 
 OWNER_TRIGGER_REVIEW
 Owner interruption required: YES
-Trigger categories: DEPENDENCY_SECURITY_RISK_ACCEPTANCE
+Trigger categories: ARCHITECTURE_THRESHOLD
 Lane eligibility: NOT_AUTOMATION_ELIGIBLE
 Human approval required: YES
 Auto-merge eligible: NO
-Rationale: First committed dependency tree and first hosted product workflow; owner review of the exact pinned versions and workflow permissions is required before merge.
+Rationale: First hosted product workflow; owner review of workflow permissions required before merge.
