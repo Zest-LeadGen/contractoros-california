@@ -883,3 +883,15 @@ Last reviewed: 2026-08-08
 Record: This reconciliation is the second consecutive gate-closing event (after PR #87) delivered with a same-cycle state refresh and durable closeout records. Per the stated resolution conditions, both recurrence risks move to RESOLUTION_CONDITION_MET_PENDING_INDEPENDENT_CONFIRMATION. They remain listed until an independent review concurs; no self-declared closure.
 Last reviewed: 2026-08-08
 ```
+
+### R-B1AP-001 — PUBLIC_TREE_ABSOLUTE_PATH_EXPOSURE_SUPERSEDED
+
+```text
+Risk: Historical phase reports in the public product repository embedded operator-machine absolute paths (owner home directory and temp locations), leaking environment details usable for social engineering or targeted attack, and normalizing path leakage in future evidence text.
+Status: Mitigated in this phase for the current tree; residual risk documented (historical blobs retain original text by design per SAN-006)
+Evidence: H1_B1A_P_SANITATION_MANIFEST.md (10 sanitized, 1 exempt fixture, 0 deletions); Issue #96
+Mitigation: Token replacement per SAN-001 in the current tree; future evidence text must use tokens at authoring time; full-history rewrite deliberately rejected absent a SAN-005 security finding and owner authorization.
+Owner: ContractorOS developer executor / independent Red Team
+Resolution condition: Next repository-wide scan (H1_B2 adversarial validation) finds zero new absolute-path occurrences in the current tree.
+Last reviewed: 2026-08-08
+```

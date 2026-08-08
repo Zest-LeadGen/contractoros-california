@@ -73,7 +73,7 @@ Out of scope:
 
 Pre-edit checks and evidence collection:
 
-- `sed -n '1,260p' /Users/adnankhan/.codex/attachments/9f8a956f-73e0-4e81-a457-1cb10e032da4/pasted-text.txt` - passed; read the owner prompt with model/effort header.
+- `sed -n '1,260p' <OWNER_HOME>/.codex/attachments/9f8a956f-73e0-4e81-a457-1cb10e032da4/pasted-text.txt` - passed; read the owner prompt with model/effort header.
 - `git status --short --branch` - passed; showed clean `main` tracking `origin/main` before edits.
 - `git fetch origin main` - passed; documentation source sync updated local remote-tracking evidence for main.
 - `git rev-parse HEAD` - passed; returned `c61fbdcc7784376623197d99da5eff0eafedcbb4`.

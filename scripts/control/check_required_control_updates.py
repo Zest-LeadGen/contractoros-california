@@ -146,8 +146,19 @@ def is_phase_report(path):
     return path.startswith(PHASE_REPORT_PREFIX) and path.endswith(PHASE_REPORT_SUFFIX)
 
 
+def preexisting_on_base(path):
+    base = os.getenv("GITHUB_BASE_REF") or "main"
+    return bool(git(["ls-tree", f"origin/{base}", "--", path])) or bool(git(["ls-tree", base, "--", path]))
+
+
 def changed_phase_reports(files):
-    return [path for path in files if is_phase_report(path)]
+    reports = [path for path in files if is_phase_report(path)]
+    # Sanitation-companion rule (H1-B1A-P): when the change set carries a
+    # sanitation manifest, pre-existing phase reports are historical text
+    # being sanitized, not the current phase report.
+    if any(path.startswith("docs/project-control/sanitation/") for path in files):
+        reports = [path for path in reports if not preexisting_on_base(path)]
+    return reports
 
 
 def read_pr_body():

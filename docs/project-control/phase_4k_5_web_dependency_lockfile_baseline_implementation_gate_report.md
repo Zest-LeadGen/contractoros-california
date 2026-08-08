@@ -256,7 +256,7 @@ They recommend exactly one next controlled phase: toolchain availability / npm b
 ## Commands Run
 
 ```text
-sed -n '1,260p' /Users/adnankhan/.codex/attachments/4a3d6905-b4f4-4dae-bef2-e163baf9e64d/pasted-text.txt
+sed -n '1,260p' <OWNER_HOME>/.codex/attachments/4a3d6905-b4f4-4dae-bef2-e163baf9e64d/pasted-text.txt
 git rev-parse HEAD
 git status --short --branch
 gh api repos/Zest-LeadGen/contractoros-california/issues/39 --jq '{number,title,state,state_reason,html_url}'
@@ -266,8 +266,8 @@ npm --version
 node --version
 escalated npm --version
 escalated node --version
-/Users/adnankhan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --version
-ls -la /Users/adnankhan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin
+<OWNER_HOME>/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --version
+ls -la <OWNER_HOME>/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin
 sed reads of allowed project-control files and control scripts
 rg reads of Phase 4K-4 / Phase 4K-5 references
 ```

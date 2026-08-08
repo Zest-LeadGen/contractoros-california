@@ -82,7 +82,7 @@ Out of scope:
 Pre-edit checks and evidence collection:
 
 - `pwd` - passed; confirmed workspace root.
-- `sed -n '1,220p' /Users/adnankhan/.codex/attachments/9184808c-106d-4c70-941e-4bcb133babc4/pasted-text.txt` - passed; read the owner prompt with model/effort header.
+- `sed -n '1,220p' <OWNER_HOME>/.codex/attachments/9184808c-106d-4c70-941e-4bcb133babc4/pasted-text.txt` - passed; read the owner prompt with model/effort header.
 - `git status --short --branch` - passed; showed clean `main` tracking `origin/main` before edits.
 - `git rev-parse HEAD` - passed; returned `98cf25ff91e9bd3b852669af32bc2951e958494a`.
 - `git rev-parse origin/main` - passed; returned `98cf25ff91e9bd3b852669af32bc2951e958494a`.

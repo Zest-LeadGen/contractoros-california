@@ -544,3 +544,22 @@ Current review status: FRESH_EXACT_HEAD_REVIEW_REQUIRED
 Claim level: Live-verified documentation reconciliation only; independent acceptance not proven
 Automatic continuation: NO
 ```
+
+### H1-B1A-P Product Path Sanitation — Documentation Implementation
+
+```text
+Phase: H1-B1A-P product policy/state sanitation
+Lane: Control / Infrastructure
+Date: 2026-08-08
+Branch: h1-b1a-p-path-sanitation
+Phase issue: #96
+Parent H1 issue: #58
+Scan result: 11 occurrences (8 owner-home, 2 temp-path, 1 exempt synthetic fixture)
+Sanitized: 10 by token replacement; EXEMPT: 1; deletions 0; history rewrite NONE
+Manifest: docs/project-control/sanitation/H1_B1A_P_SANITATION_MANIFEST.md
+Sequence deviation: B1C and B1B_G executed before this gate; owner-accepted, disclosed on #96
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Current review status: FRESH_EXACT_HEAD_REVIEW_REQUIRED
+Claim level: Current-tree sanitation only; historical blobs intentionally unchanged; ABSENCE_OF_UNDISCOVERED_FILES=NOT_PROVEN
+Automatic continuation: NO
+```
