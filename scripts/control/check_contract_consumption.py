@@ -3,8 +3,8 @@
 
 Validates the governance-contract pin file: structure, required fields,
 exact-SHA and digest formats, and prohibition flags. With --live, also
-re-fetches each pinned blob from the pinned governance commit and compares
-its SHA-256 digest (fail closed on any mismatch or fetch failure).
+re-fetches each pinned blob (read-only scope) from the pinned governance commit and compares
+its SHA-256 digest, failing closed on any mismatch or fetch failure (read-only scope).
 
 Read-only. Exit 0 = PASS, exit 1 = validation failure, exit 2 = environment
 failure in --live mode (fail closed; no fallback).
@@ -34,7 +34,7 @@ SHA64 = re.compile(r"^[0-9a-f]{64}$")
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--live", action="store_true",
-                        help="re-fetch pinned blobs and verify digests")
+                        help="re-fetch pinned blobs and verify digests (read-only scope)")
     args = parser.parse_args()
 
     failures = []
