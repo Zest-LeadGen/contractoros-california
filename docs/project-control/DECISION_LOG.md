@@ -138,3 +138,12 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Withdraw Packet 1E and reject Control Plane Seed v0 and prior local H1 candidates as project authority. Local outputs remain evidence or donor material only; local implementation authority is not authorized.
 - Require hook execution by default. Hook bypass is prohibited unless a later exact owner authorization names the command and scope; prior blanket bypass language is superseded.
 - Follow recovery order R4 reconciliation, R5 fresh review, R6 owner merge decision, and R7 verified-main durable closeout. No automatic next packet or H1 bootstrap is authorized.
+
+## Post-H0 Durable State Reconciliation Decisions — 2026-08-08
+
+- Documentation scope: record the durable H0 closeout. Live GitHub evidence shows Issue #82 closed completed 2026-07-31T23:26:41Z, Issue #67 closed completed 2026-07-31T23:30:36Z, and PR #84 merged at main `5ce15a55fb8dcfc3c68a7631999a22c3df569659`. H0 is closed; this record creates no new authority.
+- Documentation scope: record that the inert governance root bootstrap commit ("bootstrap(h1): create inert ContractorOS governance root") was pushed to `Zest-ContractorOS/contractoros-governance` on 2026-08-01T00:11:50Z, consistent with the minimal-inert-trust-root decision above. The governance repository is no longer empty. No governance-repository mutation authority is granted by this record.
+- Documentation scope: record planning reservation Issue #85 (post-H10 identity, user-account, progress, and account-security sequence), opened 2026-08-01, planning-only, with no implementation, product-restart, or production authority.
+- Refresh `docs/project-control/state/contractoros-state.yaml` to the live-verified snapshot of 2026-08-08. Snapshot semantics remain observed-snapshot-requires-live-verification; the file grants no authority.
+- The H1-B1A-G local review packet R11 remains local evidence only. A technical command-sequence verification was performed on 2026-08-08 by a non-independent session agent under direct owner instruction; it is recorded as advisory verification, not as the independent semantic review, and grants no implementation, publication, or GitHub-mutation authority. The owner authorization decision for H1-B1A-G remains separate and open.
+- The PR #9 terminal disposition (`CLOSE_AFTER_DEPENDENCY`) dependency is now satisfied by the merged and main-verified disposition report; the separate owner closure decision for PR #9 remains open and is not made by this record.
