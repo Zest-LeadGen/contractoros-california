@@ -907,3 +907,15 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Two consecutive audit cycles with zero provenance findings.
 Last reviewed: 2026-08-08
 ```
+
+### R-B1BP-001 — PIN_STALENESS_BETWEEN_GOVERNANCE_ADVANCES <!-- risk documentation scope -->
+
+```text
+Risk: The product repository's contract pin can lag governance main when contracts evolve, so product-side actors could consume superseded contract versions without noticing.
+Status: Accepted with control; no contract evolution has occurred since the pin
+Evidence: governance-contract-pin.json at e907a76; live digest verification 5/5 MATCH on 2026-08-08
+Mitigation: Pin advances only by owner decision; the declared live check fail-closes on digest mismatch; the hourly independent audit compares pinned vs live governance main; H1_B4 wires the check into CI.
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: H1_B4 enforcement cutover makes pin verification merge-blocking.
+Last reviewed: 2026-08-08
+```

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "pin_semantics": "exact_sha_and_digest_consumption_no_parallel_format",
+  "gate": "H1_B1B_P",
+  "phase_issue": 99,
+  "source_repository": "Zest-ContractorOS/contractoros-governance",
+  "pinned_main_sha": "e907a76f1297e3541672de2424ed2984b03cf0d1",
+  "corpus_version": "1.2.0",
+  "pinned_at": "2026-08-08",
+  "contracts": [
+    {
+      "role": "OUTPUT_CONTRACT",
+      "path": "policy/contracts/output-contract.json",
+      "sha256": "8ed39d1b502eca9d8489b3b682ecee9d07a48599b4794c4d792b225d13ab5180"
+    },
+    {
+      "role": "PROMPT_CONTRACT",
+      "path": "policy/contracts/prompt-contract.json",
+      "sha256": "3bc8315df6f1bc60c33e2b3b1b285dbe2a966cc91ee69093ef8589a5edd92cdf"
+    },
+    {
+      "role": "DEVELOPER_CONTRACT",
+      "path": "policy/contracts/developer-contract.json",
+      "sha256": "7f3201801dfe249dc79b02fc222551c25efdfe264928b5cbfeff8c3335502c2d"
+    },
+    {
+      "role": "RED_TEAM_CONTRACT",
+      "path": "policy/contracts/red-team-contract.json",
+      "sha256": "921fbdbf4faabd5663a165cfeb60bd3ec0e028ab906d75174fc32e83a68f3df5"
+    },
+    {
+      "role": "CONTRACTS_SCHEMA",
+      "path": "schemas/contracts/contracts.schema.json",
+      "sha256": "52122d7a85d9e8c28802d9ad077a13440be4ae91f42720572eb4628a9357b7bc"
+    }
+  ],
+  "consumption_rules": {
+    "parallel_format_creation": "PROHIBITED",
+    "contract_text_duplication": "PROHIBITED",
+    "pin_update_control": "OWNER_DECISION_REQUIRED",
+    "verification_command": "python3 scripts/control/check_contract_consumption.py --live"
+  }
+}
