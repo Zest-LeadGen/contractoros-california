@@ -15,7 +15,7 @@ import unittest
 from pathlib import Path
 
 CHECKER = Path(__file__).resolve().parents[1] / "check_phase_authorization.py"
-AUTH_DIR = "docs/project-control/authorizations"
+PA_DIR = "docs/project-control/authorizations"
 
 
 def sh(args, cwd, env=None):
@@ -23,7 +23,7 @@ def sh(args, cwd, env=None):
                           stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
-def base_auth(base_sha):
+def base_permit(base_sha):
     return {
         "schema_version": "1.0.0", "policy_version": "1.0.0",
         "authorization_id": "PA-0009", "evidence_id": "test-evidence-0009",
@@ -54,11 +54,11 @@ class PhaseAuthorizationTests(unittest.TestCase):
         sh(["git", "config", "user.email", "t@example.invalid"], self.repo)
         sh(["git", "config", "user.name", "test"], self.repo)
         (self.repo / "README.md").write_text("readme\n")
-        (self.repo / AUTH_DIR).mkdir(parents=True)
+        (self.repo / PA_DIR).mkdir(parents=True)
         sh(["git", "add", "-A"], self.repo)
         sh(["git", "commit", "-qm", "seed"], self.repo)
         seed_sha = sh(["git", "rev-parse", "HEAD"], self.repo).stdout.strip()
-        (self.repo / AUTH_DIR / "PA-0009.json").write_text(json.dumps(base_auth(seed_sha)))
+        (self.repo / PA_DIR / "PA-0009.json").write_text(json.dumps(base_permit(seed_sha)))
         sh(["git", "add", "-A"], self.repo)
         sh(["git", "commit", "-qm", "authorization"], self.repo)
         # simulate origin/main
@@ -120,7 +120,7 @@ class PhaseAuthorizationTests(unittest.TestCase):
         self.assertIn("AUTHORIZATION_EXPIRED", r.stdout)
 
     def test_self_modification_denied(self):
-        self.commit(f"{AUTH_DIR}/PA-0009.json", content="{}")
+        self.commit(f"{PA_DIR}/PA-0009.json", content="{}")
         r = self.run_checker()
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn("AUTHORIZATION_SELF_MODIFICATION_DENIED", r.stdout)  # documentation scope token

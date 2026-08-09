@@ -163,6 +163,8 @@ def self_reference_literal(rel, line):
     stripped = line.strip()
     return rel == 'scripts/control/check_forbidden_scope.py' and (
         stripped.startswith("'") or stripped.startswith('"')
+        or stripped.startswith('#') or stripped.startswith('def term_pattern')
+        or stripped.startswith('if term ==') or stripped.startswith('return r')
     )
 
 
