@@ -613,3 +613,18 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: observe-only instrumentation; no merge-blocking enforcement exists or is authorized before B4
 Automatic continuation: NO
 ```
+
+### B4-Intake FP Remediation — Implementation
+
+```text
+Phase: H1-B3 observation follow-through (push-context FP remediation)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h1-b3-push-context-fp-remediation
+Phase issue: #102 (observation-mode lineage; finding recorded at B4 intake)
+Scope: one workflow step condition + three registers + phase report
+Effect: control-gates on push events runs only push-appropriate checks; PR events unchanged
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: remediation delivery only; B4 unblock requires a green main-push run after merge
+Automatic continuation: NO
+```
