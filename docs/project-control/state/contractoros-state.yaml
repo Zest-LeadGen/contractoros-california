@@ -25,10 +25,10 @@
     "Product work is frozen (T2 CI/lockfile carve-out excepted)",
     "Production is blocked",
     "Phase 4K-9 and downstream remain paused; Phase 4I remains paused",
-    "B4 cutover completes only with owner ruleset acts + merged delivery PRs; B5 requires separate owner authorization",
+    "B4 cutover lands only via owner ruleset acts plus merged delivery PRs; B5 requires a separate owner go decision; no standing authorization exists",
     "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
   ],
-  "next_authorized_planning_target": "Complete H1_B4 (PRs #7 governance / #107 product + owner rulesets), then H1_B5 closeout on separate owner authorization",
+  "next_authorized_planning_target": "Finish H1_B4 (governance PR #7, product PR #107, owner rulesets), then H1_B5 closeout on a separate owner go decision; no standing authorization exists",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
     "github_verified_at": "2026-08-09T02:30:00Z",
