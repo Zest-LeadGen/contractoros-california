@@ -36,7 +36,7 @@
   "evidence_identifiers": [
     "product-main:fabfa8f1d33dbc1d48e48f1395250800020f9347:pr-112-h2-h3",
     "governance-main:2579e74e3c4358144e4c9bef0cf4b8219afc5fdf:pr-8-corpus-33-v1.6.0",
-    "issue:111:closed_completed:owner-auth-5230073633",
+    "issue:111:closed_completed:owner-authorization-comment-5230073633",
     "issue:113:open:h4-intake:OWNER_COMMENT_PENDING",
     "pr:114:open:h4a-h4b:blocked-pending-owner",
     "ruleset:20598456:product:require-last-push-approval+code-owner-review",

@@ -20,7 +20,7 @@ Standard post-merge reconciliation (the pattern used at PR #110), prompted by si
 
 ## Scope
 
-Refresh state.yaml to fabfa8f (H2+H3 complete, H4A+H4B in flight per #113/#114); backfill the DEVELOPMENT_LEDGER H2+H3 head-SHA placeholder; correct the merge-actor overstatement in DECISION_LOG (owner APPROVED; danidon-wq MERGED #87/#90/#91/#93 under the disclosed both-keys flow); add R-RECON-001; record the #113 owner-authorization precondition for PR #114. Documentation only.
+Refresh state.yaml to fabfa8f (H2+H3 merged, H4A+H4B in flight per #113/#114); backfill the DEVELOPMENT_LEDGER H2+H3 head-SHA placeholder; correct the merge-actor overstatement in DECISION_LOG (owner APPROVED; danidon-wq MERGED #87/#90/#91/#93 under the disclosed both-keys flow); add R-RECON-001; record the #113 owner-authorization precondition for PR #114. Documentation only.
 
 ## Starting Main SHA
 
