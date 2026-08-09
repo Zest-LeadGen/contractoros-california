@@ -149,4 +149,4 @@ Trigger categories: ARCHITECTURE_THRESHOLD
 Lane eligibility: NOT_AUTOMATION_ELIGIBLE
 Human approval required: YES
 Auto-merge eligible: NO
-Rationale: This reconciliation changes the canonical state snapshot and durable closeout records that downstream gates read, so owner and independent review gates remain required.
+Rationale: CI architecture and ruleset controls are control-surface changes; owner and review gates required.
