@@ -992,3 +992,15 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Checker wired observe-only, then blocking after its measured window.
 Last reviewed: 2026-08-09
 ```
+
+### R-RECON-001 — MERGE_ACTOR_OVERSTATEMENT_IN_RECORDS <!-- risk documentation scope -->
+
+```text
+Risk: Committed records described owner-approved, collaborator-merged (both-keys) acts as owner-executed, so a reader trusting the text alone would misattribute merge authorship — an accuracy gap even though the underlying authority chain is sound and disclosed.
+Status: Corrected 2026-08-09 (accuracy correction in DECISION_LOG); recurrence controlled
+Evidence: gh pr view mergedBy for #87/#90/#91/#93 (danidon-wq) vs #97+ (Zest-LeadGen); found by six overnight audit cycles
+Mitigation: Records now distinguish AUTHORIZED/APPROVED (owner) from MERGE-EXECUTED (actor); future completion records state the merge actor explicitly rather than a blanket "owner executed".
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Two consecutive gate completion records state the merge actor precisely.
+Last reviewed: 2026-08-09
+```
