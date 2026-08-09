@@ -14,14 +14,14 @@ SEMANTICS=Every row cites the exact merge SHA or run ID; mutable state remains L
 |---|---|---|---|
 | B0 | Inert trust root bootstrap | `2fe624f` (governance) | 6-file inert root; H1-B0 execution evidence archived locally |
 | B1A_G | Canonical corpus, 11 sealed files | gov PR #1 → `81b79bd` | R11 packet (trust root `39f37138…`), Stage A #92 + linkage SHA-verified, Stage B activation 5227965188, atomic commit `ed37038`, PR-body readback match |
-| B1A_P | Product path sanitation | PR #97 → `2910849` | SAN-002 manifest 11/11 classified; OD-007/OD-008 resolved (auth 5228511915); validator companion rule |
-| B1B_G | Four provider-neutral AI contracts | gov PR #4 → `e907a76` | Rules 1:1 to #78 requirement rows; closed schema; corpus 25 v1.2.0; auth 5228473587 |
-| B1B_P | SHA-pinned contract consumption | PR #100 → `64ff0a2` | Pin `e907a76` + 5 digests, live 5/5 MATCH; OD-011/OD-019 resolved (auth 5228679875); no parallel format |
-| B1C | Full-tree validation in CI | gov PR #2 → `820ab48`, fix PR #3 → `952a383` | Scanner found the 11-entry PROPOSED staleness (latent defect fixed); zero-action workflow after sha-pinning policy refusal; first enforcement run 31281051270 SUCCESS; auth 5228404395 |
-| B2 | 15-probe adversarial suite | gov PR #5 → `7a04ec0` | DEFECT_1–4 regressions; tampered-oracle meta-negative; corpus 29 v1.3.0; auth 5228800370 |
-| B3 | Observation mode + measured baseline | gov PR #6 → `ae628f4`; PR #103 → `26eebd3` | 39-run classified baseline; OD-015 resolved (auth 5229225607); FP class #2 found at B4 intake |
+| B1A_P | Product path sanitation | PR #97 → `2910849` | SAN-002 manifest 11/11 classified; OD-007/OD-008 resolved (owner record 5228511915); validator companion rule |
+| B1B_G | Four provider-neutral AI contracts | gov PR #4 → `e907a76` | Rules 1:1 to #78 requirement rows; closed schema; corpus 25 v1.2.0; owner record 5228473587 |
+| B1B_P | SHA-pinned contract consumption | PR #100 → `64ff0a2` | Pin `e907a76` + 5 digests, live 5/5 MATCH; OD-011/OD-019 resolved (owner record 5228679875); no parallel format |
+| B1C | Full-tree validation in CI | gov PR #2 → `820ab48`, fix PR #3 → `952a383` | Scanner found the 11-entry PROPOSED staleness (latent defect fixed); zero-action workflow after sha-pinning policy refusal; first enforcement run 31281051270 SUCCESS; owner record 5228404395 |
+| B2 | 15-probe adversarial suite | gov PR #5 → `7a04ec0` | DEFECT_1–4 regressions; tampered-oracle meta-negative; corpus 29 v1.3.0; owner record 5228800370 |
+| B3 | Observation mode + measured baseline | gov PR #6 → `ae628f4`; PR #103 → `26eebd3` | 39-run classified baseline; OD-015 resolved (owner record 5229225607); FP class #2 found at B4 intake |
 | B3-FT | Push-context FP remediation R1+R2 | PR #104 → (`7e3e727` lineage); PR #105 → `9857650` | Sequential unmasking documented; verification run 31289564636 — first green main push since 2026-07-09 |
-| B4 | Enforcement cutover | gov PR #7 → `529ed7d`; PR #107 → `8d881cf` | H1_ENFORCEMENT_ATTACHMENT (corpus 31 v1.5.0); blocking consumption step; rulesets 20598454 + 20598456 active, bypass=never; OD-016 resolved (auth 5229340545); audit reconciliation folded in |
+| B4 | Enforcement cutover | gov PR #7 → `529ed7d`; PR #107 → `8d881cf` | H1_ENFORCEMENT_ATTACHMENT (corpus 31 v1.5.0); blocking consumption step; rulesets 20598454 + 20598456 active, bypass=never; OD-016 resolved (owner record 5229340545); audit reconciliation folded in |
 
 ## Cross-cutting records
 
