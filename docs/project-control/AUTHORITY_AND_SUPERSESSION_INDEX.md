@@ -159,7 +159,7 @@ Declares the ONE canonical artifact per concern, to end competing "current" reco
 
 | Concern | Canonical (single source of truth) | Superseded / secondary (audit evidence only) |
 |---|---|---|
-| Live lifecycle / current status | `docs/project-control/state/contractoros-state.yaml` (generated) + the live program report artifact | Any static "current status" prose elsewhere is non-authoritative snapshot text. |
+| Live lifecycle / current status | `docs/project-control/state/contractoros-state.yaml` (generated) + the live program report artifact | Any static "current status" prose elsewhere is secondary snapshot text (audit evidence only). |
 | Risk | `RISK_REGISTER.md` | none |
 | Red-team findings | `RED_TEAM_FINDINGS_REGISTER.md` | none |
 | Owner decisions | `DECISION_LOG.md` (OD-series) + `adr/` ADRs; `OWNER_DECISION_REGISTER.yaml` holds program-direction D-series and cross-references the OD-series | competing decision prose in phase reports is historical |
