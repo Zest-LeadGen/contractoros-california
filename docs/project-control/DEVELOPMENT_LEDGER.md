@@ -779,3 +779,17 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: inventory/classification only; no consolidation performed; no new authority
 Automatic continuation: NO
 ```
+
+### H5-B.1 Source of Truth Map — Documentation Implementation
+
+```text
+Phase: H5-B.1 (single source of truth map + PA-0003 backfill)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h5b1-source-of-truth-map
+Phase issue: #118
+Scope: authority-index source-of-truth map; PA-0004; PA-0003 evidence backfill; control updates. No file moves; roadmap/constitution deferred to H5-B.2.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: source-of-truth declaration only; no consolidation moves
+Automatic continuation: NO
+```

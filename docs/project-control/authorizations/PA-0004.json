@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0003",
+  "authorization_id": "PA-0004",
   "evidence_id": "issue-118-comment-5233703034",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 118,
   "base_branch": "main",
-  "base_sha": "cd6af16052af4e8cb75e86db2ea5ab466728fa81",
+  "base_sha": "c8006af8335b7164f6e55668f97aad03386bac12",
   "lane": "Control / Infrastructure",
   "expiry": "2026-08-23",
   "developer_principal": "danidon-wq",
@@ -16,35 +16,42 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0003.json",
+      "pattern": "docs/project-control/authorizations/PA-0004.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/phase_h5a_inventory_classification_report.md",
+      "pattern": "docs/project-control/authorizations/PA-0003.json",
       "change_kinds": [
-        "add"
+        "modify"
       ]
     },
     {
       "rule_id": "ALLOW-003",
-      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "pattern": "docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-004",
+      "pattern": "docs/project-control/phase_h5b1_source_of_truth_map_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
       "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-005",
-      "pattern": ".github/workflows/control-gates.yml",
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
       "change_kinds": [
         "modify"
       ]
@@ -52,8 +59,7 @@
   ],
   "forbidden_paths": [
     "apps/**",
-    "scripts/continuity/**",
-    "scripts/control/check_*.py",
+    "scripts/**",
     "docs/project-control/state/contractoros-state.yaml",
     "policy/**"
   ],
@@ -69,7 +75,7 @@
   ],
   "classifications": {
     "dependency": "NONE",
-    "build": "CI_CHANGE",
+    "build": "NONE",
     "release": "NONE",
     "data": "NONE",
     "security": "CONTROL_SURFACE"
