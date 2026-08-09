@@ -1042,7 +1042,7 @@ Last reviewed: 2026-08-09
 ```text
 Risk: owner (Zest-LeadGen) and collaborator (danidon-wq) tokens reside in one gh keyring on one machine; gh auth switch is one command from crossing the boundary; the collaborator token is not read-only (push:true, triage:true; admin:false confirmed). The both-keys separation is real at the GitHub-record level (approvals vs merges by distinct accounts) but technically nil at the credential level.
 Status: OPEN — disclosed via H2-WAIVER-001; structural resolution tracked to H9/H10
-Evidence: 2026-08-09 stress test tree-integrity findings; gh auth status two accounts; effective permission read
+Evidence: 2026-08-09 stress test tree-integrity findings; gh auth status shows two accounts; collaborator scope inspected
 Mitigation: disclosed waiver with compensating controls; H9 genuinely independent audit before H10.
 Owner: Owner
 Resolution condition: owner key on a separate device or GitHub environment protection introduced, or waiver formally re-affirmed at H9.
