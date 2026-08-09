@@ -199,3 +199,15 @@ Update decisions through project-control PRs or explicitly approved control mile
 
 - Documentation scope: the first push-context remediation (PR #104) was incomplete because GitHub Actions aborts later steps after a failure — the Claim-language step (same PR-semantics class) was masked by the completeness step on every prior push and surfaced only after the first fix merged, failing identically on main push 7e3e727. R2 conditions the Claim-language step on pull_request events, completing the class. A full step-condition audit confirms every remaining unconditioned step passed on the 7e3e727 push (push-safe by evidence, not assumption).
 - OD-015 status (documentation scope): FALSE_POSITIVE_PUSH_CONTEXT_CONTRACT_CHECK remains the open class until the first green control-gates run on a main push after the R2 merge; B4 remains blocked until then.
+
+## H1-B4 Enforcement Cutover Decisions — 2026-08-09
+
+- Documentation scope: the contract-consumption live check becomes a blocking step in the control-gates workflow (push-safe by design: requires no PR context). The B3 observe-only workflow is retired in the same change — its purpose completed at cutover; its observation run history remains durable in the Actions log. This is a recorded supersession, not silent removal.
+- Owner decision H1B1-OD-016 (documentation scope, resolved by the Issue #106 phase authorization): rollback = owner-only deletion/disable of the B4 rulesets, recorded on #58 within one cycle; break-glass = no non-owner bypass ever, owner bypass only with a durable prior record naming scope and reason; workflow-step rollback is an ordinary control-lane PR.
+- Required-check attachments (documentation scope): additive rulesets on both repositories (governance "Corpus validation + full-tree scan"; product "contractoros-control-gates") are owner console/API acts executed under the same phase authorization; the attachment record lives in the governance repository (H1_ENFORCEMENT_ATTACHMENT, corpus v1.5.0).
+
+## B2/B3 Durable Records + Audit Reconciliation — 2026-08-09
+
+- Audit response (documentation scope): the hourly independent audit correctly found the committed snapshot stale and B2 absent from the registers; this commit reconciles both inside the B4 delivery cycle, per the audit's before-further-gate-work recommendation.
+- H1-B2 durable record (documentation scope): 15-probe adversarial suite vs immutable expected oracle merged as governance PR #5 (squash) at verified governance main 7a04ec018eed1f08916f7bdfce050c5e89de5736; DEFECT_1-4 regressions covered; tampered-oracle meta-negative proven; corpus 29 entries v1.3.0; issue #101 closed with completion record.
+- H1-B3 durable record (documentation scope): observation-mode policy + immutable 39-run baseline merged as governance PR #6 at ae628f4 (corpus 30 v1.4.0); observe-only workflow merged as PR #103; OD-015 resolved (authorization 5229225607); push-context FP class remediated in two audited rounds (PRs #104/#105, sequential unmasking documented) and verified by run 31289564636 — the first green control-gates main push since 2026-07-09; issue #102 closed.

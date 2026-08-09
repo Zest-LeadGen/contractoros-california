@@ -44,6 +44,9 @@ jobs:
       - name: Mandatory SHA-bound red-team marker check
         if: github.event_name == 'pull_request'
         run: python3 scripts/control/check_red_team_marker.py
+      - name: Contract-consumption live digest check (H1-B4 blocking)
+        run: python3 scripts/control/check_contract_consumption.py --live
+
       - name: Lockfile / dependency contamination check
         run: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
       - name: Claim-language check

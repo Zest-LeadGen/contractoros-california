@@ -643,3 +643,28 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: remediation delivery; class closes only on the first green main-push run after merge
 Automatic continuation: NO
 ```
+
+### H1-B4 Consumption Blocking + Observation Retirement — Implementation
+
+```text
+Phase: H1-B4 enforcement cutover (product-side workflow change)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h1-b4-consumption-blocking
+Phase issue: #106
+Parent H1 issue: #58
+Governance companion: PR Zest-ContractorOS/contractoros-governance#7 (enforcement attachment record, corpus 31 v1.5.0)
+Owner acts companion: two additive required-check rulesets (prepared script)
+Scope: one blocking step added to control-gates.yml; observation.yml retired with record; three registers; phase report
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: cutover delivery; required-check attachment proof = post-merge ruleset readbacks + first blocked/green PR evidence
+Automatic continuation: NO
+```
+
+### H1-B2 and H1-B3 — Durable Ledger Records (reconciled 2026-08-09)
+
+```text
+H1-B2: governance PR #5 merged (squash) at 7a04ec0 — adversarial validation suite (15 probes, oracle, fixtures, prompt-profile validator); issue #101 closed 2026-08-08T23:4xZ
+H1-B3: governance PR #6 merged at ae628f4 (observation policy, corpus 30 v1.4.0); product PR #103 merged at 26eebd3 (observe-only workflow); FP remediation PRs #104 (1c33c3f lineage) and #105 (9857650 merge) merged; verification run 31289564636 green on main push; issue #102 closed 2026-08-09
+Reconciliation cause: hourly independent audit drift finding — registers lagged live GitHub for B2; snapshot five merges stale
+```

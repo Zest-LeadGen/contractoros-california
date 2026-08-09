@@ -1,53 +1,52 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "29108490277136c4d2b9e69d7884c5e04ca72ddf",
-  "active_gate": "H1 Trusted Policy Root \u2014 B1B_P next in canonical order",
+  "current_main_sha": "9857650699bad3159a5caffdec0f6c5b68758667",
+  "active_gate": "H1_B4 Enforcement Cutover (delivery PRs in flight)",
   "linked_issue": {
     "number": 58,
     "state": "open"
   },
   "linked_pr": null,
-  "lifecycle_state": "h1_five_gates_complete_b1bp_next",
+  "lifecycle_state": "h1_b0_through_b3_merged_b4_in_flight",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H1-B1A-P Product Path Sanitation (PR #97)",
-    "issue_number": 96,
+    "phase": "H1-B3 Observation Mode + push-context FP remediation R2 (PR #105)",
+    "issue_number": 102,
     "issue_state": "closed_completed",
-    "pr_number": 97,
+    "pr_number": 105,
     "pr_state": "merged",
-    "merge_sha": "29108490277136c4d2b9e69d7884c5e04ca72ddf"
+    "merge_sha": "9857650699bad3159a5caffdec0f6c5b68758667"
   },
   "blockers": [
-    "Product work is frozen (T2 CI/lockfile carve-out delivered under Issue #89)",
+    "Product work is frozen (T2 CI/lockfile carve-out excepted)",
     "Production is blocked",
-    "Phase 4K-9 and downstream progression remain paused; Phase 4I remains paused",
-    "Remaining H1 gates B1B_P, B2, B3, B4, B5 each require a separate owner go decision; no standing implementation authorization exists",
-    "CRM/user-account work including planning waits for H10 (owner ratification 5228512217 on Issue #85)"
+    "Phase 4K-9 and downstream remain paused; Phase 4I remains paused",
+    "B4 cutover lands only via owner ruleset acts plus merged delivery PRs; B5 requires a separate owner go decision; no standing authorization exists",
+    "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
   ],
-  "next_authorized_planning_target": "H1_B1B_P (product consumption of the verified governance contracts) per canonical order; no automatic continuation",
+  "next_authorized_planning_target": "Finish H1_B4 (governance PR #7, product PR #107, owner rulesets), then H1_B5 closeout on a separate owner go decision; no standing authorization exists",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-08T22:40:00Z",
-    "state_recorded_on": "2026-08-08"
+    "github_verified_at": "2026-08-09T02:30:00Z",
+    "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "governance-pr:1:merged:81b79bd8be00116af5ae745eedf064c677622491:h1-b1a-g-corpus",
-    "governance-pr:2:merged:820ab480a5166b1370fc67008466e7ca758cab76:h1-b1c-validation-gate",
-    "governance-pr:3:merged:952a383b1da0418bee52f8f427648c71b808c7d6:h1-b1c-zero-action-workflow-fix",
-    "governance-pr:4:merged:e907a76f1297e3541672de2424ed2984b03cf0d1:h1-b1b-g-ai-contracts",
-    "governance-gates:run:31281051270:success-on-main",
-    "governance-gates:run:31281535785:success-on-main-contracts",
-    "pr:97:merged:h1-b1a-p-sanitation",
-    "issue:92:closed_completed",
-    "issue:94:closed_completed",
-    "issue:95:closed_completed",
-    "issue:96:closed_completed",
-    "issue:85:comment:5228512217:owner-ratification-crm-h10-gating",
-    "audit:hourly-grounding-routine:violation-85-corrected"
+    "governance-main:ae628f4:b3-observation-policy:corpus-30-v1.4.0",
+    "governance-pr:5:merged:7a04ec0:b2-adversarial-suite",
+    "governance-pr:6:merged:ae628f4:b3-observation-mode",
+    "pr:100:merged:b1b-p-consumption-pin",
+    "pr:103:merged:b3-observe-only-workflow",
+    "pr:104:merged:fp-remediation-r1",
+    "pr:105:merged:fp-remediation-r2",
+    "run:31289564636:first-green-main-push-since-2026-07-09",
+    "issue:101:closed_completed:b2",
+    "issue:102:closed_completed:b3",
+    "issue:106:open:b4-intake",
+    "audit:hourly:drift-findings-reconciled-in-this-commit"
   ],
   "public_private_references": {
     "public": [
