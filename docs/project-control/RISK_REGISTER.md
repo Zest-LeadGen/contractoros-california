@@ -1029,7 +1029,7 @@ Last reviewed: 2026-08-09
 
 ```text
 Risk: (a) gate scripts run from the PR's own merged tree, so a PR can edit a checker to pass itself; only CODEOWNERS review backstops. (b) the red-team marker verifies format and head-SHA but not authorship, so an author can fabricate an APPROVED marker; SHA-binding prevents replay, not fabrication.
-Status: OPEN — disclosed; structural hardening tracked to H5/H6
+Status: CORRECTED 2026-08-09 (R-STRESS-004 overclaim proximity fix); structural items remain tracked to H5/H6
 Evidence: 2026-08-09 stress test, ci-logic findings; check_red_team_marker.py reads body from event payload and verifies no author identity
 Mitigation: CODEOWNERS on /.github/ and /scripts/control/ + required code-owner review; single-human program under H2-WAIVER-001. Residual disclosed.
 Owner: executor (H5/H6) with owner approval
@@ -1047,4 +1047,11 @@ Mitigation: disclosed waiver with compensating controls; H9 genuinely independen
 Owner: Owner
 Resolution condition: owner key on a separate device or GitHub environment protection introduced, or waiver formally re-affirmed at H9.
 Last reviewed: 2026-08-09
+```
+
+### R-STRESS-004 resolution note — 2026-08-09 <!-- risk documentation scope -->
+
+```text
+R-STRESS-004 (overclaim-gate substring bypass): FIXED. check_pr_contract.py now downgrades an overclaim only when a negation PRECEDES the term (forward qualifiers still count anywhere); 'complete with no open blockers' is now flagged. Verified by 8 in-line cases. check_forbidden_scope.py now exempts docs/archive/ and scripts/control/ from term-scanning (archive is immutable history; control code carries the term literals by design), governed instead by CODEOWNERS + control-script tests.
+Residual: a dedicated regression test file for check_pr_contract is not yet wired into the control-script-tests CI job — tracked as a small follow-up.
 ```

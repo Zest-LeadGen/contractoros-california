@@ -56,6 +56,8 @@ DOWNGRADE_CONTEXT = [
     "not finalized",
     "not yet",
     "only after",
+    "nothing",
+    "never",
 ]
 CLAIM_LEVEL_PATHS = (
     "apps/",
@@ -185,6 +187,25 @@ def downgraded(line):
     return any(token in lower for token in DOWNGRADE_CONTEXT)
 
 
+# R-STRESS-004 fix (stress test 2026-08-09): the old whole-line downgrade test
+# let any negation anywhere on the line suppress an overclaim, so
+# "complete with no open blockers" bypassed the gate. A negation only
+# downgrades a claim when it PRECEDES the claim term; forward qualifiers
+# ("only after", "does not prove") legitimately downgrade from either side.
+FORWARD_QUALIFIERS = ("does not prove", "do not claim", "only after", "forbidden", "blocked")
+
+
+def overclaim_downgraded(line_lower, term_start):
+    if any(q in line_lower for q in FORWARD_QUALIFIERS):
+        return True
+    preceding = line_lower[:term_start]
+    return any(
+        token in preceding
+        for token in DOWNGRADE_CONTEXT
+        if token not in FORWARD_QUALIFIERS
+    )
+
+
 def claim_level_required(files):
     for path in files or []:
         if (
@@ -240,9 +261,12 @@ def main():
             failures.append("Forbidden Scope Confirmation must include checked boxes or explicit confirmation.")
 
     for line_number, line in enumerate(text.splitlines(), 1):
+        lower = line.lower()
         for term in OVERCLAIMS:
-            if re.search(r"\b" + re.escape(term.lower()) + r"\b", line.lower()) and not downgraded(line):
-                failures.append(f"Line {line_number}: overclaim '{term}' lacks downgrade/evidence context: {line.strip()}")
+            for match in re.finditer(r"\b" + re.escape(term.lower()) + r"\b", lower):
+                if not overclaim_downgraded(lower, match.start()):
+                    failures.append(f"Line {line_number}: overclaim '{term}' lacks downgrade/evidence context: {line.strip()}")
+                    break
 
     if claim_level_required(files) and section_content(text, "Claim Level") is None:
         failures.append("Claim Level section is required for app/control/workflow/script/build/dependency/content changes.")
