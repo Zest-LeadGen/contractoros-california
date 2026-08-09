@@ -1,47 +1,48 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "8d881cf31652416e0d0706250539f4d1fa48ff1e",
-  "active_gate": "H1_B5 Closeout (rollback proof + lineage review + durable closeout)",
+  "current_main_sha": "f99fcb3c74a51efd0052233b49be708316f1ac11",
+  "active_gate": "None pending \u2014 H2+H3 batched intake awaits a separate owner go decision",
   "linked_issue": {
     "number": 58,
-    "state": "open"
+    "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h1_b0_through_b4_merged_b5_in_flight",
+  "lifecycle_state": "h1_operational",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H1-B4 Enforcement Cutover (PR #107; rulesets 20598454/20598456 active)",
-    "issue_number": 106,
+    "phase": "H1-B5 Closeout (PR #109; owner closeout record 5229552232: H1_OPERATIONAL=YES)",
+    "issue_number": 108,
     "issue_state": "closed_completed",
-    "pr_number": 107,
+    "pr_number": 109,
     "pr_state": "merged",
-    "merge_sha": "8d881cf31652416e0d0706250539f4d1fa48ff1e"
+    "merge_sha": "f99fcb3c74a51efd0052233b49be708316f1ac11"
   },
   "blockers": [
-    "Product work is frozen (T2 CI/lockfile carve-out excepted)",
-    "Production is blocked",
+    "Product work is frozen (T2 CI/lockfile carve-out excepted); production is blocked",
     "Phase 4K-9 and downstream remain paused; Phase 4I remains paused",
-    "H1_OPERATIONAL asserted only after the B5 PR merges under the required checks and #58 closes with the final record; no standing authorization exists",
+    "H2+H3 batched intake requires a separate owner go decision; no standing authorization exists",
     "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
   ],
-  "next_authorized_planning_target": "Land H1_B5 (this PR + owner rollback-proof script + #58 closeout), then batched H2+H3 intake on a separate owner go decision; no standing authorization exists",
+  "next_authorized_planning_target": "H2+H3 batched milestone on a separate owner go decision; no standing authorization exists",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T02:40:00Z",
+    "github_verified_at": "2026-08-09T03:55:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "governance-main:529ed7d:b4-enforcement-attachment:corpus-31-v1.5.0",
-    "ruleset:20598454:governance:active:bypass-never",
-    "ruleset:20598456:product:active:bypass-never",
-    "pr:107:merged:b4-cutover-plus-audit-reconciliation",
-    "issue:106:closed_completed:b4",
-    "issue:108:open:b5-intake",
-    "lineage:docs/project-control/H1_CLOSEOUT_LINEAGE.md"
+    "issue:58:closed_completed:2026-08-09T03:21:54Z:owner-record:5229552232:H1_OPERATIONAL=YES",
+    "pr:109:merged:b5-closeout",
+    "issue:108:closed_completed:b5",
+    "governance-main:529ed7d:h1-final:corpus-31-v1.5.0",
+    "rollback-proof:od-016:both-rulesets-cycled-with-readbacks:record-5229551687",
+    "ruleset:20598454:active:bypass-never",
+    "ruleset:20598456:active:bypass-never",
+    "lineage:docs/project-control/H1_CLOSEOUT_LINEAGE.md:15-of-15-shas-verified",
+    "audit:two-consecutive-clean-provenance-cycles:r-prov-001-condition-met"
   ],
   "public_private_references": {
     "public": [
