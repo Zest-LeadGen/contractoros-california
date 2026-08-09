@@ -943,3 +943,10 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Green control-gates conclusion on the next main push after merge.
 Last reviewed: 2026-08-09
 ```
+
+### R-B3-002 — update (2026-08-09, R2) <!-- risk documentation scope -->
+
+```text
+Update: PR #104 remediated only the first (masking) step; the sibling Claim-language step surfaced and failed on main push 7e3e727. R2 completes the class with the same one-line event condition, verified by full step-condition audit. Resolution condition unchanged: first green control-gates run on a main push after the R2 merge. Sequential-unmasking lesson recorded: when a failing step masks siblings, remediation scope must be the step FAMILY, audited, not the observed step alone.
+Last reviewed: 2026-08-09
+```

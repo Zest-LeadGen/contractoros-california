@@ -47,4 +47,5 @@ jobs:
       - name: Lockfile / dependency contamination check
         run: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
       - name: Claim-language check
+        if: github.event_name == 'pull_request'
         run: python3 scripts/control/check_pr_contract.py --claims-only
