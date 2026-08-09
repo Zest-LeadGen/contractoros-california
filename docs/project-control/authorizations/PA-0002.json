@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
   "authorization_id": "PA-0002",
-  "evidence_id": "PENDING_OWNER_COMMENT_ON_113",
+  "evidence_id": "issue-113-comment-5232806979",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 113,
   "base_branch": "main",

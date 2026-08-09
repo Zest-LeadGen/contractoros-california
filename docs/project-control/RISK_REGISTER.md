@@ -1002,5 +1002,13 @@ Evidence: The delivery PR itself exercises the expected-marker-failure path (agg
 Mitigation: Both aggregate outcomes are observed live before the ruleset continues to rely on the context; any logic change to the aggregate job is a control-surface change requiring full review depth.
 Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Observed FAIL-then-PASS on this PR plus a green merge push.
-Last reviewed: 2026-08-09
+### R-RECON-001 — MERGE_ACTOR_OVERSTATEMENT_IN_RECORDS <!-- risk documentation scope -->
+
+```text
+Risk: Committed records described owner-approved, collaborator-merged (both-keys) acts as owner-executed, so a reader trusting the text alone would misattribute merge authorship — an accuracy gap even though the underlying authority chain is sound and disclosed.
+Status: Corrected 2026-08-09 (accuracy correction in DECISION_LOG); recurrence controlled
+Evidence: gh pr view mergedBy for #87/#90/#91/#93 (danidon-wq) vs #97+ (Zest-LeadGen); found by six overnight audit cycles
+Mitigation: Records now distinguish AUTHORIZED/APPROVED (owner) from MERGE-EXECUTED (actor); future completion records state the merge actor explicitly rather than a blanket "owner executed".
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Two consecutive gate completion records state the merge actor precisely.Last reviewed: 2026-08-09
 ```

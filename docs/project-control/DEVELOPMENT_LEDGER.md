@@ -708,7 +708,7 @@ Branch: h2-h3-product-enforcement
 Phase issue: #111
 Governance companion: PR Zest-ContractorOS/contractoros-governance#8 (principal matrix + authorization schema, corpus 33 v1.6.0)
 Scope: AUTH-0001 (schema-valid, self-describing), check_phase_authorization.py (base-commit resolution, default deny), adversarial tests 8/8 (caught one real pre-delivery bug), CODEOWNERS, three registers, phase report
-Current PR head SHA: LIVE_GITHUB_REQUIRED
+Current PR head SHA: fabfa8f1d33dbc1d48e48f1395250800020f9347 (PR #112 merge)
 Claim level: contract + checker delivered with tests; CI wiring deferred to AUTH-0002 by the contract's own prohibition
 Automatic continuation: NO
 ```
@@ -725,5 +725,15 @@ Authorization: PA-0002 (base fabfa8f, evidence_id = owner comment on #113)
 Scope: control-gates decomposed to 6 independent jobs + aggregate (context preserved); PA observe-only job; codeql.yml + dependency-review.yml; three registers; phase report. Owner companion acts: ruleset upgrade (non_fast_forward, deletion, conversation resolution) + secret-scanning enablement + direct-push rejection test.
 Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: delivery only; aggregate-gate behavior proven by this PR's own FAIL-then-PASS cycle
-Automatic continuation: NO
+### Post-H2+H3 Reconciliation — Documentation Implementation
+
+```text
+Phase: post-H2+H3 reconciliation (audit drift closure + merge-actor accuracy correction)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: post-h2h3-reconciliation
+Phase issue: #113 (H4 lineage; standard post-merge reconciliation pattern)
+Scope: state snapshot -> fabfa8f (H2+H3 complete, H4 in flight); ledger H2+H3 head-SHA backfill; DECISION_LOG merge-actor accuracy correction; RISK_REGISTER R-RECON-001; phase report
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: documentation reconciliation + accuracy correction only; no new authorityAutomatic continuation: NO
 ```
