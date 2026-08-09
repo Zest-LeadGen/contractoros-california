@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "f455e885a8f22f854e707f706ec47b96ea20e860",
-  "active_gate": "None pending \u2014 H4 closed_completed; H5+H6 intake awaits a separate owner go decision",
+  "current_main_sha": "fd09cbbb2d1db18f2f22271858e4c5c539d5b42d",
+  "active_gate": "H5 in progress \u2014 H5-A inventory, H5-B.1 source-of-truth map, and H5-B control-script hardening merged; remaining: archive move + PA-bootstrap/wall-arming",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h4_operational",
+  "lifecycle_state": "h5_in_progress",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
@@ -22,24 +22,24 @@
     "merge_sha": "598c2e3c1f21d97496942ccc377d5224eb9ec9b7"
   },
   "blockers": [
-    "Product work is frozen (T2 CI/lockfile carve-out excepted); production is blocked",
-    "H5+H6 must not begin without an owner phase-authorization comment on a new intake issue",
-    "Path-scope automated enforcement (check_phase_authorization) is OBSERVE-ONLY per OPS-005 \u2014 arming it to blocking is an owner decision folded into H5",
-    "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
+    "Product work frozen (T2 carve-out excepted)",
+    "Path-scope wall still OBSERVE-ONLY until the PA-bootstrap+arming PR lands (owner decision ARM_NOW, sequenced after bootstrap fix)",
+    "H6 + later horizons await their own owner authorization",
+    "CRM/user-account work waits for H10 (5228512217)"
   ],
-  "next_authorized_planning_target": "H5 (#63 repo topology) + H6 (#64 reproducible toolchain) intake on owner go",
+  "next_authorized_planning_target": "Finish H5 (archive move; PA-bootstrap+arming), then H6 toolchain/CI on owner go",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T19:30:00Z",
+    "github_verified_at": "2026-08-09T21:15:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "product-main:f455e885a8f22f854e707f706ec47b96ea20e860:post-stress-reconciliation",
-    "issue:113:closed_completed:owner-closeout",
-    "pr:116:merged-by-owner:2026-08-09T18:59:57Z",
-    "pa-0001:evidence-backfilled:issue-111-comment-5230073633",
-    "stress-test:7-agent-2026-08-09:1-critical-11-high:artifact-7dcf3ead",
-    "known-gap:path-enforcement-observe-only:OPS-005:owner-decision-H5"
+    "product-main:fd09cbbb2d1db18f2f22271858e4c5c539d5b42d:h5-state-reconciliation",
+    "h5a:pr-119:merged",
+    "h5b1:pr-120:merged",
+    "h5b-hardening:pr-121:merged:R-STRESS-004-fixed",
+    "pa:PA-0003..PA-0006:on-main",
+    "known-gap:path-wall-observe-only:arming-after-bootstrap-fix"
   ],
   "public_private_references": {
     "public": [

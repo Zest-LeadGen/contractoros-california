@@ -289,3 +289,8 @@ Update decisions through project-control PRs or explicitly approved control mile
 - check_forbidden_scope.py: exempt docs/archive/ and scripts/control/ from term-scanning. Reason: the archive holds immutable historical reports (legacy language = audit evidence), and control code contains the scanned term literals by design. Both remain governed by CODEOWNERS + control-script tests.
 - check_pr_contract.py: R-STRESS-004 fix — an overclaim is downgraded only when a negation PRECEDES the term (forward qualifiers still count anywhere). Closes the "complete with no open blockers" bypass; verified on 8 in-line cases; adversarial + continuity suites still pass.
 - Explicitly NOT in this PR: arming the path wall and the archive file move (separate follow-ups). check_phase_authorization.py and check_changed_files.py are untouched (PA-0005 forbids them).
+
+
+## H5 State Reconciliation — 2026-08-09
+
+- Under owner H5+H6 authorization (issue #118 comment 5233703034; PA-0006). Refreshes state.yaml current_main_sha to fd09cbb and lifecycle to h5_in_progress after H5-A (#119), H5-B.1 (#120), and H5-B control-hardening (#121) merged. Separate PR because state.yaml is forbidden in the delivery PAs (the disclosed, established reconciliation pattern). Closes the hourly audit's open DRIFT finding on the snapshot SHA; the PA-0003 evidence backfill it also flagged was already landed in #120.
