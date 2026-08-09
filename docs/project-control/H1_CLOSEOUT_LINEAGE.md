@@ -34,6 +34,6 @@ SEMANTICS=Every row cites the exact merge SHA or run ID; mutable state remains L
 
 ## What H1_OPERATIONAL=YES will and will not mean
 
-WILL: both repositories enforce their full gate suites as required checks; the corpus, contracts, validators, adversarial suite, and observation policy are merged, hosted-proven, and self-defending; rollback authority is owner-only with durable records.
+WILL (documentation scope): both repositories enforce their full gate suites as required checks; the corpus, contracts, validators, adversarial suite, and observation policy are merged, hosted-proven, and self-defending; rollback authority is owner-only with durable records.
 
 WILL NOT (documentation scope): prove product capability, unfreeze product development (H2–H10 remain), create production readiness, or grant any next-horizon authority. H2+H3 batched intake requires a separate owner go decision.
