@@ -16,7 +16,7 @@ Control / Infrastructure
 
 ## Authority <!-- documentation scope -->
 
-Owner standing continuous-preparation instruction with the Issue #108 phase authorization to follow. GATE-010 elements delivered or scripted: final exact-SHA lineage review (committed), rollback proof (owner script with readbacks), protected merge under the now-required checks, verified main, and the #58 closeout evidence. H1_OPERATIONAL=YES is asserted only in the post-merge closeout record.
+Owner standing continuous-preparation instruction (documentation scope) with the Issue #108 phase authorization to follow. GATE-010 elements delivered or scripted: final exact-SHA lineage review (committed), rollback proof (owner script with readbacks), protected merge under the now-required checks, verified main, and the #58 closeout evidence. H1_OPERATIONAL=YES is asserted only in the post-merge closeout record.
 
 ## Scope
 
