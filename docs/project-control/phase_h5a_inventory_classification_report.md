@@ -114,3 +114,13 @@ Classification is by artifact group; per-file supersession decisions are made in
 ## Next Phase Status
 
 H5-B (consolidation / archive moves) follows on the same batched authorization; arming the path wall is its first act once PA-0003 is on base. AUTOMATIC_CONTINUATION=NO.
+
+## Owner Trigger Review
+
+OWNER_TRIGGER_REVIEW
+Owner interruption required: YES
+Trigger categories: ARCHITECTURE_THRESHOLD
+Lane eligibility: NOT_AUTOMATION_ELIGIBLE
+Human approval required: YES
+Auto-merge eligible: NO
+Rationale: Opens the H5+H6 batch and introduces PA-0003; owner authorization + review required.
