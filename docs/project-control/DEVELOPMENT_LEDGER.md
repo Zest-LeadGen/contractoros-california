@@ -643,3 +643,20 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: remediation delivery; class closes only on the first green main-push run after merge
 Automatic continuation: NO
 ```
+
+### H1-B4 Consumption Blocking + Observation Retirement — Implementation
+
+```text
+Phase: H1-B4 enforcement cutover (product-side workflow change)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h1-b4-consumption-blocking
+Phase issue: #106
+Parent H1 issue: #58
+Governance companion: PR Zest-ContractorOS/contractoros-governance#7 (enforcement attachment record, corpus 31 v1.5.0)
+Owner acts companion: two additive required-check rulesets (prepared script)
+Scope: one blocking step added to control-gates.yml; observation.yml retired with record; three registers; phase report
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: cutover delivery; required-check attachment proof = post-merge ruleset readbacks + first blocked/green PR evidence
+Automatic continuation: NO
+```

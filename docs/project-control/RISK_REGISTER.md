@@ -950,3 +950,15 @@ Last reviewed: 2026-08-09
 Update: PR #104 remediated only the first (masking) step; the sibling Claim-language step surfaced and failed on main push 7e3e727. R2 completes the class with the same one-line event condition, verified by full step-condition audit. Resolution condition unchanged: first green control-gates run on a main push after the R2 merge. Sequential-unmasking lesson recorded: when a failing step masks siblings, remediation scope must be the step FAMILY, audited, not the observed step alone.
 Last reviewed: 2026-08-09
 ```
+
+### R-B4-001 — REQUIRED_CHECK_LOCKOUT <!-- risk documentation scope -->
+
+```text
+Risk: Making checks merge-blocking can lock the pipeline if a gate develops an infrastructure fault (as the sha-pinning startup_failure did on the governance repo), halting all merges until fixed.
+Status: Accepted with control
+Evidence: governance startup_failure history (remediated); OD-016 policy
+Mitigation: OD-016 owner-only rollback (delete/disable the additive ruleset) restores merge ability in one console act with a durable record; gate faults are then fixed through the normal route and the ruleset re-enabled.
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Standing control; reviewed at H1_B5 closeout and thereafter on any lockout event.
+Last reviewed: 2026-08-09
+```
