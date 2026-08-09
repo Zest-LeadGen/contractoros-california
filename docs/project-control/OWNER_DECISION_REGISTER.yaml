@@ -2,6 +2,12 @@
   "schema_version": "1.0.0",
   "register_status": "approved_program_direction_not_implementation",
   "primary_record_count": 32,
+  "operational_decision_records": {
+    "note": "This register holds program-direction decisions D1-D32 (approved 2026-07). Execution-time OWNER DECISIONS made during the H0-H4 rescue use the OD-series and live in DECISION_LOG.md, not here. A consumer treating this register as the complete owner-decision store would miss the OD-series.",
+    "od_series_location": "docs/project-control/DECISION_LOG.md",
+    "known_od_records": ["OD-015", "OD-016 owner-only ruleset rollback", "OD-017 Fable-5 model pin, user-global not committed"],
+    "recorded_by": "post-stress reconciliation 2026-08-09"
+  },
   "decisions": [
     {"decision_id":"D1","title":"Three-horizon program and California objective","owner":"Adnan Khan","organization":"ContractorOS","decision_date":"2026-07-10","selected_option":"A","status":"approved_program_direction","public_safe_decision":"Use three horizons with a tracked twenty-four-month California full-scale platform objective.","custom_owner_condition":"California, Law & Business, and C-10 are priority areas; the twenty-four-month objective cannot bypass evidence gates.","source_reference":"Issue #47 owner amendment comment 4949071184","authority_tier":"program_direction_documentation_scope","implementation_status":"not_implemented","required_gate":"phase-specific evidence gates","validation_requirement":"roadmap and evidence-gate review","conflicts":["C7"],"dependencies":[],"supersedes":[],"superseded_by":[],"evidence_classification":"public_safe_owner_amendment","last_reviewed":"2026-07-11"},
     {"decision_id":"D2","title":"Eligible routine workflow automation objective","owner":"Adnan Khan","organization":"ContractorOS","decision_date":"2026-07-10","selected_option":"A","status":"approved_program_direction","public_safe_decision":"Automate at least ninety-five percent of eligible routine workflow steps while retaining protected human decisions.","custom_owner_condition":"High-impact decisions remain human-controlled.","source_reference":"Issue #47 owner amendment comment 4949071184","authority_tier":"program_direction_documentation_scope","implementation_status":"not_implemented","required_gate":"Phase 4K-12 readiness decision","validation_requirement":"measured eligible-step denominator and retained-gate evidence","conflicts":["C6"],"dependencies":["D3","D5"],"supersedes":[],"superseded_by":[],"evidence_classification":"public_safe_owner_amendment","last_reviewed":"2026-07-11"},

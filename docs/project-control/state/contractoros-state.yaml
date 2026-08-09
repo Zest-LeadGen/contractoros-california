@@ -1,47 +1,45 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "598c2e3c1f21d97496942ccc377d5224eb9ec9b7",
-  "active_gate": "H4A+H4B delivered (PR #114 merged by owner; H4B hardening executed by owner) \u2014 awaiting owner closeout of issue #113",
+  "current_main_sha": "f455e885a8f22f854e707f706ec47b96ea20e860",
+  "active_gate": "None pending \u2014 H4 closed_completed; H5+H6 intake awaits a separate owner go decision",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h4_delivered_pending_owner_closeout",
+  "lifecycle_state": "h4_operational",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H2+H3 batched (principal matrix + phase-authorization contract; PR #112 / governance PR #8)",
-    "issue_number": 111,
+    "phase": "H4A+H4B (CI decomposition + PA-0002 + CodeQL; ruleset hardening + supply-chain settings + direct-push rejection proof)",
+    "issue_number": 113,
     "issue_state": "closed_completed",
-    "pr_number": 112,
+    "pr_number": 114,
     "pr_state": "merged",
-    "merge_sha": "fabfa8f1d33dbc1d48e48f1395250800020f9347"
+    "merge_sha": "598c2e3c1f21d97496942ccc377d5224eb9ec9b7"
   },
   "blockers": [
     "Product work is frozen (T2 CI/lockfile carve-out excepted); production is blocked",
-    "Phase 4K-9 and downstream remain paused; Phase 4I remains paused",
-    "H5+H6 must not begin without an owner phase-authorization comment on a new intake issue (PA pattern)",
+    "H5+H6 must not begin without an owner phase-authorization comment on a new intake issue",
+    "Path-scope automated enforcement (check_phase_authorization) is OBSERVE-ONLY per OPS-005 \u2014 arming it to blocking is an owner decision folded into H5",
     "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
   ],
-  "next_authorized_planning_target": "H5 (issue #63 repo topology) + H6 (issue #64 reproducible toolchain) intake on owner go",
+  "next_authorized_planning_target": "H5 (#63 repo topology) + H6 (#64 reproducible toolchain) intake on owner go",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T18:45:00Z",
+    "github_verified_at": "2026-08-09T19:30:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "product-main:598c2e3c1f21d97496942ccc377d5224eb9ec9b7:pr-114-h4a-h4b",
-    "issue:113:owner-authorization-comment-5232806979",
-    "pr:114:merged-by-owner:2026-08-09T18:10:36Z",
-    "ruleset:20598456:active:bypass-0:deletion+non_fast_forward+required_status_checks+pull_request:thread-resolution-true",
-    "security:secret-scanning+push-protection+dependency-alerts:enabled-per-owner-script-output-2026-08-09",
-    "proof:direct-push-rejection:GH013:owner-script-output-2026-08-09",
-    "main-push-ci:598c2e3:control-gates:success",
-    "owner-decision:OD-017:fable-5-model-pin"
+    "product-main:f455e885a8f22f854e707f706ec47b96ea20e860:post-stress-reconciliation",
+    "issue:113:closed_completed:owner-closeout",
+    "pr:116:merged-by-owner:2026-08-09T18:59:57Z",
+    "pa-0001:evidence-backfilled:issue-111-comment-5230073633",
+    "stress-test:7-agent-2026-08-09:1-critical-11-high:artifact-7dcf3ead",
+    "known-gap:path-enforcement-observe-only:OPS-005:owner-decision-H5"
   ],
   "public_private_references": {
     "public": [
