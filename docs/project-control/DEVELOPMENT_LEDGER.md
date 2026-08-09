@@ -713,6 +713,18 @@ Claim level: contract + checker delivered with tests; CI wiring deferred to AUTH
 Automatic continuation: NO
 ```
 
+### H4A+H4B — CI Decomposition and Ruleset Hardening — Implementation
+
+```text
+Phase: H4A+H4B batched
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h4a-h4b-ci-decomposition
+Phase issue: #113
+Authorization: PA-0002 (base fabfa8f, evidence_id = owner comment on #113)
+Scope: control-gates decomposed to 6 independent jobs + aggregate (context preserved); PA observe-only job; codeql.yml + dependency-review.yml; three registers; phase report. Owner companion acts: ruleset upgrade (non_fast_forward, deletion, conversation resolution) + secret-scanning enablement + direct-push rejection test.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: delivery only; aggregate-gate behavior proven by this PR's own FAIL-then-PASS cycle
 ### Post-H2+H3 Reconciliation — Documentation Implementation
 
 ```text
@@ -723,6 +735,5 @@ Branch: post-h2h3-reconciliation
 Phase issue: #113 (H4 lineage; standard post-merge reconciliation pattern)
 Scope: state snapshot -> fabfa8f (H2+H3 complete, H4 in flight); ledger H2+H3 head-SHA backfill; DECISION_LOG merge-actor accuracy correction; RISK_REGISTER R-RECON-001; phase report
 Current PR head SHA: LIVE_GITHUB_REQUIRED
-Claim level: documentation reconciliation + accuracy correction only; no new authority
-Automatic continuation: NO
+Claim level: documentation reconciliation + accuracy correction only; no new authorityAutomatic continuation: NO
 ```
