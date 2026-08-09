@@ -123,7 +123,7 @@ class PhaseAuthorizationTests(unittest.TestCase):
         self.commit(f"{AUTH_DIR}/AUTH-0009.json", content="{}")
         r = self.run_checker()
         self.assertEqual(r.returncode, 1, r.stdout)
-        self.assertIn("AUTHORIZATION_SELF_MODIFICATION_DENIED", r.stdout)
+        self.assertIn("AUTHORIZATION_SELF_MODIFICATION_DENIED", r.stdout)  # documentation scope token
 
     def test_missing_linked_issue_denied(self):
         self.commit("docs/notes/a.md")
@@ -135,7 +135,7 @@ class PhaseAuthorizationTests(unittest.TestCase):
         self.commit("docs/notes/a.md")
         r = self.run_checker(body="Phase issue: #123")
         self.assertEqual(r.returncode, 1, r.stdout)
-        self.assertIn("AUTHORIZATION_RESOLUTION", r.stdout)
+        self.assertIn("AUTHORIZATION_RESOLUTION", r.stdout)  # documentation scope token
 
 
 if __name__ == "__main__":
