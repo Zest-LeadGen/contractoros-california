@@ -267,3 +267,10 @@ Update decisions through project-control PRs or explicitly approved control mile
 - OWNER_DECISION_REGISTER.yaml: OD-series divergence recorded via an operational_decision_records cross-reference (register holds program-direction D1-D32; OD-series live in DECISION_LOG).
 - Dangerous stale rescue scripts (run-h2-h3-keyturn.sh, run-b5-rollback-proof.sh, run-h1-final.sh, run-h4b-hardening.sh, + others) moved to ~/Documents/ContractorOS-Rescue-20260808/superseded/ with exec bit removed (local tree; not in this repo).
 - KNOWN GAP recorded (owner decision, not a defect to auto-fix): R-STRESS-001 — path-scope automated enforcement is observe-only; arming it is an owner decision folded into H5. R-STRESS-002/003 disclose CI self-referentiality, marker self-attestation, and one-keyring separation, tracked to H5/H6/H9.
+
+## H5-A Intake + PA-0003 — 2026-08-09
+
+- H5+H6 batched phase authorized by owner "go" (2026-08-09), to be recorded on-platform via the owner authorization comment on issue #118 (PA-0003 evidence_id, currently PENDING_OWNER_COMMENT_ON_118).
+- H5-A deliverable: read-only governance-document inventory & classification (134 files in docs/project-control; 51 historical phase reports; ~40 competing "current" records). No file moves in H5-A.
+- Owner decision recorded for execution as the first act after PA-0003 lands: ARM the path-scope wall (make check_phase_authorization blocking). Arming is a SEPARATE PR after PA-0003 is on base, because an armed checker self-denies the PR that introduces its own authorization (same bootstrap as PA-0001/PA-0002).
+- Operating-mode change (owner, 2026-08-09): batch to ONE owner key-turn per phase — developer executor prepares all PRs and gates; owner approves/merges + posts authorizations in a single combined command per phase.
