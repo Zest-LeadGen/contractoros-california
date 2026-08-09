@@ -765,3 +765,17 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: documentation reconciliation + corrections only; no new authority
 Automatic continuation: NO
 ```
+
+### H5-A Inventory & Classification — Documentation Implementation
+
+```text
+Phase: H5-A (governance inventory & classification)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h5a-inventory-classification
+Phase issue: #118
+Scope: PA-0003 (default-deny, base cd6af16); phase_h5a inventory/classification report; required control-file updates. Read-only inventory; no file moves.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: inventory/classification only; no consolidation performed; no new authority
+Automatic continuation: NO
+```

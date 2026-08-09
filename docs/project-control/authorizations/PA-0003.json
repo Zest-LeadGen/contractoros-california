@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "PA-0003",
+  "evidence_id": "PENDING_OWNER_COMMENT_ON_118",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 118,
+  "base_branch": "main",
+  "base_sha": "cd6af16052af4e8cb75e86db2ea5ab466728fa81",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-23",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/PA-0003.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": "docs/project-control/phase_h5a_inventory_classification_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": ".github/workflows/control-gates.yml",
+      "change_kinds": [
+        "modify"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "apps/**",
+    "scripts/continuity/**",
+    "scripts/control/check_*.py",
+    "docs/project-control/state/contractoros-state.yaml",
+    "policy/**"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "owner_directed_disclosed_nonindependent",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "ARCHITECTURE_THRESHOLD"
+  ],
+  "classifications": {
+    "dependency": "NONE",
+    "build": "CI_CHANGE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "CONTROL_SURFACE"
+  },
+  "supersession": {
+    "supersedes": [],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}
