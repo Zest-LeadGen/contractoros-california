@@ -1012,3 +1012,39 @@ Mitigation: Records now distinguish AUTHORIZED/APPROVED (owner) from MERGE-EXECU
 Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Two consecutive gate completion records state the merge actor precisely.Last reviewed: 2026-08-09
 ```
+
+### R-STRESS-001 — PATH_SCOPE_ENFORCEMENT_OBSERVE_ONLY <!-- risk documentation scope -->
+
+```text
+Risk: check_phase_authorization computes DENY for product paths (apps/**) and forbidden control files but runs continue-on-error and is absent from the aggregate required-check needs list, so it cannot block a merge. Path scope currently rests on human code-owner review, not automation.
+Status: OPEN — disclosed; arming to blocking is an owner decision folded into H5 (OPS-005 observe-only window)
+Evidence: 2026-08-09 stress test, probe (a)/(e); .github/workflows/control-gates.yml job authorization-observe (continue-on-error:true, not in aggregate needs); confirmed by lead
+Mitigation: CODEOWNERS + required code-owner review + 1 approval + require_last_push_approval still gate every PR through one human. No document may describe path scope as automatically enforced until cutover.
+Owner: Owner (arming decision) / executor (cutover implementation)
+Resolution condition: check_phase_authorization added to aggregate needs with continue-on-error removed, OR a dated observe-window end recorded.
+Last reviewed: 2026-08-09
+```
+
+### R-STRESS-002 — CI_SELF_REFERENTIAL_AND_MARKER_SELF_ATTESTABLE <!-- risk documentation scope -->
+
+```text
+Risk: (a) gate scripts run from the PR's own merged tree, so a PR can edit a checker to pass itself; only CODEOWNERS review backstops. (b) the red-team marker verifies format and head-SHA but not authorship, so an author can fabricate an APPROVED marker; SHA-binding prevents replay, not fabrication.
+Status: OPEN — disclosed; structural hardening tracked to H5/H6
+Evidence: 2026-08-09 stress test, ci-logic findings; check_red_team_marker.py reads body from event payload and verifies no author identity
+Mitigation: CODEOWNERS on /.github/ and /scripts/control/ + required code-owner review; single-human program under H2-WAIVER-001. Residual disclosed.
+Owner: executor (H5/H6) with owner approval
+Resolution condition: checkers run from main against the PR (not PR head) and/or marker bound to a non-author GitHub review event.
+Last reviewed: 2026-08-09
+```
+
+### R-STRESS-003 — SEPARATION_OF_DUTIES_NOMINAL_ONE_KEYRING <!-- risk documentation scope -->
+
+```text
+Risk: owner (Zest-LeadGen) and collaborator (danidon-wq) tokens reside in one gh keyring on one machine; gh auth switch is one command from crossing the boundary; the collaborator token is not read-only (push:true, triage:true; admin:false confirmed). The both-keys separation is real at the GitHub-record level (approvals vs merges by distinct accounts) but technically nil at the credential level.
+Status: OPEN — disclosed via H2-WAIVER-001; structural resolution tracked to H9/H10
+Evidence: 2026-08-09 stress test tree-integrity findings; gh auth status two accounts; effective permission read
+Mitigation: disclosed waiver with compensating controls; H9 genuinely independent audit before H10.
+Owner: Owner
+Resolution condition: owner key on a separate device or GitHub environment protection introduced, or waiver formally re-affirmed at H9.
+Last reviewed: 2026-08-09
+```

@@ -257,3 +257,13 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Verification split (documentation scope): ruleset state independently re-read from the collaborator account and matched; security-settings fields are admin-only reads, so their evidence is the owner's pasted script output (primary source), not a collaborator read.
 - Main-push CI after merge: ContractorOS Control Gates run on 598c2e3 completed success — decomposed aggregate green in push context.
 - Deferrals per the authorization: mobile/web lint+unit -> H5/H6; dependency-review workflow -> next control intake now that Dependency Graph is on.
+
+## Post-Stress Reconciliation + Corrections — 2026-08-09
+
+- Trigger: owner-commissioned full-tree adversarial stress test (7 subagents, 95 probes, 78 findings; artifact 7dcf3ead). Owner approved the "Mine" dispositions and the disclose-and-track disposition for owner-lane structural items.
+- ACCURACY CORRECTION (epistemic-integrity standard): OD-017's claim that ".claude/settings.json pins Fable 5 as the project default (owner-applied via /model)" is CORRECTED — the pin is user-global (~/.claude/settings.json), uncommitted, and binds nothing on other machines/clones. The Fable-5-only rule (OD-017) stands unchanged; only the record of its mechanism is corrected. See also the published project report Edition 4 correction (merge counts: 24 total at grounding / 20 owner-executed / 4 both-keys collaborator-merged — the flagship stat previously repeated the R-RECON-001 overstatement).
+- PA-0001 evidence_id backfilled from placeholder PENDING_OWNER_COMMENT_ON_111 to issue-111-comment-5230073633 (owner comment verified live; matching the PA-0002 standard).
+- state.yaml advanced to lifecycle_state h4_operational (H4 closed_completed via #113/#116), resolving the h4_operational-vs-h4_delivered label contradiction the stress test flagged.
+- OWNER_DECISION_REGISTER.yaml: OD-series divergence recorded via an operational_decision_records cross-reference (register holds program-direction D1-D32; OD-series live in DECISION_LOG).
+- Dangerous stale rescue scripts (run-h2-h3-keyturn.sh, run-b5-rollback-proof.sh, run-h1-final.sh, run-h4b-hardening.sh, + others) moved to ~/Documents/ContractorOS-Rescue-20260808/superseded/ with exec bit removed (local tree; not in this repo).
+- KNOWN GAP recorded (owner decision, not a defect to auto-fix): R-STRESS-001 — path-scope automated enforcement is observe-only; arming it is an owner decision folded into H5. R-STRESS-002/003 disclose CI self-referentiality, marker self-attestation, and one-keyring separation, tracked to H5/H6/H9.
