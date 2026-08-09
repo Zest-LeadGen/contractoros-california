@@ -152,3 +152,18 @@ BRANCH_DELETION_AUTHORITY=NONE # documentation scope
 ISSUE_OR_PR_CLOSURE_AUTHORITY=NONE # documentation scope
 AUTOMATIC_CONTINUATION=NO
 ```
+
+## Single Source of Truth Map — H5-B.1 (documentation scope)
+
+Declares the ONE canonical artifact per concern, to end competing "current" records (H5 objective, #63). Unambiguous concerns are fixed now; ambiguous ones are explicitly deferred to H5-B.2 rather than guessed (guessing a canonical would create the very drift H5 removes).
+
+| Concern | Canonical (single source of truth) | Superseded / secondary (audit evidence only) |
+|---|---|---|
+| Live lifecycle / current status | `docs/project-control/state/contractoros-state.yaml` (generated) + the live program report artifact | Any static "current status" prose elsewhere is non-authoritative snapshot text. |
+| Risk | `RISK_REGISTER.md` | none |
+| Red-team findings | `RED_TEAM_FINDINGS_REGISTER.md` | none |
+| Owner decisions | `DECISION_LOG.md` (OD-series) + `adr/` ADRs; `OWNER_DECISION_REGISTER.yaml` holds program-direction D-series and cross-references the OD-series | competing decision prose in phase reports is historical |
+| Development history | `DEVELOPMENT_LEDGER.md` | phase_* reports are per-phase evidence |
+| Authorizations | `docs/project-control/authorizations/PA-*.json` | none |
+
+Deferred to H5-B.2 (ambiguous; require an explicit owner canonical choice, not a guess): the single current ROADMAP (candidates: `PROJECT_IMPLEMENTATION_ROADMAP.md`, `AUTOMATION_PHASE_ROADMAP.md`, `PROJECT_VISION_AND_PHASE_TRACKER.md`, and the Issue #79 sequence) and the single CONSTITUTION/policy authority (`PROGRAM_CONSTITUTION.md` vs overlapping foundation/operating-model docs). No file is moved or superseded for these until that choice is recorded.

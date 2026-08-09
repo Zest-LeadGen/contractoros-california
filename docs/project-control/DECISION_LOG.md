@@ -274,3 +274,10 @@ Update decisions through project-control PRs or explicitly approved control mile
 - H5-A deliverable: read-only governance-document inventory & classification (134 files in docs/project-control; 51 historical phase reports; ~40 competing "current" records). No file moves in H5-A.
 - Owner decision recorded for execution as the first act after PA-0003 lands: ARM the path-scope wall (make check_phase_authorization blocking). Arming is a SEPARATE PR after PA-0003 is on base, because an armed checker self-denies the PR that introduces its own authorization (same bootstrap as PA-0001/PA-0002).
 - Operating-mode change (owner, 2026-08-09): batch to ONE owner key-turn per phase — developer executor prepares all PRs and gates; owner approves/merges + posts authorizations in a single combined command per phase.
+
+## H5-B.1 — Source of Truth Map + PA-0003 Backfill — 2026-08-09
+
+- Under owner H5+H6 authorization (issue #118 comment 5233703034). PA-0003 evidence_id backfilled to that comment; PA-0004 issued for H5-B paths.
+- Added a Single Source of Truth Map to AUTHORITY_AND_SUPERSESSION_INDEX.md fixing canonical artifacts for unambiguous concerns (status→state.yaml+live artifact, risk→RISK_REGISTER, findings→RED_TEAM_FINDINGS_REGISTER, decisions→DECISION_LOG+ADRs, history→DEVELOPMENT_LEDGER, authorizations→PA-*).
+- Deferred (not guessed): the single canonical ROADMAP and CONSTITUTION require an explicit owner choice (H5-B.2). No roadmap/constitution superseded here.
+- Sequencing recorded: archive move of 51 phase reports and arming the path wall both depend on a control-script hardening PR (exempt docs/archive/ from forbidden-scope; PA-bootstrap so an armed wall does not deadlock future PA introduction; fix R-STRESS-004). That PR is delivered separately for deliberate owner review of the sensitive checker surface.
