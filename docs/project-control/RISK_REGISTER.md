@@ -919,3 +919,15 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: H1_B4 enforcement cutover makes pin verification merge-blocking.
 Last reviewed: 2026-08-08
 ```
+
+### R-B3-001 — SMALL_OBSERVATION_SAMPLE_SINGLE_DAY <!-- risk documentation scope -->
+
+```text
+Risk: The initial observation baseline spans one intensive day (39 hosted runs); rare failure modes may not have surfaced, so B4 cutover on this sample alone could enshrine unmeasured false-positive or false-negative behavior.
+Status: Accepted with control
+Evidence: observation-mode.json initial baseline ledger; OD-015 parameters
+Mitigation: Passive observation continues until B4 intake; B4 requires a fresh re-measurement showing zero unremediated FP classes and zero known FN at that time; any new FP class found before B4 must be remediated before cutover.
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: B4 intake re-measurement accepted by the owner.
+Last reviewed: 2026-08-08
+```

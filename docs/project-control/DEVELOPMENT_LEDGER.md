@@ -597,3 +597,19 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: declared-command control only until H1_B4; no parallel format created; no product source change
 Automatic continuation: NO
 ```
+
+### H1-B3 Observation Instrumentation — Implementation
+
+```text
+Phase: H1-B3 observation mode (product-side instrumentation)
+Lane: Control / Infrastructure
+Date: 2026-08-08
+Branch: h1-b3-observation-instrumentation
+Phase issue: #102
+Parent H1 issue: #58
+Governance companion: PR Zest-ContractorOS/contractoros-governance#6 (OBSERVATION_MODE policy + baseline ledger, corpus 30 entries v1.4.0)
+Scope: one observe-only workflow (continue-on-error, never blocks) + three registers + phase report
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: observe-only instrumentation; no merge-blocking enforcement exists or is authorized before B4
+Automatic continuation: NO
+```

@@ -1,0 +1,35 @@
+name: contractoros-observation-mode
+
+# H1-B3 observe-only instrumentation (H1B1-OPS-005 / GATE-009).
+# This workflow NEVER blocks a merge: the observed step runs under
+# continue-on-error and the job always concludes success. Its outcomes
+# are observation records for the B4 cutover decision, nothing more.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  observe-enforcement-candidates:
+    name: Observe-only enforcement candidates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: "OBSERVE: contract-consumption live digest check (CAND-PROD-CONSUMPTION)"
+        id: consumption
+        continue-on-error: true
+        run: python3 scripts/control/check_contract_consumption.py --live
+
+      - name: Observation record
+        run: |
+          echo "## H1-B3 Observation Record" >> "$GITHUB_STEP_SUMMARY"
+          echo "- candidate: CAND-PROD-CONSUMPTION" >> "$GITHUB_STEP_SUMMARY"
+          echo "- outcome: ${{ steps.consumption.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- would_have_blocked: ${{ steps.consumption.outcome == 'failure' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- mode: OBSERVE_ONLY (B4 not authorized; this job never blocks)" >> "$GITHUB_STEP_SUMMARY"
