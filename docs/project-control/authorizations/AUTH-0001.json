@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "AUTH-0001",
+  "evidence_id": "PENDING_OWNER_COMMENT_ON_111",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 111,
+  "base_branch": "main",
+  "base_sha": "2f995df54dd4c5ede3046cd687ecd21be6a228f3",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-16",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/AUTH-0001.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": "scripts/control/check_phase_authorization.py",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": "scripts/control/tests/**",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": "CODEOWNERS",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-007",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "docs/project-control/phase_h2_h3_product_enforcement_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-009",
+      "pattern": "docs/project-control/state/governance-contract-pin.json",
+      "change_kinds": [
+        "modify"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "apps/**",
+    ".github/workflows/**",
+    "scripts/continuity/**",
+    "docs/project-control/state/contractoros-state.yaml"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "owner_directed_disclosed_nonindependent",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "ARCHITECTURE_THRESHOLD"
+  ],
+  "classifications": {
+    "dependency": "NONE",
+    "build": "NONE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "CONTROL_SURFACE"
+  },
+  "supersession": {
+    "supersedes": [],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}
