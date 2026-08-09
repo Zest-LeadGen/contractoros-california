@@ -33,6 +33,7 @@ jobs:
       - name: Required control-file update check
         run: python3 scripts/control/check_required_control_updates.py
       - name: PR body / linked issue / template completeness check
+        if: github.event_name == 'pull_request'
         run: python3 scripts/control/check_pr_contract.py
       - name: Owner-trigger / lane-eligibility marker check
         if: github.event_name == 'pull_request'

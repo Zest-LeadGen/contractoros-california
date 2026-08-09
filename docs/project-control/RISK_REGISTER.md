@@ -931,3 +931,15 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: B4 intake re-measurement accepted by the owner.
 Last reviewed: 2026-08-08
 ```
+
+### R-B3-002 — PUSH_CONTEXT_CONTRACT_CHECK_FALSE_POSITIVE <!-- risk documentation scope -->
+
+```text
+Risk: A permanently failing check on every main push (since 2026-07-09) trains observers to ignore red main status, masking real failures — alarm fatigue is itself a control failure.
+Status: Remediation delivered this phase; verification = first green control-gates run on a main push after merge
+Evidence: 28 consecutive push-event failures listed in the B4-intake re-measurement; all from check_pr_contract requiring an absent PR body
+Mitigation: Event-condition the step (pull_request only); B4 remains blocked per OD-015 until this lands and a main push runs green.
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Green control-gates conclusion on the next main push after merge.
+Last reviewed: 2026-08-09
+```
