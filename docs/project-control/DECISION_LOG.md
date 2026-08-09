@@ -281,3 +281,11 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Added a Single Source of Truth Map to AUTHORITY_AND_SUPERSESSION_INDEX.md fixing canonical artifacts for unambiguous concerns (status→state.yaml+live artifact, risk→RISK_REGISTER, findings→RED_TEAM_FINDINGS_REGISTER, decisions→DECISION_LOG+ADRs, history→DEVELOPMENT_LEDGER, authorizations→PA-*).
 - Deferred (not guessed): the single canonical ROADMAP and CONSTITUTION require an explicit owner choice (H5-B.2). No roadmap/constitution superseded here.
 - Sequencing recorded: archive move of 51 phase reports and arming the path wall both depend on a control-script hardening PR (exempt docs/archive/ from forbidden-scope; PA-bootstrap so an armed wall does not deadlock future PA introduction; fix R-STRESS-004). That PR is delivered separately for deliberate owner review of the sensitive checker surface.
+
+
+## H5-B Control-Script Hardening — 2026-08-09
+
+- Under owner H5+H6 authorization (issue #118 comment 5233703034; PA-0005). This PR edits the enforcement checkers themselves — presented for deliberate owner review (R-STRESS-002: CI is self-referential, so owner review is the primary control for checker changes).
+- check_forbidden_scope.py: exempt docs/archive/ and scripts/control/ from term-scanning. Reason: the archive holds immutable historical reports (legacy language = audit evidence), and control code contains the scanned term literals by design. Both remain governed by CODEOWNERS + control-script tests.
+- check_pr_contract.py: R-STRESS-004 fix — an overclaim is downgraded only when a negation PRECEDES the term (forward qualifiers still count anywhere). Closes the "complete with no open blockers" bypass; verified on 8 in-line cases; adversarial + continuity suites still pass.
+- Explicitly NOT in this PR: arming the path wall and the archive file move (separate follow-ups). check_phase_authorization.py and check_changed_files.py are untouched (PA-0005 forbids them).
