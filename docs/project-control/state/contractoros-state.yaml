@@ -2,24 +2,24 @@
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
   "current_main_sha": "598c2e3c1f21d97496942ccc377d5224eb9ec9b7",
-  "active_gate": "None pending \u2014 H4A+H4B delivered and hardened; H5+H6 intake awaits a separate owner go decision",
+  "active_gate": "H4A+H4B delivered (PR #114 merged by owner; H4B hardening executed by owner) \u2014 awaiting owner closeout of issue #113",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h4_operational",
+  "lifecycle_state": "h4_delivered_pending_owner_closeout",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H4A+H4B batched (CI decomposition + PA-0002 + CodeQL; ruleset hardening + secret scanning + Dependency Graph + direct-push rejection proof)",
-    "issue_number": 113,
-    "issue_state": "open_pending_owner_closeout",
-    "pr_number": 114,
+    "phase": "H2+H3 batched (principal matrix + phase-authorization contract; PR #112 / governance PR #8)",
+    "issue_number": 111,
+    "issue_state": "closed_completed",
+    "pr_number": 112,
     "pr_state": "merged",
-    "merge_sha": "598c2e3c1f21d97496942ccc377d5224eb9ec9b7"
+    "merge_sha": "fabfa8f1d33dbc1d48e48f1395250800020f9347"
   },
   "blockers": [
     "Product work is frozen (T2 CI/lockfile carve-out excepted); production is blocked",
