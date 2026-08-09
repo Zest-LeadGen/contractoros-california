@@ -76,6 +76,8 @@ Current remote, PR-body, workflow, and review outcomes are `LIVE_GITHUB_REQUIRED
 
 No new risks. R-RECON-001 gains its first precise merge-actor record (H4 completion states the merge actor exactly).
 
+docs/project-control/RISK_REGISTER.md: reviewed, no update required
+
 ## Decision Log Impact
 
 Adds the H4A+H4B Completion section and OD-017 (Fable 5 model pin).
