@@ -97,7 +97,7 @@ Required: YES (owner-only merge; part of the batched H5 owner key-turn).
 
 ## Auto-Merge Status
 
-Auto-merge eligible: NO.
+Not eligible for auto-merge; owner-only merge under the batched H5 key-turn.
 
 ## Forbidden Scope Confirmation
 
