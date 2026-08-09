@@ -974,3 +974,9 @@ Owner: Owner / independent audit routine
 Resolution condition: Standing; reviewed at each horizon closeout.
 Last reviewed: 2026-08-09
 ```
+
+### R-PROV-001 — resolution record (2026-08-09) <!-- risk documentation scope -->
+
+```text
+Resolution: Two consecutive independent hourly audit cycles (00:19Z and the post-closeout cycle) returned zero provenance findings, meeting the stated resolution condition. The standing rule remains in force permanently: owner-decision records are posted from the owner account or explicitly ratified by one. Risk closed as resolved; the hourly audit continues as the standing detector.
+```

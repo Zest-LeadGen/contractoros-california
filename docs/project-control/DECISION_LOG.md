@@ -217,3 +217,9 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Documentation scope: the final H1 lineage review is compiled as H1_CLOSEOUT_LINEAGE.md — every gate's merge SHA, run ID, authorization comment ID, corpus version step, and cross-cutting record (independent-audit interventions, sequence deviation, defect regressions) in one reviewable table. H1_OPERATIONAL=YES is asserted only in the post-merge closeout comment on Issue #58, never in committed pre-merge text.
 - Rollback proof (OD-016 control test, documentation scope): executed by owner script cycling both B4 rulesets disabled→active with enforcement-state readbacks; the durable readback transcript lands in the #108 completion record. This proves the rollback path without ever leaving enforcement down.
 - Scope boundary: H1 closeout does not unfreeze product work, start H2+H3, or create any next-horizon authority; the batched H2+H3 intake requires a separate owner go decision.
+
+## Post-H1 Reconciliation — 2026-08-09
+
+- Audit response (documentation scope): the hourly independent audit's DRIFT-1 (snapshot recorded #58 open / B5 in flight after the owner closeout landed) is the structural self-reference lag pre-disclosed in the B5 delivery; this commit reconciles it. The audit found zero violations and zero material assumptions across the full H1 authority chain.
+- R-PROV-001 progress (documentation scope): two consecutive independent audit cycles returned zero provenance findings, meeting the stated resolution condition; the risk record is marked resolved below with the standing owner-account rule remaining in force.
+- Program state (documentation scope): H1_OPERATIONAL=YES per the owner record 5229552232; lifecycle is h1_operational; no active gate; H2+H3 batched intake requires a separate owner go decision.

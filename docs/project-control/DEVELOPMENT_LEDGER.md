@@ -683,3 +683,17 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: closeout delivery; H1_OPERATIONAL asserted only post-merge in the #58 closeout record
 Automatic continuation: NO
 ```
+
+### Post-H1 Reconciliation — Documentation Implementation
+
+```text
+Phase: post-H1 reconciliation (audit DRIFT-1 closure)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: post-h1-reconciliation
+Phase issue: #108 (B5 lineage; reconciliation of its pre-disclosed self-reference lag)
+Scope: state snapshot to h1_operational + decision/risk/ledger tails; exactly four docs/project-control paths + this report
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: documentation reconciliation only; no new gate, product, or production authority
+Automatic continuation: NO
+```
