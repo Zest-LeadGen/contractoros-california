@@ -1,52 +1,47 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "9857650699bad3159a5caffdec0f6c5b68758667",
-  "active_gate": "H1_B4 Enforcement Cutover (delivery PRs in flight)",
+  "current_main_sha": "8d881cf31652416e0d0706250539f4d1fa48ff1e",
+  "active_gate": "H1_B5 Closeout (rollback proof + lineage review + durable closeout)",
   "linked_issue": {
     "number": 58,
     "state": "open"
   },
   "linked_pr": null,
-  "lifecycle_state": "h1_b0_through_b3_merged_b4_in_flight",
+  "lifecycle_state": "h1_b0_through_b4_merged_b5_in_flight",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H1-B3 Observation Mode + push-context FP remediation R2 (PR #105)",
-    "issue_number": 102,
+    "phase": "H1-B4 Enforcement Cutover (PR #107; rulesets 20598454/20598456 active)",
+    "issue_number": 106,
     "issue_state": "closed_completed",
-    "pr_number": 105,
+    "pr_number": 107,
     "pr_state": "merged",
-    "merge_sha": "9857650699bad3159a5caffdec0f6c5b68758667"
+    "merge_sha": "8d881cf31652416e0d0706250539f4d1fa48ff1e"
   },
   "blockers": [
     "Product work is frozen (T2 CI/lockfile carve-out excepted)",
     "Production is blocked",
     "Phase 4K-9 and downstream remain paused; Phase 4I remains paused",
-    "B4 cutover lands only via owner ruleset acts plus merged delivery PRs; B5 requires a separate owner go decision; no standing authorization exists",
+    "H1_OPERATIONAL asserted only after the B5 PR merges under the required checks and #58 closes with the final record; no standing authorization exists",
     "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
   ],
-  "next_authorized_planning_target": "Finish H1_B4 (governance PR #7, product PR #107, owner rulesets), then H1_B5 closeout on a separate owner go decision; no standing authorization exists",
+  "next_authorized_planning_target": "Land H1_B5 (this PR + owner rollback-proof script + #58 closeout), then batched H2+H3 intake on a separate owner go decision; no standing authorization exists",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T02:30:00Z",
+    "github_verified_at": "2026-08-09T02:40:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "governance-main:ae628f4:b3-observation-policy:corpus-30-v1.4.0",
-    "governance-pr:5:merged:7a04ec0:b2-adversarial-suite",
-    "governance-pr:6:merged:ae628f4:b3-observation-mode",
-    "pr:100:merged:b1b-p-consumption-pin",
-    "pr:103:merged:b3-observe-only-workflow",
-    "pr:104:merged:fp-remediation-r1",
-    "pr:105:merged:fp-remediation-r2",
-    "run:31289564636:first-green-main-push-since-2026-07-09",
-    "issue:101:closed_completed:b2",
-    "issue:102:closed_completed:b3",
-    "issue:106:open:b4-intake",
-    "audit:hourly:drift-findings-reconciled-in-this-commit"
+    "governance-main:529ed7d:b4-enforcement-attachment:corpus-31-v1.5.0",
+    "ruleset:20598454:governance:active:bypass-never",
+    "ruleset:20598456:product:active:bypass-never",
+    "pr:107:merged:b4-cutover-plus-audit-reconciliation",
+    "issue:106:closed_completed:b4",
+    "issue:108:open:b5-intake",
+    "lineage:docs/project-control/H1_CLOSEOUT_LINEAGE.md"
   ],
   "public_private_references": {
     "public": [
