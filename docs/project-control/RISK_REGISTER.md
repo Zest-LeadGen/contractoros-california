@@ -980,3 +980,15 @@ Last reviewed: 2026-08-09
 ```text
 Resolution: Two consecutive independent hourly audit cycles (00:19Z and the post-closeout cycle) returned zero provenance findings, meeting the stated resolution condition. The standing rule remains in force permanently: owner-decision records are posted from the owner account or explicitly ratified by one. Risk closed as resolved; the hourly audit continues as the standing detector.
 ```
+
+### R-H2H3-001 — AUTHORIZATION_CONTRACT_UNWIRED <!-- risk documentation scope -->
+
+```text
+Risk: Until the default-deny checker is wired into CI under its own authorization, allowlist enforcement remains procedural (authorization records + declared command) rather than automatic, so an out-of-allowlist change could reach review unflagged.
+Status: Accepted briefly by design (the contract forbids self-wiring in this PR)
+Evidence: PA-0001 forbidden_paths includes .github/workflows/**; checker tests 8/8
+Mitigation: Existing required checks still gate every merge; the wiring PR follows immediately under PA-0002 with observe-only entry per OPS-005.
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Checker wired observe-only, then blocking after its measured window.
+Last reviewed: 2026-08-09
+```

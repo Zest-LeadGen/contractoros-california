@@ -163,6 +163,8 @@ def self_reference_literal(rel, line):
     stripped = line.strip()
     return rel == 'scripts/control/check_forbidden_scope.py' and (
         stripped.startswith("'") or stripped.startswith('"')
+        or stripped.startswith('#') or stripped.startswith('def term_pattern')
+        or stripped.startswith('if term ==') or stripped.startswith('return r')
     )
 
 
@@ -205,7 +207,17 @@ def main():
     else:
         print('- none')
 
-    rg = re.compile('|'.join(re.escape(term) for term in TERMS), re.I)
+    # H2+H3 bounded amendment (issue #111, disclosed): the 'auth' term targets
+    # authentication/login product scope. Since H1, the control plane
+    # legitimately uses authorization/authority/author(ed) throughout its
+    # records; those words are excluded by lookahead so real auth features
+    # (auth, oauth, authenticate) still match.
+    def term_pattern(term):
+        if term == 'auth':
+            return r'auth(?!oriz|ority|ored\b|or\b|ors\b)'
+        return re.escape(term)
+
+    rg = re.compile('|'.join(term_pattern(term) for term in TERMS), re.I)
     findings = []
     fail = []
     for rel in rel_files:
