@@ -1,48 +1,46 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "f99fcb3c74a51efd0052233b49be708316f1ac11",
-  "active_gate": "None pending \u2014 H2+H3 batched intake awaits a separate owner go decision",
+  "current_main_sha": "fabfa8f1d33dbc1d48e48f1395250800020f9347",
+  "active_gate": "H4A+H4B in flight (issue #113, PR #114) \u2014 awaiting owner phase-authorization comment on #113",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h1_operational",
+  "lifecycle_state": "h2_h3_merged_h4_in_flight",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H1-B5 Closeout (PR #109; owner closeout record 5229552232: H1_OPERATIONAL=YES)",
-    "issue_number": 108,
+    "phase": "H2+H3 batched (principal matrix + phase-authorization contract; PR #112 / governance PR #8)",
+    "issue_number": 111,
     "issue_state": "closed_completed",
-    "pr_number": 109,
+    "pr_number": 112,
     "pr_state": "merged",
-    "merge_sha": "f99fcb3c74a51efd0052233b49be708316f1ac11"
+    "merge_sha": "fabfa8f1d33dbc1d48e48f1395250800020f9347"
   },
   "blockers": [
     "Product work is frozen (T2 CI/lockfile carve-out excepted); production is blocked",
     "Phase 4K-9 and downstream remain paused; Phase 4I remains paused",
-    "H2+H3 batched intake requires a separate owner go decision; no standing authorization exists",
+    "H4A+H4B (PR #114) must not merge until an owner phase-authorization comment is posted on issue #113 (PA-0002 evidence_id currently PENDING_OWNER_COMMENT_ON_113)",
     "CRM/user-account work including planning waits for H10 (owner ratification 5228512217)"
   ],
-  "next_authorized_planning_target": "H2+H3 batched milestone on a separate owner go decision; no standing authorization exists",
+  "next_authorized_planning_target": "Complete H4A+H4B: owner authorization comment on #113, then merge PR #114 + H4B owner ruleset acts; then H5+H6",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T03:55:00Z",
+    "github_verified_at": "2026-08-09T13:10:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "issue:58:closed_completed:2026-08-09T03:21:54Z:owner-record:5229552232:H1_OPERATIONAL=YES",
-    "pr:109:merged:b5-closeout",
-    "issue:108:closed_completed:b5",
-    "governance-main:529ed7d:h1-final:corpus-31-v1.5.0",
-    "rollback-proof:od-016:both-rulesets-cycled-with-readbacks:record-5229551687",
-    "ruleset:20598454:active:bypass-never",
-    "ruleset:20598456:active:bypass-never",
-    "lineage:docs/project-control/H1_CLOSEOUT_LINEAGE.md:15-of-15-shas-verified",
-    "audit:two-consecutive-clean-provenance-cycles:r-prov-001-condition-met"
+    "product-main:fabfa8f1d33dbc1d48e48f1395250800020f9347:pr-112-h2-h3",
+    "governance-main:2579e74e3c4358144e4c9bef0cf4b8219afc5fdf:pr-8-corpus-33-v1.6.0",
+    "issue:111:closed_completed:owner-auth-5230073633",
+    "issue:113:open:h4-intake:OWNER_COMMENT_PENDING",
+    "pr:114:open:h4a-h4b:blocked-pending-owner",
+    "ruleset:20598456:product:require-last-push-approval+code-owner-review",
+    "audit:six-overnight-cycles-2026-08-09:drift-confirmed-no-live-violation"
   ],
   "public_private_references": {
     "public": [
