@@ -6,6 +6,7 @@ name: ContractorOS Control Gates
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, edited]
   push:
     branches: [main]
 
