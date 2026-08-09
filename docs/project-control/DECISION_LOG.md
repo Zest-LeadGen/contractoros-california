@@ -194,3 +194,8 @@ Update decisions through project-control PRs or explicitly approved control mile
 
 - Observation-mode finding (documentation scope): the B4 intake re-measurement per OD-015 found a second false-positive class, FALSE_POSITIVE_PUSH_CONTEXT_CONTRACT_CHECK — the PR-contract completeness step ran on push events, where no PR body can exist, failing every main push since 2026-07-09 (28 consecutive hosted runs). Classified as a systemic false positive; per the OD-015 zero-unremediated-FP limit, B4 cutover is blocked until this remediation is merged and a main push runs green.
 - Remediation (documentation scope): condition the step on pull_request events, matching the existing pattern of the marker and owner-trigger steps in the same workflow. The claims-only step already applies to reports on both events and is unchanged.
+
+## FP Remediation R2 — Sequential Unmasking Record — 2026-08-09
+
+- Documentation scope: the first push-context remediation (PR #104) was incomplete because GitHub Actions aborts later steps after a failure — the Claim-language step (same PR-semantics class) was masked by the completeness step on every prior push and surfaced only after the first fix merged, failing identically on main push 7e3e727. R2 conditions the Claim-language step on pull_request events, completing the class. A full step-condition audit confirms every remaining unconditioned step passed on the 7e3e727 push (push-safe by evidence, not assumption).
+- OD-015 status (documentation scope): FALSE_POSITIVE_PUSH_CONTEXT_CONTRACT_CHECK remains the open class until the first green control-gates run on a main push after the R2 merge; B4 remains blocked until then.

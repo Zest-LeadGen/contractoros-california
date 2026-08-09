@@ -628,3 +628,18 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: remediation delivery only; B4 unblock requires a green main-push run after merge
 Automatic continuation: NO
 ```
+
+### FP Remediation R2 — Implementation
+
+```text
+Phase: H1-B3 observation follow-through R2 (claim-language step condition)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h1-b3-fp-remediation-r2
+Phase issue: #102 (observation lineage)
+Scope: one workflow step condition + three registers + phase report
+Cause: sequential unmasking — prior failing step aborted siblings on push runs since 2026-07-09
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: remediation delivery; class closes only on the first green main-push run after merge
+Automatic continuation: NO
+```
