@@ -712,3 +712,18 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: contract + checker delivered with tests; CI wiring deferred to AUTH-0002 by the contract's own prohibition
 Automatic continuation: NO
 ```
+
+### H4A+H4B — CI Decomposition and Ruleset Hardening — Implementation
+
+```text
+Phase: H4A+H4B batched
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h4a-h4b-ci-decomposition
+Phase issue: #113
+Authorization: PA-0002 (base fabfa8f, evidence_id = owner comment on #113)
+Scope: control-gates decomposed to 6 independent jobs + aggregate (context preserved); PA observe-only job; codeql.yml + dependency-review.yml; three registers; phase report. Owner companion acts: ruleset upgrade (non_fast_forward, deletion, conversation resolution) + secret-scanning enablement + direct-push rejection test.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: delivery only; aggregate-gate behavior proven by this PR's own FAIL-then-PASS cycle
+Automatic continuation: NO
+```

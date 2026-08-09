@@ -992,3 +992,15 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Checker wired observe-only, then blocking after its measured window.
 Last reviewed: 2026-08-09
 ```
+
+### R-H4-001 — AGGREGATE_GATE_LOGIC_ERROR <!-- risk documentation scope -->
+
+```text
+Risk: The aggregate job's result arithmetic could mis-map a failed core job to PASS (or vice versa), silently weakening or wedging the single required check.
+Status: Accepted with verification
+Evidence: The delivery PR itself exercises the expected-marker-failure path (aggregate must FAIL pre-marker, PASS post-marker); push-event path exercised by the merge.
+Mitigation: Both aggregate outcomes are observed live before the ruleset continues to rely on the context; any logic change to the aggregate job is a control-surface change requiring full review depth.
+Owner: ContractorOS developer executor / independent audit routine
+Resolution condition: Observed FAIL-then-PASS on this PR plus a green merge push.
+Last reviewed: 2026-08-09
+```

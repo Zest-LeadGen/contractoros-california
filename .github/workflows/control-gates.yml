@@ -1,54 +1,134 @@
 name: ContractorOS Control Gates
 
+# H4A architecture: independent always-run jobs so no failure masks a
+# sibling (the sequential-unmasking defect class, eliminated structurally),
+# with one aggregate gate as the single required status check.
+
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - edited
   push:
-    branches:
-      - main
+    branches: [main]
 
 permissions:
   contents: read
-  pull-requests: read
 
 jobs:
-  contractoros-control-gates:
-    name: contractoros-control-gates
+  policy-validators:
+    name: policy-validators
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Python version
-        run: python3 --version
       - name: Changed-file allowlist / lane check
         run: python3 scripts/control/check_changed_files.py
       - name: Forbidden-scope check
+        if: always()
         run: python3 scripts/control/check_forbidden_scope.py
       - name: Required control-file update check
+        if: always()
         run: python3 scripts/control/check_required_control_updates.py
+      - name: Lockfile / dependency contamination check
+        if: always()
+        run: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
+
+  pr-contract:
+    name: pr-contract
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: PR body / linked issue / template completeness check
-        if: github.event_name == 'pull_request'
         run: python3 scripts/control/check_pr_contract.py
+      - name: Claim-language check
+        if: always()
+        run: python3 scripts/control/check_pr_contract.py --claims-only
       - name: Owner-trigger / lane-eligibility marker check
-        if: github.event_name == 'pull_request'
+        if: always()
         run: python3 scripts/control/check_owner_trigger_review.py
       - name: Low-risk lane classification check
-        if: github.event_name == 'pull_request'
+        if: always()
         run: python3 scripts/control/check_low_risk_lane.py
-      - name: Mandatory SHA-bound red-team marker check
-        if: github.event_name == 'pull_request'
-        run: python3 scripts/control/check_red_team_marker.py
-      - name: Contract-consumption live digest check (H1-B4 blocking)
+
+  contract-consumption:
+    name: contract-consumption
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Contract-consumption live digest check
         run: python3 scripts/control/check_contract_consumption.py --live
 
-      - name: Lockfile / dependency contamination check
-        run: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
-      - name: Claim-language check
-        if: github.event_name == 'pull_request'
-        run: python3 scripts/control/check_pr_contract.py --claims-only
+  control-script-tests:
+    name: control-script-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Phase-authorization checker adversarial suite
+        run: python3 scripts/control/tests/test_phase_authorization.py
+
+  continuity-tests:
+    name: continuity-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Continuity suite (344 tests)
+        run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'
+
+  authorization-observe:
+    name: authorization-observe (PA-0002, observe-only per OPS-005)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: "OBSERVE: default-deny phase-authorization check"
+        id: pa
+        continue-on-error: true
+        run: python3 scripts/control/check_phase_authorization.py
+      - name: Observation record
+        run: |
+          echo "## PA observe-only record" >> "$GITHUB_STEP_SUMMARY"
+          echo "- outcome: ${{ steps.pa.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- would_have_blocked: ${{ steps.pa.outcome == 'failure' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- mode: OBSERVE_ONLY (cutover after measured window)" >> "$GITHUB_STEP_SUMMARY"
+
+  red-team-marker:
+    name: red-team-marker
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Mandatory SHA-bound red-team marker check
+        run: python3 scripts/control/check_red_team_marker.py
+
+  contractoros-control-gates:
+    name: contractoros-control-gates
+    runs-on: ubuntu-latest
+    needs: [policy-validators, pr-contract, contract-consumption, control-script-tests, continuity-tests, red-team-marker]
+    if: always()
+    steps:
+      - name: Aggregate gate
+        run: |
+          echo "policy-validators:    ${{ needs.policy-validators.result }}"
+          echo "pr-contract:          ${{ needs.pr-contract.result }}"
+          echo "contract-consumption: ${{ needs.contract-consumption.result }}"
+          echo "control-script-tests: ${{ needs.control-script-tests.result }}"
+          echo "continuity-tests:     ${{ needs.continuity-tests.result }}"
+          echo "red-team-marker:      ${{ needs.red-team-marker.result }}"
+          for r in "${{ needs.policy-validators.result }}" "${{ needs.contract-consumption.result }}" "${{ needs.control-script-tests.result }}" "${{ needs.continuity-tests.result }}"; do
+            [ "$r" = "success" ] || { echo "AGGREGATE: FAIL (core job $r)"; exit 1; }
+          done
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            [ "${{ needs.pr-contract.result }}" = "success" ] || { echo "AGGREGATE: FAIL (pr-contract)"; exit 1; }
+            [ "${{ needs.red-team-marker.result }}" = "success" ] || { echo "AGGREGATE: FAIL (red-team-marker)"; exit 1; }
+          else
+            for r in "${{ needs.pr-contract.result }}" "${{ needs.red-team-marker.result }}"; do
+              case "$r" in success|skipped) ;; *) echo "AGGREGATE: FAIL ($r)"; exit 1;; esac
+            done
+          fi
+          echo "AGGREGATE: PASS"

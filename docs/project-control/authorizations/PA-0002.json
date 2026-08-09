@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "PA-0002",
+  "evidence_id": "PENDING_OWNER_COMMENT_ON_113",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 113,
+  "base_branch": "main",
+  "base_sha": "fabfa8f1d33dbc1d48e48f1395250800020f9347",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-16",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/PA-0002.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": ".github/workflows/control-gates.yml",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": ".github/workflows/codeql.yml",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": ".github/workflows/dependency-review.yml",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-007",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "docs/project-control/phase_h4a_h4b_ci_and_ruleset_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "apps/**",
+    "scripts/continuity/**",
+    "scripts/control/check_*.py",
+    "docs/project-control/state/contractoros-state.yaml",
+    "policy/**"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "owner_directed_disclosed_nonindependent",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "ARCHITECTURE_THRESHOLD"
+  ],
+  "classifications": {
+    "dependency": "NONE",
+    "build": "CI_CHANGE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "CONTROL_SURFACE"
+  },
+  "supersession": {
+    "supersedes": [],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}
