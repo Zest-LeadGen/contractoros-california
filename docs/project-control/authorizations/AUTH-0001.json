@@ -76,6 +76,13 @@
       "change_kinds": [
         "modify"
       ]
+    },
+    {
+      "rule_id": "ALLOW-010",
+      "pattern": "scripts/control/check_forbidden_scope.py",
+      "change_kinds": [
+        "modify"
+      ]
     }
   ],
   "forbidden_paths": [
