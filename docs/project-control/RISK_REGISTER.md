@@ -962,3 +962,15 @@ Owner: ContractorOS developer executor / independent audit routine
 Resolution condition: Standing control; reviewed at H1_B5 closeout and thereafter on any lockout event.
 Last reviewed: 2026-08-09
 ```
+
+### R-B5-001 — POST_H1_VIGILANCE_DECAY <!-- risk documentation scope -->
+
+```text
+Risk: After H1_OPERATIONAL, attention shifts to H2+ and product; enforced gates can rot silently (stale pins, drifting contexts, unreviewed ruleset changes) without the intensive scrutiny of the build-out period.
+Status: Accepted with standing controls
+Evidence: This program's own history — the 25-day state drift and month-long red mains both grew in unwatched periods
+Mitigation: Hourly independent audit continues indefinitely; consumption pin advances owner-only; ruleset changes are owner-only with durable records per OD-016; R-PROV-001/R-B4-001 remain standing; the weekly verified-increment rule (T3) activates at this closeout per its own terms.
+Owner: Owner / independent audit routine
+Resolution condition: Standing; reviewed at each horizon closeout.
+Last reviewed: 2026-08-09
+```
