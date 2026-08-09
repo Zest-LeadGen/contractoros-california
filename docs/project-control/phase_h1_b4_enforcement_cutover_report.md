@@ -34,6 +34,7 @@ Add the governance-contract pin file (exact SHA e907a76…, five per-file SHA-25
 - `docs/project-control/DECISION_LOG.md`
 - `docs/project-control/RISK_REGISTER.md`
 - `docs/project-control/phase_h1_b4_enforcement_cutover_report.md` (new)
+- `docs/project-control/state/contractoros-state.yaml` (audit-reconciliation refresh: snapshot to 9857650, B2/B3 durable records added to the registers per the hourly audit finding)
 
 No other path is changed.
 
