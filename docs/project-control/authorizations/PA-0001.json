@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "AUTH-0001",
+  "authorization_id": "PA-0001",
   "evidence_id": "PENDING_OWNER_COMMENT_ON_111",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 111,
@@ -16,7 +16,7 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/AUTH-0001.json",
+      "pattern": "docs/project-control/authorizations/PA-0001.json",
       "change_kinds": [
         "add"
       ]

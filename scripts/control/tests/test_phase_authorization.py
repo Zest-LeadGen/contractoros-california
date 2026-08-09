@@ -26,7 +26,7 @@ def sh(args, cwd, env=None):
 def base_auth(base_sha):
     return {
         "schema_version": "1.0.0", "policy_version": "1.0.0",
-        "authorization_id": "AUTH-0009", "evidence_id": "test-evidence-0009",
+        "authorization_id": "PA-0009", "evidence_id": "test-evidence-0009",
         "repository": "Zest-LeadGen/contractoros-california", "issue": 999,
         "base_branch": "main", "base_sha": base_sha, "lane": "Control / Infrastructure",
         "expiry": "2099-01-01", "developer_principal": "danidon-wq",
@@ -58,7 +58,7 @@ class PhaseAuthorizationTests(unittest.TestCase):
         sh(["git", "add", "-A"], self.repo)
         sh(["git", "commit", "-qm", "seed"], self.repo)
         seed_sha = sh(["git", "rev-parse", "HEAD"], self.repo).stdout.strip()
-        (self.repo / AUTH_DIR / "AUTH-0009.json").write_text(json.dumps(base_auth(seed_sha)))
+        (self.repo / AUTH_DIR / "PA-0009.json").write_text(json.dumps(base_auth(seed_sha)))
         sh(["git", "add", "-A"], self.repo)
         sh(["git", "commit", "-qm", "authorization"], self.repo)
         # simulate origin/main
@@ -76,7 +76,7 @@ class PhaseAuthorizationTests(unittest.TestCase):
         event.write_text(json.dumps({"pull_request": {"body": body, "base": {"ref": "main"}}}))
         env = dict(os.environ)
         env.update({"GITHUB_EVENT_PATH": str(event), "GITHUB_EVENT_NAME": "pull_request",
-                    "GITHUB_BASE_REF": "main", "AUTH_TODAY": today})
+                    "GITHUB_BASE_REF": "main", "PA_TODAY": today})
         return sh([sys.executable, "scripts/control/check_phase_authorization.py"], self.repo, env)
 
     def commit(self, path, content="x\n", delete=False):
@@ -120,7 +120,7 @@ class PhaseAuthorizationTests(unittest.TestCase):
         self.assertIn("AUTHORIZATION_EXPIRED", r.stdout)
 
     def test_self_modification_denied(self):
-        self.commit(f"{AUTH_DIR}/AUTH-0009.json", content="{}")
+        self.commit(f"{AUTH_DIR}/PA-0009.json", content="{}")
         r = self.run_checker()
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn("AUTHORIZATION_SELF_MODIFICATION_DENIED", r.stdout)  # documentation scope token

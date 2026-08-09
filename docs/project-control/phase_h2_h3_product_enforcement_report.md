@@ -20,7 +20,7 @@ Owner standing continuous-preparation instruction (documentation scope) with the
 
 ## Scope
 
-H3: AUTH-0001 (the first machine-readable phase authorization, schema-valid against the governance contract, describing this milestone's own allowlist), the default-deny checker (base-commit authorization resolution per #60 rule 7), and its adversarial suite (8/8, one real pre-delivery bug caught). H2: product CODEOWNERS per the principal matrix and waiver H2-WAIVER-001. CI wiring of the checker is deferred to AUTH-0002 because AUTH-0001 forbids workflow paths — the contract constrains its own delivery (documentation scope).
+H3: PA-0001 (the first machine-readable phase authorization, schema-valid against the governance contract, describing this milestone's own allowlist), the default-deny checker (base-commit authorization resolution per #60 rule 7), and its adversarial suite (8/8, one real pre-delivery bug caught). H2: product CODEOWNERS per the principal matrix and waiver H2-WAIVER-001. CI wiring of the checker is deferred to AUTH-0002 because PA-0001 forbids workflow paths — the contract constrains its own delivery (documentation scope).
 
 ## Starting Main SHA
 
@@ -28,7 +28,7 @@ H3: AUTH-0001 (the first machine-readable phase authorization, schema-valid agai
 
 ## Changed Files
 
-- `docs/project-control/authorizations/AUTH-0001.json` (new)
+- `docs/project-control/authorizations/PA-0001.json` (new)
 - `scripts/control/check_phase_authorization.py` (new)
 - `scripts/control/tests/test_phase_authorization.py` (new)
 - `CODEOWNERS` (new)
@@ -37,11 +37,11 @@ H3: AUTH-0001 (the first machine-readable phase authorization, schema-valid agai
 - `docs/project-control/RISK_REGISTER.md`
 - `docs/project-control/phase_h2_h3_product_enforcement_report.md` (new)
 
-No other path is changed; the diff matches AUTH-0001's allowlist exactly except the governance-pin rule (reserved, unused).
+No other path is changed; the diff matches PA-0001's allowlist exactly except the governance-pin rule (reserved, unused).
 
 ## Commands Run
 
-- AUTH-0001 validated against the governance schema (jsonschema) — PASS.
+- PA-0001 validated against the governance schema (jsonschema) — PASS.
 - Adversarial suite: 8/8 (positive add; unmatched, forbidden, delete, expired, self-modification, no-linked-issue, unknown-issue all DENY).
 - JSON Schema validation of the refreshed state snapshot — passed.
 - Control validators, continuity tests, and `git diff --check` — results in Validation Results.

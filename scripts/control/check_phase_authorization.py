@@ -94,8 +94,8 @@ def main():
         failures.append(f"BASE_SHA_MISMATCH: authorization bound to {auth['base_sha'][:7]}, not in current base lineage")
 
     import datetime
-    if os.getenv("AUTH_TODAY", "") :
-        today = os.getenv("AUTH_TODAY")
+    if os.getenv("PA_TODAY", "") :
+        today = os.getenv("PA_TODAY")
     else:
         today = datetime.date.today().isoformat()
     if today > auth["expiry"]:
