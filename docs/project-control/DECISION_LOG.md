@@ -294,3 +294,9 @@ Update decisions through project-control PRs or explicitly approved control mile
 ## H5 State Reconciliation — 2026-08-09
 
 - Under owner H5+H6 authorization (issue #118 comment 5233703034; PA-0006). Refreshes state.yaml current_main_sha to fd09cbb and lifecycle to h5_in_progress after H5-A (#119), H5-B.1 (#120), and H5-B control-hardening (#121) merged. Separate PR because state.yaml is forbidden in the delivery PAs (the disclosed, established reconciliation pattern). Closes the hourly audit's open DRIFT finding on the snapshot SHA; the PA-0003 evidence backfill it also flagged was already landed in #120.
+
+
+## H5-C Archive Move — 2026-08-09
+
+- Under owner H5+H6 authorization (issue #118 comment 5233703034; PA-0007). Moved 52 completed-phase reports (3 kept in place as live continuity-test fixtures) + H0/H1 closeout lineage + incidents + sanitation manifests into docs/archive/ (git mv; history preserved). Enabled by the H5-B docs/archive scanner exemption.
+- Disclosed limitation: report renames/deletes are not pattern-authorizable (schema: add/modify only), so they ran under observe-only phase-authorization. An exact-path deletion-authorization mechanism is therefore a prerequisite before the path wall can be armed — recorded for the arming PR.

@@ -823,3 +823,18 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: snapshot reconciliation only
 Automatic continuation: NO
 ```
+
+
+### H5-C Archive Move — Documentation Implementation
+
+```text
+Phase: H5-C (archive move)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h5c-archive-move
+Phase issue: #118
+Scope: move 55 phase reports + H0/H1 lineage + incidents + sanitation to docs/archive/; PA-0007; report; control updates. History preserved.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: archive relocation only
+Automatic continuation: NO
+```
