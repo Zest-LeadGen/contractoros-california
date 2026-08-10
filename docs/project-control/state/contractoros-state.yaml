@@ -1,45 +1,44 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "0f87c1a0026c26e0f10743542a8de1833aefa888",
-  "active_gate": "H5 in progress \u2014 H5-A inventory, H5-B.1 source-of-truth map, H5-B control hardening, and H5-C archive move all merged; remaining: PA-bootstrap + exact-path deletion authorization, then arming the path wall",
+  "current_main_sha": "32735ea16a0999688c626f8009b02d994d13d924",
+  "active_gate": "H5 delivered in full \u2014 H5-A inventory, H5-B.1 source-of-truth map, H5-B control hardening, H5-C archive move, and H5-D authorization bootstrap + exact-path relocation + wall arming all merged; path-scope wall is ARMED (blocking). Remaining: H5 closeout records (#63/#118), then H6 intake under its own owner authorization",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h5_in_progress",
+  "lifecycle_state": "h5_delivered_pending_closeout",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H4A+H4B (CI decomposition + PA-0002 + CodeQL; ruleset hardening + supply-chain settings + direct-push rejection proof)",
-    "issue_number": 113,
-    "issue_state": "closed_completed",
-    "pr_number": 114,
+    "phase": "H5-D (authorization bootstrap + content-verified supersession closure + exact-path R100 relocation + path-scope wall armed; found=6 resolution defect fixed via PA-0009 superseding PA-0003..PA-0008)",
+    "issue_number": 118,
+    "issue_state": "open_h6_pending",
+    "pr_number": 125,
     "pr_state": "merged",
-    "merge_sha": "598c2e3c1f21d97496942ccc377d5224eb9ec9b7"
+    "merge_sha": "32735ea16a0999688c626f8009b02d994d13d924"
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted)",
-    "Path-scope wall remains OBSERVE-ONLY; arming requires PA-bootstrap + exact-path deletion authorization first (schema authorizes add/modify only)",
-    "H6 awaits its own owner authorization",
+    "H6 awaits its own owner authorization comment",
     "CRM/user-account work waits for H10 (5228512217)"
   ],
-  "next_authorized_planning_target": "PA-bootstrap + deletion authorization + wall arming (final H5 piece), then H6",
+  "next_authorized_planning_target": "H5 closeout records (#63/#118), then H6 intake (owner authorization comment required first)",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T23:30:00Z",
+    "github_verified_at": "2026-08-10T01:45:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "product-main:0f87c1a0026c26e0f10743542a8de1833aefa888:post-h5c-reconciliation",
-    "h5c:pr-123:merged:57-files-archived",
-    "h5b:pr-121:merged:R-STRESS-004-fixed",
-    "pa:PA-0003..PA-0008:on-main",
-    "issue-hygiene:closed-12-completed-and-superseded-issues:15-open",
-    "local-tree:support-folders-consolidated-2026-08-09"
+    "product-main:32735ea16a0999688c626f8009b02d994d13d924:h5d-merge",
+    "h5d:pr-125:merged-by-owner:wall-armed:defect-found6-fixed",
+    "governance-main:56eaef95d3d95dc946c065cd6047c15a91f72fc0:schema-1.1.0:gov-pr-9",
+    "pa:PA-0009:live-for-118:supersedes-PA-0003..PA-0008",
+    "pa:PA-0001,PA-0002:live-for-closed-issues-111-113:expire-2026-08-16:not-closable-under-cross-issue-closure-denial:disclosed",
+    "main-push-run:armed-workflow-first-green:post-125-merge"
   ],
   "public_private_references": {
     "public": [
