@@ -877,3 +877,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: snapshot reconciliation and record-keeping only
 Automatic continuation: NO
 ```
+
+```text
+Phase: H6-A.1 toolchain baseline, control half (pins doc, evidence, scanner exemption)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h6a-toolchain-pinning
+Phase issue: #118
+Scope: .nvmrc v22.23.2; docs/TOOLCHAIN.md (no-workspace + no-root-manifest decisions); evidence file w/ dual-source version selection (expo 57.0.11 / react 19.2.3 / react-native 0.86.2), determinism proofs, npm-ci/latest finding; check_forbidden_scope lockfile term-scan exemption; PA-0011 bootstrap closing PA-0010, pre-authorizing H6-A.2 (apps manifests + lockfiles, Product / QA + Dependency lane, after this merges).
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: toolchain baseline only; no product-readiness claim
+Automatic continuation: NO
+```

@@ -84,7 +84,7 @@
     "supersedes": [
       "PA-0009"
     ],
-    "revoked": false,
-    "revocation_evidence": null
+    "revoked": true,
+    "revocation_evidence": "superseded-by:PA-0011 (H6-A toolchain baseline) issue-118-comment-5235003178"
   }
 }

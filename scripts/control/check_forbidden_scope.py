@@ -237,6 +237,15 @@ def main():
         if rel.startswith('docs/archive/') or rel.startswith('scripts/control/'):
             findings.append(f'exempt path (control/archive, not term-scanned): {rel}')
             continue
+        # - committed lockfiles (H6-A, disclosed): generated dependency
+        #   metadata, not implementation. Package names legitimately contain
+        #   term literals (whatwg-fetch, ...). Lockfiles are governed by the
+        #   dedicated contamination/provenance scan (--lockfiles-only mode,
+        #   which still runs on these exact paths) plus the web-ci registry
+        #   check, not by implementation-term scanning.
+        if rel in LOCKFILES:
+            findings.append(f'exempt path (lockfile, term-scan exempt; still contamination-scanned): {rel}')
+            continue
         for line_number, line in enumerate(path.read_text(errors='replace').splitlines(), 1):
             if self_reference_literal(rel, line):
                 continue
