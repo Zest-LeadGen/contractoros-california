@@ -1009,3 +1009,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: documentation/state reconciliation only; no product, dependency, workflow, or script change; H7A-3 remains held until merge + verified main
 Automatic continuation: NO
 ```
+
+```text
+Phase: H7A-3 automated scanning
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h7a-3-scanning
+Phase issue: #137
+Scope: PA-0023 bootstrap closing PA-0020; dependabot.yml (advisory-signal posture); dependency-review workflow re-added SHA-pinned + hardened; private-data scan executed clean (1 benign fixture classified); secret-scanning owner key-turn staged (L-1 closure path); evidence file + records.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: scanning configuration + evidence only; dependency-review not yet a required context (owner act at H7A-5); Dependabot function evidence pending first run; no product or dependency change
+Automatic continuation: NO
+```

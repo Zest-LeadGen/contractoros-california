@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0020",
+  "authorization_id": "PA-0023",
   "evidence_id": "issue-137-comment-5238006617",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 137,
   "base_branch": "main",
-  "base_sha": "5c6227505540e2273c438c284069c8aba095f879",
+  "base_sha": "1f67dc93178e9d4231f899369b179077a883bc2e",
   "lane": "Control / Infrastructure",
   "expiry": "2026-08-24",
   "developer_principal": "danidon-wq",
@@ -16,69 +16,62 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0020.json",
+      "pattern": "docs/project-control/authorizations/PA-0023.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/authorizations/PA-0019.json",
+      "pattern": "docs/project-control/authorizations/PA-0020.json",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-003",
-      "pattern": "SECURITY.md",
+      "pattern": ".github/dependabot.yml",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-004",
-      "pattern": "CONTRIBUTING.md",
+      "pattern": ".github/workflows/dependency-review.yml",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-005",
-      "pattern": "docs/project-control/INCIDENT_RESPONSE_AND_VULNERABILITY_TRIAGE_POLICY.md",
+      "pattern": "docs/project-control/evidence/H7A3_SCANNING_EVIDENCE.md",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-006",
-      "pattern": ".github/CODEOWNERS",
-      "change_kinds": [
-        "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-007",
-      "pattern": "docs/project-control/phase_h7a_2_policy_docs_report.md",
+      "pattern": "docs/project-control/phase_h7a_3_scanning_report.md",
       "change_kinds": [
         "add"
       ]
     },
     {
-      "rule_id": "ALLOW-008",
+      "rule_id": "ALLOW-007",
       "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-009",
+      "rule_id": "ALLOW-008",
       "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-010",
+      "rule_id": "ALLOW-009",
       "pattern": "docs/project-control/state/contractoros-state.yaml",
       "change_kinds": [
         "modify"
@@ -90,13 +83,18 @@
     "scripts/**",
     "policy/**",
     "content/**",
-    ".github/workflows/**"
+    "docs/archive/**",
+    ".github/workflows/control-gates.yml",
+    ".github/workflows/codeql.yml",
+    ".github/workflows/web-ci.yml",
+    ".github/workflows/mobile-ci.yml",
+    ".github/CODEOWNERS"
   ],
   "required_checks": [
     "contractoros-control-gates"
   ],
   "review_classes": [
-    "owner_directed_disclosed_nonindependent",
+    "opus5_read_only_exact_head_independent_leg",
     "owner_human_approval"
   ],
   "owner_trigger_categories": [
@@ -104,16 +102,16 @@
   ],
   "classifications": {
     "dependency": "NONE",
-    "build": "NONE",
+    "build": "CI_CHANGE",
     "release": "NONE",
     "data": "NONE",
     "security": "NONE"
   },
   "supersession": {
     "supersedes": [
-      "PA-0019"
+      "PA-0020"
     ],
-    "revoked": true,
-    "revocation_evidence": "Superseded by PA-0023 (H7A-3 bootstrap; H7A-2 merged as PR #139; base advanced through PRs #140/#142 to 1f67dc9)"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }

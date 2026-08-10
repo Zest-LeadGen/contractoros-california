@@ -1,0 +1,25 @@
+# Dependabot configuration — H7A-3 (#137, PA-0023).
+#
+# GOVERNANCE NOTE: Dependabot PRs are ADVISORY SIGNALS in this repository.
+# They cannot merge: merge authority is owner-only, and the default-deny
+# phase-authorization wall denies any PR without an owner-authorized PA
+# record covering its paths. Actual dependency changes land only through
+# authorized dependency-lane PRs (exact pins + lockfile digest gate, H6
+# baseline). Low PR limits keep the signal without the noise.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/apps/web"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 2
+  - package-ecosystem: "npm"
+    directory: "/apps/mobile"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 2
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 2
