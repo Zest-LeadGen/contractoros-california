@@ -1,44 +1,46 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "32735ea16a0999688c626f8009b02d994d13d924",
-  "active_gate": "H5 delivered in full \u2014 H5-A inventory, H5-B.1 source-of-truth map, H5-B control hardening, H5-C archive move, and H5-D authorization bootstrap + exact-path relocation + wall arming all merged; path-scope wall is ARMED (blocking). Remaining: H5 closeout records (#63/#118), then H6 intake under its own owner authorization",
+  "current_main_sha": "396d4a306752216eef216091e1e1b08982405172",
+  "active_gate": "H6 in progress \u2014 H6-A delivered in full (H6-A.1 control half PR #127: Node pin, TOOLCHAIN.md, evidence, scanner lockfile exemption, PA-0011; H6-A.2 dependency half PR #128: mobile latest -> Expo SDK 57 exact pins + lockfile, engines pins, digest-matched). Remaining: H6-B (product CI: mobile job, lint/typecheck/tests, manifest pin scan, node-version-file alignment, root-manifest decision; R-STRESS-002 checkers-from-main hardening)",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h5_delivered_pending_closeout",
+  "lifecycle_state": "h6_in_progress",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H5-D (authorization bootstrap + content-verified supersession closure + exact-path R100 relocation + path-scope wall armed; found=6 resolution defect fixed via PA-0009 superseding PA-0003..PA-0008)",
+    "phase": "H6-A (reproducible toolchain baseline: pins, lockfiles, boundaries \u2014 two-PR lane-purity split)",
     "issue_number": 118,
-    "issue_state": "open_h6_pending",
-    "pr_number": 125,
+    "issue_state": "open_h6b_pending",
+    "pr_number": 128,
     "pr_state": "merged",
-    "merge_sha": "32735ea16a0999688c626f8009b02d994d13d924"
+    "merge_sha": "396d4a306752216eef216091e1e1b08982405172"
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted)",
-    "H6 awaits its own owner authorization comment",
+    "R-DEP-SEC-001: three Dependabot alerts on the mobile lockfile (image-size 2xHIGH no-patch, uuid MEDIUM) \u2014 owner disposition required; recorded in RISK_REGISTER",
+    "npm-ci/latest manifest-pin gap: review-enforced until the H6-B pin scan lands (disclosed H6-A.1 finding)",
     "CRM/user-account work waits for H10 (5228512217)"
   ],
-  "next_authorized_planning_target": "H5 closeout records (#63/#118), then H6 intake (owner authorization comment required first)",
+  "next_authorized_planning_target": "H6-B product CI + control hardening (same H6 authorization 5235003178), then H5+H6 closeout on #118/#64",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-10T01:45:00Z",
-    "state_recorded_on": "2026-08-09"
+    "github_verified_at": "2026-08-10T02:22:00Z",
+    "state_recorded_on": "2026-08-10"
   },
   "evidence_identifiers": [
-    "product-main:32735ea16a0999688c626f8009b02d994d13d924:h5d-merge",
-    "h5d:pr-125:merged-by-owner:wall-armed:defect-found6-fixed",
-    "governance-main:56eaef95d3d95dc946c065cd6047c15a91f72fc0:schema-1.1.0:gov-pr-9",
-    "pa:PA-0009:live-for-118:supersedes-PA-0003..PA-0008",
-    "pa:PA-0001,PA-0002:live-for-closed-issues-111-113:expire-2026-08-16:not-closable-under-cross-issue-closure-denial:disclosed",
-    "main-push-run:armed-workflow-first-green:post-125-merge"
+    "product-main:396d4a306752216eef216091e1e1b08982405172:h6a2-merge",
+    "h6a1:pr-127:merged-by-owner:toolchain-control-half",
+    "h6a2:pr-128:merged-by-owner:pins-lockfile-digest-matched",
+    "pa:PA-0011:live-for-118:first-base-mode-validation-pr-128",
+    "web-ci:green-with-engines-pins:pr-128-and-main-push",
+    "finding:npm-ci-accepts-latest-dist-tag:routed-to-h6b-pin-scan",
+    "dependabot:alerts-1-2-3:apps-mobile-lockfile:R-DEP-SEC-001:owner-disposition-pending"
   ],
   "public_private_references": {
     "public": [
