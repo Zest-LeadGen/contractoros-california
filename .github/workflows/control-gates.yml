@@ -77,24 +77,18 @@ jobs:
       - name: Continuity suite (344 tests)
         run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'
 
-  authorization-observe:
-    name: authorization-observe (PA-0002, observe-only per OPS-005)
+  phase-authorization:
+    # ARMED (blocking) per owner decision on issue #118, comment 5233703034
+    # (PATH_WALL_DECISION=ARM_NOW). OPS-005 observe-only window ended at H5-D.
+    name: phase-authorization
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: "OBSERVE: default-deny phase-authorization check"
-        id: pa
-        continue-on-error: true
+      - name: Default-deny phase-authorization check
         run: python3 scripts/control/check_phase_authorization.py
-      - name: Observation record
-        run: |
-          echo "## PA observe-only record" >> "$GITHUB_STEP_SUMMARY"
-          echo "- outcome: ${{ steps.pa.outcome }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- would_have_blocked: ${{ steps.pa.outcome == 'failure' }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- mode: OBSERVE_ONLY (cutover after measured window)" >> "$GITHUB_STEP_SUMMARY"
 
   red-team-marker:
     name: red-team-marker
@@ -110,7 +104,7 @@ jobs:
   contractoros-control-gates:
     name: contractoros-control-gates
     runs-on: ubuntu-latest
-    needs: [policy-validators, pr-contract, contract-consumption, control-script-tests, continuity-tests, red-team-marker]
+    needs: [policy-validators, pr-contract, contract-consumption, control-script-tests, continuity-tests, red-team-marker, phase-authorization]
     if: always()
     steps:
       - name: Aggregate gate
@@ -121,14 +115,16 @@ jobs:
           echo "control-script-tests: ${{ needs.control-script-tests.result }}"
           echo "continuity-tests:     ${{ needs.continuity-tests.result }}"
           echo "red-team-marker:      ${{ needs.red-team-marker.result }}"
+          echo "phase-authorization:  ${{ needs.phase-authorization.result }}"
           for r in "${{ needs.policy-validators.result }}" "${{ needs.contract-consumption.result }}" "${{ needs.control-script-tests.result }}" "${{ needs.continuity-tests.result }}"; do
             [ "$r" = "success" ] || { echo "AGGREGATE: FAIL (core job $r)"; exit 1; }
           done
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             [ "${{ needs.pr-contract.result }}" = "success" ] || { echo "AGGREGATE: FAIL (pr-contract)"; exit 1; }
             [ "${{ needs.red-team-marker.result }}" = "success" ] || { echo "AGGREGATE: FAIL (red-team-marker)"; exit 1; }
+            [ "${{ needs.phase-authorization.result }}" = "success" ] || { echo "AGGREGATE: FAIL (phase-authorization)"; exit 1; }
           else
-            for r in "${{ needs.pr-contract.result }}" "${{ needs.red-team-marker.result }}"; do
+            for r in "${{ needs.pr-contract.result }}" "${{ needs.red-team-marker.result }}" "${{ needs.phase-authorization.result }}"; do
               case "$r" in success|skipped) ;; *) echo "AGGREGATE: FAIL ($r)"; exit 1;; esac
             done
           fi

@@ -1017,7 +1017,7 @@ Resolution condition: Two consecutive gate completion records state the merge ac
 
 ```text
 Risk: check_phase_authorization computes DENY for product paths (apps/**) and forbidden control files but runs continue-on-error and is absent from the aggregate required-check needs list, so it cannot block a merge. Path scope currently rests on human code-owner review, not automation.
-Status: OPEN — disclosed; arming to blocking is an owner decision folded into H5 (OPS-005 observe-only window)
+Status: RESOLVED at H5-D (2026-08-09) — phase-authorization job armed: in aggregate needs, continue-on-error removed; see H5-D resolution note below
 Evidence: 2026-08-09 stress test, probe (a)/(e); .github/workflows/control-gates.yml job authorization-observe (continue-on-error:true, not in aggregate needs); confirmed by lead
 Mitigation: CODEOWNERS + required code-owner review + 1 approval + require_last_push_approval still gate every PR through one human. No document may describe path scope as automatically enforced until cutover.
 Owner: Owner (arming decision) / executor (cutover implementation)
@@ -1054,4 +1054,13 @@ Last reviewed: 2026-08-09
 ```text
 R-STRESS-004 (overclaim-gate substring bypass): FIXED. check_pr_contract.py now downgrades an overclaim only when a negation PRECEDES the term (forward qualifiers still count anywhere); 'complete with no open blockers' is now flagged. Verified by 8 in-line cases. check_forbidden_scope.py now exempts docs/archive/ and scripts/control/ from term-scanning (archive is immutable history; control code carries the term literals by design), governed instead by CODEOWNERS + control-script tests.
 Residual: a dedicated regression test file for check_pr_contract is not yet wired into the control-script-tests CI job — tracked as a small follow-up.
+```
+
+### R-STRESS-001 resolution note — H5-D wall arming — 2026-08-09 <!-- risk documentation scope -->
+
+```text
+R-STRESS-001 (path-scope enforcement observe-only): RESOLVED by H5-D under owner decision PATH_WALL_DECISION=ARM_NOW (issue #118 comment 5233703034). The phase-authorization job is blocking: added to the aggregate needs list, continue-on-error removed, required success on pull_request events. Pre-arming defect found and fixed in the same PR: all six H5 records (PA-0003..PA-0008) were live simultaneously for issue #118, so the checker's exactly-one resolution rule computed DENY found=6 for every #118 PR — invisible under observe mode. Fixed by content-verified supersession closure (PA-0009 supersedes and revokes all six) plus a single-live-record invariant enforced by the bootstrap path.
+Residual risk (disclosed): BOOTSTRAP shifts the wall from pre-authorized-on-main to authorized-in-the-same-PR. A PR author can propose any scope in its bootstrap record; the checker enforces machine-verifiable shape (filename/id match, on-platform evidence format issue-N-comment-id, repository binding, base-SHA lineage, expiry, mandatory closure of prior live records, self-consistent allowed rules), while the authorization JUDGMENT rests on CODEOWNERS owner review of docs/project-control/** plus owner-only merge authority. This is the same trust root R-STRESS-002 documents for checker self-edits; structural hardening (checkers run from main) remains tracked to H6-B.
+Relocation support: content-identical renames (git R100) are authorizable only by exact-path relocate rules (pattern -> to); drifted renames (R<100), copies, and pattern renames stay denied; authorization records are never deletable or relocatable.
+Last reviewed: 2026-08-09
 ```

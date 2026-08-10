@@ -75,7 +75,7 @@
   },
   "supersession": {
     "supersedes": [],
-    "revoked": false,
-    "revocation_evidence": null
+    "revoked": true,
+    "revocation_evidence": "superseded-by:PA-0009 (H5-D single-live-record consolidation) issue-118-comment-5233703034"
   }
 }
