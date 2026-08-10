@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0012",
+  "authorization_id": "PA-0013",
   "evidence_id": "issue-118-comment-5235003178",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 118,
   "base_branch": "main",
-  "base_sha": "396d4a306752216eef216091e1e1b08982405172",
+  "base_sha": "1f493f6f56735683be354becc8837654d5793acd",
   "lane": "Control / Infrastructure",
   "expiry": "2026-08-23",
   "developer_principal": "danidon-wq",
@@ -16,14 +16,14 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0012.json",
+      "pattern": "docs/project-control/authorizations/PA-0013.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/authorizations/PA-0011.json",
+      "pattern": "docs/project-control/authorizations/PA-0012.json",
       "change_kinds": [
         "modify"
       ]
@@ -37,36 +37,65 @@
     },
     {
       "rule_id": "ALLOW-004",
-      "pattern": "docs/project-control/phase_post_h6a_reconciliation_report.md",
+      "pattern": "docs/project-control/evidence/H6A_TOOLCHAIN_EVIDENCE.md",
       "change_kinds": [
-        "add"
+        "modify"
       ]
     },
     {
       "rule_id": "ALLOW-005",
-      "pattern": "docs/project-control/DECISION_LOG.md",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-006",
-      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-007",
-      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
       "change_kinds": [
         "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "docs/project-control/phase_stress3_corrections_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-009",
+      "pattern": "scripts/control/stress/contractoros-st.workflow.js",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-010",
+      "pattern": ".gitignore",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-011",
+      "pattern": "scripts/control/tests/__pycache__/test_phase_authorization.cpython-314.pyc",
+      "change_kinds": [
+        "delete"
       ]
     }
   ],
   "forbidden_paths": [
     "apps/**",
-    "scripts/**",
+    "scripts/control/*.py",
+    "scripts/continuity/**",
     "policy/**",
     ".github/**"
   ],
@@ -78,8 +107,7 @@
     "owner_human_approval"
   ],
   "owner_trigger_categories": [
-    "ARCHITECTURE_THRESHOLD",
-    "DEPENDENCY_SECURITY_RISK_ACCEPTANCE"
+    "ARCHITECTURE_THRESHOLD"
   ],
   "classifications": {
     "dependency": "NONE",
@@ -90,9 +118,9 @@
   },
   "supersession": {
     "supersedes": [
-      "PA-0011"
+      "PA-0012"
     ],
-    "revoked": true,
-    "revocation_evidence": "superseded-by:PA-0013 (stress-run-3 corrections) issue-118-comment-5235003178"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }

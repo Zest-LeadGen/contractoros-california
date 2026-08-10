@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.1",
-  "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "396d4a306752216eef216091e1e1b08982405172",
-  "active_gate": "H6 in progress \u2014 H6-A delivered in full (H6-A.1 control half PR #127: Node pin, TOOLCHAIN.md, evidence, scanner lockfile exemption, PA-0011; H6-A.2 dependency half PR #128: mobile latest -> Expo SDK 57 exact pins + lockfile, engines pins, digest-matched). Remaining: H6-B (product CI: mobile job, lint/typecheck/tests, manifest pin scan, node-version-file alignment, root-manifest decision; R-STRESS-002 checkers-from-main hardening)",
+  "snapshot_semantics": "observed_snapshot_requires_live_verification; github_verified_at MUST be the second-precision time of the actual gh read that grounded this snapshot, captured at read time \u2014 never rounded, projected, or written in advance (R-STRESS-005 rule, 2026-08-10)",
+  "current_main_sha": "1f493f6f56735683be354becc8837654d5793acd",
+  "active_gate": "H6 in progress \u2014 H6-A delivered in full and reconciled (#129 merged); stress-run-3 corrections in flight; remaining: H6-B (product CI: mobile job, lint/typecheck/tests, manifest pin scan, node-version-file alignment, root-manifest decision, required-check wiring, overclaim-gate fix; R-STRESS-002 checkers-from-main; CODEOWNERS consolidation rides ahead as its own PR)",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
@@ -14,33 +14,32 @@
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H6-A (reproducible toolchain baseline: pins, lockfiles, boundaries \u2014 two-PR lane-purity split)",
+    "phase": "Post-H6-A reconciliation (snapshot -> 396d4a3; PA-0012 closed PA-0011; R-DEP-SEC-001 recorded)",
     "issue_number": 118,
     "issue_state": "open_h6b_pending",
-    "pr_number": 128,
+    "pr_number": 129,
     "pr_state": "merged",
-    "merge_sha": "396d4a306752216eef216091e1e1b08982405172"
+    "merge_sha": "1f493f6f56735683be354becc8837654d5793acd"
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted)",
-    "R-DEP-SEC-001: three Dependabot alerts on the mobile lockfile (image-size 2xHIGH no-patch, uuid MEDIUM) \u2014 owner disposition required; recorded in RISK_REGISTER",
-    "npm-ci/latest manifest-pin gap: review-enforced until the H6-B pin scan lands (disclosed H6-A.1 finding)",
+    "R-DEP-SEC-001: owner disposition ACCEPTED with dated revisit at each phase boundary (PR #129 approval text, questionnaire Q2, 2026-08-10); 3 open alerts unchanged; next revisit: H6-B closeout",
+    "npm-ci/latest manifest-pin gap: review-enforced until the H6-B pin scan lands",
     "CRM/user-account work waits for H10 (5228512217)"
   ],
-  "next_authorized_planning_target": "H6-B product CI + control hardening (same H6 authorization 5235003178), then H5+H6 closeout on #118/#64",
+  "next_authorized_planning_target": "stress-run-3 corrections + CODEOWNERS consolidation PRs, then H6-B (owner questionnaire Q13 go, 2026-08-10)",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-10T02:22:00Z",
+    "github_verified_at": "2026-08-10T03:32:21Z",
     "state_recorded_on": "2026-08-10"
   },
   "evidence_identifiers": [
-    "product-main:396d4a306752216eef216091e1e1b08982405172:h6a2-merge",
-    "h6a1:pr-127:merged-by-owner:toolchain-control-half",
-    "h6a2:pr-128:merged-by-owner:pins-lockfile-digest-matched",
-    "pa:PA-0011:live-for-118:first-base-mode-validation-pr-128",
-    "web-ci:green-with-engines-pins:pr-128-and-main-push",
-    "finding:npm-ci-accepts-latest-dist-tag:routed-to-h6b-pin-scan",
-    "dependabot:alerts-1-2-3:apps-mobile-lockfile:R-DEP-SEC-001:owner-disposition-pending"
+    "product-main:1f493f6f56735683be354becc8837654d5793acd:pr-129-merged-by-owner-2026-08-10T03:30:34Z",
+    "pa:PA-0012:live-as-of-observed-snapshot-for-118:this-pr-introduces-PA-0013-superseding-it",
+    "dependabot:3-open-alerts:owner-disposition-accepted-with-revisit:Q2",
+    "amkb80-credential:logged-out-2026-08-10:keyring-now-two-disclosed-accounts",
+    "stress-run-3:artifact-7dcf3ead:157-probes:0-critical:2-high:dispositions-via-owner-questionnaire",
+    "auditor-routine:repinned-claude-opus-5:prompt-refreshed-pa-chain-era:owner-Q10-override"
   ],
   "public_private_references": {
     "public": [

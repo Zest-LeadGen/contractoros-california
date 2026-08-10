@@ -901,3 +901,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: snapshot reconciliation and record-keeping only
 Automatic continuation: NO
 ```
+
+```text
+Phase: stress-run-3 corrections + post-#129 reconciliation (batched per owner Q4)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: stress3-corrections
+Phase issue: #118
+Scope: snapshot -> 1f493f6 w/ real second-precision github_verified_at (R-STRESS-005 rule); evidence count corrections (481/471/43) w/ dated annotations; R-DEP-SEC-001 -> ACCEPTED w/ revisit; R-STRESS-005 register entry (8 fabricated historical timestamps disclosed); .pyc removed + __pycache__ gitignored; stress workflow script committed; full owner questionnaire (Q1-Q13 incl. Opus-5 auditor override) recorded; PA-0013 (schema 1.1.0, first exact-path delete rule) closing PA-0012.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: record corrections and reconciliation only
+Automatic continuation: NO
+```
