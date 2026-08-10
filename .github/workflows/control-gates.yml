@@ -13,14 +13,23 @@ on:
 permissions:
   contents: read
 
+# H7A-4 (#137, PA-0025): full-SHA action pins (checkout v4 -> 11d5960a,
+# resolved live 2026-08-10), bounded timeouts, concurrency,
+# persist-credentials:false. No job/step logic changed.
+concurrency:
+  group: control-gates-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   policy-validators:
     name: policy-validators
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Changed-file allowlist / lane check
         run: python3 scripts/control/check_changed_files.py
       - name: Forbidden-scope check
@@ -39,11 +48,13 @@ jobs:
   pr-contract:
     name: pr-contract
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: PR body / linked issue / template completeness check
         run: python3 scripts/control/check_pr_contract.py
       - name: Claim-language check
@@ -59,16 +70,22 @@ jobs:
   contract-consumption:
     name: contract-consumption
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Contract-consumption live digest check
         run: python3 scripts/control/check_contract_consumption.py --live
 
   control-script-tests:
     name: control-script-tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Phase-authorization checker adversarial suite
         run: python3 scripts/control/tests/test_phase_authorization.py
       - name: Manifest-pin checker adversarial suite
@@ -84,11 +101,13 @@ jobs:
     # backstopped by CODEOWNERS review.
     name: phase-authorization-from-main
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Run the BASE-branch path-wall checker against this PR
         run: |
           git show "origin/${GITHUB_BASE_REF}:scripts/control/check_phase_authorization.py" > scripts/control/main_cpa_ci_copy.py
@@ -97,8 +116,11 @@ jobs:
   continuity-tests:
     name: continuity-tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Continuity suite (344 tests)
         run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'
 
@@ -107,28 +129,33 @@ jobs:
     # (PATH_WALL_DECISION=ARM_NOW). OPS-005 observe-only window ended at H5-D.
     name: phase-authorization
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Default-deny phase-authorization check
         run: python3 scripts/control/check_phase_authorization.py
 
   red-team-marker:
     name: red-team-marker
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Mandatory SHA-bound red-team marker check
         run: python3 scripts/control/check_red_team_marker.py
 
   contractoros-control-gates:
     name: contractoros-control-gates
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: [policy-validators, pr-contract, contract-consumption, control-script-tests, continuity-tests, red-team-marker, phase-authorization, phase-authorization-from-main]
     if: always()
     steps:
