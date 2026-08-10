@@ -1,12 +1,12 @@
 {
   "schema_version": "1.1.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0013",
+  "authorization_id": "PA-0014",
   "evidence_id": "issue-118-comment-5235003178",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 118,
   "base_branch": "main",
-  "base_sha": "1f493f6f56735683be354becc8837654d5793acd",
+  "base_sha": "6311937c91db6f6dc95ff4c7742bb52322e4ce43",
   "lane": "Control / Infrastructure",
   "expiry": "2026-08-23",
   "developer_principal": "danidon-wq",
@@ -16,37 +16,37 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0013.json",
+      "pattern": "docs/project-control/authorizations/PA-0014.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/authorizations/PA-0012.json",
+      "pattern": "docs/project-control/authorizations/PA-0013.json",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-003",
-      "pattern": "docs/project-control/state/contractoros-state.yaml",
+      "pattern": ".github/CODEOWNERS",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-004",
-      "pattern": "docs/project-control/evidence/H6A_TOOLCHAIN_EVIDENCE.md",
+      "pattern": "CODEOWNERS",
       "change_kinds": [
-        "modify"
+        "delete"
       ]
     },
     {
       "rule_id": "ALLOW-005",
-      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "pattern": "docs/project-control/phase_codeowners_consolidation_report.md",
       "change_kinds": [
-        "modify"
+        "add"
       ]
     },
     {
@@ -65,39 +65,18 @@
     },
     {
       "rule_id": "ALLOW-008",
-      "pattern": "docs/project-control/phase_stress3_corrections_report.md",
-      "change_kinds": [
-        "add"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-009",
-      "pattern": "scripts/control/stress/contractoros-st.workflow.js",
-      "change_kinds": [
-        "add"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-010",
-      "pattern": ".gitignore",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
       "change_kinds": [
         "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-011",
-      "pattern": "scripts/control/tests/__pycache__/test_phase_authorization.cpython-314.pyc",
-      "change_kinds": [
-        "delete"
       ]
     }
   ],
   "forbidden_paths": [
     "apps/**",
-    "scripts/control/*.py",
-    "scripts/continuity/**",
+    "scripts/**",
     "policy/**",
-    ".github/**"
+    ".github/workflows/**",
+    "docs/project-control/state/contractoros-state.yaml"
   ],
   "required_checks": [
     "contractoros-control-gates"
@@ -114,13 +93,13 @@
     "build": "NONE",
     "release": "NONE",
     "data": "NONE",
-    "security": "NONE"
+    "security": "CONTROL_SURFACE"
   },
   "supersession": {
     "supersedes": [
-      "PA-0012"
+      "PA-0013"
     ],
-    "revoked": true,
-    "revocation_evidence": "superseded-by:PA-0014 (CODEOWNERS consolidation) issue-118-comment-5235003178"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }

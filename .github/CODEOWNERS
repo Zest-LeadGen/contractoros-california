@@ -1,13 +1,21 @@
-# ContractorOS control ownership
-/docs/project-control/ @Zest-LeadGen
-/.github/ @Zest-LeadGen
-/scripts/control/ @Zest-LeadGen
-/apps/mobile/ @Zest-LeadGen
-/apps/web/ @Zest-LeadGen
-/package.json @Zest-LeadGen
-/package-lock.json @Zest-LeadGen
-/apps/mobile/package.json @Zest-LeadGen
-/apps/mobile/package-lock.json @Zest-LeadGen
-/eas.json @Zest-LeadGen
-/android/ @Zest-LeadGen
-/ios/ @Zest-LeadGen
+# ContractorOS control ownership.
+# GitHub uses THIS file (.github/CODEOWNERS) with precedence over any root
+# CODEOWNERS; the previously-shadowed root file is retired (stress-run-3
+# HIGH finding, owner questionnaire Q7, 2026-08-10). The catch-all makes
+# require_code_owner_review bind on EVERY path; later, more-specific
+# entries document the named control surfaces.
+*                                     @Zest-LeadGen
+/docs/project-control/                @Zest-LeadGen
+/docs/project-control/authorizations/ @Zest-LeadGen
+/.github/                             @Zest-LeadGen
+/scripts/control/                     @Zest-LeadGen
+/scripts/continuity/                  @Zest-LeadGen
+/apps/mobile/                         @Zest-LeadGen
+/apps/web/                            @Zest-LeadGen
+/package.json                         @Zest-LeadGen
+/package-lock.json                    @Zest-LeadGen
+/apps/mobile/package.json             @Zest-LeadGen
+/apps/mobile/package-lock.json        @Zest-LeadGen
+/eas.json                             @Zest-LeadGen
+/android/                             @Zest-LeadGen
+/ios/                                 @Zest-LeadGen
