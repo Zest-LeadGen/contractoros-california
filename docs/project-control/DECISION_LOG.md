@@ -370,3 +370,9 @@ Update decisions through project-control PRs or explicitly approved control mile
 - Owner key-turns verified live: PR #132 merged 04:19:37Z (main 3a2df46); required-check ruleset act executed with readback — ruleset 20598456 now requires three contexts: contractoros-control-gates, "Web install + build from lockfile", "Mobile install + static validation from lockfile". Product CI is ENFORCING.
 - The npm-ci/latest gap blocker is CLOSED (manifest pin gate merged and required); removed from snapshot blockers. R-STRESS-002's wall-from-main defense is ACTIVE.
 - Remaining H6-B: H6-B.2 (Product / QA test layers inside the apps), then H5+H6 closeout on #118/#64.
+
+## H6-B.2 Pre-Authorization (test layers) — 2026-08-10
+
+- Under owner H6 authorization (issue #118 comment 5235003178; PA-0017 via bootstrap, closing PA-0016). Pre-authorizes the exact paths of H6-B.2 (Product / QA lane, base mode) per the H6-A lane-purity pattern.
+- H6-B.2 design, recorded before delivery: UNIT + COVERAGE layers use Node 22's built-in test runner (node --test with coverage) — ZERO new dependencies; tests target the pure data modules' invariants (claim IDs unique, official ca.gov sources only, enum fields valid) in both apps. LINT layer adds exactly three exact-pinned devDependencies per app (eslint 10.8.1, @eslint/js 10.0.1, globals 17.9.0 — resolved live; node ^22.13.0 engine verified against the .nvmrc pin), flat config, recommended rules; formatting validation via eslint core rules. TYPE CHECKING recorded as N/A-by-design: both apps are deliberate JavaScript scaffolds; a TS adoption decision would be its own authorized change. React-specific lint rulesets and component/DOM test tooling are tracked enhancements, not silent omissions.
+- CI enforcement of the new lint/test scripts lands in the H6 closeout control PR AFTER H6-B.2 merges (steps must not exist before the scripts they run — the deadlock lesson from H6-B.1 applied forward).

@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "PA-0017",
+  "evidence_id": "issue-118-comment-5235003178",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 118,
+  "base_branch": "main",
+  "base_sha": "a0993e3eaab31f8ab3268cc2fbc74f9198a84b25",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-23",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/PA-0017.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": "docs/project-control/authorizations/PA-0016.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": "docs/project-control/phase_h6b2a_pre_authorization_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-007",
+      "pattern": "apps/web/package.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "apps/web/package-lock.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-009",
+      "pattern": "apps/mobile/package.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-010",
+      "pattern": "apps/mobile/package-lock.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-011",
+      "pattern": "apps/web/eslint.config.js",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-012",
+      "pattern": "apps/mobile/eslint.config.js",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-013",
+      "pattern": "apps/web/test/data-invariants.test.js",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-014",
+      "pattern": "apps/mobile/test/data-invariants.test.js",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-015",
+      "pattern": "docs/project-control/phase_h6b2_test_layers_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-016",
+      "pattern": "docs/project-control/evidence/H6B2_TEST_LAYER_EVIDENCE.md",
+      "change_kinds": [
+        "add"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "scripts/**",
+    ".github/**",
+    "policy/**",
+    "docs/project-control/state/contractoros-state.yaml",
+    "apps/web/src/**",
+    "apps/mobile/src/**",
+    "apps/mobile/App.js"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "owner_directed_disclosed_nonindependent",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "ARCHITECTURE_THRESHOLD"
+  ],
+  "classifications": {
+    "dependency": "NEW_DEPENDENCY",
+    "build": "NONE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "NONE"
+  },
+  "supersession": {
+    "supersedes": [
+      "PA-0016"
+    ],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}

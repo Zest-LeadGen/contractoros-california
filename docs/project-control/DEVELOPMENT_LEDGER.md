@@ -949,3 +949,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: snapshot reconciliation and record-keeping only
 Automatic continuation: NO
 ```
+
+```text
+Phase: H6-B.2a pre-authorization (test layers)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h6b2a-pre-authorization
+Phase issue: #118
+Scope: PA-0017 bootstrap closing PA-0016; pre-authorizes H6-B.2 exact paths (lint deps eslint 10.8.1/@eslint/js 10.0.1/globals 17.9.0 exact, flat configs, node:test unit+coverage on data invariants, evidence + companion report); design decisions recorded (zero-dep unit layer, typecheck N/A-by-design).
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: authorization record and design decisions only
+Automatic continuation: NO
+```
