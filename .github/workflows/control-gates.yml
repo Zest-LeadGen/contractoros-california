@@ -141,7 +141,7 @@ jobs:
           echo "continuity-tests:     ${{ needs.continuity-tests.result }}"
           echo "red-team-marker:      ${{ needs.red-team-marker.result }}"
           echo "phase-authorization:  ${{ needs.phase-authorization.result }}"
-          echo "phase-auth-from-main: ${{ needs.phase-authorization-from-main.result }}"
+          echo "phase-authorization-from-main: ${{ needs.phase-authorization-from-main.result }}"
           for r in "${{ needs.policy-validators.result }}" "${{ needs.contract-consumption.result }}" "${{ needs.control-script-tests.result }}" "${{ needs.continuity-tests.result }}"; do
             [ "$r" = "success" ] || { echo "AGGREGATE: FAIL (core job $r)"; exit 1; }
           done

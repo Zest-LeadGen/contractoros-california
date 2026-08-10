@@ -55,7 +55,7 @@ Control records only; TOOLCHAIN.md already documents the per-app install path th
 
 ## Validation Evidence
 
-Suites green (11/11 pins, 25/25 phase-auth, 348/348 continuity); armed checker validates this PR in bootstrap mode (closed_records=[PA-0014]); the new from-main job validates this PR in CI using MAIN's checker (its first live exercise); validators green vs real body.
+Suites green (11/11 pins, 25/25 phase-authorization, 348/348 continuity); armed checker validates this PR in bootstrap mode (closed_records=[PA-0014]); the new from-main job validates this PR in CI using MAIN's checker (its first live exercise); validators green vs real body.
 
 ## Risk Register Impact
 
