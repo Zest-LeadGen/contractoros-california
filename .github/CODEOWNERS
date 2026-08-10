@@ -7,6 +7,9 @@
 *                                     @Zest-LeadGen
 /docs/project-control/                @Zest-LeadGen
 /docs/project-control/authorizations/ @Zest-LeadGen
+/SECURITY.md                          @Zest-LeadGen
+/CONTRIBUTING.md                      @Zest-LeadGen
+/docs/project-control/INCIDENT_RESPONSE_AND_VULNERABILITY_TRIAGE_POLICY.md @Zest-LeadGen
 /.github/                             @Zest-LeadGen
 /scripts/control/                     @Zest-LeadGen
 /scripts/continuity/                  @Zest-LeadGen

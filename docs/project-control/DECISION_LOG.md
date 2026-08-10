@@ -393,3 +393,10 @@ Update decisions through project-control PRs or explicitly approved control mile
 - R-DEP-SEC-001 phase-boundary revisit executed (due at this boundary): unchanged, acceptance stands, next revisit at H7A closeout or H7B intake.
 - Findings classification: RT-H0-SEC-001 and RT-H0-SUPPLY-001 (both ACCEPTED_FOR_ROADMAP) are the findings H7A addresses; baseline documented, status untouched — resolution only via the register contract with owner authority.
 - Disclosed, not worked around: PA-0018 remains live but binds closed issue #118; per the PA-0001/PA-0002 precedent (Q12) it expires naturally 2026-08-23 and no PR will link #118 again, so no resolution collision is possible.
+
+## H7A-2 Policy Documents — 2026-08-10
+
+- Under the standing H7A owner authorization (issue-137-comment-5238006617); owner "go" for H7A-2 recorded in-session 2026-08-10 after the H7A-1 key-turn (PR #138 merged 09:16:12Z, main 5c62275). PA-0020 via bootstrap closing PA-0019 (base moved).
+- Delivered: SECURITY.md (private reporting via GitHub Security tab with a detail-free fallback route; honest baseline disclosure referencing the H7A-1 inventory), CONTRIBUTING.md (single-human AI-operated posture; external PRs not accepted while contribution terms are undefined under open #71), INCIDENT_RESPONSE_AND_VULNERABILITY_TRIAGE_POLICY.md (triage dispositions FIX/ACCEPT/MITIGATE with 7-day clock; incident containment-first process; owner-only credential rotation; written-dated-expiring exception rule), CODEOWNERS explicit entries for the three policy surfaces (catch-all unchanged).
+- LICENSE deliberately withheld: #71 records the owner's option-B selection (options packet first) and LICENSE_ADDITION=NOT_AUTHORIZED; the H7A intake's license line item resolves to "decision input pending", not a file. Recorded, not silently skipped.
+- L-1 status: the owner's one-time security-settings read has not executed (the command arrived as message text, not a run); secret-scanning/push-protection rows remain NOT_PROVEN. SECURITY.md written to claim nothing those rows leave unproven.

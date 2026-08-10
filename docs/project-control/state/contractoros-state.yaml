@@ -1,25 +1,25 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification; github_verified_at MUST be the second-precision time of the actual gh read that grounded this snapshot, captured at read time — never rounded, projected, or written in advance (R-STRESS-005 rule, 2026-08-10)",
-  "current_main_sha": "3310052bd2af774cd124edc41f723c64facb4c10",
-  "active_gate": "H7A ACTIVE (authorized issue-137-comment-5238006617; PA-0019 via bootstrap in this PR) — H7A-1 security posture inventory + threat model delivered in this PR (read-only/docs); H7A-2..H7A-5 proceed as separate PA-bound PRs under owner approval; H7B (#66) requires its own intake per not-to-compress",
+  "current_main_sha": "5c6227505540e2273c438c284069c8aba095f879",
+  "active_gate": "H7A ACTIVE (authorized issue-137-comment-5238006617) — H7A-1 merged (PR #138, owner key-turn 09:16:12Z); H7A-2 policy docs in this PR (PA-0020 via bootstrap closing PA-0019); LICENSE withheld per #71 LICENSE_ADDITION=NOT_AUTHORIZED; H7A-3..H7A-5 proceed as separate PA-bound PRs; H7B (#66) requires its own intake per not-to-compress",
   "linked_issue": {
     "number": 137,
     "state": "open"
   },
   "linked_pr": null,
-  "lifecycle_state": "h7a_1_in_review",
+  "lifecycle_state": "h7a_2_in_review",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H5+H6 program closeout (PA-0018)",
-    "issue_number": 118,
-    "issue_state": "closed_completed",
-    "pr_number": 136,
+    "phase": "H7A-1 security posture inventory + threat model (PA-0019)",
+    "issue_number": 137,
+    "issue_state": "open_phase_intake",
+    "pr_number": 138,
     "pr_state": "merged",
-    "merge_sha": "3310052bd2af774cd124edc41f723c64facb4c10"
+    "merge_sha": "5c6227505540e2273c438c284069c8aba095f879"
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted); feature work resumes at H10",
@@ -27,17 +27,18 @@
     "CRM/user-account work waits for H10 (5228512217)",
     "L-1 executor-permission limitation: secret-scanning/push-protection state NOT_PROVEN pending owner read (H7A1 inventory)"
   ],
-  "next_authorized_planning_target": "H7A-1 owner review + merge, then H7A-2 policy docs under PA-0019 successor; LICENSE decision (#71) is owner input to H7A-2",
+  "next_authorized_planning_target": "H7A-2 owner review + merge, then H7A-3 scanning automation (dependabot.yml, dependency-review re-add, secret-scanning verification) under PA-0020 successor; #71 license options packet remains separate owner-decision work",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-10T09:00:05Z",
+    "github_verified_at": "2026-08-10T09:24:15Z",
     "state_recorded_on": "2026-08-10"
   },
   "evidence_identifiers": [
-    "product-main:3310052bd2af774cd124edc41f723c64facb4c10:pr-136-merged-h5h6-closeout",
+    "product-main:5c6227505540e2273c438c284069c8aba095f879:pr-138-merged-by-owner-2026-08-10T09:16:12Z",
     "h7a-authorization:issue-137-comment-5238006617:Zest-LeadGen:2026-08-10T08:55:09Z:verified-by-actor-readback",
-    "h7a1:inventory+threat-model:reads-2026-08-10T08:56:39Z:tree-at-3310052",
-    "dependabot-revisit:2026-08-10T08:56:39Z:unchanged:acceptance-stands",
+    "h7a1:merged:inventory+threat-model:red-team-two-round:head-1ea41c3",
+    "h7a2:policy-docs:license-withheld-per-issue-71:L-1-not-proven",
+    "dependabot-revisit:2026-08-10T08:56:39Z:unchanged:acceptance-stands:next-at-h7a-closeout-or-h7b-intake",
     "required-contexts:aggregate+web-ci+mobile-ci:enforcing-since-2026-08-10T04:21Z"
   ],
   "public_private_references": {
