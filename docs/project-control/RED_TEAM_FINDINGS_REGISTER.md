@@ -440,7 +440,7 @@ RETEST_TRIGGERS=PR_56_STATE_CHANGE,PR_83_HEAD_CHANGE,REPLACEMENT_CHAIN_DECISION,
 EXPIRY_OR_MAXIMUM_REVIEW_DATE=BEFORE_H0_CLOSEOUT
 RESOLUTION_EVIDENCE=UNDERLYING_EVENT_ONLY_ISSUE_70_COMMENTS_5017079421_AND_5017555554;REPOSITORY_RECORD_REVIEW_NOT_PROVEN
 SUPERSEDES=RT-H0-AUTH-001_VERSION_2.0.0 # documentation scope
-SUPERSEDED_BY=NONE
+SUPERSEDED_BY=RT-H0-AUTH-001_VERSION_2.2.0 # lifecycle-completion supersession, H7A-5 #137/PA-0026; documentation scope
 LAST_REVERIFIED_AT=2026-07-21
 FAILURE_EFFECT=BLOCK_H0_CLOSEOUT
 HUMAN_APPROVAL=NOT_PRESENT
@@ -477,7 +477,7 @@ RETEST_TRIGGERS=OPEN_PR_CHANGE,OPEN_ISSUE_CHANGE,PR_83_HEAD_CHANGE,H0_PRECLOSEOU
 EXPIRY_OR_MAXIMUM_REVIEW_DATE=BEFORE_H0_CLOSEOUT
 RESOLUTION_EVIDENCE=NOT_PROVEN
 SUPERSEDES=RT-H0-DISP-001_VERSION_2.0.0 # documentation scope
-SUPERSEDED_BY=NONE
+SUPERSEDED_BY=RT-H0-DISP-001_VERSION_2.2.0 # lifecycle-completion supersession, H7A-5 #137/PA-0026
 LAST_REVERIFIED_AT=2026-07-21
 FAILURE_EFFECT=BLOCK_H0_CLOSEOUT
 ```
@@ -510,7 +510,7 @@ RETEST_TRIGGERS=BRANCH_CREATE,BRANCH_DELETE,BRANCH_TIP_CHANGE,PR_83_HEAD_CHANGE,
 EXPIRY_OR_MAXIMUM_REVIEW_DATE=BEFORE_H0_CLOSEOUT
 RESOLUTION_EVIDENCE=NOT_PROVEN
 SUPERSEDES=RT-H0-BRANCH-001_VERSION_2.0.0 # documentation scope
-SUPERSEDED_BY=NONE
+SUPERSEDED_BY=RT-H0-BRANCH-001_VERSION_2.2.0 # lifecycle-completion supersession, H7A-5 #137/PA-0026
 LAST_REVERIFIED_AT=2026-07-21
 FAILURE_EFFECT=BLOCK_H0_CLOSEOUT
 ```
@@ -518,3 +518,109 @@ FAILURE_EFFECT=BLOCK_H0_CLOSEOUT
 ## P0-RECON-2 Register Currency Note — 2026-08-10 (#144, documentation scope)
 
 Recorded under owner authorization issue-144-comment-5245410500. The latest RT-H0-* versions above (2.1.0, CURRENT_STATUS=IMPLEMENTED_PENDING_REVIEW, LAST_REVERIFIED_AT=2026-07-21, FAILURE_EFFECT=BLOCK_H0_CLOSEOUT) predate the H0 closure that has since occurred on-platform (#67 and #82 closed; H0 terminal-disposition evidence committed). Per this register's own contract, NO finding is hereby inferred resolved: formal version-chain updates require their own owner-authorized register action with per-finding resolution evidence, and that action is routed to H7A-5 closeout or H9 intake (whichever first). Until then, readers must not treat the 2.1.0 H0-blocking effect as describing a live gate.
+
+## H7A-5 Lifecycle-Completion Version Records — 2026-08-10 (documentation scope)
+
+Recorded under the standing H7A authorization (issue-137-comment-5238006617) with the explicit path allowlist of PA-0026 — the owner-authorized register action the P0-RECON-2 currency note routed here. Contract honored: these Version 2.2.0 records document ON-PLATFORM LIFECYCLE COMPLETION with live-verified evidence; they do NOT re-adjudicate the underlying findings (that re-examination belongs to H9 whole-program assurance). The 2.1.0 records above are preserved; their SUPERSEDED_BY fields now name these versions.
+
+Shared lifecycle facts (live-verified 2026-08-10): implementation PR #83 CLOSED UNMERGED — the RETEST_TRIGGERS' REPLACEMENT_CHAIN_DECISION occurred; replacement PR #84 MERGED at main `5ce15a55fb8dcfc3c68a7631999a22c3df569659`; Issue #82 closed completed 2026-07-31T23:26:41Z; Issue #67 closed completed 2026-07-31T23:30:36Z; durable closeout recorded in DECISION_LOG (2026-07-31 entry) with evidence/H0_TERMINAL_DISPOSITION_MANIFEST.json and the archived H0_FINAL_DISPOSITION_REPORT.md.
+
+### RT-H0-AUTH-001 Version 2.2.0 — Documentation Scope
+
+```text
+FINDING_ID=RT-H0-AUTH-001 # documentation scope
+FINDING_VERSION=2.2.0
+TITLE=PR_56_CLOSURE_RECORD_H0_LIFECYCLE_COMPLETION_RECORDED
+SEVERITY=P0_BLOCKING # carried issuance severity; the gate it blocked (H0 closeout) completed 2026-07-31
+UNDERLYING_FINDING_CLASSIFICATION=RESOLVED_AND_VERIFIED # carried from 2.1.0, not re-adjudicated
+CURRENT_STATUS=HISTORICAL_PRESERVED # declared lifecycle value; lifecycle-completion record — underlying re-adjudication routed to H9
+EVIDENCE_STATUS=PARTIALLY_VERIFIED # lifecycle events verified live 2026-08-10; underlying finding evidence not re-examined (H9)
+OBSERVED_AT=2026-08-10T21:50:48Z
+OBSERVED_MAIN_SHA=945031a11ca9a2c2d24f71ef4121e4a1a67db04e
+EVIDENCE_SOURCES=SRC-H0-TD-001,SRC-H0-TD-002,SRC-H0-TD-003,SRC-H0-TD-007 # carried from 2.1.0; lifecycle events verified by live GitHub reads cited below
+OWNER_DECISION_ID=OD-H0-PR83-R1-CORRECTION-001 # carried from 2.1.0; this lifecycle record's own authority is the additive OWNER_AUTHORITY field
+OWNER_AUTHORITY=issue-137-comment-5238006617;PA-0026 # additive field, does not replace OWNER_DECISION_ID
+ROADMAP_GATE=H0 # gate completed; re-examination gate is H9
+DEPENDENCIES=H9_UNDERLYING_FINDING_READJUDICATION
+IMPLEMENTATION_AUTHORITY=NINE_PATH_R1_DOCUMENTATION_CORRECTION_ONLY_THEN_REPLACEMENT_CHAIN # documentation scope; carried, with the replacement-chain outcome recorded
+IMPLEMENTATION_ISSUE=82
+IMPLEMENTATION_PR=84 # replacement chain: PR 83 closed unmerged; PR 84 delivered
+REVIEWED_HEAD_SHA=NOT_PROVEN # this lifecycle record performs no fresh exact-head review
+VALIDATION_CONTRACT=VAL-H0-TD-001,VAL-H0-TD-006,VAL-H0-TD-R1-001,VAL-H0-TD-R1-002 # carried from 2.1.0 as the era's contract, satisfied or superseded by the H0 terminal disposition
+RETEST_TRIGGERS=H9_WHOLE_PROGRAM_ASSURANCE_INTAKE
+EXPIRY_OR_MAXIMUM_REVIEW_DATE=AT_H9_INTAKE
+RESOLUTION_EVIDENCE=UNDERLYING_EVENT_ONLY_ISSUE_70_COMMENTS_5017079421_AND_5017555554;REPOSITORY_RECORD_REVIEW_NOT_PROVEN # carried verbatim from 2.1.0, not re-adjudicated
+LIFECYCLE_COMPLETION_EVIDENCE=PR_83_CLOSED_UNMERGED_REPLACEMENT_CHAIN;PR_84_MERGED_MAIN_5ce15a55;ISSUE_82_CLOSED_2026-07-31T23:26:41Z;ISSUE_67_CLOSED_2026-07-31T23:30:36Z;H0_TERMINAL_DISPOSITION_MANIFEST;ARCHIVED_H0_FINAL_DISPOSITION_REPORT;DECISION_LOG_2026-07-31_ENTRY
+LIFECYCLE_COMPLETION_ONLY=YES
+UNDERLYING_FINDING_READJUDICATION=NOT_PERFORMED # H9 scope
+SUPERSEDES=RT-H0-AUTH-001_VERSION_2.1.0 # documentation scope
+SUPERSEDED_BY=NONE
+LAST_REVERIFIED_AT=2026-08-10
+FAILURE_EFFECT=NONE_H0_CLOSED # the 2.1.0 BLOCK_H0_CLOSEOUT effect described a completed era
+```
+
+### RT-H0-DISP-001 Version 2.2.0 — Documentation Scope
+
+```text
+FINDING_ID=RT-H0-DISP-001
+FINDING_VERSION=2.2.0
+TITLE=OPEN_WORK_TERMINAL_DISPOSITION_H0_LIFECYCLE_COMPLETION_RECORDED
+SEVERITY=P0_BLOCKING # carried issuance severity; the gate it blocked (H0 closeout) completed 2026-07-31
+CURRENT_STATUS=HISTORICAL_PRESERVED # declared lifecycle value; lifecycle-completion record — underlying re-adjudication routed to H9
+EVIDENCE_STATUS=PARTIALLY_VERIFIED # lifecycle events verified live 2026-08-10; underlying finding evidence not re-examined (H9)
+OBSERVED_AT=2026-08-10T21:50:48Z
+OBSERVED_MAIN_SHA=945031a11ca9a2c2d24f71ef4121e4a1a67db04e
+EVIDENCE_SOURCES=SRC-H0-TD-001,SRC-H0-TD-004,SRC-H0-TD-007 # carried from 2.1.0; lifecycle events verified by live GitHub reads cited below
+OWNER_DECISION_ID=OD-H0-PR83-R1-CORRECTION-001 # carried from 2.1.0; this lifecycle record's own authority is the additive OWNER_AUTHORITY field
+OWNER_AUTHORITY=issue-137-comment-5238006617;PA-0026 # additive field, does not replace OWNER_DECISION_ID
+ROADMAP_GATE=H0 # gate completed; re-examination gate is H9
+DEPENDENCIES=H9_UNDERLYING_FINDING_READJUDICATION
+IMPLEMENTATION_AUTHORITY=NINE_PATH_R1_DOCUMENTATION_CORRECTION_ONLY_THEN_REPLACEMENT_CHAIN # documentation scope; carried, with the replacement-chain outcome recorded
+IMPLEMENTATION_ISSUE=82
+IMPLEMENTATION_PR=84 # replacement chain: PR 83 closed unmerged; PR 84 delivered
+REVIEWED_HEAD_SHA=NOT_PROVEN # this lifecycle record performs no fresh exact-head review
+VALIDATION_CONTRACT=VAL-H0-TD-002,VAL-H0-TD-004,VAL-H0-TD-006,VAL-H0-TD-R1-001,VAL-H0-TD-R1-002 # carried from 2.1.0 as the era's contract, satisfied or superseded by the H0 terminal disposition
+RETEST_TRIGGERS=H9_WHOLE_PROGRAM_ASSURANCE_INTAKE
+EXPIRY_OR_MAXIMUM_REVIEW_DATE=AT_H9_INTAKE
+RESOLUTION_EVIDENCE=NOT_PROVEN # carried from 2.1.0; lifecycle facts live in LIFECYCLE_COMPLETION_EVIDENCE, not here
+LIFECYCLE_COMPLETION_EVIDENCE=PR_83_CLOSED_UNMERGED_REPLACEMENT_CHAIN;PR_84_MERGED_MAIN_5ce15a55;ISSUE_82_CLOSED_2026-07-31T23:26:41Z;ISSUE_67_CLOSED_2026-07-31T23:30:36Z;H0_TERMINAL_DISPOSITION_MANIFEST;ARCHIVED_H0_FINAL_DISPOSITION_REPORT;DECISION_LOG_2026-07-31_ENTRY
+LIFECYCLE_COMPLETION_ONLY=YES
+UNDERLYING_FINDING_READJUDICATION=NOT_PERFORMED # H9 scope
+SUPERSEDES=RT-H0-DISP-001_VERSION_2.1.0
+SUPERSEDED_BY=NONE
+LAST_REVERIFIED_AT=2026-08-10
+FAILURE_EFFECT=NONE_H0_CLOSED # the 2.1.0 BLOCK_H0_CLOSEOUT effect described a completed era
+```
+
+### RT-H0-BRANCH-001 Version 2.2.0 — Documentation Scope
+
+```text
+FINDING_ID=RT-H0-BRANCH-001
+FINDING_VERSION=2.2.0
+TITLE=BRANCH_TERMINAL_DISPOSITION_H0_LIFECYCLE_COMPLETION_RECORDED
+SEVERITY=P0_BLOCKING # carried issuance severity; the gate it blocked (H0 closeout) completed 2026-07-31
+CURRENT_STATUS=HISTORICAL_PRESERVED # declared lifecycle value; lifecycle-completion record — underlying re-adjudication routed to H9
+EVIDENCE_STATUS=PARTIALLY_VERIFIED # lifecycle events verified live 2026-08-10; underlying finding evidence not re-examined (H9)
+OBSERVED_AT=2026-08-10T21:50:48Z
+OBSERVED_MAIN_SHA=945031a11ca9a2c2d24f71ef4121e4a1a67db04e
+EVIDENCE_SOURCES=SRC-H0-TD-001,SRC-H0-TD-005,SRC-H0-TD-007 # carried from 2.1.0; lifecycle events verified by live GitHub reads cited below
+OWNER_DECISION_ID=OD-H0-PR83-R1-CORRECTION-001 # carried from 2.1.0; this lifecycle record's own authority is the additive OWNER_AUTHORITY field
+OWNER_AUTHORITY=issue-137-comment-5238006617;PA-0026 # additive field, does not replace OWNER_DECISION_ID
+ROADMAP_GATE=H0 # gate completed; re-examination gate is H9
+DEPENDENCIES=H9_UNDERLYING_FINDING_READJUDICATION
+IMPLEMENTATION_AUTHORITY=NINE_PATH_R1_DOCUMENTATION_CORRECTION_ONLY_THEN_REPLACEMENT_CHAIN # documentation scope; carried, with the replacement-chain outcome recorded
+IMPLEMENTATION_ISSUE=82
+IMPLEMENTATION_PR=84 # replacement chain: PR 83 closed unmerged; PR 84 delivered
+REVIEWED_HEAD_SHA=NOT_PROVEN # this lifecycle record performs no fresh exact-head review
+VALIDATION_CONTRACT=VAL-H0-TD-003,VAL-H0-TD-004,VAL-H0-TD-006,VAL-H0-TD-R1-001,VAL-H0-TD-R1-002 # carried from 2.1.0 as the era's contract, satisfied or superseded by the H0 terminal disposition
+RETEST_TRIGGERS=H9_WHOLE_PROGRAM_ASSURANCE_INTAKE
+EXPIRY_OR_MAXIMUM_REVIEW_DATE=AT_H9_INTAKE
+RESOLUTION_EVIDENCE=NOT_PROVEN # carried from 2.1.0; lifecycle facts live in LIFECYCLE_COMPLETION_EVIDENCE, not here
+LIFECYCLE_COMPLETION_EVIDENCE=PR_83_CLOSED_UNMERGED_REPLACEMENT_CHAIN;PR_84_MERGED_MAIN_5ce15a55;ISSUE_82_CLOSED_2026-07-31T23:26:41Z;ISSUE_67_CLOSED_2026-07-31T23:30:36Z;H0_TERMINAL_DISPOSITION_MANIFEST;ARCHIVED_H0_FINAL_DISPOSITION_REPORT;DECISION_LOG_2026-07-31_ENTRY
+LIFECYCLE_COMPLETION_ONLY=YES
+UNDERLYING_FINDING_READJUDICATION=NOT_PERFORMED # H9 scope
+SUPERSEDES=RT-H0-BRANCH-001_VERSION_2.1.0
+SUPERSEDED_BY=NONE
+LAST_REVERIFIED_AT=2026-08-10
+FAILURE_EFFECT=NONE_H0_CLOSED # the 2.1.0 BLOCK_H0_CLOSEOUT effect described a completed era
+```
