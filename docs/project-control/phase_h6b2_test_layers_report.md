@@ -34,7 +34,6 @@ b3af319 (H6-B.2a merge of PR #134).
 - apps/mobile/package.json, apps/mobile/package-lock.json (lint devDeps + scripts + type:module; digest 92dd08d3…)
 - apps/web/eslint.config.js, apps/mobile/eslint.config.js (new)
 - apps/web/test/data-invariants.test.js, apps/mobile/test/data-invariants.test.js (new)
-- docs/project-control/evidence/H6B2_TEST_LAYER_EVIDENCE.md (new)
 - docs/project-control/phase_h6b2_test_layers_report.md (this companion report)
 
 ## Commands Run
@@ -50,11 +49,11 @@ dependency classification: NEW_DEPENDENCY (three lint packages per app, exact-pi
 
 ## Documentation Impact
 
-None beyond this companion report and the evidence file — TOOLCHAIN.md's test-layer ledger is updated at H6 closeout (unit/lint ACTIVE, component/DOM tracked).
+None beyond this companion report — TOOLCHAIN.md's test-layer ledger is updated at H6 closeout (unit/lint ACTIVE, component/DOM tracked).
 
 ## Validation Evidence
 
-docs/project-control/evidence/H6B2_TEST_LAYER_EVIDENCE.md (digests, determinism, layer proofs with honest coverage scope, licenses). Armed wall validates this PR in base mode under PA-0017 (both PR-tree and from-main jobs).
+Digest-critical facts in this report (lockfiles ac295ea2… / 92dd08d3…, byte-identical double-resolution, 100% npmjs, contamination clean, lint exit 0 both, web 6/6, mobile 3/3, coverage scope disclosed); the full evidence file lands in the H6 closeout PR. Armed wall validates this PR in base mode under PA-0017 (both PR-tree and from-main jobs).
 
 ## Risk Register Impact
 
@@ -84,7 +83,7 @@ Not eligible for auto-merge; owner-only merge.
 
 ## Forbidden Scope Confirmation
 
-Confirmed — test layers, lint configs, manifests, and lockfiles only; no src/ changes (PA-forbidden), no backend/auth/database/deployment/release/app-store work, no dependency chosen "because newest" (versions are the live latest at the recorded selection time, chosen deliberately for the ESLint-10 flat-config baseline), no control files beyond this companion report and the evidence file.
+Confirmed — test layers, lint configs, manifests, and lockfiles only; no src/ changes (PA-forbidden), no backend/auth/database/deployment/release/app-store work, no dependency chosen "because newest" (versions are the live latest at the recorded selection time, chosen deliberately for the ESLint-10 flat-config baseline), no control files beyond this companion report.
 
 ## Claim Level
 
