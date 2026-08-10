@@ -838,3 +838,18 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: archive relocation only
 Automatic continuation: NO
 ```
+
+
+### Post-H5-C Reconciliation — Documentation Implementation
+
+```text
+Phase: post-H5-C reconciliation (snapshot refresh + local tree consolidation record)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: post-h5c-reconciliation
+Phase issue: #118
+Scope: state.yaml -> 0f87c1a; active_gate corrected; PA-0008; DECISION_LOG path reference updated for consolidated local support folder; report.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: snapshot reconciliation and record-keeping only
+Automatic continuation: NO
+```

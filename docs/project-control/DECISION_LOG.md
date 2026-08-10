@@ -265,7 +265,7 @@ Update decisions through project-control PRs or explicitly approved control mile
 - PA-0001 evidence_id backfilled from placeholder PENDING_OWNER_COMMENT_ON_111 to issue-111-comment-5230073633 (owner comment verified live; matching the PA-0002 standard).
 - state.yaml advanced to lifecycle_state h4_operational (H4 closed_completed via #113/#116), resolving the h4_operational-vs-h4_delivered label contradiction the stress test flagged.
 - OWNER_DECISION_REGISTER.yaml: OD-series divergence recorded via an operational_decision_records cross-reference (register holds program-direction D1-D32; OD-series live in DECISION_LOG).
-- Dangerous stale rescue scripts (run-h2-h3-keyturn.sh, run-b5-rollback-proof.sh, run-h1-final.sh, run-h4b-hardening.sh, + others) moved to ~/Documents/ContractorOS-Rescue-20260808/superseded/ with exec bit removed (local tree; not in this repo).
+- Dangerous stale rescue scripts (run-h2-h3-keyturn.sh, run-b5-rollback-proof.sh, run-h1-final.sh, run-h4b-hardening.sh, + others) moved to ~/Documents/ContractorOS-Support/ContractorOS-Rescue-20260808/superseded/ with exec bit removed (local tree; not in this repo).
 - KNOWN GAP recorded (owner decision, not a defect to auto-fix): R-STRESS-001 — path-scope automated enforcement is observe-only; arming it is an owner decision folded into H5. R-STRESS-002/003 disclose CI self-referentiality, marker self-attestation, and one-keyring separation, tracked to H5/H6/H9.
 
 ## H5-A Intake + PA-0003 — 2026-08-09
@@ -300,3 +300,10 @@ Update decisions through project-control PRs or explicitly approved control mile
 
 - Under owner H5+H6 authorization (issue #118 comment 5233703034; PA-0007). Moved 52 completed-phase reports (3 kept in place as live continuity-test fixtures) + H0/H1 closeout lineage + incidents + sanitation manifests into docs/archive/ (git mv; history preserved). Enabled by the H5-B docs/archive scanner exemption.
 - Disclosed limitation: report renames/deletes are not pattern-authorizable (schema: add/modify only), so they ran under observe-only phase-authorization. An exact-path deletion-authorization mechanism is therefore a prerequisite before the path wall can be armed — recorded for the arming PR.
+
+
+## Post-H5-C Reconciliation + Local Tree Consolidation — 2026-08-09
+
+- Under owner H5+H6 authorization (issue #118 comment 5233703034; PA-0008). Refreshes state.yaml to 0f87c1a after PR #123 (H5-C archive move) merged, closing the hourly audit's DRIFT finding, and corrects the active_gate text that still listed the archive move as remaining.
+- Local tree consolidation (owner request, outside this repo): eight scattered ~/Documents/ContractorOS-* entries consolidated to ONE support parent, ~/Documents/ContractorOS-Support/, holding the active Rescue key-turn folder, the Archive (now including packets R1-R11 and superseded evidence), and the backup tarball. The canonical session directory is unchanged and unambiguous: ~/Documents/GitHub/contractoros-california (companion policy root: ~/Documents/GitHub/contractoros-governance). Path references in this log updated accordingly.
+- Verified at reconciliation time: both local repos clean, zero dirty files, HEAD identical to origin/main; zero stale local branches; zero open PRs; 15 open issues after closing 12 completed/superseded ones.

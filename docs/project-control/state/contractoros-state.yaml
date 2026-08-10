@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification",
-  "current_main_sha": "fd09cbbb2d1db18f2f22271858e4c5c539d5b42d",
-  "active_gate": "H5 in progress \u2014 H5-A inventory, H5-B.1 source-of-truth map, and H5-B control-script hardening merged; remaining: archive move + PA-bootstrap/wall-arming",
+  "current_main_sha": "0f87c1a0026c26e0f10743542a8de1833aefa888",
+  "active_gate": "H5 in progress \u2014 H5-A inventory, H5-B.1 source-of-truth map, H5-B control hardening, and H5-C archive move all merged; remaining: PA-bootstrap + exact-path deletion authorization, then arming the path wall",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
@@ -23,23 +23,23 @@
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted)",
-    "Path-scope wall still OBSERVE-ONLY until the PA-bootstrap+arming PR lands (owner decision ARM_NOW, sequenced after bootstrap fix)",
-    "H6 + later horizons await their own owner authorization",
+    "Path-scope wall remains OBSERVE-ONLY; arming requires PA-bootstrap + exact-path deletion authorization first (schema authorizes add/modify only)",
+    "H6 awaits its own owner authorization",
     "CRM/user-account work waits for H10 (5228512217)"
   ],
-  "next_authorized_planning_target": "Finish H5 (archive move; PA-bootstrap+arming), then H6 toolchain/CI on owner go",
+  "next_authorized_planning_target": "PA-bootstrap + deletion authorization + wall arming (final H5 piece), then H6",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-09T21:15:00Z",
+    "github_verified_at": "2026-08-09T23:30:00Z",
     "state_recorded_on": "2026-08-09"
   },
   "evidence_identifiers": [
-    "product-main:fd09cbbb2d1db18f2f22271858e4c5c539d5b42d:h5-state-reconciliation",
-    "h5a:pr-119:merged",
-    "h5b1:pr-120:merged",
-    "h5b-hardening:pr-121:merged:R-STRESS-004-fixed",
-    "pa:PA-0003..PA-0006:on-main",
-    "known-gap:path-wall-observe-only:arming-after-bootstrap-fix"
+    "product-main:0f87c1a0026c26e0f10743542a8de1833aefa888:post-h5c-reconciliation",
+    "h5c:pr-123:merged:57-files-archived",
+    "h5b:pr-121:merged:R-STRESS-004-fixed",
+    "pa:PA-0003..PA-0008:on-main",
+    "issue-hygiene:closed-12-completed-and-superseded-issues:15-open",
+    "local-tree:support-folders-consolidated-2026-08-09"
   ],
   "public_private_references": {
     "public": [
