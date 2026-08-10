@@ -46,11 +46,11 @@ Evidence file records the scanning delta from the H7A-1 baseline, the scan resul
 
 ## Workflow Validation
 
-New workflow only (`dependency-review.yml`): `on: pull_request`, single job, minimal `permissions: contents: read`, `timeout-minutes: 10`, concurrency group with cancel-in-progress, `persist-credentials: false` on checkout, action SHA-pinned to a1d282b36b6f3519aa1f3fc636f609c47dddb294 (v5.0.0), `fail-on-severity: high`. No `pull_request_target`, no secrets, no write permissions. The four existing workflows are untouched (PA-forbidden); their hardening is H7A-4.
+New workflow only (`dependency-review.yml`): `on: pull_request`, single job, single step, minimal `permissions: contents: read`, `timeout-minutes: 10`, concurrency group with cancel-in-progress, the sole action ref SHA-pinned to a1d282b36b6f3519aa1f3fc636f609c47dddb294 (commit behind lightweight tag v5.0.0, independently verified by Opus 5 round 1), `fail-on-severity: high`. NO checkout step: the action reads the dependency diff via the API and needs no repository contents — Opus 5 round 1 caught the earlier draft carrying an unnecessary tag-pinned `actions/checkout@v4` while the records claimed full pinning; the step was removed rather than pinned, and the whole-file-pinned claim is now true because the file has exactly one ref. No `pull_request_target`, no secrets, no write permissions. The four existing workflows are untouched (PA-forbidden); their 15 tag-pinned refs are H7A-4 scope.
 
 ## Security Hardening
 
-Dependency-review closes the T1 (malicious/compromised dependency) PR-time gap identified in THREAT_MODEL_H7A.md; the new workflow is born with the full H7A-4 hardening pattern; the private-data scan closes the T12 machine-check gap for this snapshot (recurring CI scan routed to H7A-4/H7B where workflow/control-script lanes open). Secret scanning + push protection (T6) verified state lands via the staged owner key-turn.
+Dependency-review closes the T1 (malicious/compromised dependency) PR-time gap identified in THREAT_MODEL_H7A.md; the new workflow carries minimal permissions, a timeout, concurrency control, a single SHA-pinned ref, and no checkout (scoped claim — full-fleet SHA pinning and hardening of the four existing workflows is H7A-4); the private-data scan closes the T12 machine-check gap for the base snapshot (recurring CI scan routed to H7A-4/H7B where workflow/control-script lanes open). Secret scanning + push protection (T6) verified state lands via the staged owner key-turn.
 
 ## Validation Evidence
 

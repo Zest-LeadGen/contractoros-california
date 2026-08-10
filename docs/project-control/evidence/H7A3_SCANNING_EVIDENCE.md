@@ -20,7 +20,9 @@ Prior state: NOT_PROVEN behind admin-only endpoints (H7A-1 limitation L-1). Owne
 
 ## 4. Private-data / credential-pattern scan (executed)
 
-Method: one-time evidence scan over every tracked file (`git ls-files`, 258 files; 257 text-scanned, 1 binary skipped) with nine pattern classes: private-key blocks, AWS access keys, GitHub token formats (ghp/gho/ghu/ghs/ghr/github_pat), Slack tokens, Google API keys, JWT triplets, credentials-in-URL, generic secret assignments, personal-email addresses. Scan executed 2026-08-10T19:04:50Z from the PR worktree at base 1f67dc9.
+Method: one-time evidence scan over the 258 tracked files at base 1f67dc9 (`git ls-files`; 257 text-scanned, 1 binary skipped — classified below) with nine pattern classes: private-key blocks, AWS access keys, GitHub token formats (ghp/gho/ghu/ghs/ghr/github_pat), Slack tokens, Google API keys, JWT triplets, credentials-in-URL, generic secret assignments, personal-email addresses. Scan executed 2026-08-10T19:04:50Z from the PR worktree. The five files this PR adds were not in that base scan; Opus 5 round 1 independently re-scanned the full 263-file HEAD tree with a 13-class superset and found no additional hit.
+
+Skipped binary, classified (Opus 5 round-1 finding, not silently skipped): `scripts/control/__pycache__/check_forbidden_scope.cpython-314.pyc` — committed compiled bytecode of the forbidden-scope checker, tracked despite the `.gitignore` `__pycache__/`/`*.pyc` rules; pre-existing at origin/main; `scripts/**` is PA-0023-forbidden so removal is routed to H7A-4 (workflow/control hardening lane).
 
 Result: **1 raw hit, 0 real findings.**
 

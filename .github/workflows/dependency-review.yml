@@ -1,8 +1,10 @@
 # Dependency review — H7A-3 (#137, PA-0023). Re-adds the workflow dropped in
 # c78dcfe (H4-era, premature before the Dependency Graph existed; graph
 # verified enabled in the H7A-1 inventory). Fails PRs that introduce
-# dependencies with known vulnerabilities. SHA-pinned from birth (H7A-4
-# extends SHA pinning to the remaining workflows).
+# dependencies with known vulnerabilities. The single action ref is pinned
+# to a full commit SHA; no checkout step (the action reads the dependency
+# diff via the API and needs no repository contents). SHA pinning of the
+# OTHER four workflows' refs is H7A-4 scope.
 name: Dependency Review
 
 on:
@@ -21,9 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
       - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           fail-on-severity: high

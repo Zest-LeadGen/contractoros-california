@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "snapshot_semantics": "LAST-VERIFIED OBSERVATION, not self-proof (owner state-semantics directive, issue-70-comment-5244162427, P0-RECON #141): committed state records the most recent live GitHub reads with captured second-precision timestamps; COMMITTED_STATE_IS_NEVER_SELF_PROOF_OF_CURRENT_MAIN=YES; LIVE_CURRENT_MAIN_SOURCE=GITHUB; a committed file cannot contain the SHA of the commit that contains it, so `observed_main_sha` is the controlling record of what was OBSERVED, never of what IS. Legacy key `current_main_sha` persists solely as a compatibility alias required by scripts/continuity/red_team_continuity.py until its separately authorized parser update; it carries observation semantics, not self-proof. Fuller parser disclosure (Opus 5 round-1): that parser also exact-matches the OLD snapshot_semantics literal ('observed_snapshot_requires_live_verification') and requires a linked_pr object plus specific lifecycle values on its canonical-validation path; the committed state satisfied none of those before this change either (pre-existing divergence, checker outcome unchanged) \u2014 full reconciliation belongs to the parser's typed-schema phase. Timestamps are captured at read time, never rounded, projected, or written in advance (R-STRESS-005).",
+  "snapshot_semantics": "LAST-VERIFIED OBSERVATION, not self-proof (owner state-semantics directive, issue-70-comment-5244162427, P0-RECON #141): committed state records the most recent live GitHub reads with captured second-precision timestamps; COMMITTED_STATE_IS_NEVER_SELF_PROOF_OF_CURRENT_MAIN=YES; LIVE_CURRENT_MAIN_SOURCE=GITHUB; a committed file cannot contain the SHA of the commit that contains it, so `observed_main_sha` is the controlling record of what was OBSERVED, never of what IS. Legacy key `current_main_sha` persists solely as a compatibility alias required by scripts/continuity/red_team_continuity.py until its separately authorized parser update; it carries observation semantics, not self-proof. Fuller parser disclosure (Opus 5 round-1): that parser also exact-matches the OLD snapshot_semantics literal ('observed_snapshot_requires_live_verification') and requires a linked_pr object plus specific lifecycle values on its canonical-validation path; the committed state satisfied none of those before this change either (pre-existing divergence, checker outcome unchanged) — full reconciliation belongs to the parser's typed-schema phase. Timestamps are captured at read time, never rounded, projected, or written in advance (R-STRESS-005).",
   "observed_main_sha": "1f67dc93178e9d4231f899369b179077a883bc2e",
   "current_main_sha": "1f67dc93178e9d4231f899369b179077a883bc2e",
   "snapshot_generated_at": "2026-08-10T19:06:17Z",
@@ -32,12 +32,12 @@
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted); feature work resumes at H10",
-    "R-DEP-SEC-001: ACCEPTED with dated revisit \u2014 last revisit 2026-08-10T08:56:39Z (unchanged); next revisit at H7A closeout or H7B intake",
+    "R-DEP-SEC-001: ACCEPTED with dated revisit — last revisit 2026-08-10T08:56:39Z (unchanged); next revisit at H7A closeout or H7B intake",
     "CRM/user-account work waits for H10 (5228512217)",
     "L-1 executor-permission limitation: secret-scanning/push-protection NOT_PROVEN - owner setting authorization staged in H7A-3; closes on owner key-turn read-back"
   ],
   "resolved_blockers": [
-    "PVR-ENABLE: CLOSED 2026-08-10 \u2014 private vulnerability reporting enabled by owner authorization issue-137-comment-5244162677; executed by owner with immediate read-back; captured executor re-verification reads enabled:true at 2026-08-10T18:16:25Z and 2026-08-10T18:35:35Z"
+    "PVR-ENABLE: CLOSED 2026-08-10 — private vulnerability reporting enabled by owner authorization issue-137-comment-5244162677; executed by owner with immediate read-back; captured executor re-verification reads enabled:true at 2026-08-10T18:16:25Z and 2026-08-10T18:35:35Z"
   ],
   "next_authorized_planning_target": "H7A-3 owner review + merge (Opus 5 exact-head leg), then H7A-4 workflow hardening under #137",
   "documentation_scope": "public_safe",
