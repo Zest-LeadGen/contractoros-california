@@ -44,4 +44,4 @@ Lockfiles ARE committed for both apps (`apps/web/package-lock.json`, `apps/mobil
 
 ## Important warning
 
-The app scaffolds are internal development artifacts only: not public releases, not readiness eligible, pending legal review, fixture data only.
+The app scaffolds are internal development artifacts only: no public release, no readiness eligibility, pending legal review, fixture data only.
