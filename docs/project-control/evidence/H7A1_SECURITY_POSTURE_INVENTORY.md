@@ -32,7 +32,7 @@ Four workflows: `codeql.yml`, `control-gates.yml`, `web-ci.yml`, `mobile-ci.yml`
 | --- | --- | --- |
 | Top-level `permissions` | All four declare `contents: read`; codeql adds `security-events: write` | MINIMAL — matches #65 requirement; `security-events: write` is required for SARIF upload |
 | `pull_request_target` usage | NONE | No misuse surface present |
-| Action pinning | 15 `uses:` references, ALL tag-pinned (`actions/checkout@v4` ×10, `actions/setup-node@v4` ×2, `github/codeql-action/init@v3`, `analyze@v3`) | GAP — zero full-SHA pins; H7A-4 scope |
+| Action pinning | 15 `uses:` references, ALL tag-pinned (`actions/checkout@v4` ×11, `actions/setup-node@v4` ×2, `github/codeql-action/init@v3`, `analyze@v3`) | GAP — zero full-SHA pins; H7A-4 scope |
 | `timeout-minutes` | NONE in any workflow | GAP — H7A-4 scope |
 | `concurrency` groups | NONE in any workflow | GAP — H7A-4 scope |
 | `persist-credentials: false` | NOT SET on any checkout | GAP — H7A-4 scope |
