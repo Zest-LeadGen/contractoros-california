@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "PA-0011",
+  "evidence_id": "issue-118-comment-5235003178",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 118,
+  "base_branch": "main",
+  "base_sha": "93777cc2ca911ee9e4c35ed7a511fd7a6dd18dff",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-23",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/PA-0011.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": "docs/project-control/authorizations/PA-0010.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": "scripts/control/check_forbidden_scope.py",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": ".nvmrc",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": "docs/TOOLCHAIN.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/evidence/H6A_TOOLCHAIN_EVIDENCE.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-007",
+      "pattern": "docs/project-control/phase_h6a_toolchain_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-009",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-010",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-011",
+      "pattern": "apps/mobile/package.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-012",
+      "pattern": "apps/mobile/package-lock.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-013",
+      "pattern": "apps/web/package.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-014",
+      "pattern": "apps/web/package-lock.json",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-015",
+      "pattern": "docs/project-control/phase_h6a_dependency_pins_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "scripts/continuity/**",
+    "scripts/control/check_phase_authorization.py",
+    "policy/**",
+    ".github/**",
+    "docs/project-control/state/contractoros-state.yaml"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "owner_directed_disclosed_nonindependent",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "ARCHITECTURE_THRESHOLD"
+  ],
+  "classifications": {
+    "dependency": "PINNED_CHANGE",
+    "build": "NONE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "CONTROL_SURFACE"
+  },
+  "supersession": {
+    "supersedes": [
+      "PA-0010"
+    ],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}
