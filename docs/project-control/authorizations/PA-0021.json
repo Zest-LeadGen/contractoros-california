@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "PA-0021",
+  "evidence_id": "issue-70-comment-5243066365",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 70,
+  "base_branch": "main",
+  "base_sha": "12977aa826114fac263dd05c1f4b4e40b95762a6",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-24",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/PA-0021.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": "docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": "docs/project-control/phase_governance_corrections_52_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "apps/**",
+    "scripts/**",
+    "policy/**",
+    "content/**",
+    ".github/**",
+    "docs/project-control/state/**"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "owner_directed_disclosed_nonindependent",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "NONE"
+  ],
+  "classifications": {
+    "dependency": "NONE",
+    "build": "NONE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "NONE"
+  },
+  "supersession": {
+    "supersedes": [],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}

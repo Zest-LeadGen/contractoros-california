@@ -167,3 +167,25 @@ Declares the ONE canonical artifact per concern, to end competing "current" reco
 | Authorizations | `docs/project-control/authorizations/PA-*.json` | none |
 
 Deferred to H5-B.2 (ambiguous; require an explicit owner canonical choice, not a guess): the single current ROADMAP (candidates: `PROJECT_IMPLEMENTATION_ROADMAP.md`, `AUTOMATION_PHASE_ROADMAP.md`, `PROJECT_VISION_AND_PHASE_TRACKER.md`, and the Issue #79 sequence) and the single CONSTITUTION/policy authority (`PROGRAM_CONSTITUTION.md` vs overlapping foundation/operating-model docs). No file is moved or superseded for these until that choice is recorded.
+
+## Issue #52 Supersession Edge — 2026-08-10 (documentation scope)
+
+Recorded under owner corrections authorization issue-70-comment-5243066365; watch configuration updated by owner comment issue-52-comment-5243066534. Basis: the 2026-08-09 Toolchain Watch finding; #52 closed 2026-08-09T22:55:32Z by the executor account under the #70 order (closure event record: DECISION_LOG, 2026-08-10).
+
+```text
+ISSUE_52_STATUS=HISTORICAL_SUPERSEDED_PLANNING_MEMORY
+PRESERVE_RED_TEAM_CONTENT=YES
+CURRENT_PHASE_ROUTING_SOURCE=NO
+CURRENT_IMPLEMENTATION_AUTHORITY=NO
+CURRENT_MASTER_ROADMAP=ISSUE_79
+CURRENT_OWNER_DECISION_REGISTER=ISSUE_70
+EXACT_GATE_AUTHORITY=REQUIRED
+SUPERSESSION_WORDING_CONFLICT=PRESERVED
+```
+
+Wording conflict preserved, not resolved: #70 ordered `ISSUE_52=CLOSE_SUPERSEDED_BY_57_68_72`; the actual 2026-08-09 closing comment cites "the master roadmap #79 and the H0-H10 horizon sequence". #52 is unequivocally superseded under either wording; neither is silently normalized, per the rule that a later record supersedes only when it names the conflict and preserves history. #52's ADCP concepts, threat models, source requirements, certification ideas, and red-team evidence remain preserved planning memory; AI/tooling adoption routes to H6/H7/H8 per #79, never to the historical 4K phase labels.
+
+| Earlier record or claim | Current disposition | Controlling record |
+|---|---|---|
+| Issue #52 as current ADCP roadmap / planning registry / Toolchain Watch routing authority | Historical superseded planning memory; red-team content preserved; no phase routing or implementation authority | #70 order (`ISSUE_52=CLOSE_SUPERSEDED_BY_57_68_72`); 2026-08-09 closing comment (names #79/H0-H10 — conflict preserved above); owner comments 5243066365 + 5243066534 |
+| H6-closeout descriptor of H7 as "staging + release discipline" (phase_h6_closeout_report.md line 106; DECISION_LOG 2026-08-10 closeout entry — verified NOT present in PR #136's body or any of its recorded edits) | Superseded descriptor with no located on-platform source; H7 scope is `H7_SCOPE=SECURITY_SUPPLY_CHAIN_CONTINUITY_AND_ADVERSARIAL_TESTING` | #79 (master roadmap), #65/#66 (horizon issues), #137 intake disclosure |
