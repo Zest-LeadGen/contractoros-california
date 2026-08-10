@@ -68,6 +68,14 @@ Adds the H5-D entry: authority trace, defect record, extension semantics, govern
 
 docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
 
+## Security Hardening
+
+The wall cutover is itself the hardening: path-scope enforcement moves from advisory (observe-only, result discarded) to blocking (aggregate-required). Default-deny now has teeth: unmatched paths, forbidden paths, drifted renames, copies, unauthorized deletes, and authorization-record tampering (delete/relocate/foreign-issue add/non-closure modify) all block merge. Residual trust model disclosed under Known Limitations.
+
+## Workflow Validation
+
+control-gates.yml changes reviewed as a job graph: phase-authorization has no continue-on-error, is listed in the aggregate needs, and is required-success on pull_request events with skipped tolerated only on main pushes (identical treatment to pr-contract and red-team-marker, whose push-skip semantics are already proven on main). YAML parsed and job-condition logic verified locally; the H4A no-masking architecture (independent always-run jobs, single aggregate) is preserved.
+
 ## Red-Team Status
 
 RED_TEAM_MARKER=NOT_ADDED_PENDING_REVIEW — SHA-bound marker added at the review step.
