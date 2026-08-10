@@ -14,7 +14,7 @@ Control / Infrastructure
 
 ## Scope
 
-PA-0026 bootstrap closing PA-0025. Adds the closeout evidence (delivered-evidence index, #65 exit-criteria mapping, SSDF practice mapping, SLSA gap assessment with no level claimed, R-DEP-SEC-001 revisit, live Dependabot function evidence, DEFERRED required-context decision, re-pin cadence, and the seven-item routed-remainder list); appends three RT-H0 Version 2.2.0 LIFECYCLE-COMPLETION records to the findings register under its own contract (SUPERSEDED_BY pointers updated on the 2.1.0 records; NO underlying finding re-adjudicated — explicitly H9 scope); fixes the control-gates continuity-suite step label 344→348 (the Opus-routed cosmetic; one string, no logic); records + state refresh.
+PA-0026 bootstrap closing PA-0025. Adds the closeout evidence (delivered-evidence index, #65 exit-criteria mapping, SSDF practice mapping, SLSA gap assessment with no level claimed, R-DEP-SEC-001 revisit, live Dependabot function evidence, DEFERRED required-context decision, re-pin cadence, and the seven-item routed-remainder list); appends three RT-H0 Version 2.2.0 LIFECYCLE-COMPLETION records to the findings register — schema-complete after Opus round 1 caught the initial drafts omitting 11 of the 24 required fields (all fields now present; re-examination scheduled IN-FIELD via RETEST_TRIGGERS=H9 intake; declared enum values only; lifecycle facts in an additive field, resolution-reserved fields carried verbatim; NO underlying finding re-adjudicated — explicitly H9 scope); fixes the control-gates continuity-suite step label 344→348 (the Opus-routed cosmetic; one string, no logic); records + state refresh.
 
 ## Starting Main SHA
 
@@ -34,7 +34,7 @@ None. No manifest or lockfile touched. Dependabot's advisory PRs are recorded as
 
 ## Documentation Impact
 
-Closeout evidence consolidates all five deliverables with the exit-criteria mapping and honest gap statements (no SBOM; no build provenance — builds do not exist; no SLSA level claimed). The findings register gains lifecycle-completion versions only, per its contract. docs/project-control/RISK_REGISTER.md: reviewed, no update required (the revisit outcome is UNCHANGED; the register's standing acceptance and revisit schedule already state the next trigger). docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md: reviewed, no update required. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
+Closeout evidence consolidates all five deliverables with the exit-criteria mapping, honest gap statements (no SBOM; no build provenance — builds do not exist; no SLSA level claimed), the desk vulnerability/incident exercises (§8, added after Opus round 1 found the #65-required item neither delivered nor routed), and the LICENSE decision recorded as routed item 8 (round-1 catch; open under #71 option-B). The findings register gains schema-complete lifecycle-completion versions only, per its contract as corrected in round 1. docs/project-control/RISK_REGISTER.md: reviewed, no update required (the revisit outcome is UNCHANGED; the register's standing acceptance and revisit schedule already state the next trigger). docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md: reviewed, no update required. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
 
 ## Workflow Validation
 
