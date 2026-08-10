@@ -148,7 +148,7 @@
     "supersedes": [
       "PA-0010"
     ],
-    "revoked": false,
-    "revocation_evidence": null
+    "revoked": true,
+    "revocation_evidence": "superseded-by:PA-0012 (post-H6-A reconciliation) issue-118-comment-5235003178"
   }
 }

@@ -889,3 +889,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: toolchain baseline only; no product-readiness claim
 Automatic continuation: NO
 ```
+
+```text
+Phase: post-H6-A reconciliation (snapshot refresh + PA-0011 closure)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: post-h6a-reconciliation
+Phase issue: #118
+Scope: state.yaml -> 396d4a3 (H6-A delivered in full; h6_in_progress); PA-0012 bootstrap closing PA-0011; report.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: snapshot reconciliation and record-keeping only
+Automatic continuation: NO
+```
