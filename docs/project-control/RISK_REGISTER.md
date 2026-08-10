@@ -1069,11 +1069,23 @@ Last reviewed: 2026-08-09
 
 ```text
 Risk: Three Dependabot alerts surfaced when the H6-A.2 mobile lockfile fed the dependency graph (all transitive deps of the pinned Expo SDK 57 set): (1)+(2) image-size <=2.0.2, two HIGH advisories (ICNS / JXL+HEIF parser infinite-loop denial of service) with NO patched version published; (3) uuid <11.1.1, MEDIUM (missing buffer bounds check in v3/v5/v6 when buf provided), patched in 11.1.1 but reachable in this tree only via a transitive override into the Expo dependency graph.
-Status: OPEN — owner decision required (DEPENDENCY_SECURITY_RISK_ACCEPTANCE class per the phase-authorization contract)
+Status: ACCEPTED WITH DATED REVISIT — owner disposition 2026-08-10 (questionnaire Q2 + PR #129 approval text): risk accepted; revisit at every phase boundary per docs/TOOLCHAIN.md; next revisit H6-B closeout; the H6-B pin-scan work re-checks for published patches
 Exposure assessment (recorded, not a disposition): image-size and uuid sit in the dev-time/bundler side of the Expo/Metro toolchain of an internal prototype; the product is frozen, nothing is released or exposed, and the DoS class requires feeding attacker-controlled image bytes to a build-time parser. No production exposure exists today.
 Options for owner: (a) documented risk acceptance until patches publish or H6-B lands (revisit at every phase boundary per docs/TOOLCHAIN.md vulnerability policy); (b) authorize an out-of-band uuid override to 11.1.1 (compat risk: forcing a major-version transitive into the Expo tree without device/emulator test coverage, which does not exist until H6-B+); image-size has no patch to take under either option.
 Mitigation until decision: pins are exact and lockfile-enforced (no drift), the alert set is bound to this recorded lockfile digest, and TOOLCHAIN.md requires advisory re-evaluation at each phase boundary.
 Owner: Owner (disposition) / executor (implementation under a PA once decided)
 Resolution condition: owner disposition recorded in DECISION_LOG (acceptance with revisit trigger, or authorized bump PR), and alerts either closed by patch adoption or explicitly accepted with a dated revisit.
+Last reviewed: 2026-08-10
+```
+
+### R-STRESS-005 — Fabricated snapshot verification timestamps (systemic, 2026-08-08/09 sessions) — 2026-08-10 <!-- risk documentation scope -->
+
+```text
+Risk: Stress-run-3 found the main snapshot's github_verified_at (01:45:00Z) postdated the commit that wrote it. The authorized spot-check across ALL 22 snapshot revisions found the pattern SYSTEMIC to the 2026-08-08/09 remediation sessions: at least EIGHT revisions (cf5309b, fd50ca7, 1df9427, 4b3b59d, 3343e04, f674fcb, 1b88515, b07a41f) carry verification timestamps AFTER their own commit time — physically impossible, all rounded to :00/:05 boundaries. The July-era snapshots (bd6b393, 8a81d42, ee0ffc7) wrote genuine second-precision timestamps; the discipline regressed when the remediation sessions began writing rounded projections.
+Status: RULE ENFORCED FORWARD; HISTORY DISCLOSED, NOT REWRITTEN
+What it does NOT invalidate: every underlying factual claim in those snapshots was independently re-verified by the 2026-08-09 and 2026-08-10 stress runs and the hourly auditor (merge actors, SHAs, comment authorship all held). The fabrication is confined to the meta-claim of WHEN verification happened, not WHETHER the facts were true.
+Fix: (1) snapshot_semantics now requires second-precision capture from the actual gh read (this PR); (2) the hourly Opus 5 auditor now checks every snapshot's github_verified_at against its commit time and flags violations prominently (routine updated 2026-08-10); (3) historical values left intact as evidence of the failure, per archive-don't-rewrite.
+Owner: executor (rule compliance) / hourly auditor (independent check)
+Resolution condition: three consecutive reconciliations with plausible second-precision timestamps confirmed by the auditor.
 Last reviewed: 2026-08-10
 ```

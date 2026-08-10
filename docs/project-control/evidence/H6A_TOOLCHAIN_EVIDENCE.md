@@ -13,12 +13,12 @@ Delivery shape: H6-A lands as two PRs under lane purity — H6-A.1 (Control / In
 ## Determinism proofs
 
 - Byte-identical lockfile re-resolution: `npm install --package-lock-only` from the final `apps/mobile/package.json` in two separate fresh directories produced byte-identical package-lock.json files (diff clean). An earlier incrementally-grown lockfile (multi-step install history) differed in tree shape and was DISCARDED in favor of the clean single-shot resolution — recorded so the baseline's provenance is unambiguous.
-- Clean install: `npm ci --no-audit --no-fund` from the committed mobile lockfile: 463 packages, exit 0. Web lockfile: `npm ci` 20 packages, exit 0, followed by a green `vite build` producing dist/index.html.
+- Clean install: `npm ci --no-audit --no-fund` from the committed mobile lockfile: 471 packages (CORRECTED 2026-08-10 — originally recorded 463, a count captured against a pre-final lockfile iteration; clean-room re-run against the digest-bound file = "added 471 packages"; stress-run-3 finding), exit 0. Web lockfile: `npm ci` 20 packages, exit 0, followed by a green `vite build` producing dist/index.html.
 - Lockfile drift: `npm ci` modifies neither manifest nor lockfile (web-ci drift check remains the enforcing gate).
 
 ## Registry provenance & contamination
 
-- apps/mobile/package-lock.json: 473 `resolved` URLs, 100% https://registry.npmjs.org/, zero hits for the contamination token set (applied-caas, internal.api.openai.org, sandbox, localhost, 127.0.0.1).
+- apps/mobile/package-lock.json: 481 `resolved` URLs (CORRECTED 2026-08-10 — originally recorded 473, same stale-count error; recount on the digest-bound file at main = 481), 100% https://registry.npmjs.org/, zero hits for the contamination token set (applied-caas, internal.api.openai.org, sandbox, localhost, 127.0.0.1).
 - apps/web/package-lock.json: pre-existing baseline (PR #90/#91 era) unchanged except the root `engines` entry; same scans clean via `check_forbidden_scope.py --lockfiles-only`.
 
 ## Lockfile digests (sha256)
@@ -31,10 +31,10 @@ apps/web/package-lock.json     4741f1e5437f060898f7f3ac61bb0d6d56e6cc856c5d43b29
 ## License inventory (lockfile-derived, count by declared license)
 
 ```text
-apps/mobile (481 packages): MIT 404, ISC 29, MPL-2.0 12, Apache-2.0 11, BSD-3-Clause 7,
+apps/mobile (481 lockfile package entries): MIT 404, ISC 29, MPL-2.0 12, Apache-2.0 11, BSD-3-Clause 7,
   BlueOak-1.0.0 6, BSD-2-Clause 3, (MIT OR CC0-1.0) 2, Unlicense 2, Python-2.0 1,
   CC-BY-4.0 1, (MIT OR Apache-2.0) 1, 0BSD 1, (BSD-3-Clause OR GPL-2.0) 1 [taken as BSD-3-Clause]
-apps/web (33 packages): MIT 28, MPL-2.0 12*, Apache-2.0 1, ISC 1, BSD-3-Clause 1
+apps/web (43 lockfile package entries; npm ci installs 20 top-level packages — CORRECTED 2026-08-10, originally "33 packages"): MIT 28, MPL-2.0 12, Apache-2.0 1, ISC 1, BSD-3-Clause 1
 ```
 
 *Web MPL-2.0 count reflects per-entry lockfile records. No strong-copyleft-only dependency exists in either tree.
