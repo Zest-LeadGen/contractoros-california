@@ -1,6 +1,6 @@
 # ContractorOS California
 
-This repository begins with the Phase 3A local MVP app shell and project-control handoff artifacts.
+Single-human, AI-operated development program for a California contractor exam-preparation product. The repository is public for transparency and auditability; product feature work is frozen until the owner-gated H10 decision, and current activity is the H0–H10 structural-hardening program (see `docs/project-control/`).
 
 Current verified scope:
 
@@ -9,17 +9,18 @@ Current verified scope:
 - Fixture data only.
 - No backend, database, Firebase, Airtable API, auth, payments, scoring, readiness, pass/fail, Question Bank migration, or deployment.
 
-## App
+## Apps
 
-The local React + Vite app shell is under:
+Two deliberate JavaScript scaffolds with pinned toolchains (Node version per `.nvmrc`, exact dependency pins, committed lockfiles — see `docs/TOOLCHAIN.md`):
 
-`apps/web/`
+- `apps/web/` — React + Vite web learner
+- `apps/mobile/` — Expo mobile scaffold
 
-Run locally:
+Run locally (deterministic install from the committed lockfile):
 
 ```bash
 cd apps/web
-npm install
+npm ci
 npm run dev
 ```
 
@@ -32,17 +33,15 @@ npm run build
 
 ## Package lock policy
 
-`apps/web/package-lock.json` is intentionally not committed at this checkpoint. During Phase 3B QA, `npm install` generated a lockfile containing sandbox/internal registry URLs, so it was not public-safe to commit. A future lockfile may be committed only if it is generated from a clean public npm registry install.
+Lockfiles ARE committed for both apps (`apps/web/package-lock.json`, `apps/mobile/package-lock.json`), generated from the clean public npm registry, digest-bound in CI, and installed with `npm ci`. (The earlier policy of not committing a lockfile was superseded by the H6 toolchain baseline, 2026-08-10.)
 
-## Project control
+## Governance and contributing
 
-Project state and handoff files are under:
-
-- `docs/project-control/`
-- `artifacts/phase-zips/`
-- `artifacts/build-logs/`
-- `content/claims/`
+- Security policy: [SECURITY.md](SECURITY.md) · Contributions: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Canonical constitution: `docs/project-control/PROGRAM_CONSTITUTION.md`
+- Structural-hardening roadmap: GitHub issue #79 (H0–H10)
+- Project state and records: `docs/project-control/` · phase evidence: `artifacts/`, `content/claims/`
 
 ## Important warning
 
-Phase 3A/3B is an internal development artifact only. It is not public, not readiness eligible, pending legal review, and uses fixture data only.
+The app scaffolds are internal development artifacts only: not public releases, not readiness eligible, pending legal review, fixture data only.

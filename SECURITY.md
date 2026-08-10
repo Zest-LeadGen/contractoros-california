@@ -13,7 +13,7 @@ ContractorOS California is pre-release. There are no packaged or distributed rel
 
 The intended route is **GitHub private vulnerability reporting**: on this repository, open the **Security** tab and choose **Report a vulnerability**. This keeps details private while the report is triaged.
 
-**Current status (verifiable live):** as of 2026-08-10 private vulnerability reporting is **not yet enabled** on this repository (the public status endpoint `GET /repos/Zest-LeadGen/contractoros-california/private-vulnerability-reporting` returned `enabled: false`); enabling it is a recorded pending owner action. Until it is enabled, use the fallback route: open a regular issue titled "security contact requested" **without any vulnerability details**, and the owner will arrange a private channel.
+**Current status (verifiable live):** private vulnerability reporting is **ENABLED** — authorized by the owner on 2026-08-10 (issue #137 comment 5244162677) and verified by read-back of the public status endpoint `GET /repos/Zest-LeadGen/contractoros-california/private-vulnerability-reporting` returning `enabled: true` (2026-08-10T18:16Z, re-verified 18:22Z). Fallback route if the form is ever unavailable: open a regular issue titled "security contact requested" **without any vulnerability details**, and the owner will arrange a private channel.
 
 Please do not disclose vulnerability details in public issues, pull requests, discussions, or commit messages before a fix is merged and coordinated disclosure is agreed.
 

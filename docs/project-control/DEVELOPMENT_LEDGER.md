@@ -997,3 +997,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: policy documentation and authorization records only; no machine enforcement claimed
 Automatic continuation: NO
 ```
+
+```text
+Phase: P0-RECON post-H5 source-of-truth and authority reconciliation
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: p0-recon-source-of-truth
+Phase issue: #141
+Scope: PA-0022 bootstrap; owner Decisions 1-4 implemented (canonical roadmap #79, canonical constitution corrected in place, Codex->Claude Code/Fable 5 named supersession, Opus 5 red-team extension + 12-field marker); five stale operational docs corrected + three supersession notes appended; state file moved to last-verified-observation semantics w/ disclosed continuity-parser compatibility alias; SECURITY.md PVR disclosure updated to verified enabled:true; PVR-ENABLE blocker closed.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: documentation/state reconciliation only; no product, dependency, workflow, or script change; H7A-3 remains held until merge + verified main
+Automatic continuation: NO
+```

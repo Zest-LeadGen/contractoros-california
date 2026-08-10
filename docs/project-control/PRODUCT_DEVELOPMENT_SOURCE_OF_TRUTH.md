@@ -2,7 +2,7 @@
 
 ## Register Purpose
 
-This register is the canonical product/development source-of-truth record for ContractorOS California after Phase 4K-3 and is updated by Phase 4K-6 for the owner-approved workflow-automation redirect.
+This register is the canonical product/development source-of-truth record for ContractorOS California after Phase 4K-3, updated by Phase 4K-6 for the owner-approved workflow-automation redirect, and corrected 2026-08-10 under P0-RECON (#141) to the delivered H6 toolchain state. For toolchain/dependency/CI facts, `docs/TOOLCHAIN.md` is the specialized authority; for phase routing, issue #79 is the canonical structural-hardening roadmap (owner Decision 1, issue-70-comment-5244162427).
 
 It reconciles the roadmap, phase tracker, development ledger, decision log, risk register, validation tasks, requirements traceability matrix, source register, artifact index, and phase reports into one current project-control anchor.
 
@@ -48,14 +48,17 @@ Current command/runtime evidence:
 - Phase 4K-2 classified runtime smoke QA as blocked before runtime launch under no-install/no-mutation constraints.
 - No current Phase 4K-3 runtime launch is performed.
 
-Current dependency state:
+Current dependency state (corrected 2026-08-10 under P0-RECON #141; the toolchain authority is `docs/TOOLCHAIN.md`, delivered by H6):
 
-- `apps/web/package.json` exists and uses `latest` dependency ranges.
-- `apps/mobile/package.json` exists and uses `latest` dependency ranges.
-- No root package manager entrypoint is present.
-- No committed package lockfile exists for web or mobile.
-- No committed dependency directory exists for web or mobile.
-- Phase 4K-4 recommends a later controlled deterministic web dependency/lockfile baseline implementation phase as the safest next dependency-governance step.
+- `apps/web/package.json` and `apps/mobile/package.json` use EXACT-pinned dependency versions (no `latest` ranges).
+- Committed public-registry lockfiles exist for both apps (`apps/web/package-lock.json`, `apps/mobile/package-lock.json`), digest-bound in CI.
+- Installs are deterministic via `npm ci`; Node is pinned by `.nvmrc`.
+- Lint and unit/coverage layers run in both REQUIRED product CI contexts.
+- The list previously in this section ("latest ranges", "no committed lockfile") described the pre-H6 4K-8 checkpoint and was superseded by the H6 toolchain baseline (#64, PRs #127–#136); it is preserved in those phase records.
+
+Historical dependency-governance notes from the 4K era (preserved as evidence, no current effect):
+
+- Phase 4K-4 recommended a later controlled deterministic web dependency/lockfile baseline implementation phase as the safest next dependency-governance step.
 - Mobile dependency/lockfile baseline implementation remains a later separate candidate after web baseline evidence, because the mobile Expo dependency surface is larger and should not be combined with the first baseline mutation phase.
 - Phase 4K-4 does not implement that baseline and does not create or change package manifests, lockfiles, dependency directories, runtime QA, or build artifacts.
 - Phase 4K-5 attempted the web dependency/lockfile baseline gate through Issue #39 but is blocked before mutation because required node/npm tooling is unavailable.

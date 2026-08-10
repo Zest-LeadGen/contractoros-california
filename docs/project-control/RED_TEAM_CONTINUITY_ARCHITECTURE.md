@@ -50,3 +50,7 @@ Output validation is pre-mutation. The nearest existing ancestor is strictly res
 The implementation has no authority to mutate Git, GitHub, canonical state, approvals, merges, releases, budgets, credentials, policy, Phase 4K-9, or Phase 4I. A generated packet remains derived, public-safe, point-in-time evidence.
 
 Issue #58 comment `4975617497` is the active recovery authority. The current gate is the protected project-control reconciliation PR only. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. The Authority and Supersession Index plus the Epistemic Integrity and Non-Fabrication Standard control current precedence and claim handling.
+
+## Currency Supersession Note — 2026-08-10 (P0-RECON #141)
+
+Any Issue #58-era "current recovery/current gate" wording above is historical evidence: H1–H7A-2 have delivered and current phase state lives in `state/contractoros-state.yaml` plus live GitHub under the issue #79 roadmap (owner Decision 1, issue-70-comment-5244162427). Per Decision 4, the independent red-team leg is Opus 5 (read-only, exact-SHA); a fresh Fable context is nonindependent-advisory-only. Content above is preserved unmodified.

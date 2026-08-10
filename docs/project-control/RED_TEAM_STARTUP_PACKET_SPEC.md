@@ -141,3 +141,7 @@ The `1.3.8` evaluator validates the complete collected four-field or evaluated s
 Every fixture and live output requires `source_shas.canonical_ref` as a non-null exact lowercase 40-character SHA. Both source-SHA schemas use a dedicated non-null SHA definition for this field without changing nullable SHA fields such as `merge_commit`. Packet rendering always includes the validated exact canonical source ref, and the firewall cannot construct a canonical `git show` command until this provenance passes validation.
 
 Command-result runtime and evidence-schema contracts both permit only a successful result. Runtime requires an integer equal to zero, and the generated-evidence schema fixes `return_code` to `const: 0`; nonzero, negative, string, boolean, float, and null runtime values fail closed.
+
+## Currency Supersession Note — 2026-08-10 (P0-RECON #141)
+
+Any Issue #58-era "current recovery/current gate" wording above is historical evidence: current phase state lives in `state/contractoros-state.yaml` plus live GitHub under the issue #79 roadmap (owner Decision 1, issue-70-comment-5244162427). Future red-team engagements follow owner Decision 4: Opus 5 read-only exact-SHA independent leg, 12-field marker attestation (provider, model, surface, session/run identity, reviewed head, implementer provider/model, same-model flag, authored/pushed flag, write access, no approval/merge authority). Content above is preserved unmodified.

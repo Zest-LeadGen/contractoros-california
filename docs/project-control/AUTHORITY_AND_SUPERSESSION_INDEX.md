@@ -189,3 +189,25 @@ Wording conflict preserved, not resolved: #70 ordered `ISSUE_52=CLOSE_SUPERSEDED
 |---|---|---|
 | Issue #52 as current ADCP roadmap / planning registry / Toolchain Watch routing authority | Historical superseded planning memory; red-team content preserved; no phase routing or implementation authority | #70 order (`ISSUE_52=CLOSE_SUPERSEDED_BY_57_68_72`); 2026-08-09 closing comment (names #79/H0-H10 — conflict preserved above); owner comments 5243066365 + 5243066534 |
 | H6-closeout descriptor of H7 as "staging + release discipline" (phase_h6_closeout_report.md line 106; DECISION_LOG 2026-08-10 closeout entry — verified NOT present in PR #136's body or any of its recorded edits) | Superseded descriptor with no located on-platform source; H7 scope is `H7_SCOPE=SECURITY_SUPPLY_CHAIN_CONTINUITY_AND_ADVERSARIAL_TESTING` | #79 (master roadmap), #65/#66 (horizon issues), #137 intake disclosure |
+
+## H5-B.2 Resolution And AI-Role Supersessions — 2026-08-10 (P0-RECON #141, documentation scope)
+
+Recorded under owner reconciliation decisions issue-70-comment-5244162427 (2026-08-10T18:15:23Z) and phase authorization issue-141-comment-5244203111. This section resolves the "Deferred to H5-B.2" block above; that paragraph is preserved as history.
+
+```text
+CANONICAL_STRUCTURAL_HARDENING_ROADMAP=ISSUE_79
+CURRENT_PHASE_ROUTING_SOURCE=ISSUE_79_PLUS_EXACT_CHILD_PHASE_ISSUE
+PROJECT_IMPLEMENTATION_ROADMAP_ROLE=LONG_TERM_PRODUCT_VISION_ONLY
+PROJECT_VISION_AND_PHASE_TRACKER_ROLE=HISTORICAL_OR_SECONDARY_PLANNING_REFERENCE
+CANONICAL_TOP_LEVEL_CONSTITUTION=docs/project-control/PROGRAM_CONSTITUTION.md
+OWNER_DECISION_AUTHORITY=ISSUE_70_PLUS_DECISION_LOG_AND_APPROVED_ADRS
+ROADMAP_CHRONOLOGY_DOES_NOT_CREATE_AUTHORITY=YES
+```
+
+| Earlier record or claim | Current disposition | Controlling record |
+|---|---|---|
+| H5-B.2 deferred canonical roadmap/constitution selection (deferral paragraph above) | RESOLVED: roadmap=#79; constitution=PROGRAM_CONSTITUTION.md corrected in place; no new umbrella document | Owner Decisions 1–2 (issue-70-comment-5244162427) |
+| `CODEX=PRIMARY_BOUNDED_IMPLEMENTER` (#70 earlier summary; former AGENTS.md executor description) | SUPERSEDED: primary implementation surface Claude Code, model Claude Fable 5; Codex secondary read-only, no default mutation authority; H8 may re-evaluate | Owner Decision 3 (issue-70-comment-5244162427); merged commit trail co-authorship |
+| OD-017 Opus 5 exception limited to the read-only hourly audit | EXTENDED: Opus 5 also authorized for read-only exact-SHA independent red-team review; fresh Fable context is nonindependent-advisory-only; 12-field marker attestation required going forward | Owner Decision 4 (issue-70-comment-5244162427) |
+| Ten-field prompt convention as mandatory operating input (former AGENTS.md mandate; PROMPT_CONVENTION.md) | SUPERSEDED by the H5-C evidence-bearing execution contract (role, authority source, base SHA, target head, allowed/forbidden paths, required checks, stop conditions); PROMPT_CONVENTION.md is historical evidence | H5-C delivery (#118) + P0-RECON #141 AGENTS.md correction |
+| Committed state file as self-proof of current main (`current_main_sha` semantics) | SUPERSEDED semantics: committed state is a LAST-VERIFIED OBSERVATION (`observed_main_sha` + generated/expires timestamps + source queries); COMMITTED_STATE_IS_NEVER_SELF_PROOF_OF_CURRENT_MAIN=YES; the legacy `current_main_sha` key persists only as a compatibility alias required by `scripts/continuity/red_team_continuity.py` until its separately authorized parser update | Owner state-semantics directive (issue-70-comment-5244162427); P0-RECON #141 |
