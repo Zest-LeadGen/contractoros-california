@@ -145,7 +145,7 @@
       "PA-0007",
       "PA-0008"
     ],
-    "revoked": false,
-    "revocation_evidence": null
+    "revoked": true,
+    "revocation_evidence": "superseded-by:PA-0010 (post-H5-D reconciliation) issue-118-comment-5233703034"
   }
 }

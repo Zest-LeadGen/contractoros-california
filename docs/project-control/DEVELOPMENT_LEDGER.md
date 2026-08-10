@@ -865,3 +865,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: delivered for owner review; merged-and-main-verified only after owner key-turn
 Automatic continuation: NO
 ```
+
+```text
+Phase: post-H5-D reconciliation (snapshot refresh + PA-0009 closure)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: post-h5d-reconciliation
+Phase issue: #118
+Scope: state.yaml -> 32735ea (wall ARMED; H5 delivered in full); PA-0010 bootstrap closing PA-0009; PA-0001/PA-0002 expiry disclosure; report.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: snapshot reconciliation and record-keeping only
+Automatic continuation: NO
+```
