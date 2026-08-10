@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
-  "snapshot_semantics": "LAST-VERIFIED OBSERVATION, not self-proof (owner state-semantics directive, issue-70-comment-5244162427, P0-RECON #141): committed state records the most recent live GitHub reads with captured second-precision timestamps; COMMITTED_STATE_IS_NEVER_SELF_PROOF_OF_CURRENT_MAIN=YES; LIVE_CURRENT_MAIN_SOURCE=GITHUB; a committed file cannot contain the SHA of the commit that contains it, so `observed_main_sha` is the controlling record of what was OBSERVED, never of what IS. Legacy key `current_main_sha` persists solely as a compatibility alias required by scripts/continuity/red_team_continuity.py until its separately authorized parser update; it carries observation semantics, not self-proof. Timestamps are captured at read time, never rounded, projected, or written in advance (R-STRESS-005).",
+  "snapshot_semantics": "LAST-VERIFIED OBSERVATION, not self-proof (owner state-semantics directive, issue-70-comment-5244162427, P0-RECON #141): committed state records the most recent live GitHub reads with captured second-precision timestamps; COMMITTED_STATE_IS_NEVER_SELF_PROOF_OF_CURRENT_MAIN=YES; LIVE_CURRENT_MAIN_SOURCE=GITHUB; a committed file cannot contain the SHA of the commit that contains it, so `observed_main_sha` is the controlling record of what was OBSERVED, never of what IS. Legacy key `current_main_sha` persists solely as a compatibility alias required by scripts/continuity/red_team_continuity.py until its separately authorized parser update; it carries observation semantics, not self-proof. Fuller parser disclosure (Opus 5 round-1): that parser also exact-matches the OLD snapshot_semantics literal ('observed_snapshot_requires_live_verification') and requires a linked_pr object plus specific lifecycle values on its canonical-validation path; the committed state satisfied none of those before this change either (pre-existing divergence, pass/fail unchanged) — full reconciliation belongs to the parser's typed-schema phase. Timestamps are captured at read time, never rounded, projected, or written in advance (R-STRESS-005).",
   "observed_main_sha": "c27d93edb35becd032b8da61aeee3fa9513a3c22",
   "current_main_sha": "c27d93edb35becd032b8da61aeee3fa9513a3c22",
-  "snapshot_generated_at": "2026-08-10T18:22:00Z",
-  "snapshot_expires_at": "2026-08-17T18:22:00Z",
+  "snapshot_generated_at": "2026-08-10T18:35:35Z",
+  "snapshot_expires_at": "2026-08-17T18:35:35Z",
   "source_queries": [
     "gh api repos/Zest-LeadGen/contractoros-california/branches/main -q .commit.sha",
     "gh api repos/Zest-LeadGen/contractoros-california/private-vulnerability-reporting -q .enabled",
@@ -38,19 +38,19 @@
     "H7A-3 HELD until P0-RECON merges and main verifies (owner decisions comment + independent review)"
   ],
   "resolved_blockers": [
-    "PVR-ENABLE: CLOSED 2026-08-10 — private vulnerability reporting enabled by owner authorization issue-137-comment-5244162677; executed by owner with read-back enabled:true at 2026-08-10T18:16Z; re-verified in the source_queries read set"
+    "PVR-ENABLE: CLOSED 2026-08-10 — private vulnerability reporting enabled by owner authorization issue-137-comment-5244162677; executed by owner with immediate read-back; captured executor re-verification reads enabled:true at 2026-08-10T18:16:25Z and 2026-08-10T18:35:35Z"
   ],
   "next_authorized_planning_target": "P0-RECON owner review + merge (Opus 5 exact-head red-team leg per Decision 4), then H7A-3 scanning automation under #137",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-10T18:22:00Z",
+    "github_verified_at": "2026-08-10T18:35:35Z",
     "state_recorded_on": "2026-08-10"
   },
   "evidence_identifiers": [
     "observed-main:c27d93edb35becd032b8da61aeee3fa9513a3c22:pr-140-merged-by-owner-2026-08-10",
     "owner-decisions:issue-70-comment-5244162427:2026-08-10T18:15:23Z:decisions-1-4",
     "p0-recon-authorization:issue-141-comment-5244203111:2026-08-10T18:18:40Z",
-    "pvr:enabled-true:owner-executed:read-back-2026-08-10T18:16Z:authorization-5244162677",
+    "pvr:enabled-true:owner-executed:captured-reads-2026-08-10T18:16:25Z+18:35:35Z:authorization-5244162677",
     "h7a:deliverables-1-2-merged:prs-138-139:h7a-3-held",
     "required-contexts:aggregate+web-ci+mobile-ci:enforcing-since-2026-08-10T04:21Z"
   ],

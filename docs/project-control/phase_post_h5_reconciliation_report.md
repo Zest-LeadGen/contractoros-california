@@ -38,7 +38,7 @@ The repository's operational documents now tell one story: #79 routes phases; PR
 
 ## Validation Evidence
 
-Local checker battery at head via event payload: check_phase_authorization PASS (mode=bootstrap, PA-0022, closed_records=[]); check_pr_contract, check_owner_trigger_review, check_forbidden_scope, check_changed_files, check_required_control_updates, check_manifest_pins, check_low_risk_lane, check_contract_consumption PASS; continuity test suite unaffected (state file retains every field scripts/continuity/red_team_continuity.py requires). Digest quoted in the PR body is recomputed at the PR head.
+Local checker battery at head via event payload: check_phase_authorization PASS (mode=bootstrap, PA-0022, closed_records=[]); check_pr_contract, check_owner_trigger_review, check_forbidden_scope, check_changed_files, check_required_control_updates, check_manifest_pins, check_low_risk_lane, check_contract_consumption PASS. Continuity suite 348/348 OK — with the Opus 5 round-1 caveat recorded: that suite is fixture-based and does not validate the committed state file; what IS verified programmatically is that the committed state retains all seven keys the parser's canonical_required set demands, while its value-level constraints (old snapshot_semantics literal, linked_pr object shape, lifecycle enum) were unmet before this change and remain unmet — pre-existing divergence, pass/fail unchanged, fully disclosed in the state file, DECISION_LOG, and index. Digest quoted in the PR body is recomputed at the PR head.
 
 ## Risk Register Impact
 
@@ -76,7 +76,7 @@ Documentation/state reconciliation only. The state file is a last-verified obser
 
 ## Known Limitations
 
-1. `current_main_sha` persists as a compatibility alias (observation semantics) because scripts/continuity/red_team_continuity.py hard-requires it and scripts/** is outside this authorization — disclosed in DECISION_LOG and the index. 2. L-1 stands (secret-scanning/push-protection NOT_PROVEN pending owner read). 3. PROMPT_CONVENTION.md itself is untouched historical evidence; only its mandatory status changed (recorded in AGENTS.md and the index). 4. The reviewer's suggestion of a post-merge Actions artifact for truly-current state is future work, not implemented here.
+1. `current_main_sha` persists as a compatibility alias (observation semantics) because scripts/continuity/red_team_continuity.py hard-requires it and scripts/** is outside this authorization — disclosed in DECISION_LOG and the index, together with the parser's further value-level constraints (old snapshot_semantics literal exact-match; linked_pr object shape; lifecycle enum) that the committed state did not satisfy before this change either; full reconciliation belongs to the parser's typed-schema phase. 2. L-1 stands (secret-scanning/push-protection NOT_PROVEN pending owner read). 3. PROMPT_CONVENTION.md itself is untouched historical evidence; only its mandatory status changed (recorded in AGENTS.md and the index). 4. The reviewer's suggestion of a post-merge Actions artifact for truly-current state is future work, not implemented here. 5. The continuity test suite validates fixtures, not the committed state file — its 348/348 pass proves the parser code is unbroken, not that the committed state passes canonical validation (it did not before and does not now; disclosed).
 
 ## Next Phase Status
 
