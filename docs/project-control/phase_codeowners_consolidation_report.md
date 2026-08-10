@@ -61,6 +61,10 @@ Adds the consolidation entry + the owner's report-navigation hard rule.
 
 docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
 
+## PR Template / CODEOWNERS Implemented
+
+CODEOWNERS: consolidated into the single effective file `.github/CODEOWNERS` with a `*` catch-all plus explicit control-surface entries; the shadowed root file is deleted so precedence can never silently split coverage again. PR template: unchanged by this PR.
+
 ## Red-Team Status
 
 RED_TEAM_MARKER=NOT_ADDED_PENDING_REVIEW — SHA-bound marker added at the review step.
