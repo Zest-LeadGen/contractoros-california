@@ -100,6 +100,7 @@ Control hardening delivered for owner review. The new web-ci/mobile-ci contexts 
 ## Known Limitations
 
 - Required-check wiring is an owner console/ruleset act — the command is handed with this PR's key-turn; CI contexts are advisory until run.
+- Design flaw caught before the ruleset act: path-filtered workflows cannot safely be required checks (an untriggered required check leaves the PR 'expected' forever). Fixed in this PR: web-ci and mobile-ci run on every pull request (11s + 23s cost) while main pushes remain path-filtered; the ruleset act is now safe.
 - The from-main defense covers the path-wall checker only; other validators remain PR-tree (disclosed; CODEOWNERS total coverage is the backstop).
 - Mobile validation remains static (install/config/entry); emulator/device layers stay tracked-blocked per the test-layer ledger.
 - H6-B.2 (lint/format/typecheck/unit tests inside the apps, Product / QA lane) is the remaining H6-B deliverable.

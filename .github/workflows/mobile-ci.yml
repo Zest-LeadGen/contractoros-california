@@ -6,12 +6,11 @@ name: contractoros-mobile-ci
 # TOOLCHAIN.md test-layer ledger). Advisory until the owner wires required
 # checks (H6-B ruleset act).
 
+# H6-B.1: pull_request path filters removed so this context can be a
+# REQUIRED check — a path-filtered required check blocks every PR that
+# doesn't touch its paths (stays 'expected' forever). Cost: ~23s per PR.
 on:
   pull_request:
-    paths:
-      - "apps/mobile/**"
-      - ".nvmrc"
-      - ".github/workflows/mobile-ci.yml"
   push:
     branches: [main]
     paths:
