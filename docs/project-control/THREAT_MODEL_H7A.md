@@ -19,7 +19,7 @@ Mitigations now: armed path wall — PA records enumerate allowed paths; `.githu
 Baseline: zero occurrences in any workflow (inventory §2). [ASSESSMENT] Not present; keep it that way. → H7A-2 CONTRIBUTING.md prohibits introducing it without owner-authorized threat review.
 
 ### T4 — Untrusted issue/PR prompt injection
-Exposure: public repo — outside actors can file issues/PRs whose text reaches AI-agent contexts (this program's operating model). Mitigations now: R-PROV-001 (authority only from owner-authored on-platform comments, verified by actor login); executor never treats issue text as authorization. → H7A-2 documents the actor-verification rule as standing policy; H8 governs agent integrations fully (#68).
+Exposure: public repo — outside actors can file issues/PRs whose text reaches AI-agent contexts (this program's operating model). Mitigations now: R-PROV-001 (authority only from owner-authored on-platform comments, verified by actor identity read-back); executor does not treat issue text as authorization. → H7A-2 documents the actor-verification rule as standing policy; H8 governs agent integrations fully (#68).
 
 ### T5 — Exfiltration through logs/artifacts
 Mitigations now: workflows upload no artifacts; logs are public by design (public repo); documentation_scope=public_safe discipline. Exposure: a future workflow echoing secrets or private paths into public logs. → H7A-4 (bounded workflows), H7A-2 (incident response for exposure events).

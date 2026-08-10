@@ -36,6 +36,13 @@
       ]
     },
     {
+      "rule_id": "ALLOW-008",
+      "pattern": "docs/project-control/phase_h7a_1_security_inventory_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
       "rule_id": "ALLOW-004",
       "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
