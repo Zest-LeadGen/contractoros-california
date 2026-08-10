@@ -25,7 +25,8 @@
     "Product work frozen (T2 carve-out excepted); feature work resumes at H10",
     "R-DEP-SEC-001: ACCEPTED with dated revisit — H7A-boundary revisit DONE 2026-08-10T08:56:39Z, unchanged (image-size still patchless at 2.0.2; uuid fix transitive-only); next revisit at H7A closeout or H7B intake",
     "CRM/user-account work waits for H10 (5228512217)",
-    "L-1 executor-permission limitation: secret-scanning/push-protection state NOT_PROVEN pending owner read (H7A1 inventory)"
+    "L-1 executor-permission limitation: secret-scanning/push-protection state NOT_PROVEN pending owner read (H7A1 inventory)",
+    "PVR-ENABLE pending owner key-turn: private vulnerability reporting verifiably DISABLED (world-readable endpoint, enabled:false, read 2026-08-10; red-team PR#139 round-1 finding); SECURITY.md fallback route operative until enabled"
   ],
   "next_authorized_planning_target": "H7A-2 owner review + merge, then H7A-3 scanning automation (dependabot.yml, dependency-review re-add, secret-scanning verification) under PA-0020 successor; #71 license options packet remains separate owner-decision work",
   "documentation_scope": "public_safe",

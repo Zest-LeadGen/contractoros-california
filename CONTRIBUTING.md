@@ -14,7 +14,7 @@ Every change follows this route, with no bypass:
 
 ```text
 GitHub issue (scoped, owner-authorized) -> developer branch -> pull request ->
-required status checks (control gates, product CI, CodeQL) ->
+required status checks (control gates + both product CI contexts; CodeQL scans every PR) ->
 SHA-bound red-team review -> code-owner review -> owner-only merge
 ```
 

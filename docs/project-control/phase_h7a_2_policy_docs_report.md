@@ -89,7 +89,7 @@ Policy documents record process; they do not by themselves enforce anything and 
 
 ## Known Limitations
 
-L-1 stands: secret-scanning/push-protection state remains NOT_PROVEN (owner read not yet executed); SECURITY.md's private-reporting route depends on an admin-side setting the executor cannot verify — the document includes a fallback route for reporters if the form is unavailable. LICENSE absent by recorded owner decision state (#71), not by omission. PA-0018 natural expiry 2026-08-23 unchanged.
+L-1 stands for secret scanning and push protection (admin-only endpoints; owner read not yet executed). Private vulnerability reporting is NOT under L-1: its status endpoint is world-readable and returned enabled:false (verified live 2026-08-10, caught by red-team round 1 refuting this report's earlier "cannot verify" wording) — enabling PVR is a named pending owner key-turn recorded in the state blockers, and SECURITY.md discloses the disabled status with the fallback route as the operative one until then. LICENSE absent by recorded owner decision state (#71), not by omission. PA-0018 natural expiry 2026-08-23 unchanged.
 
 ## Next Phase Status
 
