@@ -1,8 +1,0 @@
-# H2 path-specific code ownership (single-human program: owner account owns
-# all control surfaces; see governance principal-matrix H2-WAIVER-001).
-*                               @Zest-LeadGen
-/docs/project-control/          @Zest-LeadGen
-/scripts/control/               @Zest-LeadGen
-/scripts/continuity/            @Zest-LeadGen
-/.github/                       @Zest-LeadGen
-/docs/project-control/authorizations/ @Zest-LeadGen
