@@ -961,3 +961,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: authorization record and design decisions only
 Automatic continuation: NO
 ```
+
+```text
+Phase: H5+H6 closeout (CI enforcement of test layers + evidence + records)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h6-closeout
+Phase issue: #118
+Scope: mandatory lint + test:coverage steps in web-ci and mobile-ci (both REQUIRED contexts); H6B2_TEST_LAYER_EVIDENCE.md landed; TOOLCHAIN.md ledger + limitation notes updated to landed state; snapshot -> e38cdf7 w/ captured-read timestamp; R-DEP-SEC-001 scheduled revisit executed (unchanged, acceptance stands); PA-0018 closing PA-0017. On merge: owner closes #118 + #64 with program evidence.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: closeout records and CI enforcement; H5+H6 read merged-and-main-verified only after the owner key-turn and issue closures
+Automatic continuation: NO
+```

@@ -43,6 +43,12 @@ jobs:
       - name: Lockfile drift check
         run: git diff --exit-code package.json package-lock.json
 
+      - name: Lint (H6 closeout: mandatory)
+        run: npm run lint
+
+      - name: Unit tests + coverage (H6 closeout: mandatory)
+        run: npm run test:coverage
+
       - name: Build
         run: npm run build
 
