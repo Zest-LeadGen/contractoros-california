@@ -40,12 +40,12 @@ The public repository may contain public-safe code, schemas, sanitized state, AD
 
 Historical decisions are append-only evidence. Corrections add explicit supersession links; they do not silently rewrite history. Obsolete labels such as 4K-7A through 4K-7E do not overwrite repository phase history. Any valid concepts from those labels may be remapped only after Phase 4K-12 through a later gate.
 
-## H1 Recovery Amendment And Current Gate Boundary
+## Canonical Authority And Current Gate Boundary
 
-Issue #58 comment `4975617497` is the current owner-approved recovery amendment. It explicitly supersedes stale current-state claims from Issue #47 and the former Issue #49 / PR #50 review window while preserving those records as history. The long-term product direction above is unchanged.
+Per owner Decision 2 (issue-70-comment-5244162427, 2026-08-10, closing the H5-B.2 deferral): this document is the canonical top-level constitution. Owner decision authority is Issue #70 plus the Decision Log and approved ADRs; subordinate policy files may specialize but not compete with this constitution; historical phase reports are evidence only. Per Decision 1, the canonical structural-hardening roadmap is Issue #79 (H0–H10) plus the exact child phase issue; the project implementation roadmap document holds long-term product vision only.
+
+HISTORICAL (superseded 2026-08-10, P0-RECON #141): Issue #58 comment `4975617497` was the recovery-era owner-approved amendment, and this section formerly recorded the Issue #58 reconciliation PR as the only current activity and the governance-repository commit as future work. H1 through H7A-2 have since delivered, the governance repository exists and is populated, and current phase state lives in `state/contractoros-state.yaml` plus live GitHub. The recovery-era records are preserved history.
 
 The Epistemic Integrity and Non-Fabrication Standard is constitutional policy for claims, evidence freshness, assumptions, contradictions, and authorization boundaries. The Authority and Supersession Index records current precedence and the complete Issue #24 classification.
 
-The first governance-repository commit, if separately authorized later, must be a minimal inert trust root rather than the executable H1 system. The exact file list, hashes, actor, mechanism, rollback point, mutation window, and protections require a separate owner decision. This reconciliation grants no H1 implementation or governance-repository mutation authority.
-
-Owner authority, exact-SHA independent red-team review, separate human/write-access approval, branch protection, and no-auto-merge remain mandatory. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, and Phase 4I remains paused. The only current activity authorized by the approved contract is the protected project-control reconciliation PR linked to Issue #58.
+Owner authority, exact-SHA red-team review (Opus 5 independent leg per Decision 4), separate human/write-access approval, branch protection, and no-auto-merge remain mandatory. Product work is frozen until the H10 gate; production is blocked; current activity is whatever exact child phase issue the owner has authorized under Issue #79.

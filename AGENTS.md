@@ -1,30 +1,33 @@
-# ContractorOS Codex Operating Model
+# ContractorOS AI Executor Operating Model
 
 ## Purpose
 
-This file defines how Codex may operate in the ContractorOS California repository.
+This file defines how AI executors may operate in the ContractorOS California repository. Per owner Decision 3 (issue-70-comment-5244162427, 2026-08-10, superseding the earlier Codex-primary rule): the primary implementation surface is Claude Code with model Claude Fable 5; Codex is a secondary read-only architecture/research/challenge tool or a separately authorized bounded tool with no mutation authority by default; no other model has implementation authority by default; H8 may re-evaluate provider routing.
 
 GitHub code, GitHub PRs, and versioned project-control files are the source of truth. Chat memory, local scratch files, connector state, and unversioned notes are not source of truth.
 
-## H1 Recovery Authority And Epistemic Controls — Documentation Scope
+## Historical H1 Recovery Authority And Epistemic Controls — Documentation Scope
 
-Issue #58 comment `4975617497` is the active H1 recovery authority. Its approved project-control implementation contract is limited to reconciliation; it grants no H1 bootstrap, product, production, merge, or next-packet authority. Current precedence and historical classifications are recorded in `docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md`.
+HISTORICAL (superseded 2026-08-10, P0-RECON #141): Issue #58 comment `4975617497` was the H1 recovery authority for the recovery era; H1 through H7A-2 have since delivered and the current phase routing source is issue #79 plus the exact child phase issue (owner Decision 1). The comment's record is preserved history. Current precedence and classifications are recorded in `docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md`.
 
 All material claims and actions must follow `docs/project-control/EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md`. Missing evidence is `NOT_PROVEN`, conflicting evidence is `BLOCKED`, stale evidence must be reverified, and assumptions or inferences must be labeled.
 
-Codex remains the bounded developer executor. Red-team may lead architecture, requirements, and threat modeling, but must remain separate from the implementation it audits. A fresh independent context must review the exact current PR head SHA before any final red-team decision. No packet continues automatically: phase progression requires protected merge, verified main, durable closeout, and any separately required owner authorization.
+The Claude Code / Fable 5 executor (Decision 3) remains the bounded developer executor. Red-team may lead architecture, requirements, and threat modeling, but must remain separate from the implementation it audits, and per owner Decision 4 the independent semantic red-team leg is Opus 5 (read-only, exact-SHA; a fresh Fable context is nonindependent-advisory-only). Every red-team decision reviews the exact current PR head SHA. No packet continues automatically: phase progression requires protected merge, verified main, durable closeout, and any separately required owner authorization.
 
-## Prompt Convention
+## Execution Contract (supersedes the ten-field Prompt Convention)
 
-Every substantive ContractorOS implementation, correction, review, red-team, continuation, handoff, or automation prompt must begin with the exact ordered ten-field model, effort, speed, agent, quota, context, checkpoint, and scope profile defined in `docs/project-control/PROMPT_CONVENTION.md`.
+SUPERSEDED (2026-08-10, P0-RECON #141, per the H5-C replacement delivered in #118): the mandatory exact ordered ten-field prompt profile of `docs/project-control/PROMPT_CONVENTION.md` is no longer required, and its absence is NOT a stop condition. That file remains historical evidence.
 
-Agents must stop if that prompt profile is missing, incomplete, empty, or out of order. Agents must not silently choose, change, or downgrade a visible model, effort, or speed selection.
+Every substantive implementation, correction, review, or red-team engagement instead requires the smaller evidence-bearing execution contract, durable in GitHub evidence (phase issue, authorization record, and PR body):
 
-Hidden model, effort, or speed metadata is not a stop condition. Agents must proceed with the available compatible session and use the exact honest-fallback values defined in `PROMPT_CONVENTION.md`; hidden values must not be guessed.
+- role and executor identity;
+- authority source (exact owner authorization comment / PA record);
+- base SHA and target head;
+- allowed and forbidden paths;
+- required checks;
+- stop conditions.
 
-Standard speed, Medium effort, and one lead agent are the normal Plus-plan defaults. Fast, Extra High, Max, Ultra, or parallel fan-out require the bounded justification and owner approval defined in the prompt convention.
-
-Phase 4J-0 documents this convention only and does not activate auto-merge.
+Agents must stop when the governing authorization record or owner authorization comment is missing, expired, or does not cover the intended paths. Agents must not silently choose, change, or downgrade a visible model selection; the model policy is OD-017 plus Decisions 3–4 (Fable 5 implementation; Opus 5 read-only audit/review exception).
 
 ## Context, Checkpoint, And Progress Discipline
 
@@ -40,7 +43,7 @@ Agents must not treat chat-only prompts as sufficient phase intake once Phase 4J
 
 ## Role Boundary
 
-Codex is a developer executor only. Codex may implement approved scoped changes, collect evidence, and prepare PRs. Codex must not self-review, act as red-team, approve its own work, merge, bypass branch protection, or start the next phase.
+The AI executor (Claude Code / Fable 5 per Decision 3; formerly Codex under the superseded rule) is a developer executor only. It may implement approved scoped changes, collect evidence, and prepare PRs. It must not self-review, act as the independent red-team leg, approve its own work, merge, bypass branch protection, or start the next phase. Codex holds no default mutation authority.
 
 Red-team review remains separate. Human/write-access approval remains required before merge.
 

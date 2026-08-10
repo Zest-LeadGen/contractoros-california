@@ -2,7 +2,7 @@
 
 ## Register Purpose
 
-This register is the canonical product/development source-of-truth record for ContractorOS California after Phase 4K-3 and is updated by Phase 4K-6 for the owner-approved workflow-automation redirect.
+This register is the canonical product/development source-of-truth record for ContractorOS California after Phase 4K-3, updated by Phase 4K-6 for the owner-approved workflow-automation redirect, and corrected 2026-08-10 under P0-RECON (#141) to the delivered H6 toolchain state. For toolchain/dependency/CI facts, `docs/TOOLCHAIN.md` is the specialized authority; for phase routing, issue #79 is the canonical structural-hardening roadmap (owner Decision 1, issue-70-comment-5244162427).
 
 It reconciles the roadmap, phase tracker, development ledger, decision log, risk register, validation tasks, requirements traceability matrix, source register, artifact index, and phase reports into one current project-control anchor.
 
@@ -48,14 +48,17 @@ Current command/runtime evidence:
 - Phase 4K-2 classified runtime smoke QA as blocked before runtime launch under no-install/no-mutation constraints.
 - No current Phase 4K-3 runtime launch is performed.
 
-Current dependency state:
+Current dependency state (corrected 2026-08-10 under P0-RECON #141; the toolchain authority is `docs/TOOLCHAIN.md`, delivered by H6):
 
-- `apps/web/package.json` exists and uses `latest` dependency ranges.
-- `apps/mobile/package.json` exists and uses `latest` dependency ranges.
-- No root package manager entrypoint is present.
-- No committed package lockfile exists for web or mobile.
-- No committed dependency directory exists for web or mobile.
-- Phase 4K-4 recommends a later controlled deterministic web dependency/lockfile baseline implementation phase as the safest next dependency-governance step.
+- `apps/web/package.json` and `apps/mobile/package.json` use EXACT-pinned dependency versions (no `latest` ranges).
+- Committed public-registry lockfiles exist for both apps (`apps/web/package-lock.json`, `apps/mobile/package-lock.json`), digest-bound in CI.
+- Installs are deterministic via `npm ci`; Node is pinned by `.nvmrc`.
+- Lint and unit/coverage layers run in both REQUIRED product CI contexts.
+- The list previously in this section ("latest ranges", "no committed lockfile") described the pre-H6 4K-8 checkpoint and was superseded by the H6 toolchain baseline (#64, PRs #127–#136); it is preserved in those phase records.
+
+Historical dependency-governance notes from the 4K era (preserved as evidence, no current effect):
+
+- Phase 4K-4 recommended a later controlled deterministic web dependency/lockfile baseline implementation phase as the safest next dependency-governance step.
 - Mobile dependency/lockfile baseline implementation remains a later separate candidate after web baseline evidence, because the mobile Expo dependency surface is larger and should not be combined with the first baseline mutation phase.
 - Phase 4K-4 does not implement that baseline and does not create or change package manifests, lockfiles, dependency directories, runtime QA, or build artifacts.
 - Phase 4K-5 attempted the web dependency/lockfile baseline gate through Issue #39 but is blocked before mutation because required node/npm tooling is unavailable.
@@ -65,7 +68,7 @@ Current dependency state:
 
 ## Current Non-Implemented / Blocked Scope
 
-The following remain blocked or not implemented:
+The following remain blocked or not implemented ("dependency/lockfile baseline implementation" was removed from this list 2026-08-10 under P0-RECON #141 — it was delivered by H6 and its former blocked status is preserved in the H6 phase records):
 
 - public MCQs;
 - Question Bank migration;
@@ -89,7 +92,6 @@ The following remain blocked or not implemented:
 - browser QA;
 - emulator/device QA;
 - install QA;
-- dependency/lockfile baseline implementation;
 - Expo/EAS/native build;
 - APK/AAB/iOS build;
 - app-store material;
@@ -272,7 +274,7 @@ Resolved by this register:
 - Phase 4K-2 is not a runtime pass; it is blocked feasibility evidence from PR #33 / Issue #32.
 - Issue #34 dependency/lockfile baseline decision work is closed/not planned and is not active Phase 4K-3 scope.
 - Phase 4K-4 uses Issue #37 as the active durable dependency/lockfile governance decision intake and does not resurrect Issue #34.
-- Phase 4K-4 recommends a split deterministic baseline path, starting with web dependency/lockfile baseline implementation in a later controlled phase. Runtime QA remains blocked until the relevant baseline is implemented and verified.
+- Phase 4K-4 recommended a split deterministic baseline path, starting with web dependency/lockfile baseline implementation in a later controlled phase (that baseline was subsequently DELIVERED by H6, 2026-08-10 — P0-RECON #141 correction; runtime QA gating is governed by current phase authority, not this historical note).
 - Phase 4K-5 used Issue #39 as its durable web baseline implementation intake and stopped before mutation because node/npm tooling was unavailable. No baseline was implemented.
 - Phase 4K-5 is historical after Issue #39 closed/completed and PR #40 merged at the Phase 4K-6 starting main SHA.
 - Phase 4K-6 records the owner-approved redirect toward approximately 95% workflow/process automation before the toolchain/npm bootstrap path resumes.
@@ -322,18 +324,18 @@ Historical records should be preserved as evidence, not rewritten into false cur
 
 Law & Business is the first governed product/content priority and C-10 is a priority follow-on condition. This direction does not authorize public content, source ingestion, a database, product implementation, or release.
 
-## Current H1 Recovery State
+## Historical H1 Recovery State (superseded 2026-08-10, P0-RECON #141)
 
-- Current main: `7d00343c233e45185e6c4d77e50eb870f408c01f`.
+HISTORICAL — this section recorded the recovery-era checkpoint and no longer describes current state (caught by the Opus 5 red-team leg, round 1). Current observed main and lifecycle live in `state/contractoros-state.yaml` plus live GitHub; the phase routing source is issue #79 plus the exact child issue (Decision 1). The recovery-era facts are preserved below unmodified:
+
+- Main at that checkpoint: `7d00343c233e45185e6c4d77e50eb870f408c01f`.
 - Issue #49: closed.
-- PR #50: merged at the current main SHA.
-- Active H1 issue: #58.
-- Active recovery authority: comment `4975617497` for documentation scope; no product authority.
-- Product work: frozen.
-- Production: blocked.
-- Phase 4K-9 and downstream progression: paused.
-- Phase 4I: paused.
-- Next allowed activity: project-control reconciliation PR only.
-- H1 bootstrap: not authorized.
+- PR #50: merged at that checkpoint's main SHA.
+- H1 issue at that checkpoint: #58 (recovery authority comment `4975617497`, documentation scope; now historical — H1 through H7A-2 have since delivered).
+- Product work: frozen (still true; resumes at H10).
+- Production: blocked (still true).
+- Phase 4K-9 and downstream progression: paused (still true).
+- Phase 4I: paused (still true).
+- "Next allowed activity: project-control reconciliation PR only" and "H1 bootstrap: not authorized" described that era's gate, not the current one.
 
 The long-term Law & Business and C-10 direction remains unchanged. This current-state correction grants no product, content, runtime, build, backend, release, or H1 implementation authority.

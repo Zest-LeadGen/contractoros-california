@@ -218,3 +218,7 @@ Issue #47 is closed/completed and PR #48 is merged at `01b90ab8b12416101b4be0677
 ## 23. H1 Recovery Reconciliation Gate
 
 Issue #58 comment `4975617497` is the active recovery authority. The only current activity is the protected project-control reconciliation PR. Product work is frozen, production is blocked, Phase 4K-9 and downstream progression are paused, Phase 4I is paused, and H1 bootstrap is not authorized. After merge and verified-main durable closeout, the next possible activity is preparation of a minimal inert governance-bootstrap decision packet; preparation grants no implementation authority.
+
+## Role Supersession Note — 2026-08-10 (P0-RECON #141)
+
+Per owner Decision 1 (issue-70-comment-5244162427): this document's role is LONG_TERM_PRODUCT_VISION_ONLY. The canonical structural-hardening roadmap and current phase routing source is GitHub issue #79 (H0–H10) plus the exact authorized child phase issue. Any "current gate", "current phase", or Issue #58-era status text above is historical evidence, not current state; chronology does not create authority. Content above is preserved unmodified.
