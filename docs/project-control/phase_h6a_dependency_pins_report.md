@@ -60,6 +60,8 @@ docs/project-control/RISK_REGISTER.md: reviewed, no update required (H6-A.1 reco
 
 docs/project-control/DECISION_LOG.md: reviewed, no update required (the H6-A.1 entry records the split and both halves; ledger and decision log updates for docs/project-control are Control-lane and landed there).
 
+docs/project-control/DEVELOPMENT_LEDGER.md: reviewed, no update required (the H6-A.1 ledger block covers both halves of H6-A, including this PR's scope).
+
 ## Artifact Index Impact
 
 docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
