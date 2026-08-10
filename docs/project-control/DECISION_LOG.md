@@ -363,3 +363,10 @@ Update decisions through project-control PRs or explicitly approved control mile
 - web-ci + new mobile-ci: setup-node now reads .nvmrc (node-version-file) — single source for the Node pin. contractoros-mobile-ci (NEW, advisory until the owner's required-check ruleset act): registry provenance, npm ci from the committed lockfile, drift check, expo config static validation, entry-module resolution — all steps verified locally against the committed manifest before delivery.
 - Root-manifest decision closed (deferred from H6-A): NO root package.json — per-app npm ci --prefix suffices, TOOLCHAIN.md documents it, and the matrix's Dependency-lane treatment of a root manifest adds ceremony without value while no orchestration consumer exists. Revisit only if a monorepo tool is separately authorized.
 - Remaining H6-B after this PR: owner ruleset act (wire contractoros-web-ci + contractoros-mobile-ci as required checks) and H6-B.2 (Product / QA lane: lint/format/typecheck/unit-test layers in the apps).
+
+## Post-H6-B.1 Reconciliation — 2026-08-10
+
+- Under owner H6 authorization (issue #118 comment 5235003178; PA-0016 via bootstrap, closing PA-0015).
+- Owner key-turns verified live: PR #132 merged 04:19:37Z (main 3a2df46); required-check ruleset act executed with readback — ruleset 20598456 now requires three contexts: contractoros-control-gates, "Web install + build from lockfile", "Mobile install + static validation from lockfile". Product CI is ENFORCING.
+- The npm-ci/latest gap blocker is CLOSED (manifest pin gate merged and required); removed from snapshot blockers. R-STRESS-002's wall-from-main defense is ACTIVE.
+- Remaining H6-B: H6-B.2 (Product / QA test layers inside the apps), then H5+H6 closeout on #118/#64.
