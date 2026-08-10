@@ -5,7 +5,10 @@
   "description": "Internal-only Expo scaffold for ContractorOS California mobile prototype.",
   "main": "App.js",
   "scripts": {
-    "start": "expo start"
+    "start": "expo start",
+    "lint": "eslint .",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage"
   },
   "dependencies": {
     "expo": "57.0.11",
@@ -15,5 +18,11 @@
   "engines": {
     "node": ">=22.11.0 <23",
     "npm": ">=10.9.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.8.1",
+    "globals": "17.9.0"
   }
 }
