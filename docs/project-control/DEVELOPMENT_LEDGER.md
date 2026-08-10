@@ -937,3 +937,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: control hardening delivered for owner review; enforcement of new CI contexts as required checks awaits the owner ruleset act
 Automatic continuation: NO
 ```
+
+```text
+Phase: post-H6-B.1 reconciliation (snapshot refresh + PA-0015 closure)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: post-h6b1-reconciliation
+Phase issue: #118
+Scope: state.yaml -> 3a2df46; three required contexts recorded (owner ruleset act w/ readback); npm-ci/latest blocker closed; PA-0016 closing PA-0015; report.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: snapshot reconciliation and record-keeping only
+Automatic continuation: NO
+```
