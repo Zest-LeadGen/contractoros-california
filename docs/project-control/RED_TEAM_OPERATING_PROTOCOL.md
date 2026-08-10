@@ -4,7 +4,7 @@
 
 Define the durable ContractorOS California red-team operating rules that future review windows must inherit from GitHub source-of-truth files.
 
-This protocol records Issue #24, the Issue #24 red-team operating addenda, Phase 4J-5 issue #25, and the current Issue #58 recovery amendment as committed project-control evidence.
+This protocol records Issue #24, the Issue #24 red-team operating addenda, Phase 4J-5 issue #25, and the Issue #58 recovery amendment (historical since P0-RECON #141; corrected from "current" under P0-RECON-2 #144) as committed project-control evidence.
 
 Documentation scope: Issue #58 comment `4975617497` and `AUTHORITY_AND_SUPERSESSION_INDEX.md` control where earlier lifecycle or authority statements conflict. Issue #24 remains audit and protocol history where incorporated; it is not the current constitutional anchor.
 
@@ -33,7 +33,7 @@ If evidence is insufficient for the next action, the status is `blocked`.
 
 ## Role Boundary
 
-Codex is developer executor only. Codex may implement approved scoped changes, collect evidence, prepare commits, push developer branches, and open pull requests.
+The AI executor (Claude Code / Fable 5 per Decision 3, issue-70-comment-5244162427; formerly Codex under the superseded rule) is developer executor only. It may implement approved scoped changes, collect evidence, prepare commits, push developer branches, and open pull requests.
 
 Codex must not self-review, act as red-team, approve its own work, add the red-team decision marker, merge, bypass branch protection, or start the next phase.
 
@@ -160,7 +160,7 @@ Chat memory is not evidence.
 
 The `EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md` rules apply to every review claim: no evidence means no claim; missing evidence is `NOT_PROVEN`; conflicting evidence is `BLOCKED`; stale evidence requires reverification; and assumptions, inferences, and uncertainty must be labeled.
 
-The red-team window may lead architecture, requirements, threat modeling, and review planning. It must remain separate from developer implementation and cannot approve its own changes. Final review must be performed from a fresh independent context against the exact current PR head SHA. Allowed final decisions remain exactly `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED`.
+The red-team window may lead architecture, requirements, threat modeling, and review planning. It must remain separate from developer implementation and cannot approve its own changes. The independent final-review leg is Opus 5, read-only, against the exact current PR head SHA (Decision 4, issue-70-comment-5244162427; a fresh Fable context is nonindependent-advisory-only — corrected P0-RECON-2 #144). Allowed final decisions remain exactly `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED`.
 
 Current recovery sequencing is R4 reconciliation implementation, R5 fresh exact-SHA review, R6 owner merge decision, and R7 main verification plus durable closeout. Neither local output nor a generated packet can authorize a later recovery step or H1 bootstrap activity; no broader scope is granted.
 
@@ -305,3 +305,8 @@ Percentages are evidence-based estimates, not proof. Use `NOT_PROVEN` when suppo
 When the response surface supports interactive charts, render exactly one actual detailed interactive chart immediately before the exact next-window navigation block. It must use current verified details and grouped categories that materially cover the active correction, lifecycle gates, roadmap gates, and actual program capabilities. It must contain three separately calculated series: `Delivery progress`, `Evidence confidence`, and `Operational readiness`. Operational readiness must not inherit governance-only or documentation-only gains. Blocked, unauthorized, unimplemented, or unproven capabilities remain at zero readiness or `NOT_PROVEN`. Use hover details or tooltips where supported. Use expand/collapse or drill-down only when the response surface explicitly supports that capability. Hoverability is not evidence of expandability.
 
 Raw chart JSON, widget arguments, terminal representations, and documentation specifications must never be presented as the chart. Within this reporting scope, if the surface cannot render an interactive chart, use compact Markdown tables only for the single fallback: state `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE` and provide exactly one compact fallback table containing `Delivery progress`, `Evidence confidence`, and `Operational readiness` immediately before the exact next-window navigation block. The fallback is not a separate readiness section. The navigation block remains `NAVIGATION_ONLY`, creates no authority, and authorizes no automatic continuation.
+
+
+## P0-RECON-2 Supersession Note — 2026-08-10 (#144)
+
+Recorded under owner authorization issue-144-comment-5245410500. Content above is preserved unmodified as history. Where this document's text conflicts with current authority, the following controls: the AI executor is Claude Code / Fable 5 with Codex secondary read-only (Decision 3, issue-70-comment-5244162427); references to "Codex" as the acting executor are historical role labels. Issue #58 recovery authority is HISTORICAL (P0-RECON #141); current phase routing is issue #79 plus the exact authorized child issue. The ten-field prompt convention is superseded by the H5-C execution contract (AGENTS.md); its absence is not a stop condition. The independent red-team leg is Opus 5, read-only, exact-SHA (Decision 4); a fresh Fable context is nonindependent-advisory-only. The deterministic toolchain (exact pins, committed lockfiles, npm ci, Node pin) was DELIVERED by H6; pre-H6 "deferred/unavailable toolchain" statements are historical. 4K phase labels are historical planning history. The generated-prompt-profile sections and ACTUAL_CODEX_MODEL fields above are superseded by the H5-C execution contract and OD-017 (Fable 5 pin; Opus 5 review exception).

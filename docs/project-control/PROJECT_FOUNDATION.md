@@ -6,7 +6,7 @@ This is a living project foundation and scope-control document. It does not prov
 
 - Project name: ContractorOS California
 - Product identity: internal contractor exam/testing and training system scaffold
-- Current primary phase: Phase One internal testing system
+- Product vision anchor: Phase One internal testing system (product work FROZEN until the H10 gate; current phase routing is issue #79 plus the exact child issue; this file is a subordinate foundation reference per Decision 2 — P0-RECON-2 #144)
 - Primary initial exam domain: Law & Business
 - Deferred domain: C10 Electrical until approved gate
 

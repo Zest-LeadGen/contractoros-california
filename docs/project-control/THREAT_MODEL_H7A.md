@@ -48,3 +48,7 @@ Mitigations now: documentation_scope=public_safe field in canonical state; priva
 ## Prioritization for H7A deliverables
 
 [ASSESSMENT] Ordered by exposure × likelihood on this baseline: T1 (unpinned actions + no dependency review) > T6 (unproven push protection) > T12 (unscanned boundary) > T4/T10 (agent-surface residuals, partially deferred to H8/H9) > remainder mitigated-with-residuals as noted. H7A-2..H7A-5 sequencing in #137 follows this ordering; no class is closed by this document.
+
+## Delivery Addendum — 2026-08-10 (P0-RECON-2 #144)
+
+Baseline-anchored assessments above stand as the H7A-1 record. Delivered since, changing the live posture: T6 — secret scanning AND push protection ENABLED (owner authorization issue-137-comment-5245204102; owner-verified read-back recorded in issue-137-comment-5245222558); PVR ENABLED (issue-137-comment-5244162677). T1 — dependency-review workflow ACTIVE on every PR (SHA-pinned, H7A-3/PR #143) and Dependabot configured (advisory-signal posture). T12 — one-time private-data scan executed clean (H7A3_SCANNING_EVIDENCE.md §4); recurring CI scan remains routed to H7A-4/H7B. The prioritization ordering above reflects the pre-delivery baseline and is historical.

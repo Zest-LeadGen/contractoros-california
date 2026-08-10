@@ -12,7 +12,7 @@ Chat memory is not source of truth. Unversioned local notes, transient tool stat
 
 Every assumption, design decision, source, model run, validation task, and originality requirement must be captured in versioned repo files.
 
-Documentation scope: Issue #58 comment `4975617497`, the Authority and Supersession Index, and the Epistemic Integrity and Non-Fabrication Standard govern the current H1 recovery lane. Local output, chat text, model personality, or a generated packet cannot create policy, implementation, merge, or next-packet authority.
+Documentation scope: the Authority and Supersession Index and the Epistemic Integrity and Non-Fabrication Standard govern; Issue #58 comment `4975617497` governed the H1 recovery lane of its era (historical, P0-RECON #141 — current routing is issue #79 plus the exact child issue; corrected P0-RECON-2 #144). Local output, chat text, model personality, or a generated packet cannot create policy, implementation, merge, or next-packet authority.
 
 ## Prompt Convention
 
@@ -20,7 +20,7 @@ Every future implementation, review, or correction prompt must include model and
 
 Model/effort selection must follow `docs/project-control/PROMPT_CONVENTION.md`.
 
-Missing model/effort header is a stop condition.
+Missing model/effort header WAS a stop condition under the superseded ten-field convention; per the H5-C execution contract (AGENTS.md) it is NOT a stop condition — the stop conditions are a missing/expired owner authorization or paths outside the authorized allowlist (corrected P0-RECON-2 #144).
 
 Phase 4J-0 documents this convention only.
 
@@ -36,11 +36,11 @@ Missing linked phase issue reference is a PR control-gate failure.
 
 ## AI Role
 
-Codex is developer executor only. Codex may prepare scoped file changes, run permitted local checks, and open PRs. Codex must not self-review, act as red-team, merge, approve its own PR, bypass branch protection, or continue into the next phase.
+The AI executor (Claude Code / Fable 5 per Decision 3, issue-70-comment-5244162427; formerly Codex under the superseded rule) is developer executor only. It may prepare scoped file changes, run permitted local checks, and open PRs. It must not self-review, act as the independent red-team leg, merge, approve its own PR, bypass branch protection, or continue into the next phase.
 
 Red-team remains separate. Red-team decisions must become GitHub PR evidence tied to the exact PR head SHA reviewed.
 
-Red-team may serve as Lead Engineer/Architect for requirements, architecture, threat modeling, sequencing, and adversarial review, but it must not implement the exact change it later approves. Final review uses a fresh independent context that retrieves the exact current SHA and evidence without relying on the developer handoff alone.
+Red-team may serve as Lead Engineer/Architect for requirements, architecture, threat modeling, sequencing, and adversarial review, but it must not implement the exact change it later approves. The independent final-review leg is Opus 5, read-only, bound to the exact current SHA, retrieving evidence without relying on the developer handoff alone (Decision 4, issue-70-comment-5244162427; a fresh Fable context is nonindependent-advisory-only — corrected P0-RECON-2 #144).
 
 The required plain-text marker begins with `RED_TEAM_DECISION` and includes PR number, PR head SHA, decision, reviewer role, review date, scope reviewed, conditions, forbidden-scope confirmation, and the statement `This decision applies only to the listed PR head SHA.`
 
@@ -143,7 +143,7 @@ Stop instead of proceeding when:
 
 The Program Constitution and Owner Decision Register govern public-safe program direction. The four-level AI decision-power model, least-privilege tools, separate read/write identities, and read-only-first continuity collector are architecture direction only. This documentation does not grant credentials, approval, merge, release, budget, policy-amendment, or production decision power.
 
-The current recovery lifecycle is R4 project-control reconciliation only. R5 fresh exact-SHA review, R6 owner merge decision, and R7 verified-main durable closeout remain separate. Preparation of the minimal inert governance-bootstrap decision packet may begin only after R7 and does not itself authorize the first governance commit.
+HISTORICAL: the recovery-era lifecycle was R4 project-control reconciliation only (that era is closed; current phase routing is issue #79 plus the exact child issue — corrected P0-RECON-2 #144). R5 fresh exact-SHA review, R6 owner merge decision, and R7 verified-main durable closeout remain separate. Preparation of the minimal inert governance-bootstrap decision packet may begin only after R7 and does not itself authorize the first governance commit.
 
 ## Capability, Effort, Speed, And Agent Routing
 
@@ -168,3 +168,8 @@ Substantive responses must provide a concise product-development-stage statement
 Percentages are estimates, not completion evidence. Unsupported values are `NOT_PROVEN`; material changes require evidence; gated work cannot reach 100% before applicable review, approval, merge, main verification, and closeout. Governance documentation cannot increase actual product or operational capability.
 
 Where supported, exactly one detailed interactive chart is rendered at the absolute bottom with nothing after it. Raw chart configuration is never presented to the owner. Where unsupported, compact tables remain structured rather than becoming compressed paragraph strings, and the response records `INTERACTIVE_CHART=UNSUPPORTED_IN_CURRENT_SURFACE`.
+
+
+## P0-RECON-2 Supersession Note — 2026-08-10 (#144)
+
+Recorded under owner authorization issue-144-comment-5245410500. Content above is preserved unmodified as history. Where this document's text conflicts with current authority, the following controls: the AI executor is Claude Code / Fable 5 with Codex secondary read-only (Decision 3, issue-70-comment-5244162427); references to "Codex" as the acting executor are historical role labels. Issue #58 recovery authority is HISTORICAL (P0-RECON #141); current phase routing is issue #79 plus the exact authorized child issue. The ten-field prompt convention is superseded by the H5-C execution contract (AGENTS.md); its absence is not a stop condition. The independent red-team leg is Opus 5, read-only, exact-SHA (Decision 4); a fresh Fable context is nonindependent-advisory-only. The deterministic toolchain (exact pins, committed lockfiles, npm ci, Node pin) was DELIVERED by H6; pre-H6 "deferred/unavailable toolchain" statements are historical. 4K phase labels are historical planning history. The "PROMPT_CONVENTION.md is the canonical execution profile" claim and Terra/Sol/Luna model routing above are superseded by the H5-C contract and OD-017.

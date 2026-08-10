@@ -145,3 +145,7 @@ Command-result runtime and evidence-schema contracts both permit only a successf
 ## Currency Supersession Note — 2026-08-10 (P0-RECON #141)
 
 Any Issue #58-era "current recovery/current gate" wording above is historical evidence: current phase state lives in `state/contractoros-state.yaml` plus live GitHub under the issue #79 roadmap (owner Decision 1, issue-70-comment-5244162427). Future red-team engagements follow owner Decision 4: Opus 5 read-only exact-SHA independent leg, 12-field marker attestation (provider, model, surface, session/run identity, reviewed head, implementer provider/model, same-model flag, authored/pushed flag, write access, no approval/merge authority). Content above is preserved unmodified.
+
+## Attestation Contract Addendum — 2026-08-10 (P0-RECON-2 #144)
+
+In addition to the 12-field attestation of Decision 4 (recorded in the note above), every red-team marker MUST carry: TECHNICALLY_ENFORCED_READ_ONLY=NOT_PROVEN — until a technically enforced read-only review surface exists (dedicated read-only credential or immutable sanitized evidence bundle; structural home H8 per #68). Reviewer inability to write is currently procedural (instruction + clean-worktree verification), not technical; markers must never claim otherwise.

@@ -1,3 +1,5 @@
+> **SUPERSEDED — 2026-08-10 (P0-RECON-2 #144, owner authorization issue-144-comment-5245410500).** This ten-field prompt convention was replaced by the H5-C evidence-bearing execution contract (see AGENTS.md, "Execution Contract"); a missing prompt profile is NOT a stop condition. This file is preserved as historical evidence and confers no current requirement.
+
 # ContractorOS Prompt Convention
 
 ## Purpose

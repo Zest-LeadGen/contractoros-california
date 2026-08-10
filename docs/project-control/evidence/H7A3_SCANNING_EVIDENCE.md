@@ -14,9 +14,9 @@ Phase issue: #137 (parent #65). Authorization: standing H7A phase authorization 
 
 ## 3. Secret scanning and push protection (L-1 closure path)
 
-Prior state: NOT_PROVEN behind admin-only endpoints (H7A-1 limitation L-1). Owner setting authorization staged per the PVR precedent; owner-run enable + read-back records the verified state here:
+Prior state: NOT_PROVEN behind admin-only endpoints (H7A-1 limitation L-1). EXECUTED before PR #143's merge, recorded on-platform to preserve the reviewed head (truth-up applied here under P0-RECON-2 #144):
 
-- Authorization comment: PENDING_OWNER_POST at PR-open time (this line is updated with the comment id and read-back values when the owner key-turn executes; if it executes before merge, the verified state replaces this pending marker in a head-updating commit).
+- Authorization: issue-137-comment-5245204102 (Zest-LeadGen, 2026-08-10T19:50:58Z). Execution: owner-run curl PATCH with immediate read-back — `secret_scanning=enabled`, `secret_scanning_push_protection=enabled` (also observed, unchanged and unauthorized-to-change: `dependabot_security_updates=disabled`, `secret_scanning_non_provider_patterns=disabled`). Durable read-back evidence: issue-137-comment-5245222558 (2026-08-10T19:52-19:55Z window). L-1 CLOSED for these two settings via owner-verified read-back; narrowed residual: the executor token cannot independently re-read the admin-only settings surface — future re-verification is an owner read.
 
 ## 4. Private-data / credential-pattern scan (executed)
 

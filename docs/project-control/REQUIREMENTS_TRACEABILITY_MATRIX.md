@@ -400,3 +400,7 @@ MERGE_ELIGIBLE=NO
 H0_MAY_CLOSE=NO
 H1_IMPLEMENTATION_AUTHORIZED=NO # documentation scope
 ```
+
+## P0-RECON-2 Currency Note — 2026-08-10 (#144)
+
+Dated rows above are preserved as era records. Where RTM-H1 rows describe corrections "in progress" or reviews "pending": that era completed (Issue #76 closed; PR #77 MERGED 2026-07-15T21:11:13Z). Where 4J/I49-era rows state Codex-executor or ten-field/stop-condition requirements as maintained: they are superseded by Decision 3 (issue-70-comment-5244162427) and the H5-C execution contract respectively, per the Authority and Supersession Index.
