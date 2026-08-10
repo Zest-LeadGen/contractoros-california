@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0014",
+  "authorization_id": "PA-0015",
   "evidence_id": "issue-118-comment-5235003178",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 118,
   "base_branch": "main",
-  "base_sha": "6311937c91db6f6dc95ff4c7742bb52322e4ce43",
+  "base_sha": "3e99f7dc7730b12b6e87fe68ba8f5d2852b953f0",
   "lane": "Control / Infrastructure",
   "expiry": "2026-08-23",
   "developer_principal": "danidon-wq",
@@ -16,55 +16,83 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0014.json",
+      "pattern": "docs/project-control/authorizations/PA-0015.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/authorizations/PA-0013.json",
+      "pattern": "docs/project-control/authorizations/PA-0014.json",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-003",
-      "pattern": ".github/CODEOWNERS",
+      "pattern": "scripts/control/check_pr_contract.py",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-004",
-      "pattern": "CODEOWNERS",
+      "pattern": "scripts/control/check_manifest_pins.py",
       "change_kinds": [
-        "delete"
+        "add"
       ]
     },
     {
       "rule_id": "ALLOW-005",
-      "pattern": "docs/project-control/phase_codeowners_consolidation_report.md",
+      "pattern": "scripts/control/tests/test_manifest_pins.py",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-006",
-      "pattern": "docs/project-control/DECISION_LOG.md",
+      "pattern": ".github/workflows/control-gates.yml",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-007",
-      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "pattern": ".github/workflows/web-ci.yml",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-008",
+      "pattern": ".github/workflows/mobile-ci.yml",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-009",
+      "pattern": "docs/project-control/phase_h6b1_control_hardening_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-010",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-011",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-012",
       "pattern": "docs/project-control/RISK_REGISTER.md",
       "change_kinds": [
         "modify"
@@ -73,9 +101,9 @@
   ],
   "forbidden_paths": [
     "apps/**",
-    "scripts/**",
+    "scripts/continuity/**",
+    "scripts/control/check_phase_authorization.py",
     "policy/**",
-    ".github/workflows/**",
     "docs/project-control/state/contractoros-state.yaml"
   ],
   "required_checks": [
@@ -90,16 +118,16 @@
   ],
   "classifications": {
     "dependency": "NONE",
-    "build": "NONE",
+    "build": "CI_CHANGE",
     "release": "NONE",
     "data": "NONE",
     "security": "CONTROL_SURFACE"
   },
   "supersession": {
     "supersedes": [
-      "PA-0013"
+      "PA-0014"
     ],
-    "revoked": true,
-    "revocation_evidence": "superseded-by:PA-0015 (H6-B.1 control hardening) issue-118-comment-5235003178"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }

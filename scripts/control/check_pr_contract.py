@@ -192,7 +192,12 @@ def downgraded(line):
 # "complete with no open blockers" bypassed the gate. A negation only
 # downgrades a claim when it PRECEDES the claim term; forward qualifiers
 # ("only after", "does not prove") legitimately downgrade from either side.
-FORWARD_QUALIFIERS = ("does not prove", "do not claim", "only after", "forbidden", "blocked")
+# H6-B.1 fix (stress-run 3, 2026-08-10): "forbidden" and "blocked" are
+# negations, not forward qualifiers — with them in this tuple, "production-
+# ready now that the blocked items cleared" passed unflagged (the same
+# defect class reintroduced through this branch). They now downgrade only
+# when preceding, via DOWNGRADE_CONTEXT.
+FORWARD_QUALIFIERS = ("does not prove", "do not claim", "only after")
 
 
 def overclaim_downgraded(line_lower, term_start):

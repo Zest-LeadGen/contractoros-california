@@ -1,10 +1,10 @@
 name: contractoros-web-ci
 
+# H6-B.1: pull_request path filters removed so this context can be a
+# REQUIRED check — a path-filtered required check blocks every PR that
+# doesn't touch its paths (stays 'expected' forever). Cost: ~11s per PR.
 on:
   pull_request:
-    paths:
-      - "apps/web/**"
-      - ".github/workflows/web-ci.yml"
   push:
     branches: [main]
     paths:
@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version-file: ".nvmrc"
           cache: npm
           cache-dependency-path: apps/web/package-lock.json
 
