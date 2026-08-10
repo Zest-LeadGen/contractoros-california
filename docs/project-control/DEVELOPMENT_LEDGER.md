@@ -853,3 +853,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: snapshot reconciliation and record-keeping only
 Automatic continuation: NO
 ```
+
+```text
+Phase: H5-D authorization bootstrap + exact-path relocation + wall arming (final H5 piece)
+Lane: Control / Infrastructure
+Date: 2026-08-09
+Branch: h5d-authorization-bootstrap-arming
+Phase issue: #118
+Scope: check_phase_authorization.py bootstrap/closure/relocate extensions; tests 8 -> 25; control-gates.yml phase-authorization job armed (aggregate needs, no continue-on-error); PA-0009 bootstrap record superseding PA-0003..PA-0008 (found=6 resolution defect fixed); DECISION_LOG, RISK_REGISTER (R-STRESS-001 resolved), report. Companion governance PR: schema 1.1.0 (delete/relocate kinds, "to" field).
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: delivered for owner review; merged-and-main-verified only after owner key-turn
+Automatic continuation: NO
+```
