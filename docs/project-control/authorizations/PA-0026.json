@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0025",
+  "authorization_id": "PA-0026",
   "evidence_id": "issue-137-comment-5238006617",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 137,
   "base_branch": "main",
-  "base_sha": "ff2400e32fd17385f7828a76e7369438cc361fec",
+  "base_sha": "945031a11ca9a2c2d24f71ef4121e4a1a67db04e",
   "lane": "Control / Infrastructure",
   "expiry": "2026-08-24",
   "developer_principal": "danidon-wq",
@@ -16,35 +16,35 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0025.json",
+      "pattern": "docs/project-control/authorizations/PA-0026.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/evidence/H7A4_WORKFLOW_HARDENING_EVIDENCE.md",
+      "pattern": "docs/project-control/evidence/H7A5_CLOSEOUT_EVIDENCE.md",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-003",
-      "pattern": "docs/project-control/phase_h7a_4_workflow_hardening_report.md",
+      "pattern": "docs/project-control/phase_h7a_5_closeout_report.md",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-004",
-      "pattern": "docs/project-control/authorizations/PA-0023.json",
+      "pattern": "docs/project-control/authorizations/PA-0025.json",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-005",
-      "pattern": ".github/workflows/codeql.yml",
+      "pattern": "docs/project-control/RED_TEAM_FINDINGS_REGISTER.md",
       "change_kinds": [
         "modify"
       ]
@@ -58,57 +58,38 @@
     },
     {
       "rule_id": "ALLOW-007",
-      "pattern": ".github/workflows/mobile-ci.yml",
-      "change_kinds": [
-        "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-008",
-      "pattern": ".github/workflows/web-ci.yml",
-      "change_kinds": [
-        "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-009",
       "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-010",
+      "rule_id": "ALLOW-008",
       "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-011",
+      "rule_id": "ALLOW-009",
       "pattern": "docs/project-control/state/contractoros-state.yaml",
       "change_kinds": [
         "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-012",
-      "pattern": "scripts/control/__pycache__/check_forbidden_scope.cpython-314.pyc",
-      "change_kinds": [
-        "delete"
       ]
     }
   ],
   "forbidden_paths": [
     "apps/**",
+    "scripts/**",
     "policy/**",
     "content/**",
     "docs/archive/**",
     ".github/CODEOWNERS",
     ".github/dependabot.yml",
     ".github/workflows/dependency-review.yml",
-    "scripts/control/*.py",
-    "scripts/continuity/**"
+    ".github/workflows/codeql.yml",
+    ".github/workflows/web-ci.yml",
+    ".github/workflows/mobile-ci.yml"
   ],
   "required_checks": [
     "contractoros-control-gates"
@@ -129,9 +110,9 @@
   },
   "supersession": {
     "supersedes": [
-      "PA-0023"
+      "PA-0025"
     ],
-    "revoked": true,
-    "revocation_evidence": "Superseded by PA-0026 (H7A-5 closeout bootstrap; H7A-4 merged as PR #149, main 945031a)"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }

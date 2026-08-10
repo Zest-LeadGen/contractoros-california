@@ -121,7 +121,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - name: Continuity suite (344 tests)
+      - name: Continuity suite (348 tests)
         run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/continuity/tests -p 'test_*.py'
 
   phase-authorization:
