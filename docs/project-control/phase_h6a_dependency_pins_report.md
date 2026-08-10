@@ -12,6 +12,8 @@ H6-A.2 — reproducible toolchain, dependency half: pinned app manifests and pub
 
 Product / QA
 
+Lane: Product / QA — explicit owner approval (issue #118 comment 5235003178, H6 owner authorization).
+
 Lane: Dependency — approved dependency lane under explicit owner approval (issue #118 comment 5235003178, H6 owner authorization; PA-0011 pre-authorizes these exact paths).
 
 ## Authority <!-- documentation scope -->
