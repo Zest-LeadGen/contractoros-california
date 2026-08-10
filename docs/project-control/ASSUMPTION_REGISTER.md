@@ -24,7 +24,7 @@ Documentation scope: the status cells in this first table record their original 
 
 Assumptions must remain versioned here until confirmed, replaced by a design decision, or closed by evidence.
 
-## Current H1 Recovery Assumptions And Unknowns
+## Historical H1 Recovery Assumptions And Unknowns (era record, preserved; superseded 2026-08-10, P0-RECON-2 #144)
 
 | ID | Assumption or unknown | Evidence | Control | Status |
 |---|---|---|---|---|

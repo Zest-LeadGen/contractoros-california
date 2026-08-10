@@ -121,3 +121,8 @@ Automation must stop without merge or issue closeout when:
 ## Program Constitution Gate Classification
 
 Program Constitution, owner-decision, canonical-state, private-plane, legal/source, AI tool, model/provider, spending, and nationwide architecture changes are `NOT_AUTOMATION_ELIGIBLE`. They require `ARCHITECTURE_THRESHOLD`, owner interruption, external exact-SHA red-team review, and human approval. No future low-risk lane may change shared canonical state concurrently or infer authority from an unsynced item.
+
+
+## P0-RECON-2 Supersession Note — 2026-08-10 (#144)
+
+Recorded under owner authorization issue-144-comment-5245410500. Content above is preserved unmodified as history. Where this document's text conflicts with current authority, the following controls: the AI executor is Claude Code / Fable 5 with Codex secondary read-only (Decision 3, issue-70-comment-5244162427); references to "Codex" as the acting executor are historical role labels. Issue #58 recovery authority is HISTORICAL (P0-RECON #141); current phase routing is issue #79 plus the exact authorized child issue. The ten-field prompt convention is superseded by the H5-C execution contract (AGENTS.md); its absence is not a stop condition. The independent red-team leg is Opus 5, read-only, exact-SHA (Decision 4); a fresh Fable context is nonindependent-advisory-only. The deterministic toolchain (exact pins, committed lockfiles, npm ci, Node pin) was DELIVERED by H6; pre-H6 "deferred/unavailable toolchain" statements are historical. 4K phase labels are historical planning history. The "current H1 reconciliation" and "Issue #58 is active" statements above are historical.

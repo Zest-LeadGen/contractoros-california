@@ -26,7 +26,7 @@ The inbox schema permits `proposed`, `owner_confirmed`, `rejected`, `recorded`, 
 
 ## Layer 5 — Private Control Plane
 
-The public repository stores sanitized references only. A future private governance repository may hold confidential strategy, legal-review material, traces, incidents, and sensitive handoffs. Future private artifact storage may hold proprietary packages and originals. Cross-plane references require opaque IDs or hashes, provenance, classification, retention, access-control, sanitization, and incident procedures. No private repository or storage is created here.
+The public repository stores sanitized references only. A future private governance repository may hold confidential strategy, legal-review material, traces, incidents, and sensitive handoffs. (Clarified under P0-RECON-2 #144: the PUBLIC governance repository Zest-ContractorOS/contractoros-governance exists and is populated since 2026-08-10; the private confidential-material repository described here remains future work — the two are distinct.) Future private artifact storage may hold proprietary packages and originals. Cross-plane references require opaque IDs or hashes, provenance, classification, retention, access-control, sanitization, and incident procedures. No private repository or storage is created here.
 
 ## Failure, Rollback, And Quarantine
 

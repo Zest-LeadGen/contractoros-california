@@ -514,3 +514,7 @@ SUPERSEDED_BY=NONE
 LAST_REVERIFIED_AT=2026-07-21
 FAILURE_EFFECT=BLOCK_H0_CLOSEOUT
 ```
+
+## P0-RECON-2 Register Currency Note — 2026-08-10 (#144, documentation scope)
+
+Recorded under owner authorization issue-144-comment-5245410500. The latest RT-H0-* versions above (2.1.0, CURRENT_STATUS=IMPLEMENTED_PENDING_REVIEW, LAST_REVERIFIED_AT=2026-07-21, FAILURE_EFFECT=BLOCK_H0_CLOSEOUT) predate the H0 closure that has since occurred on-platform (#67 and #82 closed; H0 terminal-disposition evidence committed). Per this register's own contract, NO finding is hereby inferred resolved: formal version-chain updates require their own owner-authorized register action with per-finding resolution evidence, and that action is routed to H7A-5 closeout or H9 intake (whichever first). Until then, readers must not treat the 2.1.0 H0-blocking effect as describing a live gate.

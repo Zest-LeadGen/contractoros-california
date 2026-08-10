@@ -1,0 +1,300 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "1.0.0",
+  "authorization_id": "PA-0024",
+  "evidence_id": "issue-144-comment-5245410500",
+  "repository": "Zest-LeadGen/contractoros-california",
+  "issue": 144,
+  "base_branch": "main",
+  "base_sha": "3fb3d4d3b16d7735a14d19f24dcfe2978d8a0ed7",
+  "lane": "Control / Infrastructure",
+  "expiry": "2026-08-24",
+  "developer_principal": "danidon-wq",
+  "approver_principals": [
+    "Zest-LeadGen"
+  ],
+  "allowed_paths": [
+    {
+      "rule_id": "ALLOW-001",
+      "pattern": "docs/project-control/authorizations/PA-0024.json",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-002",
+      "pattern": "docs/project-control/evidence/P0_RECON_CLOSEOUT_ACCURACY_CORRECTION.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-003",
+      "pattern": "docs/project-control/evidence/RECON2_STALE_AUTHORITY_CLASSIFICATION.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-004",
+      "pattern": "docs/project-control/phase_p0_recon_2_report.md",
+      "change_kinds": [
+        "add"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": "docs/project-control/AI_DEVELOPMENT_OPERATING_MODEL.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/ASSUMPTION_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-007",
+      "pattern": "docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "docs/project-control/AUTOMATION_PHASE_ROADMAP.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-009",
+      "pattern": "docs/project-control/CONTRACTOROS_DESIGN_DECISIONS.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-010",
+      "pattern": "docs/project-control/DECISION_LOG.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-011",
+      "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-012",
+      "pattern": "docs/project-control/HANDOFF_PLAYBOOK.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-013",
+      "pattern": "docs/project-control/KNOWN_GAPS_AND_NON_GOALS.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-014",
+      "pattern": "docs/project-control/LOW_RISK_LANE_POLICY.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-015",
+      "pattern": "docs/project-control/MODEL_PROVIDER_COST_GOVERNANCE.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-016",
+      "pattern": "docs/project-control/OWNER_DECISION_REGISTER.yaml",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-017",
+      "pattern": "docs/project-control/PRODUCT_DEVELOPMENT_SOURCE_OF_TRUTH.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-018",
+      "pattern": "docs/project-control/PROJECT_FOUNDATION.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-019",
+      "pattern": "docs/project-control/PROJECT_VISION_AND_PHASE_TRACKER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-020",
+      "pattern": "docs/project-control/PROMPT_CONVENTION.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-021",
+      "pattern": "docs/project-control/RED_TEAM_CONTINUITY_ARCHITECTURE.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-022",
+      "pattern": "docs/project-control/RED_TEAM_FINDINGS_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-023",
+      "pattern": "docs/project-control/RED_TEAM_OPERATING_PROTOCOL.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-024",
+      "pattern": "docs/project-control/RED_TEAM_STARTUP_PACKET_SPEC.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-025",
+      "pattern": "docs/project-control/RED_TEAM_STATE_MACHINE.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-026",
+      "pattern": "docs/project-control/REQUIREMENTS_TRACEABILITY_MATRIX.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-027",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-028",
+      "pattern": "docs/project-control/SOURCE_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-029",
+      "pattern": "docs/project-control/THREAT_MODEL_H7A.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-030",
+      "pattern": "docs/project-control/WORKFLOW_AUTOMATION_COMMAND_PACK.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-031",
+      "pattern": "docs/project-control/WORKFLOW_AUTOMATION_TARGET_STATE.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-032",
+      "pattern": "docs/project-control/WORKFLOW_OPERATOR_RUNBOOK.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-033",
+      "pattern": "docs/project-control/contractoros_project_control_recovery.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-034",
+      "pattern": "docs/project-control/evidence/H7A3_SCANNING_EVIDENCE.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-035",
+      "pattern": "docs/project-control/state/contractoros-state.yaml",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-036",
+      "pattern": "docs/project-control/VALIDATION_TASKS.md",
+      "change_kinds": [
+        "modify"
+      ]
+    }
+  ],
+  "forbidden_paths": [
+    "apps/**",
+    "scripts/**",
+    "policy/**",
+    "content/**",
+    ".github/**",
+    "docs/archive/**"
+  ],
+  "required_checks": [
+    "contractoros-control-gates"
+  ],
+  "review_classes": [
+    "opus5_read_only_exact_head_independent_leg",
+    "owner_human_approval"
+  ],
+  "owner_trigger_categories": [
+    "NONE"
+  ],
+  "classifications": {
+    "dependency": "NONE",
+    "build": "NONE",
+    "release": "NONE",
+    "data": "NONE",
+    "security": "NONE"
+  },
+  "supersession": {
+    "supersedes": [],
+    "revoked": false,
+    "revocation_evidence": null
+  }
+}

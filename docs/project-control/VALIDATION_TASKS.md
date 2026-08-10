@@ -389,6 +389,8 @@ The status cells in this section preserve successive Issue #49 / PR #50 implemen
 
 ## H1 R5 Whole-PR Stale-State Correction Validation
 
+HISTORICAL (era record, preserved; superseded 2026-08-10, P0-RECON-2 #144): the era completed — PR #75 merged 2026-07-15T09:52:55Z; "pending"/"remain current" cells below describe that era, not the present. (Heading text preserved verbatim: the continuity test suite binds to it.)
+
 ```text
 INITIAL_R4_STALE_STATE_SEARCH=PASSED_WITH_LATER_MISSED_DEFECTS
 R5_DECISION=CHANGES_REQUESTED
@@ -409,6 +411,8 @@ FRESH_EXACT_SHA_REVIEW_AFTER_CORRECTION=REQUIRED
 | VAL-H1-R5-006 | Bind later acceptance to the resulting exact head. | One normal commit, one non-force push, exact-new-head workflow inspection, and fresh independent whole-PR review. | Pre-marker checks pass; marker fails only because absent; later steps skip; fresh exact-SHA review remains required. | Developer delivery pending; no marker, approval, merge, closeout, or H1 bootstrap authorized. |
 
 ## H1 Issue #76 Next-Window Handoff Contract Validation
+
+HISTORICAL (era record, preserved; superseded 2026-08-10, P0-RECON-2 #144): the era completed — Issue #76 closed; PR #77 merged 2026-07-15T21:11:13Z; "Live GitHub required" cells below describe that era's gates, not the present. (Heading text preserved verbatim: the continuity test suite binds to it.)
 
 The initial Developer validation and R1 correction evidence below are historical. R2 reviewed the R1 correction head and required this separately authorized six-file, event-invariant lifecycle correction (documentation scope).
 

@@ -20,6 +20,8 @@ Zero spend remains the default before revenue. D21 permits only an explicitly ow
 
 Future paid use requires monthly ceilings, per-run and per-day limits, no automatic recharge, no uncapped retry or fallback, quota-bottleneck evidence, owner approval, and immediate shutdown at the lower of budget or risk threshold. Production cost models must cover daily, weekly, monthly, and annual scenarios, including rework and review cost.
 
-## Current Model Policy Result
+## Model Policy Result (historical section; current policy noted below — P0-RECON-2 #144)
 
-`PROMPT_CONVENTION.md` remains unchanged because this gate retrieved no new current official OpenAI evidence. GPT-5.6 Sol, Terra, and Luna are not recorded as official taxonomy. Explicit owner selection and no silent substitution remain controlling.
+HISTORICAL: `PROMPT_CONVENTION.md` remained unchanged at that gate because it retrieved no new current official OpenAI evidence. GPT-5.6 Sol, Terra, and Luna are not recorded as official taxonomy. Explicit owner selection and no silent substitution remain controlling.
+
+CURRENT (2026-08-10): the ten-field convention is superseded by the H5-C execution contract (AGENTS.md); model policy is OD-017 (Fable 5 implementation pin) plus Decisions 3-4 (issue-70-comment-5244162427: Claude Code / Fable 5 primary implementer; Opus 5 read-only exact-SHA review exception).

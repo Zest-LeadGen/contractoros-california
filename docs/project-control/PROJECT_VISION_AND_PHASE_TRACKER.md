@@ -463,7 +463,7 @@ Current-phase reporting must remain separate from program-capability reporting.
 
 Percentages are estimates rather than completion evidence. Unsupported values are `NOT_PROVEN`, and historical Issue #49 work does not increase product, runtime, backend, build, content, business, or overall-program progress.
 
-## Current H1 Recovery Gate
+## Historical H1 Recovery Gate (superseded 2026-08-10, P0-RECON-2 #144 — current phase state lives in state/contractoros-state.yaml plus live GitHub under the issue #79 roadmap; the table below is that era's record, preserved)
 
 | Item | Verified state |
 |---|---|

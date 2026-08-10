@@ -7,7 +7,7 @@ Purpose: record ContractorOS California design and operating decisions that must
 ### CDR-H1-001 — Recovery authority and role separation documentation
 
 ```text
-Status: Approved recovery direction
+Status: Approved recovery direction (HISTORICAL — superseded 2026-08-10: #58 authority historical per P0-RECON #141; executor role per Decision 3; review model per Decision 4; recorded P0-RECON-2 #144)
 Decision: Documentation scope records Issue #58 comment 4975617497 as controlling H1 recovery. Owner decision authority, red-team architecture and independent audit, Codex developer execution, and fresh exact-SHA review remain separate.
 Rejected alternative: local packet strings, chat, or role-collapsed self-review as authority; no local authority is valid.
 Risk: local authority drift or developer/red-team collapse could bypass independent challenge.
@@ -59,7 +59,7 @@ Control: assumptions, decisions, sources, model runs, validation tasks, and orig
 ### CDR-4J-003 — Codex developer executor role
 
 ```text
-Status: Proposed / active
+Status: SUPERSEDED 2026-08-10 by owner Decision 3 (issue-70-comment-5244162427): primary implementation surface is Claude Code / Fable 5; Codex secondary read-only (recorded P0-RECON-2 #144; the executor-only boundary itself remains active for whichever AI executes)
 Decision: Codex is developer executor only.
 Rejected alternative: allowing Codex to self-review, red-team, approve, merge, or advance phases.
 Risk: role collapse weakens governance.
@@ -219,7 +219,7 @@ Control: Only future approved phases may enable lane-based auto-merge eligibilit
 ### CDR-4J-019 — Required prompt model/effort header
 
 ```text
-Status: Proposed / active after Phase 4J-0 merge
+Status: SUPERSEDED 2026-08-10 by the H5-C execution contract (AGENTS.md; delivered in #118): the ten-field header is no longer required and its absence is NOT a stop condition; model policy is OD-017 + Decisions 3-4 (recorded P0-RECON-2 #144)
 Decision: Every future ContractorOS prompt for Codex, developer agents, red-team agents, or automation agents must include recommended model, recommended reasoning effort, rationale, and conditions for changing model/effort.
 Rejected alternative: Allow agents or chat participants to silently choose model/effort per task without durable policy.
 Risk: Wrong model/effort can increase cost, latency, weak reasoning, or overthinking, and can make audits harder.

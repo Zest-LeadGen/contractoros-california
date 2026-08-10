@@ -115,3 +115,8 @@ Closeout failure: classify as `MAIN_VERIFIED_WAITING_FOR_ISSUE_CLOSE` or blocked
 ## Current Deferred Status
 
 Phase 4K-9 is not started. Phase 4I remains paused. The toolchain/npm bootstrap path remains deferred, not rejected.
+
+
+## P0-RECON-2 Supersession Note — 2026-08-10 (#144)
+
+Recorded under owner authorization issue-144-comment-5245410500. Content above is preserved unmodified as history. Where this document's text conflicts with current authority, the following controls: the AI executor is Claude Code / Fable 5 with Codex secondary read-only (Decision 3, issue-70-comment-5244162427); references to "Codex" as the acting executor are historical role labels. Issue #58 recovery authority is HISTORICAL (P0-RECON #141); current phase routing is issue #79 plus the exact authorized child issue. The ten-field prompt convention is superseded by the H5-C execution contract (AGENTS.md); its absence is not a stop condition. The independent red-team leg is Opus 5, read-only, exact-SHA (Decision 4); a fresh Fable context is nonindependent-advisory-only. The deterministic toolchain (exact pins, committed lockfiles, npm ci, Node pin) was DELIVERED by H6; pre-H6 "deferred/unavailable toolchain" statements are historical. 4K phase labels are historical planning history. The "Current Deferred Status" section above describes the pre-H6 era.

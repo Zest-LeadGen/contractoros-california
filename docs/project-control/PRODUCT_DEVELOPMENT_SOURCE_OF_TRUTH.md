@@ -64,7 +64,7 @@ Historical dependency-governance notes from the 4K era (preserved as evidence, n
 - Phase 4K-5 attempted the web dependency/lockfile baseline gate through Issue #39 but is blocked before mutation because required node/npm tooling is unavailable.
 - Phase 4K-5 does not implement the web dependency/lockfile baseline and does not create or change package manifests, lockfiles, `.npmrc` files, dependency directories, runtime QA, or build artifacts.
 - Issue #39 is closed/completed and PR #40 merged at `e531c4d8bc1904c231be1f43114f16f652c4ec52`; the merge records blocked-before-mutation evidence and no dependency baseline implementation.
-- The toolchain availability / npm bootstrap governance path remains valid but is deferred, not rejected, while the workflow-automation path is documented and sequenced.
+- The toolchain availability / npm bootstrap governance path was deferred in the 4K era and was subsequently DELIVERED by H6 (exact pins, committed lockfiles, npm ci, Node pin — see the corrected dependency section above; P0-RECON-2 #144).
 
 ## Current Non-Implemented / Blocked Scope
 
@@ -121,7 +121,7 @@ Platform items not proven by durable evidence:
 Durable development-model decisions supported by current evidence:
 
 - GitHub Issue -> Developer branch -> Pull request -> Control gates -> External red-team decision -> Human/write-access approval -> Merge is the maintained route.
-- Codex is developer executor only.
+- The AI executor is developer executor only (Claude Code / Fable 5 per Decision 3, issue-70-comment-5244162427, superseding the earlier Codex-primary wording of this line — P0-RECON-2 #144).
 - Codex must not self-review, approve, merge, bypass branch protection, or add `RED_TEAM_DECISION` markers.
 - Every phase must link a durable GitHub phase issue.
 - Every phase must declare scope, allowlist, forbidden scope, validation evidence, red-team requirement, human approval status, auto-merge status, and next-phase status.
@@ -175,11 +175,11 @@ Phase sequence rules:
 - Historical immediate path: Phase 4K-8 command-pack and operator-runbook documentation proceeded through Issue #45 and PR #46 and is now closed/merged.
 - Phase 4K-9 through Phase 4K-12 are planning targets only and each requires its own future durable GitHub issue after the prior phase is merged, main-verified, and closed.
 - Historical Phase 4K-8 boundary: dependency resolution, package mutation, lockfile creation, npmrc creation, dependency-directory creation, runtime QA, and build work were excluded. The toolchain/npm path remains deferred, not rejected.
-- Historical Phase 4K-8 did not start Phase 4K-9. Under the current Issue #58 recovery boundary, Phase 4K-9 and downstream progression are paused and Phase 4I remains paused.
+- Historical Phase 4K-8 did not start Phase 4K-9. Under the historical Issue #58 recovery boundary (superseded, P0-RECON #141), Phase 4K-9 and downstream progression were paused and Phase 4I paused — both pauses remain in force today under current phase authority (state/contractoros-state.yaml paused_phases; corrected P0-RECON-2 #144).
 
 Dependency rules:
 
-- Runtime smoke QA remains blocked until a later approved phase supplies a safe dependency baseline path.
+- Runtime smoke QA was blocked pending a safe dependency baseline; that baseline was DELIVERED by H6 — runtime QA gating is now governed by current phase authority (product work remains frozen until H10), not by the delivered-baseline premise (corrected P0-RECON-2 #144).
 - Any package or lockfile mutation requires a Dependency lane or other explicitly approved future phase.
 - Any build/distribution work requires a Build / Distribution lane or other explicitly approved future phase.
 - Any decision to install, bootstrap, substitute, or rely on a package manager requires a later durable issue, red-team review, and human/write-access approval.
@@ -190,7 +190,7 @@ Deferred candidates are not active scope:
 
 - deterministic dependency baseline implementation;
 - toolchain availability / npm bootstrap governance decision;
-- Phase 4K-9 phase intake and Codex handoff automation;
+- Phase 4K-9 phase intake and Codex handoff automation (4K-era planning history; current phase routing is #79 and the executor is per Decision 3 — P0-RECON-2 #144);
 - Phase 4K-10 post-marker checks, merge verification, and issue closeout automation;
 - Phase 4K-11 low-risk automation dry run;
 - Phase 4K-12 95% workflow automation decision gate, blocked until evidence;

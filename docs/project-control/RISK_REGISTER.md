@@ -1101,3 +1101,18 @@ Revisit executed 2026-08-10T07:51Z per the owner's accepted-with-revisit disposi
 ```text
 Revisit executed 2026-08-10T08:56:39Z at the H7A intake boundary per the owner's accepted-with-revisit disposition (questionnaire Q2). Live check (dependabot/alerts?state=open): all three alerts remain open and UNCHANGED from the 07:51Z H6-closeout read — high|image-size ×2, medium|uuid ×1; same packages, same advisories. Disposition UNCHANGED: acceptance stands. Next revisit: next phase boundary (H7A closeout or H7B intake, whichever first). Full read evidence: docs/project-control/evidence/H7A1_SECURITY_POSTURE_INVENTORY.md §4.
 ```
+
+### P0-RECON-2 stale-status resolution appendix — 2026-08-10 <!-- risk documentation scope -->
+
+```text
+Recorded under owner authorization issue-144-comment-5245410500 (P0-RECON-2 #144). Register style honored: original rows above are preserved unmodified; this appendix records their current dispositions with live evidence. Where a row above says "Active" and this appendix closes or re-controls it, this appendix controls.
+
+R-H1-02 (local authority drift): CONTROL UPDATED — the Issue #58 authority named in the row is historical (P0-RECON #141); the active controls today are the armed default-deny phase-authorization wall (PA chain), owner-only merge, and issue #79 + exact-child-issue routing. Risk itself remains ACTIVE with those controls.
+R-H1-03 (role collapse): CONTROL UPDATED — executor-only role now binds the Claude Code / Fable 5 executor (Decision 3); the independent review leg is Opus 5 read-only exact-SHA (Decision 4). Risk itself remains ACTIVE with those controls.
+"dependency toolchain unavailable" (L273): RESOLVED by H6 — pinned toolchain, exact dependency pins, committed lockfiles, npm ci, Node pin (parent #64; PRs #127-#136; TOOLCHAIN.md).
+"no clean public npm lockfile" (L482): RESOLVED by H6 — clean public-registry lockfiles committed for both apps, digest-bound in CI (H6-A.2/H6-B.2 evidence).
+"contaminated lockfiles generated locally" (L493): CONTROLLED/RESOLVED — committed lockfiles are clean-registry and CI enforces registry provenance plus the lockfile contamination scan (check_forbidden_scope --lockfiles-only; web-ci registry check).
+"Prompt model/effort omitted from future work" (L394): SUPERSEDED CONTROL — the ten-field convention is historical; the H5-C execution contract and OD-017 + Decisions 3-4 govern; a missing header is not a stop condition.
+"Codex bootstrap before AGENTS.md" (L405): CLOSED — the bootstrap-order condition was met when AGENTS.md merged (PR #15 era) and the executor role has since been superseded by Decision 3.
+R-H0-TD-R1-001 (H0 closeout blocked pending fresh red-team acceptance): OVERTAKEN BY DELIVERY — H0 closed (#67, #82 closed; H0 terminal-disposition evidence in docs/project-control/evidence/); the finding register's own version chain governs finding status (see RED_TEAM_FINDINGS_REGISTER appendix of this same date).
+```

@@ -33,7 +33,7 @@ PR_50=MERGED
 H1_BOOTSTRAP_AUTHORIZED=NO # blocked scope
 ```
 
-Issue #58 recovery superseded stale Issue #47-era and Issue #49-in-review assertions. Its project-control reconciliation boundary is historical; it preserves the implemented collector as historical merged capability and preserves the long-term product vision unchanged. It does not describe the current Issue #80 / PR #81 activity.
+Issue #58 recovery superseded stale Issue #47-era and Issue #49-in-review assertions. Its project-control reconciliation boundary is historical; it preserves the implemented collector as historical merged capability and preserves the long-term product vision unchanged. It does not describe the Issue #80 / PR #81 activity of the H0 era (both since closed; PR #81 merged 2026-07-19 — wording corrected from "current" under P0-RECON-2 #144).
 
 ## Complete Issue #24 Classification
 
@@ -73,7 +73,7 @@ The nonexistence claim concerning comment `4953096532` is disproven by the compl
 
 ## Historical Recovery Boundary And Current Bounded Activity
 
-The former Issue #58 project-control reconciliation boundary is historical. Product work remains frozen, production remains blocked, Phase 4K-9 and downstream progression remain paused, and Phase 4I remains paused. The only current bounded documentation activity recorded here is Issue #80 and draft PR #81 on `h0-durable-red-team-findings`, including its owner-authorized R1, R2, and R3 correction history. No H0 closeout, H1 bootstrap, H7A, H8, product, production, approval, merge, issue closeout, or next-packet authority follows from this activity.
+The former Issue #58 project-control reconciliation boundary is historical. Product work remains frozen, production remains blocked, Phase 4K-9 and downstream progression remain paused, and Phase 4I remains paused. HISTORICAL (corrected from "current" under P0-RECON-2 #144): the bounded documentation activity this section recorded was Issue #80 and draft PR #81 on `h0-durable-red-team-findings` (both since closed; PR #81 merged 2026-07-19), including its owner-authorized R1, R2, and R3 correction history — current activity routing is issue #79 plus the exact authorized child issue. No H0 closeout, H1 bootstrap, H7A, H8, product, production, approval, merge, issue closeout, or next-packet authority follows from this activity.
 
 ## H0 Durable Finding Authority — Documentation Scope
 
@@ -214,3 +214,14 @@ ROADMAP_CHRONOLOGY_DOES_NOT_CREATE_AUTHORITY=YES
 | Ten-field prompt convention as mandatory operating input (former AGENTS.md mandate; PROMPT_CONVENTION.md) | SUPERSEDED by the H5-C evidence-bearing execution contract (role, authority source, base SHA, target head, allowed/forbidden paths, required checks, stop conditions); PROMPT_CONVENTION.md is historical evidence | H5-C delivery (#118) + P0-RECON #141 AGENTS.md correction |
 | Committed state file as self-proof of current main (`current_main_sha` semantics) | SUPERSEDED semantics: committed state is a LAST-VERIFIED OBSERVATION (`observed_main_sha` + generated/expires timestamps + source queries); COMMITTED_STATE_IS_NEVER_SELF_PROOF_OF_CURRENT_MAIN=YES; the legacy `current_main_sha` key persists only as a compatibility alias required by `scripts/continuity/red_team_continuity.py` until its separately authorized parser update. Fuller parser-constraint disclosure (Opus 5 round-1 finding): that parser also exact-matches the OLD `snapshot_semantics` literal (`observed_snapshot_requires_live_verification`) at its line 1841 and requires a `linked_pr` dict + specific lifecycle values for its canonical-validation path — constraints the committed state did not satisfy before this change either (pre-existing divergence, checker outcome unchanged); full reconciliation belongs to the parser's typed-schema phase | Owner state-semantics directive (issue-70-comment-5244162427); P0-RECON #141 |
 | "PROJECT_FOUNDATION.md is the living project foundation" (DECISION_LOG early standing claim) | SUPERSEDED: PROJECT_FOUNDATION_ROLE=SUBORDINATE_FOUNDATION_REFERENCE; the canonical top-level authority is PROGRAM_CONSTITUTION.md | Owner Decision 2 (issue-70-comment-5244162427); P0-RECON #141 |
+
+## P0-RECON-2 Residual Sweep — 2026-08-10 (#144, documentation scope)
+
+Recorded under owner authorization issue-144-comment-5245410500; owner #70 refresh comment issue-70-comment-5245520671 supersedes that issue body's stale self-description ("current authoritative summary") — the dated comment chain is the current summary mechanism. Repository-wide non-archive semantic sweep executed (118 files, twelve stale-authority classes, four-way classification); full table: evidence/RECON2_STALE_AUTHORITY_CLASSIFICATION.md. The P0-RECON closeout overclaim is corrected append-only in evidence/P0_RECON_CLOSEOUT_ACCURACY_CORRECTION.md (the report file itself stays byte-unmodified under the one-changed-phase-report-per-PR gate — constraint disclosed).
+
+| Earlier record or claim | Current disposition | Controlling record |
+|---|---|---|
+| "Operational documents now tell one story" (P0-RECON closeout) | CORRECTED: substantial reconciliation with residual stale active documents; residuals swept and corrected under #144 | Independent review 2026-08-10; evidence/P0_RECON_CLOSEOUT_ACCURACY_CORRECTION.md; P0-RECON-2 evidence table |
+| Issue #70 body's "current summary" self-description | Body is historical self-description; the owner's dated comment chain controls (refresh comment 5245520671) | Owner comment issue-70-comment-5245520671 |
+| Review markers without an isolation claim | Every red-team marker MUST carry TECHNICALLY_ENFORCED_READ_ONLY=NOT_PROVEN until a technically enforced read-only review surface exists (H8 structural home) | RED_TEAM_STARTUP_PACKET_SPEC.md attestation addendum (#144) |
+| D27 (Issue #58 recovery authority) / D28 (Codex role model) with empty superseded_by | superseded_by populated: D27 -> P0-RECON #141 + Decision 1; D28 -> Decisions 3-4 | OWNER_DECISION_REGISTER.yaml (2026-08-10) |
