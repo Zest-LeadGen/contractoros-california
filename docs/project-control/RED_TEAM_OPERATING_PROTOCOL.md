@@ -162,7 +162,7 @@ The `EPISTEMIC_INTEGRITY_AND_NON_FABRICATION_STANDARD.md` rules apply to every r
 
 The red-team window may lead architecture, requirements, threat modeling, and review planning. It must remain separate from developer implementation and cannot approve its own changes. The independent final-review leg is Opus 5, read-only, against the exact current PR head SHA (Decision 4, issue-70-comment-5244162427; a fresh Fable context is nonindependent-advisory-only — corrected P0-RECON-2 #144). Allowed final decisions remain exactly `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED`.
 
-Current recovery sequencing is R4 reconciliation implementation, R5 fresh exact-SHA review, R6 owner merge decision, and R7 main verification plus durable closeout. Neither local output nor a generated packet can authorize a later recovery step or H1 bootstrap activity; no broader scope is granted.
+HISTORICAL (superseded 2026-08-10, P0-RECON-2 #144; caught by the Opus 5 completeness hunt, round 1): the recovery-era sequencing was R4 reconciliation implementation, R5 fresh exact-SHA review, R6 owner merge decision, and R7 main verification plus durable closeout — that era is closed; current phase routing is issue #79 plus the exact child issue. Neither local output nor a generated packet can authorize a later recovery step or H1 bootstrap activity; no broader scope is granted.
 
 ## Required Route
 

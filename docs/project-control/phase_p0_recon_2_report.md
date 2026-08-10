@@ -14,7 +14,7 @@ Control / Infrastructure
 
 ## Scope
 
-PA-0024 bootstrap for #144 (first record; nothing to close). Repository-wide semantic stale-authority sweep (118 maintained non-archive files, twelve classes, four-way classification of every hit; full table committed as evidence); corrections to 30+ active operational documents; append-only register notes; the P0-RECON accuracy correction; the attestation-contract TECHNICALLY_ENFORCED_READ_ONLY field; D27/D28 supersession population; state refresh from fresh live reads; H7A-3 evidence truth-up per the on-platform head-preservation record.
+PA-0024 bootstrap for #144 (first record; nothing to close). Repository-wide semantic stale-authority sweep (auditable enumeration: 121 maintained non-archive files at this head, committed as the classification table's Appendix; twelve classes, four-way classification of every hit); corrections to 28 active operational documents plus 2 registers' append-only notes (30 corrected surfaces); append-only register notes; the P0-RECON accuracy correction; the attestation-contract TECHNICALLY_ENFORCED_READ_ONLY field; D27/D28 supersession population; state refresh from fresh live reads; H7A-3 evidence truth-up per the on-platform head-preservation record.
 
 ## Starting Main SHA
 
@@ -34,7 +34,7 @@ None. No dependency, manifest, or lockfile touched.
 
 ## Documentation Impact
 
-The maintained tree now carries no known statement presenting superseded authority as current: #58-era, Codex-primary, ten-field-mandatory, 4K-current, pre-H6-toolchain, and pre-Decision-4 red-team language is corrected in place or explicitly marked historical, with twelve per-file supersession banners and every correction naming its supersession. PROMPT_CONVENTION.md carries its own SUPERSEDED banner, closing the competing-authority pair. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
+The maintained tree now carries no known statement presenting superseded authority as current — with "known" bounded by the twelve classes and by the Opus 5 completeness hunt at the reviewed head: #58-era, Codex-primary, ten-field-mandatory, 4K-current, pre-H6-toolchain, and pre-Decision-4 red-team language is corrected in place or explicitly marked historical. Banner inventory, exact: eleven per-file supersession banners plus PROMPT_CONVENTION.md's top-of-file SUPERSEDED banner (twelve total), every correction naming its supersession. CORRECTION (round 2): this report's earlier certification "VALIDATION_TASKS.md: reviewed, no update required" was FALSE — the Opus 5 hunt found its H1-R5/H1-#76 sections presenting merged PRs #75/#77 as pending; both sections are now retitled Historical with era-completion facts, and the false certification is owned here rather than deleted. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
 
 ## Validation Evidence
 

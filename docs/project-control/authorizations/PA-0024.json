@@ -258,6 +258,13 @@
       "change_kinds": [
         "modify"
       ]
+    },
+    {
+      "rule_id": "ALLOW-036",
+      "pattern": "docs/project-control/VALIDATION_TASKS.md",
+      "change_kinds": [
+        "modify"
+      ]
     }
   ],
   "forbidden_paths": [
