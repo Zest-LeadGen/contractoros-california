@@ -23,6 +23,7 @@
   },
   "blockers": [
     "Product work frozen (T2 carve-out excepted)",
+    "R-DEP-SEC-001: three Dependabot alerts on the mobile lockfile (image-size 2xHIGH no-patch, uuid MEDIUM) \u2014 owner disposition required; recorded in RISK_REGISTER",
     "npm-ci/latest manifest-pin gap: review-enforced until the H6-B pin scan lands (disclosed H6-A.1 finding)",
     "CRM/user-account work waits for H10 (5228512217)"
   ],
@@ -38,7 +39,8 @@
     "h6a2:pr-128:merged-by-owner:pins-lockfile-digest-matched",
     "pa:PA-0011:live-for-118:first-base-mode-validation-pr-128",
     "web-ci:green-with-engines-pins:pr-128-and-main-push",
-    "finding:npm-ci-accepts-latest-dist-tag:routed-to-h6b-pin-scan"
+    "finding:npm-ci-accepts-latest-dist-tag:routed-to-h6b-pin-scan",
+    "dependabot:alerts-1-2-3:apps-mobile-lockfile:R-DEP-SEC-001:owner-disposition-pending"
   ],
   "public_private_references": {
     "public": [

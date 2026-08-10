@@ -1064,3 +1064,16 @@ Residual risk (disclosed): BOOTSTRAP shifts the wall from pre-authorized-on-main
 Relocation support: content-identical renames (git R100) are authorizable only by exact-path relocate rules (pattern -> to); drifted renames (R<100), copies, and pattern renames stay denied; authorization records are never deletable or relocatable.
 Last reviewed: 2026-08-09
 ```
+
+### R-DEP-SEC-001 — Dependabot alerts in mobile lockfile (Expo SDK 57 transitive deps) — 2026-08-10 <!-- risk documentation scope -->
+
+```text
+Risk: Three Dependabot alerts surfaced when the H6-A.2 mobile lockfile fed the dependency graph (all transitive deps of the pinned Expo SDK 57 set): (1)+(2) image-size <=2.0.2, two HIGH advisories (ICNS / JXL+HEIF parser infinite-loop denial of service) with NO patched version published; (3) uuid <11.1.1, MEDIUM (missing buffer bounds check in v3/v5/v6 when buf provided), patched in 11.1.1 but reachable in this tree only via a transitive override into the Expo dependency graph.
+Status: OPEN — owner decision required (DEPENDENCY_SECURITY_RISK_ACCEPTANCE class per the phase-authorization contract)
+Exposure assessment (recorded, not a disposition): image-size and uuid sit in the dev-time/bundler side of the Expo/Metro toolchain of an internal prototype; the product is frozen, nothing is released or exposed, and the DoS class requires feeding attacker-controlled image bytes to a build-time parser. No production exposure exists today.
+Options for owner: (a) documented risk acceptance until patches publish or H6-B lands (revisit at every phase boundary per docs/TOOLCHAIN.md vulnerability policy); (b) authorize an out-of-band uuid override to 11.1.1 (compat risk: forcing a major-version transitive into the Expo tree without device/emulator test coverage, which does not exist until H6-B+); image-size has no patch to take under either option.
+Mitigation until decision: pins are exact and lockfile-enforced (no drift), the alert set is bound to this recorded lockfile digest, and TOOLCHAIN.md requires advisory re-evaluation at each phase boundary.
+Owner: Owner (disposition) / executor (implementation under a PA once decided)
+Resolution condition: owner disposition recorded in DECISION_LOG (acceptance with revisit trigger, or authorized bump PR), and alerts either closed by patch adoption or explicitly accepted with a dated revisit.
+Last reviewed: 2026-08-10
+```

@@ -55,6 +55,13 @@
       "change_kinds": [
         "modify"
       ]
+    },
+    {
+      "rule_id": "ALLOW-007",
+      "pattern": "docs/project-control/RISK_REGISTER.md",
+      "change_kinds": [
+        "modify"
+      ]
     }
   ],
   "forbidden_paths": [
@@ -71,7 +78,8 @@
     "owner_human_approval"
   ],
   "owner_trigger_categories": [
-    "ARCHITECTURE_THRESHOLD"
+    "ARCHITECTURE_THRESHOLD",
+    "DEPENDENCY_SECURITY_RISK_ACCEPTANCE"
   ],
   "classifications": {
     "dependency": "NONE",

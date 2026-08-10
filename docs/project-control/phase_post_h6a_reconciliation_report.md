@@ -51,7 +51,7 @@ Armed phase-authorization gate validates this PR in CI (mode=bootstrap, closed_r
 
 ## Risk Register Impact
 
-docs/project-control/RISK_REGISTER.md: reviewed, no update required.
+docs/project-control/RISK_REGISTER.md: R-DEP-SEC-001 added — three Dependabot alerts surfaced on the new mobile lockfile when this PR was pushed (image-size 2x HIGH, no patch published; uuid MEDIUM, patch only via transitive override). Owner disposition required (DEPENDENCY_SECURITY_RISK_ACCEPTANCE); this PR records the facts and options, accepts nothing, bumps nothing.
 
 ## Decision Log Impact
 
@@ -93,8 +93,8 @@ Next: H6-B (product CI + control hardening) under the same H6 authorization; the
 
 OWNER_TRIGGER_REVIEW
 Owner interruption required: YES
-Trigger categories: ARCHITECTURE_THRESHOLD
+Trigger categories: ARCHITECTURE_THRESHOLD, DEPENDENCY_SECURITY_RISK_ACCEPTANCE
 Lane eligibility: NOT_AUTOMATION_ELIGIBLE
 Human approval required: YES
 Auto-merge eligible: NO
-Rationale: Post-merge snapshot reconciliation with authorization-record closure; owner review required.
+Rationale: Post-merge snapshot reconciliation with authorization-record closure, plus a new dependency-security risk record requiring owner disposition; owner review required.
