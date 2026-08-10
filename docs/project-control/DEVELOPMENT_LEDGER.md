@@ -1033,3 +1033,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: documentation/state reconciliation only; no product, dependency, workflow, or script change; no red-team finding inferred resolved; H7A-4 remains blocked until merge + verified main
 Automatic continuation: NO
 ```
+
+```text
+Phase: H7A-4 workflow hardening
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h7a-4-workflow-hardening
+Phase issue: #137
+Scope: PA-0025 bootstrap closing PA-0023; 15 tag refs -> full-SHA pins (live-resolved, annotated tag dereferenced); timeouts + concurrency + persist-credentials:false across all four pre-existing workflows (control-gates mechanical-only, logic byte-unchanged); tracked control-checker .pyc deleted via explicit exact-path delete rule; evidence + records + state refresh.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: CI hardening configuration only; no gate logic, script, dependency, or product change; apps/web/README.md fix remains routed (not included per owner scope choice)
+Automatic continuation: NO
+```

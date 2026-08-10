@@ -14,19 +14,28 @@ on:
 permissions:
   contents: read
 
+# H7A-4 (#137, PA-0025): full-SHA action pins (resolved live 2026-08-10),
+# bounded timeout, concurrency, persist-credentials:false.
+concurrency:
+  group: web-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   web-build:
     name: Web install + build from lockfile
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: apps/web
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version-file: ".nvmrc"
           cache: npm
