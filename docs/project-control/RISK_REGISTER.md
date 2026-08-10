@@ -1089,3 +1089,9 @@ Owner: executor (rule compliance) / hourly auditor (independent check)
 Resolution condition: three consecutive reconciliations with plausible second-precision timestamps confirmed by the auditor.
 Last reviewed: 2026-08-10
 ```
+
+### R-DEP-SEC-001 scheduled revisit — H6 closeout — 2026-08-10 <!-- risk documentation scope -->
+
+```text
+Revisit executed 2026-08-10T07:51Z per the owner's accepted-with-revisit disposition (questionnaire Q2). Live check: all three alerts remain open and UNCHANGED — image-size latest published version is still 2.0.2 (the vulnerable version; NO patch exists for either HIGH advisory), uuid patched versions exist (latest 14.0.1) but remain reachable only via a transitive override into the Expo tree (untested territory; component/RN test tooling still tracked). Note: the H6-B.2 lockfile regeneration re-resolved transitives within pinned ranges and did not alter the alert set. Disposition UNCHANGED: acceptance stands. Next revisit: next phase boundary (next-horizon intake or next reconciliation, whichever first).
+```

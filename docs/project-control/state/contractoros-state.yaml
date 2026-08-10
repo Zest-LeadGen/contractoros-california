@@ -1,43 +1,43 @@
 {
   "schema_version": "1.0.1",
   "snapshot_semantics": "observed_snapshot_requires_live_verification; github_verified_at MUST be the second-precision time of the actual gh read that grounded this snapshot, captured at read time \u2014 never rounded, projected, or written in advance (R-STRESS-005 rule, 2026-08-10)",
-  "current_main_sha": "3a2df46b848475bba246aece3f4c7861c461e7e7",
-  "active_gate": "H6-B in progress \u2014 H6-B.1 merged (manifest pin gate, overclaim fix, phase-authorization-from-main defense, mobile CI, .nvmrc single-sourcing) and the owner ruleset act wired three required contexts (aggregate + web-ci + mobile-ci). Remaining: H6-B.2 (Product / QA: lint/format/typecheck/unit tests in the apps), then H5+H6 closeout on #118/#64",
+  "current_main_sha": "e38cdf7e860f256b7c6eb065a395c469ab6df3e8",
+  "active_gate": "H5+H6 DELIVERED IN FULL \u2014 closeout in review (this PR): H5-A..H5-D, H6-A.1/.2, H6-B.1, H6-B.2a/.2 all merged; wall armed; three required CI contexts; lint/unit/coverage layers active. On merge of this PR the owner closes #118 and #64 with the recorded evidence; next horizon (H7A/H7B) requires its own intake + owner authorization",
   "linked_issue": {
     "number": 58,
     "state": "closed_completed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h6_in_progress",
+  "lifecycle_state": "h5_h6_delivered_closeout_in_review",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
   ],
   "completed_prior_phase": {
-    "phase": "H6-B.1 control hardening (pin scan, overclaim fix, wall-from-main, mobile CI) + owner required-check ruleset act",
+    "phase": "H6-B.2 test layers (lint + unit + coverage both apps; PA-0017 base mode)",
     "issue_number": 118,
-    "issue_state": "open_h6b2_pending",
-    "pr_number": 132,
+    "issue_state": "open_closeout_in_review",
+    "pr_number": 135,
     "pr_state": "merged",
-    "merge_sha": "3a2df46b848475bba246aece3f4c7861c461e7e7"
+    "merge_sha": "e38cdf7e860f256b7c6eb065a395c469ab6df3e8"
   },
   "blockers": [
-    "Product work frozen (T2 carve-out excepted)",
-    "R-DEP-SEC-001: ACCEPTED with dated revisit (owner Q2); 3 open alerts; next revisit H6-B closeout",
+    "Product work frozen (T2 carve-out excepted); feature work resumes at H10",
+    "R-DEP-SEC-001: ACCEPTED with dated revisit \u2014 H6-closeout revisit DONE 2026-08-10T07:51Z, unchanged (image-size latest is still the vulnerable 2.0.2, no patch published; uuid fix remains transitive-override-only); next revisit at the next phase boundary",
     "CRM/user-account work waits for H10 (5228512217)"
   ],
-  "next_authorized_planning_target": "H6-B.2 (Product / QA test layers), then H5+H6 closeout on #118/#64",
+  "next_authorized_planning_target": "H5+H6 closeout key-turn (this PR + issue closures), then next-horizon intake (H7A/H7B) under fresh owner authorization",
   "documentation_scope": "public_safe",
   "evidence_timestamps": {
-    "github_verified_at": "2026-08-10T04:19:55Z",
+    "github_verified_at": "2026-08-10T07:51:24Z",
     "state_recorded_on": "2026-08-10"
   },
   "evidence_identifiers": [
-    "product-main:3a2df46b848475bba246aece3f4c7861c461e7e7:pr-132-merged-by-owner-2026-08-10T04:19:37Z",
-    "ruleset-20598456:required-contexts:aggregate+web-ci+mobile-ci:owner-keyturn-readback",
-    "pa:PA-0015:live-as-of-observed-snapshot-for-118:this-pr-introduces-PA-0016-superseding-it",
-    "npm-ci-latest-gap:CLOSED-by-manifest-pin-gate:pr-132",
-    "r-stress-002:wall-from-main-defense:ACTIVE:pr-132"
+    "product-main:e38cdf7e860f256b7c6eb065a395c469ab6df3e8:pr-135-merged-by-owner-2026-08-10T07:49:13Z",
+    "h6b2:pr-135:web-6of6-mobile-3of3:lint-clean:lockfiles-digest-bound",
+    "pa:PA-0017:live-as-of-observed-snapshot-for-118:this-pr-introduces-PA-0018-superseding-it",
+    "dependabot-revisit:2026-08-10T07:51Z:unchanged:acceptance-stands",
+    "required-contexts:aggregate+web-ci+mobile-ci:enforcing-since-2026-08-10T04:21Z"
   ],
   "public_private_references": {
     "public": [
