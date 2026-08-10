@@ -1052,7 +1052,7 @@ Lane: Control / Infrastructure
 Date: 2026-08-10
 Branch: h7a-5-closeout
 Phase issue: #137
-Scope: PA-0026 bootstrap closing PA-0025; closeout evidence (deliverable index, #65 exit-criteria mapping, SSDF mapping, SLSA gap assessment no-level-claimed, re-pin cadence, seven routed remainders); R-DEP-SEC-001 revisit unchanged; Dependabot function proven live (#145-#147); required-context decision DEFERRED; RT-H0 2.2.0 lifecycle-completion records under the register contract (no re-adjudication); control-gates step label 344->348; readme companion PR follows per owner "Go with readme".
+Scope: PA-0026 bootstrap closing PA-0025; closeout evidence (deliverable index, #65 exit-criteria mapping, SSDF mapping, SLSA gap assessment no-level-claimed, re-pin cadence, nine routed remainders incl. the license decision and the desk-only exercise residual); R-DEP-SEC-001 revisit unchanged; Dependabot function proven live (#145-#147); required-context decision DEFERRED; RT-H0 2.2.0 lifecycle-completion records under the register contract (no re-adjudication); control-gates step label 344->348; readme companion PR follows per owner "Go with readme".
 Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: closeout records only; H7A reads COMPLETE only after this merge + the companion merge + verified main + owner closures of #137/#65
 Automatic continuation: NO

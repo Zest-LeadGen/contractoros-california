@@ -14,7 +14,7 @@ Control / Infrastructure
 
 ## Scope
 
-PA-0026 bootstrap closing PA-0025. Adds the closeout evidence (delivered-evidence index, #65 exit-criteria mapping, SSDF practice mapping, SLSA gap assessment with no level claimed, R-DEP-SEC-001 revisit, live Dependabot function evidence, DEFERRED required-context decision, re-pin cadence, and the seven-item routed-remainder list); appends three RT-H0 Version 2.2.0 LIFECYCLE-COMPLETION records to the findings register — schema-complete after Opus round 1 caught the initial drafts omitting 11 of the 24 required fields (all fields now present; re-examination scheduled IN-FIELD via RETEST_TRIGGERS=H9 intake; declared enum values only; lifecycle facts in an additive field, resolution-reserved fields carried verbatim; NO underlying finding re-adjudicated — explicitly H9 scope); fixes the control-gates continuity-suite step label 344→348 (the Opus-routed cosmetic; one string, no logic); records + state refresh.
+PA-0026 bootstrap closing PA-0025. Adds the closeout evidence (delivered-evidence index, #65 exit-criteria mapping, SSDF practice mapping, SLSA gap assessment with no level claimed, R-DEP-SEC-001 revisit, live Dependabot function evidence, DEFERRED required-context decision, re-pin cadence, and the nine-item routed-remainder list); appends three RT-H0 Version 2.2.0 LIFECYCLE-COMPLETION records to the findings register — schema-complete after Opus round 1 caught the initial drafts omitting 11 of the 24 required fields (all fields now present; re-examination scheduled IN-FIELD via RETEST_TRIGGERS=H9 intake; declared enum values only; lifecycle facts in an additive field, resolution-reserved fields carried verbatim; NO underlying finding re-adjudicated — explicitly H9 scope); fixes the control-gates continuity-suite step label 344→348 (the Opus-routed cosmetic; one string, no logic); records + state refresh.
 
 ## Starting Main SHA
 
@@ -34,7 +34,7 @@ None. No manifest or lockfile touched. Dependabot's advisory PRs are recorded as
 
 ## Documentation Impact
 
-Closeout evidence consolidates all five deliverables with the exit-criteria mapping, honest gap statements (no SBOM; no build provenance — builds do not exist; no SLSA level claimed), the desk vulnerability/incident exercises (§8, added after Opus round 1 found the #65-required item neither delivered nor routed), and the LICENSE decision recorded as routed item 8 (round-1 catch; open under #71 option-B). The findings register gains schema-complete lifecycle-completion versions only, per its contract as corrected in round 1. docs/project-control/RISK_REGISTER.md: reviewed, no update required (the revisit outcome is UNCHANGED; the register's standing acceptance and revisit schedule already state the next trigger). docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md: reviewed, no update required. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
+Closeout evidence consolidates all five deliverables with the exit-criteria mapping, honest gap statements (no SBOM; no build provenance — builds do not exist; no SLSA level claimed), the desk vulnerability/incident exercises (§8, added after Opus round 1 found the #65-required item neither delivered nor routed), and the LICENSE decision recorded as routed item 8 (round-1 catch; open under #71 option-B); round 2 added routed item 9 (the desk-only exercise form re-runs as live drills at H10) and corrected this report's routed-item count from seven to nine. The findings register gains schema-conforming lifecycle-completion versions only, per its contract as corrected in round 1. docs/project-control/RISK_REGISTER.md: reviewed, no update required (the revisit outcome is UNCHANGED; the register's standing acceptance and revisit schedule already state the next trigger). docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md: reviewed, no update required. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
 
 ## Workflow Validation
 
@@ -84,7 +84,7 @@ Forbidden scope confirmation: confirmed.
 
 ## Claim Level
 
-H7A reads COMPLETE only after this PR merges, main verifies, and the owner closes #137 and #65 — nothing here claims that in advance. The SSDF mapping is a practice mapping, not a certification; no SLSA level is claimed (builds do not exist); the register versions record lifecycle completion, not fresh adjudication. Seven routed items remain open by design and are enumerated in the evidence §7.
+H7A reads COMPLETE only after this PR merges, main verifies, and the owner closes #137 and #65 — nothing here claims that in advance. The SSDF mapping is a practice mapping, not a certification; no SLSA level is claimed (builds do not exist); the register versions record lifecycle completion, not fresh adjudication. Nine routed items remain open by design and are enumerated in the evidence §7 (count corrected twice by Opus rounds — the list's own growth from the review findings is the reason).
 
 ## Known Limitations
 
