@@ -32,6 +32,9 @@ jobs:
       - name: Lockfile / dependency contamination check
         if: always()
         run: python3 scripts/control/check_forbidden_scope.py --lockfiles-only
+      - name: Manifest pin check (exact versions only; closes the npm-ci/latest gap)
+        if: always()
+        run: python3 scripts/control/check_manifest_pins.py
 
   pr-contract:
     name: pr-contract
@@ -68,6 +71,28 @@ jobs:
       - uses: actions/checkout@v4
       - name: Phase-authorization checker adversarial suite
         run: python3 scripts/control/tests/test_phase_authorization.py
+      - name: Manifest-pin checker adversarial suite
+        if: always()
+        run: python3 scripts/control/tests/test_manifest_pins.py
+
+  phase-authorization-from-main:
+    # R-STRESS-002 defense: a PR can edit the checkers in its own tree, so the
+    # most load-bearing gate (the path wall) ALSO runs from the base branch's
+    # copy. A PR that neuters scripts/control/check_phase_authorization.py in
+    # its own tree still faces main's version here. Scope disclosed: this
+    # protects the wall itself; the other validators remain PR-tree and are
+    # backstopped by CODEOWNERS review.
+    name: phase-authorization-from-main
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run the BASE-branch path-wall checker against this PR
+        run: |
+          git show "origin/${GITHUB_BASE_REF}:scripts/control/check_phase_authorization.py" > scripts/control/main_cpa_ci_copy.py
+          python3 scripts/control/main_cpa_ci_copy.py
 
   continuity-tests:
     name: continuity-tests
@@ -104,7 +129,7 @@ jobs:
   contractoros-control-gates:
     name: contractoros-control-gates
     runs-on: ubuntu-latest
-    needs: [policy-validators, pr-contract, contract-consumption, control-script-tests, continuity-tests, red-team-marker, phase-authorization]
+    needs: [policy-validators, pr-contract, contract-consumption, control-script-tests, continuity-tests, red-team-marker, phase-authorization, phase-authorization-from-main]
     if: always()
     steps:
       - name: Aggregate gate
@@ -116,6 +141,7 @@ jobs:
           echo "continuity-tests:     ${{ needs.continuity-tests.result }}"
           echo "red-team-marker:      ${{ needs.red-team-marker.result }}"
           echo "phase-authorization:  ${{ needs.phase-authorization.result }}"
+          echo "phase-auth-from-main: ${{ needs.phase-authorization-from-main.result }}"
           for r in "${{ needs.policy-validators.result }}" "${{ needs.contract-consumption.result }}" "${{ needs.control-script-tests.result }}" "${{ needs.continuity-tests.result }}"; do
             [ "$r" = "success" ] || { echo "AGGREGATE: FAIL (core job $r)"; exit 1; }
           done
@@ -123,8 +149,9 @@ jobs:
             [ "${{ needs.pr-contract.result }}" = "success" ] || { echo "AGGREGATE: FAIL (pr-contract)"; exit 1; }
             [ "${{ needs.red-team-marker.result }}" = "success" ] || { echo "AGGREGATE: FAIL (red-team-marker)"; exit 1; }
             [ "${{ needs.phase-authorization.result }}" = "success" ] || { echo "AGGREGATE: FAIL (phase-authorization)"; exit 1; }
+            [ "${{ needs.phase-authorization-from-main.result }}" = "success" ] || { echo "AGGREGATE: FAIL (phase-authorization-from-main)"; exit 1; }
           else
-            for r in "${{ needs.pr-contract.result }}" "${{ needs.red-team-marker.result }}" "${{ needs.phase-authorization.result }}"; do
+            for r in "${{ needs.pr-contract.result }}" "${{ needs.red-team-marker.result }}" "${{ needs.phase-authorization.result }}" "${{ needs.phase-authorization-from-main.result }}"; do
               case "$r" in success|skipped) ;; *) echo "AGGREGATE: FAIL ($r)"; exit 1;; esac
             done
           fi

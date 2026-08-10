@@ -1,0 +1,61 @@
+name: contractoros-mobile-ci
+
+# H6-B.1: mobile dependency/static validation (issue #64 items 5-6, mobile
+# half). Deterministic install from the committed lockfile plus static
+# config validation — no emulator/device layers (tracked, blocked per the
+# TOOLCHAIN.md test-layer ledger). Advisory until the owner wires required
+# checks (H6-B ruleset act).
+
+on:
+  pull_request:
+    paths:
+      - "apps/mobile/**"
+      - ".nvmrc"
+      - ".github/workflows/mobile-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/mobile/**"
+      - ".nvmrc"
+      - ".github/workflows/mobile-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  mobile-install:
+    name: Mobile install + static validation from lockfile
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+
+      - name: Registry provenance check
+        run: |
+          test "$(npm config get registry)" = "https://registry.npmjs.org/"
+          test ! -f .npmrc
+
+      - name: Clean install from lockfile only
+        run: npm ci --no-audit --no-fund
+
+      - name: Lockfile drift check
+        run: git diff --exit-code package.json package-lock.json
+
+      - name: Expo config static validation
+        env:
+          EXPO_NO_TELEMETRY: "1"
+          CI: "1"
+        run: npx expo config --type public > /dev/null
+
+      - name: Entry module resolves
+        run: node -e "require.resolve('./App.js')"

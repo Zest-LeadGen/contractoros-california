@@ -925,3 +925,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: review-gate coverage fix and rule record only
 Automatic continuation: NO
 ```
+
+```text
+Phase: H6-B.1 control hardening (pin scan, overclaim fix, wall-from-main, mobile CI)
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h6b1-control-hardening
+Phase issue: #118
+Scope: check_manifest_pins.py + 11 tests (npm-ci/latest gap closed); overclaim FORWARD_QUALIFIERS fix (5-way verified); phase-authorization-from-main aggregate-required job (R-STRESS-002); .nvmrc as node-version-file in web-ci; new mobile-ci workflow (advisory pending owner ruleset act); root-manifest decision closed (none); PA-0015 closing PA-0014.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: control hardening delivered for owner review; enforcement of new CI contexts as required checks awaits the owner ruleset act
+Automatic continuation: NO
+```
