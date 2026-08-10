@@ -50,7 +50,7 @@ None — no manifest or lockfile changes. The scheduled dependency-security revi
 
 ## Documentation Impact
 
-TOOLCHAIN.md now reads as landed state; evidence-of-record complete for both H6 halves.
+TOOLCHAIN.md now reads as landed state; the evidence-of-record for both H6 halves is landed and digest-verified.
 
 ## Validation Evidence
 
