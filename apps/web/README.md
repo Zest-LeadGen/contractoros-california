@@ -4,8 +4,10 @@ Local React + Vite app shell for ContractorOS California.
 
 ## Install
 
+Deterministic install from the committed lockfile (H6 toolchain baseline — see `docs/TOOLCHAIN.md`; `npm install` can mutate the lockfile, which CI's digest gate rejects):
+
 ```bash
-npm install
+npm ci
 ```
 
 ## Run locally
