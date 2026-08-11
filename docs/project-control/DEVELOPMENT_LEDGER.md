@@ -1069,3 +1069,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: pre-authorization records only; the readme fix is delivered by the companion PR; H7A closure waits for the companion merge + owner closures of #137/#65
 Automatic continuation: NO
 ```
+
+```text
+Phase: H7A authority-chain reconciliation (records)
+Lane: Control / Infrastructure
+Date: 2026-08-11
+Branch: authority-chain-reconciliation
+Phase issue: #70
+Scope: PA-0028 bootstrap closing PA-0021; append-only reconciliation per issue-70-comment-5247694567 — two-part defect + stale-state mismatch recorded; README result retained-by-owner-now without retroactive authority; H7A_RESULT amended to TECHNICALLY_DELIVERED_WITH_AUTHORITY_CHAIN_DEFECT via dedicated evidence file; preventive rules R1-R4 in the index; machine-check requirement routed to H7B; state refresh.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: records correction only; no implementation authority created; H7B mutation remains HELD until merge + independently verified main
+Automatic continuation: NO
+```

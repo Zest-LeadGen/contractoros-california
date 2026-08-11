@@ -70,7 +70,7 @@
   },
   "supersession": {
     "supersedes": [],
-    "revoked": false,
-    "revocation_evidence": null
+    "revoked": true,
+    "revocation_evidence": "Closed by PA-0028 bootstrap under owner authority-chain reconciliation issue-70-comment-5247694567 (2026-08-11)"
   }
 }
