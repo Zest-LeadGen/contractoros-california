@@ -1057,3 +1057,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: closeout records only; H7A reads COMPLETE only after this merge + the companion merge + verified main + owner closures of #137/#65
 Automatic continuation: NO
 ```
+
+```text
+Phase: H7A-C0 companion pre-authorization
+Lane: Control / Infrastructure
+Date: 2026-08-10
+Branch: h7a-c0-companion-preauthorization
+Phase issue: #137
+Scope: PA-0027 bootstrap closing PA-0026; pre-authorizes the Product/QA readme companion (apps/web/README.md + companion report) per the #134/#135 pattern; owner Option-B choice and H8-ASAP intent recorded; no companion path touched here.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: pre-authorization records only; the readme fix is delivered by the companion PR; H7A closure waits for the companion merge + owner closures of #137/#65
+Automatic continuation: NO
+```

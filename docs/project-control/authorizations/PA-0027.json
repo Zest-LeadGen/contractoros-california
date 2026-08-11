@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0026",
+  "authorization_id": "PA-0027",
   "evidence_id": "issue-137-comment-5238006617",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 137,
   "base_branch": "main",
-  "base_sha": "945031a11ca9a2c2d24f71ef4121e4a1a67db04e",
-  "lane": "Control / Infrastructure",
+  "base_sha": "b800a00171d488aab5f19eaabeac3ae94d84651d",
+  "lane": "Control / Infrastructure preauthorization for a Product / QA companion (owner mid-gate direction, H7A-5)",
   "expiry": "2026-08-24",
   "developer_principal": "danidon-wq",
   "approver_principals": [
@@ -16,80 +16,71 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0026.json",
+      "pattern": "docs/project-control/authorizations/PA-0027.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/evidence/H7A5_CLOSEOUT_EVIDENCE.md",
+      "pattern": "docs/project-control/phase_h7a_c0_companion_preauthorization_report.md",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-003",
-      "pattern": "docs/project-control/phase_h7a_5_closeout_report.md",
+      "pattern": "docs/project-control/phase_h7a_c1_web_readme_companion_report.md",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-004",
-      "pattern": "docs/project-control/authorizations/PA-0025.json",
+      "pattern": "docs/project-control/authorizations/PA-0026.json",
       "change_kinds": [
         "modify"
       ]
     },
     {
       "rule_id": "ALLOW-005",
-      "pattern": "docs/project-control/RED_TEAM_FINDINGS_REGISTER.md",
-      "change_kinds": [
-        "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-006",
-      "pattern": ".github/workflows/control-gates.yml",
-      "change_kinds": [
-        "modify"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-007",
       "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-008",
+      "rule_id": "ALLOW-006",
       "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-009",
+      "rule_id": "ALLOW-007",
       "pattern": "docs/project-control/state/contractoros-state.yaml",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-008",
+      "pattern": "apps/web/README.md",
       "change_kinds": [
         "modify"
       ]
     }
   ],
   "forbidden_paths": [
-    "apps/**",
     "scripts/**",
     "policy/**",
     "content/**",
     "docs/archive/**",
-    ".github/CODEOWNERS",
-    ".github/dependabot.yml",
-    ".github/workflows/dependency-review.yml",
-    ".github/workflows/codeql.yml",
-    ".github/workflows/web-ci.yml",
-    ".github/workflows/mobile-ci.yml"
+    ".github/**",
+    "apps/web/src/**",
+    "apps/web/package.json",
+    "apps/web/package-lock.json",
+    "apps/mobile/**"
   ],
   "required_checks": [
     "contractoros-control-gates"
@@ -103,16 +94,16 @@
   ],
   "classifications": {
     "dependency": "NONE",
-    "build": "CI_CHANGE",
+    "build": "NONE",
     "release": "NONE",
     "data": "NONE",
     "security": "NONE"
   },
   "supersession": {
     "supersedes": [
-      "PA-0025"
+      "PA-0026"
     ],
-    "revoked": true,
-    "revocation_evidence": "Superseded by PA-0027 (companion pre-authorization; H7A-5 merged as PR #150 at b800a00; owner Option-B direction)"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }
