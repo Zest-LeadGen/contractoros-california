@@ -34,7 +34,7 @@ None.
 
 ## Documentation Impact
 
-Records the revoke-now decision, the carrier mechanics disclosure, the closed residual window (13 days before natural expiry), and the H7B hold lift as fact (reconciliation PR #153 merged and main verified; H7B work still waits for owner authorization on intake #154). docs/project-control/RISK_REGISTER.md: reviewed, no update required. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
+Records the revoke-now decision, the carrier mechanics disclosure (including the owner's second comment superseding the first comment's issue-70 carrier mechanism, with PA-0028 remaining live on open issue #70 in normal base mode), and the closed residual window (13 days before natural expiry). H7B status determinations are NOT made in this PR; they rest with the owner on intake #154. docs/project-control/RISK_REGISTER.md: reviewed, no update required. docs/project-control/VALIDATION_TASKS.md: reviewed, no update required. docs/project-control/ARTIFACT_INDEX.md: reviewed, no update required.
 
 ## Validation Evidence
 
@@ -46,7 +46,7 @@ Reviewed, no update required (the residual this closes was already recorded in t
 
 ## Decision Log Impact
 
-PA-0027 Revocation entry appended: owner decision and carrier authorization, wall mechanics disclosure, H7B hold lift as fact.
+PA-0027 Revocation entry appended: owner decision and carrier authorization, wall mechanics disclosure, reconciliation-merge record with correctly attributed independent verification, carrier-supersession note.
 
 ## Artifact Index Impact
 

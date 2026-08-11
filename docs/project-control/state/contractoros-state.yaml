@@ -9,13 +9,13 @@
     "gh api repos/Zest-LeadGen/contractoros-california/branches/main -q .commit.sha",
     "gh api repos/Zest-LeadGen/contractoros-california/issues/comments/5247864634"
   ],
-  "active_gate": "PA-0027 revocation records PR (PA-0029 carrier on closed issue #137, narrowing only) under owner comments issue-137-comment-5247864634 + issue-70-comment-5247850538. H7B mutation hold LIFTED (reconciliation PR #153 merged at 45a55db, main verified); H7B work still requires owner authorization on intake issue #154.",
+  "active_gate": "PA-0027 revocation records PR (PA-0029 carrier on closed issue #137, narrowing only) under owner comments issue-137-comment-5247864634 + issue-70-comment-5247850538. H7B status determinations rest with the owner on intake issue #154; no determination is recorded here.",
   "linked_issue": {
     "number": 137,
     "state": "closed"
   },
   "linked_pr": null,
-  "lifecycle_state": "h7a_c0_in_review",
+  "lifecycle_state": "pa0027_revocation_in_review",
   "paused_phases": [
     "Phase 4I",
     "Phase 4K-9 and downstream"
@@ -58,7 +58,7 @@
     "authority-chain-reconciliation:issue-70-comment-5247694567:2026-08-11T00:37:43Z:defect-acknowledged+R1-R4+records-pr-authorized",
     "h7a-result:TECHNICALLY_DELIVERED_WITH_AUTHORITY_CHAIN_DEFECT:evidence/H7A_CLOSEOUT_ACCURACY_AMENDMENT.md",
     "pa0027-revocation:owner-decision-5247850538+carrier-authorization-5247864634:revoke-now-over-expiry",
-    "h7b-hold:LIFTED-2026-08-11:reconciliation-merged-and-main-verified:intake-issue-154-filed-read-only"
+    "pr-153:merged-by-owner-2026-08-11T01:04:20Z:opus-zero-drift-confirmed-82d2c35-to-45a55db"
   ],
   "public_private_references": {
     "public": [
