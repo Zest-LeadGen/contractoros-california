@@ -225,3 +225,26 @@ Recorded under owner authorization issue-144-comment-5245410500; owner #70 refre
 | Issue #70 body's "current summary" self-description | Body is historical self-description; the owner's dated comment chain controls (refresh comment 5245520671) | Owner comment issue-70-comment-5245520671 |
 | Review markers without an isolation claim | Every red-team marker MUST carry TECHNICALLY_ENFORCED_READ_ONLY=NOT_PROVEN until a technically enforced read-only review surface exists (H8 structural home) | RED_TEAM_STARTUP_PACKET_SPEC.md attestation addendum (#144) |
 | D27 (Issue #58 recovery authority) / D28 (Codex role model) with empty superseded_by | superseded_by populated: D27 -> P0-RECON #141 + Decision 1; D28 -> Decisions 3-4 | OWNER_DECISION_REGISTER.yaml (2026-08-10) |
+
+## H7A Authority-Chain Reconciliation — 2026-08-11 (owner record issue-70-comment-5247694567)
+
+Recorded under the owner authority-chain reconciliation of 2026-08-11T00:37:43Z, which followed the independent review's AUTHORITY_DRIFT (HIGH/P1) finding on H7A-C0/C1. Two-part defect acknowledged: (a) PA-0027 (PR #151) expanded the authorized phase beyond the durable H7A-1..H7A-5 scope into new subgates without a new owner-authored mutation authorization; (b) it cited as sole load-bearing authority a phase authorization whose child issue #137 had ALREADY CLOSED as completed (2026-08-10T23:21:54Z — one second after PR #150 merged, before PR #151 existed; CLOSURE_ACTOR=NOT_PROVEN_FROM_THIS_RECONCILIATION_EVIDENCE; CLOSURE_MECHANISM=NOT_PROVEN). Owner merge approvals on #151/#152 did not cure the missing prior mutation authority. Historical PR texts are preserved unmodified; this section is the durable correction.
+
+```text
+PREVENTIVE_RULES (durable, enacted by issue-70-comment-5247694567, binding on every future phase):
+R1=A_PHASE_AUTHORIZATION_RECORD_MAY_NARROW_OWNER_AUTHORITY_BUT_MAY_NEVER_EXPAND_IT
+R2=OWNER_MERGE_APPROVAL_DOES_NOT_SUBSTITUTE_FOR_MISSING_MUTATION_AUTHORITY
+R3=A_CLOSED_PHASE_ISSUE_MAY_NOT_SERVE_AS_CURRENT_MUTATION_AUTHORITY_FOR_NEW_SUBGATES
+R4=IN_SESSION_OWNER_WORDS_CREATE_NO_DURABLE_MUTATION_AUTHORITY
+
+ROUTED_CONTROL_REQUIREMENT (H7B candidate, machine-checkable lesson, prose-only until delivered):
+PA_EVIDENCE_ISSUE_STATE_MUST_BE_LIVE_AND_AUTHORITY_COMPATIBLE_AT_VALIDATION_TIME
+FAIL_IF: AUTHORITY_SOURCE_ISSUE=CLOSED AND PA_CREATES_NEW_MUTATION_SCOPE AND NO_NEW_OWNER_AUTHORIZATION_EXISTS
+```
+
+| Earlier record or claim | Current disposition | Controlling record |
+|---|---|---|
+| PA-0027 as valid mutation authority for H7A-C0/C1 | AUTHORITY_DEFECTIVE: record cited a closed phase issue and in-session owner words; merged events preserved (PR #151 merge 9762ced9078fd689c1dd7566dfa440a54a5012cc; PR #152 merge c58199b3f2e00cce6d6d70a6980ccab9b7beba90); no retroactive authority manufactured. LIVE RESIDUAL DISCLOSED: PA-0027 is still revoked=false at this head with expiry 2026-08-24 and base_sha b800a00 in main's lineage, so the wall's ancestor-based base rule would still resolve it as live issue-#137 authority for its allowlisted paths despite the closed issue — the class R3 forbids; it cannot be revoked in this PR (outside PA-0028's allowlist and the owner record's exact scope); revocation or expiry is routed as an immediate follow-up owner decision, with R3 barring any use behaviorally until then | issue-70-comment-5247694567 items 3-6; Opus round-1 finding 1 |
+| PR #151/#152 statements that #137 would close AFTER the companion merged | STALE_STATE / EVIDENCE_MISMATCH: both were created after #137 had already closed (#151 at 23:29:31Z, #152 at 2026-08-11T00:08:53Z vs closure 23:21:54Z); PR #150's identical language was accurate when written and merged (23:21:53Z, one second before closure) — superseded, not stale-at-writing; historical texts preserved, corrected here append-only | issue-70-comment-5247694567 item 5; Opus round-1 finding 2 |
+| apps/web/README.md result (npm ci) delivered under the defective chain | RETAINED_BY_OWNER_NOW as a present owner decision; present ratification of the result does not and cannot retroactively manufacture prior implementation authority | issue-70-comment-5247694567 item 7 |
+| H7A-5 closeout result claim | AMENDED append-only: H7A_RESULT=TECHNICALLY_DELIVERED_WITH_AUTHORITY_CHAIN_DEFECT | evidence/H7A_CLOSEOUT_ACCURACY_AMENDMENT.md |
