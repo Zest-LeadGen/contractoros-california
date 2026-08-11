@@ -248,3 +248,10 @@ FAIL_IF: AUTHORITY_SOURCE_ISSUE=CLOSED AND PA_CREATES_NEW_MUTATION_SCOPE AND NO_
 | PR #151/#152 statements that #137 would close AFTER the companion merged | STALE_STATE / EVIDENCE_MISMATCH: both were created after #137 had already closed (#151 at 23:29:31Z, #152 at 2026-08-11T00:08:53Z vs closure 23:21:54Z); PR #150's identical language was accurate when written and merged (23:21:53Z, one second before closure) — superseded, not stale-at-writing; historical texts preserved, corrected here append-only | issue-70-comment-5247694567 item 5; Opus round-1 finding 2 |
 | apps/web/README.md result (npm ci) delivered under the defective chain | RETAINED_BY_OWNER_NOW as a present owner decision; present ratification of the result does not and cannot retroactively manufacture prior implementation authority | issue-70-comment-5247694567 item 7 |
 | H7A-5 closeout result claim | AMENDED append-only: H7A_RESULT=TECHNICALLY_DELIVERED_WITH_AUTHORITY_CHAIN_DEFECT | evidence/H7A_CLOSEOUT_ACCURACY_AMENDMENT.md |
+
+## PA-0027 Revocation Executed — 2026-08-11
+
+| Earlier record or claim | Current disposition | Controlling record |
+|---|---|---|
+| PA-0027 live residual (disclosed 2026-08-11: revoked=false until 2026-08-24, machine-resolvable for closed issue #137) | REVOKED: supersession flip executed by the PA-0029 carrier under the owner's revoke-now decision; residual window closed 13 days before natural expiry | issue-70-comment-5247850538 (decision); issue-137-comment-5247864634 (carrier authorization); PA-0029 |
+| PA-0029 carrier record on closed issue #137 | NARROWING_ONLY per R1; expiry 2026-08-12 so no long-lived authorization survives on a closed issue; its existence is the wall-mandated mechanism for the flip, not new phase authority | issue-137-comment-5247864634 |
