@@ -1081,3 +1081,15 @@ Current PR head SHA: LIVE_GITHUB_REQUIRED
 Claim level: records correction only; no implementation authority created; H7B mutation remains HELD until merge + independently verified main
 Automatic continuation: NO
 ```
+
+```text
+Phase: PA-0027 revocation records (narrowing only)
+Lane: Control / Infrastructure
+Date: 2026-08-11
+Branch: pa0027-revocation
+Phase issue: #137 (closed; carrier authorization only, nothing reopened)
+Scope: PA-0029 carrier (expiry 2026-08-12) closing PA-0027 via the exact supersession flip; DECISION_LOG/index/state records; owner decision issue-70-comment-5247850538; carrier authorization issue-137-comment-5247864634.
+Current PR head SHA: LIVE_GITHUB_REQUIRED
+Claim level: narrowing records correction only; no implementation authority; H7B work waits for owner authorization on #154
+Automatic continuation: NO
+```

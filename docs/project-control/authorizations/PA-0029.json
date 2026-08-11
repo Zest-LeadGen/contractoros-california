@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
   "policy_version": "1.0.0",
-  "authorization_id": "PA-0027",
-  "evidence_id": "issue-137-comment-5238006617",
+  "authorization_id": "PA-0029",
+  "evidence_id": "issue-137-comment-5247864634",
   "repository": "Zest-LeadGen/contractoros-california",
   "issue": 137,
   "base_branch": "main",
-  "base_sha": "b800a00171d488aab5f19eaabeac3ae94d84651d",
-  "lane": "Control / Infrastructure preauthorization for a Product / QA companion (owner mid-gate direction, H7A-5)",
-  "expiry": "2026-08-24",
+  "base_sha": "45a55db0f19870ba5affebbf7610160c7f6f09b0",
+  "lane": "Control / Infrastructure (PA-0027 revocation carrier; narrowing only; issue stays closed)",
+  "expiry": "2026-08-12",
   "developer_principal": "danidon-wq",
   "approver_principals": [
     "Zest-LeadGen"
@@ -16,44 +16,44 @@
   "allowed_paths": [
     {
       "rule_id": "ALLOW-001",
-      "pattern": "docs/project-control/authorizations/PA-0027.json",
+      "pattern": "docs/project-control/authorizations/PA-0029.json",
       "change_kinds": [
         "add"
       ]
     },
     {
       "rule_id": "ALLOW-002",
-      "pattern": "docs/project-control/phase_h7a_c0_companion_preauthorization_report.md",
-      "change_kinds": [
-        "add"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-003",
-      "pattern": "docs/project-control/phase_h7a_c1_web_readme_companion_report.md",
-      "change_kinds": [
-        "add"
-      ]
-    },
-    {
-      "rule_id": "ALLOW-004",
-      "pattern": "docs/project-control/authorizations/PA-0026.json",
+      "pattern": "docs/project-control/authorizations/PA-0027.json",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-005",
+      "rule_id": "ALLOW-003",
       "pattern": "docs/project-control/DECISION_LOG.md",
       "change_kinds": [
         "modify"
       ]
     },
     {
-      "rule_id": "ALLOW-006",
+      "rule_id": "ALLOW-004",
       "pattern": "docs/project-control/DEVELOPMENT_LEDGER.md",
       "change_kinds": [
         "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-005",
+      "pattern": "docs/project-control/AUTHORITY_AND_SUPERSESSION_INDEX.md",
+      "change_kinds": [
+        "modify"
+      ]
+    },
+    {
+      "rule_id": "ALLOW-006",
+      "pattern": "docs/project-control/phase_pa0027_revocation_report.md",
+      "change_kinds": [
+        "add"
       ]
     },
     {
@@ -62,25 +62,15 @@
       "change_kinds": [
         "modify"
       ]
-    },
-    {
-      "rule_id": "ALLOW-008",
-      "pattern": "apps/web/README.md",
-      "change_kinds": [
-        "modify"
-      ]
     }
   ],
   "forbidden_paths": [
+    "apps/**",
     "scripts/**",
     "policy/**",
     "content/**",
-    "docs/archive/**",
     ".github/**",
-    "apps/web/src/**",
-    "apps/web/package.json",
-    "apps/web/package-lock.json",
-    "apps/mobile/**"
+    "docs/archive/**"
   ],
   "required_checks": [
     "contractoros-control-gates"
@@ -101,9 +91,9 @@
   },
   "supersession": {
     "supersedes": [
-      "PA-0026"
+      "PA-0027"
     ],
-    "revoked": true,
-    "revocation_evidence": "Revoked by PA-0029 under owner authorizations issue-137-comment-5247864634 and issue-70-comment-5247850538 (revoke-now decision, 2026-08-11); defect record: issue-70-comment-5247694567"
+    "revoked": false,
+    "revocation_evidence": null
   }
 }
