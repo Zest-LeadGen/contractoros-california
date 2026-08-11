@@ -38,7 +38,7 @@ Writes the owner reconciliation durably into the control records: two-part defec
 
 ## Validation Evidence
 
-Local checker battery at head via event payload: check_phase_authorization PASS (mode=bootstrap, PA-0028, closed_records=[PA-0021]); all other checkers PASS. Continuity suite 348/348 OK. Digest quoted in the PR body recomputed at the PR head.
+Local checker battery at head via event payload: check_phase_authorization PASS (mode=bootstrap, PA-0028, closed_records=[PA-0021]); all nine non-marker checkers PASS; check_red_team_marker denies until the red-team marker is posted to the PR body (by design — the marker binds the exact reviewed head). Continuity suite 348/348 OK; control-script suite 36/36 OK. Digest quoted in the PR body recomputed at the PR head.
 
 ## Risk Register Impact
 
@@ -76,7 +76,7 @@ Records correction only. This PR creates no implementation authority, manufactur
 
 ## Known Limitations
 
-CLOSURE_ACTOR and CLOSURE_MECHANISM for the pre-C0 closure of #137 remain NOT_PROVEN from the reconciliation evidence; the machine-check for closed-issue PA authority is prose-only until H7B delivers it as a deterministic check; PA-0027 remains a merged historical record whose pattern is barred by R1/R3/R4 rather than retro-edited.
+CLOSURE_ACTOR and CLOSURE_MECHANISM for the pre-C0 closure of #137 remain NOT_PROVEN from the reconciliation evidence; the machine-check for closed-issue PA authority is prose-only until H7B delivers it as a deterministic check. LIVE RESIDUAL (Opus round-1 finding 1, disclosed in DECISION_LOG and the index): PA-0027 is still revoked=false at this head with expiry 2026-08-24 and a base_sha in main's lineage, so the wall would still resolve it as live issue-#137 authority despite the closed issue; it cannot be revoked in this PR (outside PA-0028's allowlist and the owner record's exact scope) — its revocation or expiry is routed as an immediate follow-up owner decision, with R3 barring any use behaviorally until then.
 
 ## Next Phase Status
 
